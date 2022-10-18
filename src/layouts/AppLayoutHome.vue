@@ -1,24 +1,21 @@
 <template>
   <div>
-    <header class="header" />
-    <AppLayoutLinks />
+    <Navbar />
     <slot />
   </div>
 </template>
 
 <script>
-import AppLayoutLinks from '@/layouts/AppLayoutLinks';
+import Navbar from '../components/header/Header';
+
 export default {
   name: 'AppLayoutHome',
   components: {
-    AppLayoutLinks
+    Navbar
   }
 }
 </script>
 
-<style scoped>
-.header {
-  height: 5rem;
-  background-color: green;
-}
+<style lang="scss">
+
 </style>
