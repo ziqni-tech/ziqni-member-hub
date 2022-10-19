@@ -1,12 +1,12 @@
 <template>
-  <CNavbar class="nav">
+  <div class="page-header">
     <UserProfile />
     <Welcome name="Clinton" />
     <UserProgress />
     <UserEnergy :energy-value="1200" :increment-energy-value="5" />
     <Notifications :number-of-notifications="5" />
     <GameModeSwitch />
-  </CNavbar>
+  </div>
 </template>
 
 <script>
@@ -35,9 +35,10 @@ export default {
 <style lang="scss">
 @import '../../assets/scss/variables';
 
-.nav {
+.page-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 29px 33px 15px 46px;
   background: $bg-primary-light-purplish-blue;
   border-bottom: 0.2px solid $border-color;

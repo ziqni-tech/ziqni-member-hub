@@ -5,7 +5,6 @@
 </template>
 
 <script>
-
 import AppLayout from './layouts/AppLayout';
 
 export default {
@@ -16,7 +15,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 @import '@coreui/coreui/dist/css/coreui.min.css';
 
 #app {

@@ -35,7 +35,7 @@ export default {
   }
 
   .form-check-input {
-    width: 51px;
+    min-width: 51px;
     height: 31px;
     //background: linear-gradient(180deg, #ABA7D9 0%, #E1E8F1 95.16%);
     box-shadow: inset 0px -0.5px 0px #FFFFFF;

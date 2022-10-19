@@ -1,11 +1,11 @@
 <template>
-  <h1>This is a Home page</h1>
+  <h1>Loyality Level</h1>
 </template>
 
 <script>
 export default {
-  name: 'Home'
-}
+  name: 'LoyalityLevel'
+};
 </script>
 
 <style scoped>

@@ -1,11 +1,11 @@
 <template>
-  <h1>This is a About page</h1>
+  <h1>Tournaments</h1>
 </template>
 
 <script>
 export default {
-  name: 'About'
-}
+  name: 'Tournaments'
+};
 </script>
 
 <style scoped>

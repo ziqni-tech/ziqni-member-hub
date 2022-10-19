@@ -1,13 +1,11 @@
 <template>
-  <div>
-    <slot />
-  </div>
+  <h1>Instant Rewards</h1>
 </template>
 
 <script>
 export default {
-  name: 'AppLayoutDefault'
-}
+  name: 'InstantRewards'
+};
 </script>
 
 <style scoped>
