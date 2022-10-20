@@ -2,7 +2,7 @@
   <CSidebar visible>
     <div class="brand">
       <div class="logo-wrapper">
-        <img class="logo" src="../assets/icons/Logo.svg" alt="logo">
+        <img class="logo" src="../../assets/icons/Logo.svg" alt="logo">
       </div>
     </div>
     <CSidebarNav>
@@ -13,8 +13,8 @@
 
 <script>
 import { CSidebar, CSidebarNav } from '@coreui/vue';
-import SidebarItems from './sidebar/SidebarItems';
-import sidebarNav from './sidebar/sidebarNav';
+import SidebarItems from './SidebarItems';
+import sidebarNav from './sidebarNav';
 
 export default {
   name: 'Sidebar',
@@ -28,7 +28,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import 'src/assets/scss/_variables.scss';
+@import '../../assets/scss/variables';
 
 .sidebar {
   height: 100%;

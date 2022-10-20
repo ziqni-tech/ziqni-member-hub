@@ -13,7 +13,7 @@
 
 <script>
 import Navbar from '../components/header/TheHeader';
-import Sidebar from '../components/TheSidebar';
+import Sidebar from '../components/sidebar/TheSidebar';
 
 export default {
   name: 'AppLayout',

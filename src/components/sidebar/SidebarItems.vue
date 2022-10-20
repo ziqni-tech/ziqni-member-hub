@@ -49,22 +49,24 @@ export default {
     &:before {
       content: '';
       position: absolute;
-      top: 63%;
-      left: 0;
-      width: 160px;
-      height: 80px;
+      top: 64%;
+      left: -10px;
+      width: 170px;
+      height: 90px;
       border-radius: 50%;
       //background: white;
+      //background: $sidebar-active-link-color;
     }
     &:after {
       content: '';
       position: absolute;
-      top: -30%;
-      left: 0;
-      width: 160px;
-      height: 80px;
+      top: -38%;
+      left: -10px;
+      width: 170px;
+      height: 90px;
       border-radius: 50%;
       //background: white;
+      //background: $sidebar-active-link-color;
     }
   }
 
@@ -80,7 +82,8 @@ export default {
       width: 84px;
       height: 84px;
       border-radius: 50%;
-      background: $sidebar-active-link-color;
+      //background: $sidebar-active-link-color;
+      background: linear-gradient(90deg, rgba(111,100,208,1) 0%, rgba(171,167,217,1) 86%, rgba(171,167,217,1) 86%);
       transition: all 1s;
     }
 
@@ -93,7 +96,8 @@ export default {
       width: 58px;
       height: 58px;
       border-radius: 50%;
-      background: linear-gradient(144.96deg, rgba(255, 255, 255, 0) 24.08%, #EFF1F5 79.39%);
+      //background: linear-gradient(144.96deg, rgba(255, 255, 255, 0) 24.08%, #EFF1F5 79.39%);
+      background: linear-gradient(146.22deg, #DBE0E7 9.7%, #F8FBFF 86.02%);
       transition: all 1s;
     }
   }
