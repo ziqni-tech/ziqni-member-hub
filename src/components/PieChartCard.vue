@@ -5,11 +5,12 @@
         <CCardImage class="title-icon" :src="$options.titleIcon" />
         <CCardTitle class="title">Range</CCardTitle>
       </div>
-      <CChart
-          class="chart"
-          type="doughnut"
-          :data="{
-            // labels: ['VueJs', 'EmberJs', 'ReactJs', 'AngularJs'],
+      <div class="chart-wrapper">
+        <CChart
+            class="chart"
+            type="doughnut"
+            :data="{
+            labels: [],
             datasets: [
                 {
                   backgroundColor: ['#FF7E86', '#F4F5F9'],
@@ -17,7 +18,9 @@
                 },
             ],
           }"
-      />
+        />
+        <span class="chart-percentage-data">45%</span>
+      </div>
     </CCardBody>
   </CCard>
 </template>
@@ -73,9 +76,25 @@ export default {
       }
     }
 
-    .chart {
-      width: 112px;
-      height: 112px;
+    .chart-wrapper {
+      position: relative;
+      .chart {
+        width: 112px;
+        height: 112px;
+      }
+
+      .chart-percentage-data {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-family: 'Montserrat';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 29px;
+        color: #242731;
+      }
     }
   }
 }

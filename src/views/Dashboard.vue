@@ -4,6 +4,7 @@
       <TotalInfo />
       <div class="charts-container">
         <PieChartCard />
+        <ActivityChartCard />
       </div>
     </div>
     <TournamentCards :cards="$options.tournamentCards" />
@@ -15,6 +16,7 @@ import { CContainer } from '@coreui/vue'
 import TotalInfo from '../components/TotalInfo';
 import TournamentCards from '../components/TournamentCards';
 import PieChartCard from '../components/PieChartCard';
+import ActivityChartCard from '../components/ActivityChartCard';
 
 import kingTournamentIcon from '../assets/icons/king-tournament.svg';
 import starTournamentIcon from '../assets/icons/star-tournament.svg';
@@ -32,7 +34,8 @@ export default {
     PieChartCard,
     CContainer,
     TotalInfo,
-    TournamentCards
+    TournamentCards,
+    ActivityChartCard
   }
 };
 </script>
@@ -40,6 +43,7 @@ export default {
 <style lang="scss">
 .container {
   padding: 30px 45px;
+  margin: 0;
 
   .info-container {
     display: flex;
