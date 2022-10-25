@@ -7,14 +7,18 @@
         <ActivityChartCard />
       </div>
     </div>
-    <TournamentCards :cards="$options.tournamentCards" />
+    <div class="cards-container">
+      <div v-for="(card) of $options.tournamentCards">
+        <TournamentCard :card="card" />
+      </div>
+    </div>
   </CContainer>
 </template>
 
 <script>
-import { CContainer } from '@coreui/vue'
+import { CContainer } from '@coreui/vue';
 import TotalInfo from '../components/TotalInfo';
-import TournamentCards from '../components/TournamentCards';
+import TournamentCard from '../components/TournamentCard';
 import PieChartCard from '../components/PieChartCard';
 import ActivityChartCard from '../components/ActivityChartCard';
 
@@ -34,7 +38,7 @@ export default {
     PieChartCard,
     CContainer,
     TotalInfo,
-    TournamentCards,
+    TournamentCard,
     ActivityChartCard
   }
 };
@@ -51,6 +55,13 @@ export default {
     .charts-container {
       padding: 0 20px;
     }
+  }
+
+  .cards-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 55px;
   }
 }
 </style>

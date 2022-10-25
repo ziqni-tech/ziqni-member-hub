@@ -1,26 +1,23 @@
 <template>
-  <div class="cards-container">
-    <CCard class="tournament-card" v-for="(card) of cards">
-      <CCardBody class="tournament-card-body">
-        <div class="completed-block">
-          <CCardImage class="completed-icon" :src="$options.completedIcon" />
-          <CCardText class="completed-text">{{ card.percentComplete}}% Completed</CCardText>
+  <CCard class="tournament-card">
+    <CCardBody class="tournament-card-body">
+      <div class="completed-block">
+        <CCardImage class="completed-icon" :src="$options.completedIcon" />
+        <CCardText class="completed-text">{{ card.percentComplete}}% Completed</CCardText>
+      </div>
+      <CCardImage class="card-icon" :src="card.icon" />
+      <CCardTitle class="c-card-title">{{ card.title }}</CCardTitle>
+      <div class="tournament-info">
+        <div class="left-block">
+          <CCardImage class="info-icon" :src="$options.completedRectangularIcon" />
+          <CCardText class="info-block-text">{{ card.someCount }}K</CCardText>
+          <CCardImage class="info-icon" :src="$options.completedPlusIcon" />
+          <CCardImage class="info-icon" :src="$options.completedEnergyIcon" />
         </div>
-        <CCardImage class="card-icon" :src="card.icon" />
-        <CCardTitle class="c-card-title">{{ card.title }}</CCardTitle>
-        <div class="tournament-info">
-          <div class="left-block">
-            <CCardImage class="info-icon" :src="$options.completedRectangularIcon" />
-            <CCardText class="info-block-text">{{ card.someCount }}K</CCardText>
-            <CCardImage class="info-icon" :src="$options.completedPlusIcon" />
-            <CCardImage class="info-icon" :src="$options.completedEnergyIcon" />
-          </div>
-          <div class="right-block">${{ card.pricePerHour }}/h</div>
-        </div>
-      </CCardBody>
-    </CCard>
-  </div>
-
+        <div class="right-block">${{ card.pricePerHour }}/h</div>
+      </div>
+    </CCardBody>
+  </CCard>
 </template>
 
 <script>
@@ -31,7 +28,7 @@ import completedPlusIcon from '../assets/icons/completed-card/completed-plus.svg
 import completedEnergyIcon from '../assets/icons/completed-card/completed-energy.svg';
 
 export default {
-  name: 'TournamentCards',
+  name: 'TournamentCard',
   completedIcon,
   completedRectangularIcon,
   completedPlusIcon,
@@ -44,20 +41,18 @@ export default {
     CCardTitle
   },
   props: {
-    cards: Array
+    card: Object
+  },
+  methods: {
+    setCardBackground() {
+
+    }
   }
 };
 </script>
 
 <style lang="scss">
 @import 'src/assets/scss/_variables.scss';
-
-.cards-container {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  padding-top: 55px;
-}
 
 .tournament-card {
   width: 327px;
