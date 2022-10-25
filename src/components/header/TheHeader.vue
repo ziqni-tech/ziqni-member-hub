@@ -1,7 +1,7 @@
 <template>
   <div class="page-header">
-    <UserProfile />
-    <Welcome name="Clinton" />
+    <UserProfile :name="member.name" />
+    <Welcome :name="member.name" />
     <UserProgress />
     <UserEnergy :energy-value="1200" :increment-energy-value="5" />
     <Notifications :number-of-notifications="5" />
@@ -28,7 +28,10 @@ export default {
     UserEnergy,
     Notifications,
     GameModeSwitch
-  }
+  },
+  props: {
+    member: Object
+  },
 }
 </script>
 

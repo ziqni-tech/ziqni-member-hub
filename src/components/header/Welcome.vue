@@ -22,5 +22,10 @@ export default {
   text-transform: capitalize;
 
   color: #5F6165;
+
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>

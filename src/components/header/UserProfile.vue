@@ -3,7 +3,7 @@
     <CAvatar class="profile-img" shape="rounded">CUI</CAvatar>
     <div class="user-info">
       <div class="user-full-name">
-        <span class="full-name">Clinton Peltonen</span>
+        <span class="full-name">{{ name }}</span>
         <span class="is-pro">pro</span>
       </div>
       <div class="is-online">
@@ -21,6 +21,9 @@ export default {
   name: 'UserProfile',
   components: {
     CAvatar
+  },
+  props: {
+    name: String
   }
 }
 </script>
@@ -58,6 +61,10 @@ export default {
         font-size: 14px;
         line-height: 10px;
         padding-right: 10px;
+        max-width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .is-pro {
         background: $bg-orange;
