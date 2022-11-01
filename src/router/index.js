@@ -13,6 +13,11 @@ const routes = [
         component: () => import('@/views/Tournaments.vue'),
     },
     {
+        path: '/tournaments/details',
+        name: 'Tournament Details',
+        component: () => import('@/views/TournamentDetails.vue'),
+    },
+    {
         path: '/missions',
         name: 'Missions',
         component: () => import('@/views/Missions.vue'),

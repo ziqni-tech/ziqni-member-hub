@@ -1,5 +1,5 @@
 <template>
-  <CContainer class="actions-block">
+  <div class="actions-block">
     <div class="actions">
       <DropdownBtn :btn-title="'New'" />
       <DropdownBtn :btn-title="'View All'" />
@@ -12,7 +12,7 @@
         <img :src="$options.settingsIcon" alt="">
       </CButton>
     </div>
-  </CContainer>
+  </div>
 </template>
 
 <script>
