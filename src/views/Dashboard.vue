@@ -1,10 +1,13 @@
 <template>
   <CContainer>
+<!--    Feature Promotions-->
+<!--    Current Tournaments-->
+<!--    Current Missions-->
     <div class="info-container">
-      <TotalInfo />
+      <MonthlyTournament />
       <div class="charts-container">
-        <PieChartCard />
-        <ActivityChartCard />
+        <SponsoredByCard />
+        <InstantRewardsChancesCard />
       </div>
     </div>
     <div class="cards-container">
@@ -22,6 +25,10 @@ import TournamentCard from '../components/TournamentCard';
 import PieChartCard from '../components/PieChartCard';
 import ActivityChartCard from '../components/ActivityChartCard';
 
+import MonthlyTournament from '../components/MonthlyTournament';
+import InstantRewardsChancesCard from '../components/InstantRewardsChancesCard'
+import SponsoredByCard from '../components/SponsoredByCard';
+
 import kingTournamentIcon from '../assets/icons/king-tournament.svg';
 import starTournamentIcon from '../assets/icons/star-tournament.svg';
 import winTournamentIcon from '../assets/icons/win-tournament.svg';
@@ -35,11 +42,14 @@ export default {
   name: 'Dashboard',
   tournamentCards,
   components: {
+    SponsoredByCard,
+    MonthlyTournament,
     PieChartCard,
     CContainer,
     TotalInfo,
     TournamentCard,
-    ActivityChartCard
+    ActivityChartCard,
+    InstantRewardsChancesCard
   }
 };
 </script>
