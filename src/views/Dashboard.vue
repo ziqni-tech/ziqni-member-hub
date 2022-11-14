@@ -6,7 +6,10 @@
     <div class="info-container">
       <MonthlyTournament />
       <div class="charts-container">
-        <SponsoredByCard />
+        <div class="starts-in-cards">
+          <SponsoredByCard />
+          <StartsInCard />
+        </div>
         <InstantRewardsChancesCard />
       </div>
     </div>
@@ -32,6 +35,7 @@ import SponsoredByCard from '../components/SponsoredByCard';
 import kingTournamentIcon from '../assets/icons/king-tournament.svg';
 import starTournamentIcon from '../assets/icons/star-tournament.svg';
 import winTournamentIcon from '../assets/icons/win-tournament.svg';
+import StartsInCard from '../components/StartsInCard';
 
 const tournamentCards = [
   {title: 'King Tournament', icon: kingTournamentIcon, percentComplete: 64, pricePerHour: 32, someCount: 132, bg: 'king-tournament'},
@@ -42,6 +46,7 @@ export default {
   name: 'Dashboard',
   tournamentCards,
   components: {
+    StartsInCard,
     SponsoredByCard,
     MonthlyTournament,
     PieChartCard,
@@ -64,6 +69,11 @@ export default {
 
     .charts-container {
       padding: 0 20px;
+
+      .starts-in-cards {
+        display: flex;
+        padding-bottom: 18px;
+      }
     }
   }
 

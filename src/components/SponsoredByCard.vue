@@ -2,13 +2,13 @@
  <CCard class="sponsored-by-card">
    <CCardBody class="sponsored-by-card-body">
      <CCardText class="card-title">MONTHLY TOURNAMENT SPONSORED BY</CCardText>
-     <CCardImage :src="$options.sponsorLogo" />
+     <CCardImage class="card-img" :src="$options.sponsorLogo" />
      <div class="offer">
-       <span>Welcome package</span>
-       <span>Up to </span>
-       <span>€ 1300 + 250 Free Spins</span>
+       <span class="offer-title">Welcome package</span>
+       <span class="up-to">Up to </span>
+       <span class="up-to">€ 1300 + 250 Free Spins</span>
      </div>
-     <CButton>Sign up</CButton>
+     <CButton class="btn">Sign up</CButton>
    </CCardBody>
  </CCard>
 </template>
@@ -38,6 +38,10 @@ export default {
   border-radius: 8px;
   .sponsored-by-card-body {
     padding: 12px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 
     .card-title {
       font-family: 'Poppins';
@@ -49,6 +53,51 @@ export default {
       letter-spacing: 0.2px;
       text-transform: uppercase;
       color: rgba(255, 255, 255, 0.8);
+    }
+
+    .card-img {
+      width: 115px;
+      height: 61px;
+    }
+
+    .offer {
+      display: flex;
+      flex-direction: column;
+
+      .offer-title {
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 13px;
+        line-height: 20px;
+        text-align: center;
+        letter-spacing: 0.3px;
+        text-transform: uppercase;
+        color: #F38F1F;
+      }
+      .up-to {
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 13px;
+        line-height: 20px;
+        text-align: center;
+        letter-spacing: 0.3px;
+        text-transform: uppercase;
+        color: #FFFFFF;
+      }
+    }
+
+    .btn {
+      padding: 3px 22px;
+      background: #F6876A;
+      border-radius: 3px;
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 700;
+      font-size: 11px;
+      line-height: 12px;
+      color: #FFFFFF;
     }
   }
 }

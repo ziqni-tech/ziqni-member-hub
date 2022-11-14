@@ -8,7 +8,13 @@
             <div class="prize">9000&#8364;</div>
             <span class="tournament-title">Monthly Tournament</span>
           </div>
-          <Countdown :date="end" @onFinish="finish()" />
+          <Countdown
+            :date="end"
+            :title="'ends in'"
+            :is-column="true"
+            :is-big-size="true"
+            @onFinish="finish()"
+          />
           <CButton class="register-btn">Register</CButton>
         </div>
         <CCardImage class="card-image" :src="$options.dragonImg" />

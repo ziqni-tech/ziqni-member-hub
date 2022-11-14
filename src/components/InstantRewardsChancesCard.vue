@@ -68,7 +68,7 @@ export default {
         right: 0;
         bottom: 0;
         z-index: 5;
-        padding: 36px 34px;
+        padding: 36px 34px 41px;
         display: flex;
         justify-content: start;
 

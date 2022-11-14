@@ -1,22 +1,71 @@
 <template>
-  <div>
-    <span class="title">ENDS IN</span>
-    <div class="countdown">
-      <div v-if="days" class="countdown__block">
-        <div class="countdown__digit">{{ days }}</div>
-        <div class="countdown__text">Days</div>
+  <div
+    class="countdown"
+    :class="{
+      'display-row': isRow,
+      'display-column': isColumn
+    }"
+  >
+    <span :class="{
+      'title-big': isBigSize,
+      'title-medium': isMediumSize,
+      'title-small': isSmallSize
+    }">{{ title }}</span>
+    <div class="indicator">
+      <div v-if="days" class="indicator__block">
+        <div :class="{
+          'indicator__digit-big-size': isBigSize,
+          'indicator__digit-medium-size': isMediumSize,
+          'indicator__digit-small-size': isSmallSize,
+          }">{{ days }}</div>
+        <div :class="{
+          'indicator__text-big-size': isBigSize,
+          'indicator__text-medium-size': isMediumSize,
+          'indicator__text-small-size': isSmallSize,
+          }"
+        >Days</div>
       </div>
-      <div class="countdown__block">
-        <div class="countdown__digit">{{ hours }}</div>
-        <div class="countdown__text">Hours</div>
+      <div class="indicator__block">
+        <div :class="{
+          'indicator__digit-big-size': isBigSize,
+          'indicator__digit-medium-size': isMediumSize,
+          'indicator__digit-small-size': isSmallSize,
+          }"
+        >{{ hours }}</div>
+        <div :class="{
+          'indicator__text-big-size': isBigSize,
+          'indicator__text-medium-size': isMediumSize,
+          'indicator__text-small-size': isSmallSize,
+          }"
+        >Hours</div>
       </div>
-      <div class="countdown__block">
-        <div class="countdown__digit">{{ minutes }}</div>
-        <div class="countdown__text">Mins</div>
+      <div class="indicator__block">
+        <div :class="{
+          'indicator__digit-big-size': isBigSize,
+          'indicator__digit-medium-size': isMediumSize,
+          'indicator__digit-small-size': isSmallSize,
+          }"
+        >{{ minutes }}</div>
+        <div :class="{
+          'indicator__text-big-size': isBigSize,
+          'indicator__text-medium-size': isMediumSize,
+          'indicator__text-small-size': isSmallSize,
+          }"
+        >Mins</div>
       </div>
-      <div class="countdown__block">
-        <div class="countdown__digit">{{ seconds }}</div>
-        <div class="countdown__text">Secs</div>
+      <div class="indicator__block">
+        <div :class="{
+          'indicator__digit-big-size': isBigSize,
+          'indicator__digit-medium-size': isMediumSize,
+          'indicator__digit-small-size': isSmallSize,
+          }"
+        >{{ seconds }}</div>
+        <div :class="{
+          'indicator__text-big-size': isBigSize,
+          'indicator__text-medium-size': isMediumSize,
+          'indicator__text-small-size': isSmallSize,
+          }"
+        >Secs</div>
       </div>
     </div>
   </div>
@@ -25,16 +74,37 @@
 export default {
   name: 'Countdown',
   props: {
-    date: null
+    date: null,
+    title: String,
+    isRow: {
+      type: Boolean,
+      default: false
+    },
+    isColumn: {
+      type: Boolean,
+      default: false
+    },
+    isBigSize: {
+      type: Boolean,
+      default: false
+    },
+    isMediumSize: {
+      type: Boolean,
+      default: false
+    },
+    isSmallSize: {
+      type: Boolean,
+      default: false
+    },
   },
-  data () {
+  data() {
     return {
       now: Math.trunc((new Date()).getTime() / 1000),
       event: this.date,
       finish: false
     }
   },
-  mounted () {
+  mounted() {
     const _self = this
     window.setInterval(() => {
       this.now = Math.trunc((new Date()).getTime() / 1000)
@@ -45,31 +115,31 @@ export default {
     }, 1000)
   },
   computed: {
-    secondCount () {
+    secondCount() {
       return this.calculatedDate - this.now
     },
-    calculatedDate () {
+    calculatedDate() {
       return Math.trunc(Date.parse(this.event) / 1000)
     },
-    seconds () {
+    seconds() {
       if (this.secondCount < 0) return 0
       return this.twoDigits(this.secondCount % 60)
     },
-    minutes () {
+    minutes() {
       if (this.secondCount < 0) return 0
       return this.twoDigits(Math.trunc(this.secondCount / 60) % 60)
     },
-    hours () {
+    hours() {
       if (this.secondCount < 0) return 0
       return this.twoDigits(Math.trunc(this.secondCount / 60 / 60) % 24)
     },
-    days () {
+    days() {
       if (this.secondCount < 0) return 0
       return this.twoDigits(Math.trunc(this.secondCount / 60 / 60 / 24))
     },
   },
   methods: {
-    twoDigits (value) {
+    twoDigits(value) {
       if (value.toString().length <= 1) {
         return '0' + value.toString()
       }
@@ -79,7 +149,21 @@ export default {
 }
 </script>
 <style lang="scss">
-.title {
+.countdown {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.display-row {
+  flex-direction: row;
+}
+.display-column {
+  flex-direction: column;
+}
+
+.title-big {
+  width: 50%;
   font-family: 'Poppins';
   font-style: normal;
   font-weight: 400;
@@ -89,47 +173,101 @@ export default {
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.8);
 }
-.countdown{
+.title-medium {
+  width: 30%;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 18px;
+  color: #FFFFFF;
+}
+.title-small {
+  width: 30%;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 7px;
+  line-height: 12px;
+  text-transform: uppercase;
+  color: #FFFFFF;
+}
+.indicator {
   display: flex;
-  justify-content: center;
-  &__block {
+  justify-content: space-between;
+  width: 50%;
+
+  &__indicator {
     text-align: center;
     padding: 0 9px;
     position: relative;
-    &:first-child{
+
+    &:first-child {
       padding-left: 0;
-      .countdown__digit{
-        &:before{
+
+      .indicator__digit {
+        &:before {
           display: none;
         }
       }
     }
-    &:last-child{
+
+    &:last-child {
       padding-right: 0;
     }
   }
-  &__text {
+
+  &__text-big-size {
     text-transform: capitalize;
     margin-bottom: 5px;
     font-family: 'Poppins';
     font-style: normal;
     font-weight: 500;
-    font-size: 12.5863px;
+    font-size: 13px;
     line-height: 27px;
     text-align: center;
-
-
+    color: rgba(255, 255, 255, 0.6);
   }
-  &__digit {
+  &__digit-big-size {
     font-weight: 500;
     font-size: 20px;
     line-height: 22px;
     margin-bottom: 5px;
-    //&:before{
-    //  content: ":";
-    //  position: absolute;
-    //  left: -5px;
-    //}
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  &__text-medium-size {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 22px;
+    color: rgba(255, 255, 255, 0.6);;
+  }
+  &__digit-medium-size {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 18px;
+    color: #FFFFFF;
+  }
+
+  &__text-small-size {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 5px;
+    line-height: 6px;
+    color: #FFFFFF;
+  }
+  &__digit-small-size {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 8px;
+    line-height: 12px;
+    color: #FFFFFF;
   }
 }
 </style>
