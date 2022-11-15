@@ -1,295 +1,199 @@
 <template>
-  <router-link to="/tournaments/details" class="link-to-details">
-  <CCard class="tournament-card" :class="setCardBackground()">
-    <CCardBody class="tournament-card-body">
-      <div class="completed-block">
-        <CCardImage class="completed-icon" :src="isFeatured ? $options.featuredCompletedIcon : $options.completedIcon" />
-        <CCardText class="completed-text" :class="isFeatured ? 'featured-card-title-color' : 'card-title-color'">
-          {{ setCardText() }}
-        </CCardText>
+  <div class="tournament-card">
+    <div class="status">
+      <Status :status="'active'" />
+    </div>
+    <div class="left">
+      <div class="logo-casino">
+        <img :src="$options.candyImg" alt="">
       </div>
-
-      <div class="card-icon-wrapper">
-        <CCardImage
-          :class="{
-            'tournament-icon': isTournament,
-            'featured-mission-icon': isMission && isFeatured,
-            'current-mission-icon': isMission && !isFeatured
-          }"
-          :src="setIcon()"
-        />
+      <Countdown
+        :date="end"
+        :title="'Ends in'"
+        :is-row="true"
+        :is-medium-size="true"
+        @onFinish="finish()"
+      />
+    </div>
+    <div class="tournament-data">
+      <div class="main-data">
+        <span class="main-data__title">Candy Stars 😝</span>
+        <span class="main-data__rate">RTP: 84% 💎 Rate: 4.9 ✨</span>
       </div>
-
-      <CCardTitle class="c-card-title" :class="isFeatured ? 'featured-card-title-color' : 'card-title-color'">
-        {{ card.title }}
-      </CCardTitle>
-
-      <div class="tournament-info">
-        <div class="left-block">
-          <CCardImage
-            class="info-icon"
-            :src="isFeatured ? $options.featuredCompletedRectangularIcon : $options.completedRectangularIcon"
-          />
-          <CCardText class="info-block-text" :class="isFeatured ? 'featured-card-text-color' : 'card-text-color'">
-            {{ card.someCount }}K
-          </CCardText>
-          <CCardImage class="info-icon" :src="isFeatured ? $options.featuredCompletedPlusIcon : $options.completedPlusIcon" />
-          <CCardImage class="info-icon" :src="isFeatured ? $options.featuredCompletedEnergyIcon : $options.completedEnergyIcon" />
+      <div class="prize">
+        <div class="prize_data">
+          <span class="prize_data__title">1st Prize</span>
+          <span class="prize_data__price">$ 1,500</span>
         </div>
-        <div class="right-block" :class="isFeatured ? 'featured-card-text-color' : 'card-text-color'">
-          ${{ card.pricePerHour }}/h
+        <div class="prize_img">
+          <img :src="$options.cupImg" alt="">
         </div>
       </div>
-    </CCardBody>
-  </CCard>
-  </router-link>
+      <CButton class="btn">
+        <span class="btn__text">See More</span>
+        <img :src="$options.btnIcon" alt="">
+      </CButton>
+    </div>
+  </div>
 </template>
 
 <script>
-import { CCard, CCardBody, CCardImage, CCardText, CCardTitle } from '@coreui/vue';
-import completedIcon from '../assets/icons/completed-card/completed-cycle.svg';
-import featuredCompletedIcon from '../assets/icons/completed-card/featured-completed-cycle.svg';
-import completedRectangularIcon from '../assets/icons/completed-card/completed-rectangular.svg';
-import featuredCompletedRectangularIcon from '../assets/icons/completed-card/featured-completed-rectangular.svg';
-import completedPlusIcon from '../assets/icons/completed-card/completed-plus.svg';
-import featuredCompletedPlusIcon from '../assets/icons/completed-card/featured-completed-plus.svg';
-import completedEnergyIcon from '../assets/icons/completed-card/completed-energy.svg';
-import featuredCompletedEnergyIcon from '../assets/icons/completed-card/featured-completed-energy.svg';
-
-import kingTournamentIcon from '../assets/icons/king-tournament.svg';
-import starTournamentIcon from '../assets/icons/star-tournament.svg';
-import winTournamentIcon from '../assets/icons/win-tournament.svg';
-
-import missionRocketIcon from '../assets/icons/mission-card/mission-rocket.svg';
-import featuredMissionRocketIcon from '../assets/icons/mission-card/featured-mission-rocket.svg';
+import { CButton } from '@coreui/vue';
+import Countdown from './Countdown';
+import candyImg from '../assets/images/candy.png';
+import cupImg from '../assets/images/mini_cup.png';
+import btnIcon from '../assets/icons/button_icon.svg';
+import Status from '../shared/components/Status';
 
 export default {
   name: 'TournamentCard',
-  completedIcon,
-  featuredCompletedIcon,
-  completedRectangularIcon,
-  featuredCompletedRectangularIcon,
-  completedPlusIcon,
-  featuredCompletedPlusIcon,
-  completedEnergyIcon,
-  featuredCompletedEnergyIcon,
-  missionRocketIcon,
-  featuredMissionRocketIcon,
-  kingTournamentIcon,
-  starTournamentIcon,
-  winTournamentIcon,
+  candyImg,
+  btnIcon,
+  cupImg,
   components: {
-    CCard,
-    CCardBody,
-    CCardImage,
-    CCardText,
-    CCardTitle
+    Status,
+    Countdown,
+    CButton
   },
-  props: {
-    card: Object,
-    belongs: String
-  },
-  data: function() {
+  data () {
     return {
-      isFeatured: false,
-      isMission: false,
-      isTournament: false
-    }
-  },
-  created() {
-    this.isMission = this.card.title.split(' ')[1].toLowerCase() === 'mission';
-    this.isTournament = this.card.title.split(' ')[1].toLowerCase() === 'tournament';
+      end: new Date('2023-01-01T00:00:00')
+    };
   },
   methods: {
-    setCardBackground() {
-      switch (this.belongs) {
-        case 'featured tournaments': {
-          this.isFeatured = true;
-          return 'featured-tournament';
-        }
-        case 'featured missions': {
-          this.isFeatured = true;
-          return 'featured-mission';
-        }
-      }
-    },
-    setCardText() {
-      switch (this.belongs) {
-        case 'featured tournaments':
-          return 'featured tournaments';
-        case 'featured missions':
-          return 'mission';
-        default:
-          return `${this.card.percentComplete}% Completed`
-      }
-    },
-    setIcon() {
-      if (this.isTournament) {
-        switch (this.card.title) {
-          case 'King Tournament':
-            return kingTournamentIcon;
-          case 'Star Tournament':
-            return starTournamentIcon;
-          case 'Win Tournament':
-            return winTournamentIcon;
-        }
-      }
-
-      if (this.isMission) {
-        if (this.isFeatured) {
-          return featuredMissionRocketIcon;
-        } else {
-          return missionRocketIcon;
-        }
-      }
+    finish() {
+      console.log('finish');
     }
   }
 };
 </script>
 
 <style lang="scss">
-@import 'src/assets/scss/_variables.scss';
-
-.link-to-details {
-  text-decoration: none;
-}
 .tournament-card {
-  width: 327px;
-  height: 243px;
-  border-radius: 14px;
-  overflow: hidden;
-  background: $bg-primary-white;
-  border: none;
+  position: relative;
+  display: flex;
+  padding: 20px 15px 24px 30px;
+  background: linear-gradient(180deg, #574FA3 0%, #5D53C2 100%);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 20px;
 
-  .tournament-card-body {
-    padding: 21px 31px;
+  .status {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
 
-    .completed-block {
+  .left {
+    display: flex;
+    flex-direction: column;
+
+    .logo-casino {
+      width: 196px;
+      height: 134px;
+      margin-bottom: 15px;
+      background: #3c3a62;
+      border-radius: 10px;
+      padding: 15px 0;
       display: flex;
       align-items: center;
+      justify-content: center;
+    }
+  }
 
-      .completed-icon {
-        width: 21px;
-        height: 21px;
-      }
-      .completed-text {
-        font-family: 'Montserrat';
+  .tournament-data {
+    display: flex;
+    flex-direction: column;
+    padding-left: 25px;
+
+    .main-data {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
+      &__title {
+        font-family: 'Poppins';
         font-style: normal;
         font-weight: 700;
-        font-size: 16px;
-        line-height: 20px;
-        padding-left: 11px;
-        text-transform: capitalize;
+        font-size: 18px;
+        line-height: 27px;
+        color: #FFFBFF;
+      }
+
+      &__rate {
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 18px;
+        color: #E4E4E4;
       }
     }
 
-    .card-icon-wrapper {
-      position: relative;
-      width: 100%;
-      height: 65%;
-
-      .tournament-icon {
-        position: absolute;
-        height: 106px;
-        margin: 12px 0;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      }
-
-      .featured-mission-icon {
-        width: 84px;
-        height: 207px;
-        position: absolute;
-        top: -20%;
-        right: 15%;
-      }
-      .current-mission-icon {
-        width: 75px;
-        height: 150px;
-        position: absolute;
-        top: 20%;
-        right: 15%;
-      }
-    }
-
-    .c-card-title {
-      text-align: start;
-      font-family: 'Montserrat';
-      font-style: normal;
-      font-weight: 700;
-      font-size: 20px;
-      line-height: 24px;
-    }
-
-    .card-title-color {
-      color: #5F6165;
-    }
-
-    .featured-card-title-color {
-      color: #FFFFFF;
-    }
-
-    .tournament-info {
+    .prize {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      height: 18px;
-      padding-top: 10px;
+      margin: 12px 0 20px;
 
-      .left-block {
+      .prize_data {
         display: flex;
-        width: 50%;
-        height: inherit;
-        justify-content: space-between;
+        flex-direction: column;
+        align-items: flex-start;
 
-        .info-icon {
-          height: 18px;
-          padding: 0;
+        &__title {
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 21px;
+          color: #E4E4E4;
+        }
+
+        &__price {
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 700;
+          font-size: 20px;
+          line-height: 30px;
+          color: #FFFFFF;
         }
       }
 
-      .info-block-text {
-        font-family: 'DM Sans';
+      .prize_img {
+        width: 55px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        object-fit: cover;
+        padding-left: 20px;
+      }
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      padding: 13px 28px 13px 26px;
+      gap: 8px;
+
+      width: 156px;
+      height: 52px;
+
+      background: #F6876A;
+      border-radius: 5px;
+      &__text {
+        font-family: 'Poppins';
         font-style: normal;
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 18px;
+        font-weight: 700;
+        font-size: 15px;
+        line-height: 22px;
+        display: flex;
+        align-items: center;
+        color: #FFFFFF;
       }
-
-      .right-block {
-        font-family: 'DM Sans';
-        font-style: normal;
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 18px;
-      }
-
-      .card-text-color {
-        color: #ABA7D9;
-      }
-
-      .featured-card-text-color {
-        color: #FFE9E5;
+      & > img {
+        margin-left: 18px;
       }
     }
   }
 }
-.king-tournament {
-  background: $king-tournament-card-bg-color
-}
-.star-tournament {
-  background: $star-tournament-card-bg-color;
-}
-.win-tournament {
-  background: $win-tournament-card-bg-color;
-}
-.featured-tournament {
-  background: $featured-tournament-card-bg-color;
-  color: #FFFFFF;
-}
-.featured-mission {
-  background: $featured-mission-card-bg-color;
-}
-
 </style>

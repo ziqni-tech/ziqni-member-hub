@@ -1,23 +1,41 @@
 <template>
   <CContainer>
 <!--    Feature Promotions-->
-<!--    Current Tournaments-->
-<!--    Current Missions-->
-    <div class="info-container">
-      <MonthlyTournament />
-      <div class="charts-container">
-        <div class="starts-in-cards">
-          <SponsoredByCard />
-          <StartsInCard />
+    <div class="section">
+      <h2 class="section-title">Feature Promotions</h2>
+      <div class="info-container">
+        <MonthlyTournament />
+        <div class="charts-container">
+          <div class="starts-in-cards">
+            <SponsoredByCard />
+            <StartsInCard />
+            <StartsInCard />
+          </div>
+          <InstantRewardsChancesCard />
         </div>
-        <InstantRewardsChancesCard />
       </div>
     </div>
-    <div class="cards-container">
-      <div v-for="(card) of $options.tournamentCards">
-        <TournamentCard :card="card" />
+    <div class="section">
+      <h2 class="section-title">Current Tournaments</h2>
+      <div class="tournament-cards">
+        <TournamentCard class="tournament-card" />
+        <TournamentCard />
+        <TournamentCard />
       </div>
     </div>
+    <div class="section">
+      <h2 class="section-title">Current Missions</h2>
+      <div class="missions-cards">
+
+      </div>
+    </div>
+    <!--    Current Tournaments-->
+    <!--    Current Missions-->
+<!--    <div class="cards-container">-->
+<!--      <div v-for="(card) of $options.tournamentCards">-->
+<!--        <TournamentCard :card="card" />-->
+<!--      </div>-->
+<!--    </div>-->
   </CContainer>
 </template>
 
@@ -64,6 +82,32 @@ export default {
   padding: 30px 45px;
   margin: 0;
 
+  .section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .tournament-cards, .missions-cards {
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    .tournament-card {
+      margin-right: 30px;
+    }
+  }
+
+  .section-title {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 33px;
+    color: #737478;
+  }
+
   .info-container {
     display: flex;
 
@@ -72,6 +116,7 @@ export default {
 
       .starts-in-cards {
         display: flex;
+        justify-content: space-between;
         padding-bottom: 18px;
       }
     }

@@ -12,7 +12,7 @@
 
 <script>
 import { CContainer, CButton } from '@coreui/vue';
-import TournamentCard from '../TournamentCard';
+import TournamentCard from '../TournamentCard_v2';
 import ActionsBlock from '../actions-block/ActionsBlock';
 
 export default {
