@@ -6,7 +6,7 @@
         :date="end"
         :title="'Starts in'"
         :is-row="true"
-        :is-small-size="true"
+        :is-x-small-size="true"
         @onFinish="finish()"
       />
       <div class="content-wrapper">

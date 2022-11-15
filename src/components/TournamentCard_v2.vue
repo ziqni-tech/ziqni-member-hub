@@ -1,6 +1,6 @@
 <template>
   <router-link to="/tournaments/details" class="link-to-details">
-  <CCard class="tournament-card" :class="setCardBackground()">
+  <CCard class="tournament-card-v2" :class="setCardBackground()">
     <CCardBody class="tournament-card-body">
       <div class="completed-block">
         <CCardImage class="completed-icon" :src="isFeatured ? $options.featuredCompletedIcon : $options.completedIcon" />
@@ -153,7 +153,7 @@ export default {
 .link-to-details {
   text-decoration: none;
 }
-.tournament-card {
+.tournament-card-v2 {
   width: 327px;
   height: 243px;
   border-radius: 14px;

@@ -9,7 +9,8 @@
     <span :class="{
       'title-big': isBigSize,
       'title-medium': isMediumSize,
-      'title-small': isSmallSize
+      'title-small': isSmallSize,
+      'title-x-small': isXSmallSize
     }">{{ title }}</span>
     <div class="indicator">
       <div v-if="days" class="indicator__block">
@@ -17,11 +18,13 @@
           'indicator__digit-big-size': isBigSize,
           'indicator__digit-medium-size': isMediumSize,
           'indicator__digit-small-size': isSmallSize,
+          'indicator__digit-x-small-size': isXSmallSize,
           }">{{ days }}</div>
         <div :class="{
           'indicator__text-big-size': isBigSize,
           'indicator__text-medium-size': isMediumSize,
           'indicator__text-small-size': isSmallSize,
+          'indicator__text-x-small-size': isXSmallSize,
           }"
         >Days</div>
       </div>
@@ -30,12 +33,14 @@
           'indicator__digit-big-size': isBigSize,
           'indicator__digit-medium-size': isMediumSize,
           'indicator__digit-small-size': isSmallSize,
+          'indicator__digit-x-small-size': isXSmallSize,
           }"
         >{{ hours }}</div>
         <div :class="{
           'indicator__text-big-size': isBigSize,
           'indicator__text-medium-size': isMediumSize,
           'indicator__text-small-size': isSmallSize,
+          'indicator__text-x-small-size': isXSmallSize,
           }"
         >Hours</div>
       </div>
@@ -44,12 +49,14 @@
           'indicator__digit-big-size': isBigSize,
           'indicator__digit-medium-size': isMediumSize,
           'indicator__digit-small-size': isSmallSize,
+          'indicator__digit-x-small-size': isXSmallSize,
           }"
         >{{ minutes }}</div>
         <div :class="{
           'indicator__text-big-size': isBigSize,
           'indicator__text-medium-size': isMediumSize,
           'indicator__text-small-size': isSmallSize,
+          'indicator__text-x-small-size': isXSmallSize,
           }"
         >Mins</div>
       </div>
@@ -58,12 +65,14 @@
           'indicator__digit-big-size': isBigSize,
           'indicator__digit-medium-size': isMediumSize,
           'indicator__digit-small-size': isSmallSize,
+          'indicator__digit-x-small-size': isXSmallSize,
           }"
         >{{ seconds }}</div>
         <div :class="{
           'indicator__text-big-size': isBigSize,
           'indicator__text-medium-size': isMediumSize,
           'indicator__text-small-size': isSmallSize,
+          'indicator__text-x-small-size': isXSmallSize,
           }"
         >Secs</div>
       </div>
@@ -93,6 +102,10 @@ export default {
       default: false
     },
     isSmallSize: {
+      type: Boolean,
+      default: false
+    },
+    isXSmallSize: {
       type: Boolean,
       default: false
     },
@@ -187,6 +200,16 @@ export default {
   width: 30%;
   font-family: 'Poppins';
   font-style: normal;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 12px;
+  text-transform: uppercase;
+  color: #FFFFFF;
+}
+.title-x-small {
+  width: 30%;
+  font-family: 'Poppins';
+  font-style: normal;
   font-weight: 600;
   font-size: 7px;
   line-height: 12px;
@@ -257,12 +280,29 @@ export default {
   &__text-small-size {
     font-family: 'Poppins';
     font-style: normal;
+    font-weight: 500;
+    font-size: 7px;
+    line-height: 15px;
+    color: #FFFFFF;
+  }
+  &__digit-small-size {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 12px;
+    color: #FFFFFF;
+  }
+
+  &__text-x-small-size {
+    font-family: 'Poppins';
+    font-style: normal;
     font-weight: 600;
     font-size: 5px;
     line-height: 6px;
     color: #FFFFFF;
   }
-  &__digit-small-size {
+  &__digit-x-small-size {
     font-family: 'Poppins';
     font-style: normal;
     font-weight: 600;

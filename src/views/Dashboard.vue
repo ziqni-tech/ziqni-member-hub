@@ -26,16 +26,12 @@
     <div class="section">
       <h2 class="section-title">Current Missions</h2>
       <div class="missions-cards">
-
+        <MissionCard class="missions-card" />
+        <MissionCard class="missions-card" />
+        <MissionCard class="missions-card" />
       </div>
     </div>
-    <!--    Current Tournaments-->
-    <!--    Current Missions-->
-<!--    <div class="cards-container">-->
-<!--      <div v-for="(card) of $options.tournamentCards">-->
-<!--        <TournamentCard :card="card" />-->
-<!--      </div>-->
-<!--    </div>-->
+
   </CContainer>
 </template>
 
@@ -54,6 +50,7 @@ import kingTournamentIcon from '../assets/icons/king-tournament.svg';
 import starTournamentIcon from '../assets/icons/star-tournament.svg';
 import winTournamentIcon from '../assets/icons/win-tournament.svg';
 import StartsInCard from '../components/StartsInCard';
+import MissionCard from '../components/MissionCard';
 
 const tournamentCards = [
   {title: 'King Tournament', icon: kingTournamentIcon, percentComplete: 64, pricePerHour: 32, someCount: 132, bg: 'king-tournament'},
@@ -64,6 +61,7 @@ export default {
   name: 'Dashboard',
   tournamentCards,
   components: {
+    MissionCard,
     StartsInCard,
     SponsoredByCard,
     MonthlyTournament,
@@ -95,6 +93,10 @@ export default {
     align-items: center;
 
     .tournament-card {
+      margin-right: 30px;
+    }
+
+    .missions-card {
       margin-right: 30px;
     }
   }
