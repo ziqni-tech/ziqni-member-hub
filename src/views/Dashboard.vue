@@ -1,8 +1,9 @@
 <template>
   <CContainer>
-<!--    Feature Promotions-->
     <div class="section">
-      <h2 class="section-title">Feature Promotions</h2>
+      <div class="section_header">
+        <h2 class="section-title">Feature Promotions</h2>
+      </div>
       <div class="info-container">
         <MonthlyTournament />
         <div class="charts-container">
@@ -16,7 +17,10 @@
       </div>
     </div>
     <div class="section">
-      <h2 class="section-title">Current Tournaments</h2>
+      <div class="section-header">
+        <h2 class="section-title">Current Tournaments</h2>
+        <ActionsBlock />
+      </div>
       <div class="tournament-cards">
         <TournamentCard class="tournament-card" />
         <TournamentCard />
@@ -24,7 +28,10 @@
       </div>
     </div>
     <div class="section">
-      <h2 class="section-title">Current Missions</h2>
+      <div class="section-header">
+        <h2 class="section-title">Current Missions</h2>
+        <ActionsBlock />
+      </div>
       <div class="missions-cards">
         <MissionCard class="missions-card" />
         <MissionCard class="missions-card" />
@@ -38,7 +45,7 @@
 <script>
 import { CContainer } from '@coreui/vue';
 import TotalInfo from '../components/TotalInfo';
-import TournamentCard from '../components/TournamentCard';
+import TournamentCard from '../components/tournaments/TournamentCard';
 import PieChartCard from '../components/PieChartCard';
 import ActivityChartCard from '../components/ActivityChartCard';
 
@@ -51,6 +58,7 @@ import starTournamentIcon from '../assets/icons/star-tournament.svg';
 import winTournamentIcon from '../assets/icons/win-tournament.svg';
 import StartsInCard from '../components/StartsInCard';
 import MissionCard from '../components/MissionCard';
+import ActionsBlock from '../shared/components/actions-block/ActionsBlock';
 
 const tournamentCards = [
   {title: 'King Tournament', icon: kingTournamentIcon, percentComplete: 64, pricePerHour: 32, someCount: 132, bg: 'king-tournament'},
@@ -61,6 +69,7 @@ export default {
   name: 'Dashboard',
   tournamentCards,
   components: {
+    ActionsBlock,
     MissionCard,
     StartsInCard,
     SponsoredByCard,
@@ -85,6 +94,14 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+
+    .section-header {
+      width: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 50px 45px 30px 0;
+    }
   }
 
   .tournament-cards, .missions-cards {

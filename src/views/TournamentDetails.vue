@@ -1,31 +1,35 @@
 <template>
   <div class="page-container">
-    <CImage class="banner" rounded :src="$options.banner" />
+    <div class="header">
+      <h1 class="title">Candy Stars 😝</h1>
+      <img class="share-icon" :src="$options.shareIcon" />
+    </div>
+    <TournamentDetailsCard />
     <div class="header">
       <h2 class="title">Leaderboard</h2>
       <img class="share-icon" :src="$options.shareIcon" />
     </div>
-    <ActionsBlock />
     <div class="tables">
       <Leaderboard />
-      <TopThree />
     </div>
   </div>
 </template>
 
 <script>
 import { CImage } from '@coreui/vue';
-import ActionsBlock from '../components/actions-block/ActionsBlock';
+import ActionsBlock from '../shared/components/actions-block/ActionsBlock';
 import Leaderboard from '../components/tournament-leaders/Leaderboard';
 
 import banner from '../assets/images/banner.png';
 import shareIcon from '../assets/icons/share-icon.svg';
 import TopThree from '../components/tournament-leaders/TopThree';
+import TournamentDetailsCard from '../components/tournaments/TournamentDetailsCard';
 export default {
   name: 'TournamentDetails',
   banner,
   shareIcon,
   components: {
+    TournamentDetailsCard,
     TopThree,
     Leaderboard,
     ActionsBlock,
@@ -38,6 +42,11 @@ export default {
 .page-container {
   padding: 21px 42px;
 
+  .tournament_card {
+    max-width: 1030px;
+    height: 310px;
+  }
+
   .banner {
     width: 100%;
   }
@@ -46,7 +55,8 @@ export default {
     display: flex;
     justify-content: start;
     padding-top: 46px;
-    background: #FAFAFE;
+    background: none;
+    border: none;
 
     .title {
       font-family: 'Montserrat';

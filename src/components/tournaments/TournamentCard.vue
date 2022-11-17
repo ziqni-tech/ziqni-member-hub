@@ -39,11 +39,11 @@
 
 <script>
 import { CButton } from '@coreui/vue';
-import Countdown from './Countdown';
-import candyImg from '../assets/images/candy.png';
-import cupImg from '../assets/images/mini_cup.png';
-import btnIcon from '../assets/icons/button_icon.svg';
-import Status from '../shared/components/Status';
+import Countdown from '../Countdown';
+import candyImg from '../../assets/images/candy.png';
+import cupImg from '../../assets/images/mini_cup.png';
+import btnIcon from '../../assets/icons/button_icon.svg';
+import Status from '../../shared/components/Status';
 
 export default {
   name: 'TournamentCard',

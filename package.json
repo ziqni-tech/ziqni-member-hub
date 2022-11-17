@@ -30,7 +30,7 @@
   "homepage": "http://ziqni.app",
   "dependencies": {
     "@babel/preset-env": "^7.19.4",
-    "@coreui/vue": "^4.4.0",
+    "@coreui/vue": "^4.5.0",
     "@coreui/vue-chartjs": "^2.0.1",
     "@ziqni-tech/member-api-client": "^1.0.2",
     "core-js": "^3.25.5",

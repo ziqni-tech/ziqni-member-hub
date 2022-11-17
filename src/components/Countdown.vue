@@ -10,7 +10,8 @@
       'title-big': isBigSize,
       'title-medium': isMediumSize,
       'title-small': isSmallSize,
-      'title-x-small': isXSmallSize
+      'title-x-small': isXSmallSize,
+      'detail-card-title': isDetailCard,
     }">{{ title }}</span>
     <div class="indicator">
       <div v-if="days" class="indicator__block">
@@ -19,12 +20,14 @@
           'indicator__digit-medium-size': isMediumSize,
           'indicator__digit-small-size': isSmallSize,
           'indicator__digit-x-small-size': isXSmallSize,
+          'indicator__digit-detail-card': isDetailCard,
           }">{{ days }}</div>
         <div :class="{
           'indicator__text-big-size': isBigSize,
           'indicator__text-medium-size': isMediumSize,
           'indicator__text-small-size': isSmallSize,
           'indicator__text-x-small-size': isXSmallSize,
+          'indicator__text-detail-card': isDetailCard,
           }"
         >Days</div>
       </div>
@@ -34,6 +37,7 @@
           'indicator__digit-medium-size': isMediumSize,
           'indicator__digit-small-size': isSmallSize,
           'indicator__digit-x-small-size': isXSmallSize,
+          'indicator__digit-detail-card': isDetailCard,
           }"
         >{{ hours }}</div>
         <div :class="{
@@ -41,6 +45,7 @@
           'indicator__text-medium-size': isMediumSize,
           'indicator__text-small-size': isSmallSize,
           'indicator__text-x-small-size': isXSmallSize,
+          'indicator__text-detail-card': isDetailCard,
           }"
         >Hours</div>
       </div>
@@ -50,6 +55,7 @@
           'indicator__digit-medium-size': isMediumSize,
           'indicator__digit-small-size': isSmallSize,
           'indicator__digit-x-small-size': isXSmallSize,
+          'indicator__digit-detail-card': isDetailCard,
           }"
         >{{ minutes }}</div>
         <div :class="{
@@ -57,6 +63,7 @@
           'indicator__text-medium-size': isMediumSize,
           'indicator__text-small-size': isSmallSize,
           'indicator__text-x-small-size': isXSmallSize,
+          'indicator__text-detail-card': isDetailCard,
           }"
         >Mins</div>
       </div>
@@ -66,6 +73,7 @@
           'indicator__digit-medium-size': isMediumSize,
           'indicator__digit-small-size': isSmallSize,
           'indicator__digit-x-small-size': isXSmallSize,
+          'indicator__digit-detail-card': isDetailCard,
           }"
         >{{ seconds }}</div>
         <div :class="{
@@ -73,6 +81,7 @@
           'indicator__text-medium-size': isMediumSize,
           'indicator__text-small-size': isSmallSize,
           'indicator__text-x-small-size': isXSmallSize,
+          'indicator__text-detail-card': isDetailCard,
           }"
         >Secs</div>
       </div>
@@ -109,6 +118,10 @@ export default {
       type: Boolean,
       default: false
     },
+    isDetailCard: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
@@ -165,7 +178,7 @@ export default {
 .countdown {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  //justify-content: space-between;
   width: 100%;
   padding: 0 5px;
 }
@@ -174,6 +187,18 @@ export default {
 }
 .display-column {
   flex-direction: column;
+}
+
+.detail-card-title {
+  width: 55px;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 18px;
+  text-align: start;
+  text-transform: uppercase;
+  color: #FFFFFF;
 }
 
 .title-big {
@@ -187,6 +212,7 @@ export default {
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.8);
 }
+
 .title-medium {
   width: 30%;
   font-family: 'Poppins';

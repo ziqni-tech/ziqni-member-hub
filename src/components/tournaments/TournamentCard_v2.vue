@@ -47,21 +47,21 @@
 
 <script>
 import { CCard, CCardBody, CCardImage, CCardText, CCardTitle } from '@coreui/vue';
-import completedIcon from '../assets/icons/completed-card/completed-cycle.svg';
-import featuredCompletedIcon from '../assets/icons/completed-card/featured-completed-cycle.svg';
-import completedRectangularIcon from '../assets/icons/completed-card/completed-rectangular.svg';
-import featuredCompletedRectangularIcon from '../assets/icons/completed-card/featured-completed-rectangular.svg';
-import completedPlusIcon from '../assets/icons/completed-card/completed-plus.svg';
-import featuredCompletedPlusIcon from '../assets/icons/completed-card/featured-completed-plus.svg';
-import completedEnergyIcon from '../assets/icons/completed-card/completed-energy.svg';
-import featuredCompletedEnergyIcon from '../assets/icons/completed-card/featured-completed-energy.svg';
+import completedIcon from '../../assets/icons/completed-card/completed-cycle.svg';
+import featuredCompletedIcon from '../../assets/icons/completed-card/featured-completed-cycle.svg';
+import completedRectangularIcon from '../../assets/icons/completed-card/completed-rectangular.svg';
+import featuredCompletedRectangularIcon from '../../assets/icons/completed-card/featured-completed-rectangular.svg';
+import completedPlusIcon from '../../assets/icons/completed-card/completed-plus.svg';
+import featuredCompletedPlusIcon from '../../assets/icons/completed-card/featured-completed-plus.svg';
+import completedEnergyIcon from '../../assets/icons/completed-card/completed-energy.svg';
+import featuredCompletedEnergyIcon from '../../assets/icons/completed-card/featured-completed-energy.svg';
 
-import kingTournamentIcon from '../assets/icons/king-tournament.svg';
-import starTournamentIcon from '../assets/icons/star-tournament.svg';
-import winTournamentIcon from '../assets/icons/win-tournament.svg';
+import kingTournamentIcon from '../../assets/icons/king-tournament.svg';
+import starTournamentIcon from '../../assets/icons/star-tournament.svg';
+import winTournamentIcon from '../../assets/icons/win-tournament.svg';
 
-import missionRocketIcon from '../assets/icons/mission-card/mission-rocket.svg';
-import featuredMissionRocketIcon from '../assets/icons/mission-card/featured-mission-rocket.svg';
+import missionRocketIcon from '../../assets/icons/mission-card/mission-rocket.svg';
+import featuredMissionRocketIcon from '../../assets/icons/mission-card/featured-mission-rocket.svg';
 
 export default {
   name: 'TournamentCard',
@@ -148,7 +148,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import 'src/assets/scss/_variables.scss';
+@import '../../assets/scss/variables';
 
 .link-to-details {
   text-decoration: none;
