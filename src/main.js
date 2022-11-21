@@ -1,6 +1,6 @@
 import { createApp } from 'vue';
 import App from './App.vue';
-import store from './store'
+import store from './store';
 
 import CoreuiVue from '@coreui/vue';
 
@@ -9,12 +9,11 @@ import AppLayout from './layouts/AppLayout';
 
 
 createApp({
-    extends: App,
-    // beforeCreate() { this.$store.commit('initialiseStore') }
-})
-    .use(index)
-    .use(CoreuiVue)
-    .component('AppLayout', AppLayout)
-    // .use(store)
-.mount('#app')
+            extends: App,
+          })
+  .use(index)
+  .use(CoreuiVue)
+  .use(store)
+  .component('AppLayout', AppLayout)
+  .mount('#app');
 

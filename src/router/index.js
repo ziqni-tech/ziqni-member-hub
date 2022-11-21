@@ -11,10 +11,17 @@ const routes = [
         path: '/tournaments',
         name: 'Tournaments',
         component: () => import('@/views/Tournaments.vue'),
+        // children: [
+        //     {
+        //         path: '/details',
+        //         name: 'TournamentDetails',
+        //         component: () => import('@/views/TournamentDetails.vue'),
+        //     },
+        // ]
     },
     {
         path: '/tournaments/details',
-        name: 'Tournament Details',
+        name: 'TournamentDetails',
         component: () => import('@/views/TournamentDetails.vue'),
     },
     {
@@ -24,17 +31,17 @@ const routes = [
     },
     {
         path: '/loyality-Level',
-        name: 'Loyality Level',
+        name: 'LoyalityLevel',
         component: () => import('@/views/LoyalityLevel.vue'),
     },
     {
         path: '/instant-rewards',
-        name: 'Instant Rewards',
+        name: 'InstantRewards',
         component: () => import('@/views/InstantRewards.vue'),
     },
     {
         path: '/loyality-store',
-        name: 'Loyality Store',
+        name: 'LoyalityStore',
         component: () => import('@/views/LoyalityStore.vue'),
     },
     {

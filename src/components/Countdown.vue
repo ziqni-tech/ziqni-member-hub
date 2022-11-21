@@ -3,7 +3,8 @@
     class="countdown"
     :class="{
       'display-row': isRow,
-      'display-column': isColumn
+      'display-column': isColumn,
+      'space-between': !isDetailCard
     }"
   >
     <span :class="{
@@ -13,7 +14,10 @@
       'title-x-small': isXSmallSize,
       'detail-card-title': isDetailCard,
     }">{{ title }}</span>
-    <div class="indicator">
+    <div class="indicator" :class="{
+      'detail-card-indicator': isDetailCard,
+      'space-between': !isDetailCard
+    }">
       <div v-if="days" class="indicator__block">
         <div :class="{
           'indicator__digit-big-size': isBigSize,
@@ -130,6 +134,9 @@ export default {
       finish: false
     }
   },
+  created() {
+    console.log('props', this.isDetailCard);
+  },
   mounted() {
     const _self = this
     window.setInterval(() => {
@@ -178,9 +185,11 @@ export default {
 .countdown {
   display: flex;
   align-items: center;
-  //justify-content: space-between;
   width: 100%;
   padding: 0 5px;
+}
+.space-between {
+  justify-content: space-between;
 }
 .display-row {
   flex-direction: row;
@@ -242,15 +251,27 @@ export default {
   text-transform: uppercase;
   color: #FFFFFF;
 }
+.detail-card-indicator {
+  justify-content: flex-end;
+  .indicator__block {
+    margin-left: 18px;
+  }
+}
 .indicator {
   display: flex;
-  justify-content: space-between;
-  width: 50%;
+  min-width: 50%;
 
   &__indicator {
     text-align: center;
     padding: 0 9px;
     position: relative;
+
+    &__block {
+      margin-left: 5px;
+      &:first-child {
+        margin-left: 0;
+      }
+    }
 
     &:first-child {
       padding-left: 0;
@@ -267,6 +288,24 @@ export default {
     }
   }
 
+  &__digit-detail-card {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 17.3286px;
+    line-height: 18px;
+    text-align: center;
+    color: #FFFFFF;
+  }
+  &__text-detail-card {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10.5897px;
+    line-height: 23px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+  }
   &__text-big-size {
     text-transform: capitalize;
     margin-bottom: 5px;

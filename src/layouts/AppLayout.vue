@@ -1,10 +1,10 @@
 <template>
   <div class="app-layout">
-    <Sidebar />
+    <Sidebar/>
     <div class="right-part">
-      <Navbar :member="member" />
+      <Navbar :member="member"/>
       <div class="content">
-        <slot />
+        <slot/>
       </div>
     </div>
   </div>
@@ -13,7 +13,10 @@
 <script>
 import Navbar from '../components/header/TheHeader';
 import Sidebar from '../components/sidebar/TheSidebar';
-import { ApiClientStomp, MembersApiWs, MemberRequest } from '@ziqni-tech/member-api-client';
+import useConnect from '../hooks/useConnect';
+import { computed, ref } from 'vue';
+import { useStore } from 'vuex';
+import { ApiClientStomp, MemberRequest, MembersApiWs } from '@ziqni-tech/member-api-client';
 
 export default {
   name: 'AppLayout',
@@ -21,42 +24,61 @@ export default {
     Sidebar,
     Navbar
   },
-  data: function() {
+  data: function () {
     return {
       connection: null,
-      member: null
-    }
+      member: null,
+      client: null
+    };
   },
-  created: function() {
+  // async setup() {
+  // const { memberData, apiClientStomp } = await useConnect();
+
+  // const store = useStore();
+  // await store.dispatch('setMemberAction', memberData);
+
+  // console.log('SETUP MEMBER DATA', memberData);
+  // member.value = memberData
+
+  // const member = computed(() => store.state.memberData);
+  // console.log('member . value => ', member);
+
+  // return {}
+  // },
+  created() {
     this.connect()
   },
   methods: {
     connect: async function () {
-      const authToken = "eyJhbGciOiJIUzI1NiJ9.eyJhcGlfa2V5X2lkIjoicXhtcXFZRUJUZVV0U0VzNEVJLWgiLCJtZW1iZXJfcmVmZXJlbmNlX2lkIjoiVGVzdF9rZXktMDYwNzg0NGYtMjU1Yy00ZDE5LTg1YTAtYzQzNmMxZDRmNTVlIiwiYWNjb3VudF9pZCI6IkY3bThkSHdCc3ctT0gzTUVvVzIzIiwic3BhY2VfbmFtZSI6ImZpcnN0LXNwYWNlIiwibmFtZSI6IlRlc3RfbmFtZS0zYWE1YzRlZS1jY2VlLTRiZWMtYjU5My1kYTdiMzAwZWU4OTAiLCJtZW1iZXJfdHlwZSI6IkluZGl2aWR1YWwiLCJtZW1iZXJfaWQiOiJ3LVVlSElJQnVwTjhDRjN6YzBoeiIsInJlc291cmNlX2FjY2VzcyI6eyJ6aXFuaS1nYXBpIjp7InJvbGVzIjpbIlB1YmxpYyIsIk1lbWJlciIsIlZpZXdBY2hpZXZlbWVudHMiLCJWaWV3QXdhcmRzIiwiQ2xhaW1Bd2FyZHMiLCJWaWV3Q29tcGV0aXRpb25zIiwiVmlld0NvbnRlc3RzIiwiVmlld0ZpbGVzIiwiVmlld01lbWJlcnMiLCJNZW1iZXJzT3B0aW4iLCJWaWV3TWVzc2FnZXMiLCJDb25uZWN0UHJveHkiLCJWaWV3UmV3YXJkcyIsIlZpZXdSdWxlcyJdfX0sInN1YiI6InctVWVISUlCdXBOOENGM3pjMGh6IiwianRpIjoiZjU5MDIwYmUtNDdiZS00OGM1LTk1ZmUtODc1OTU0NGY0MDM2IiwiaWF0IjoxNjY2NjAxODMxLCJleHAiOjE2Njg3NjE4MzF9.PULMnFGWyHUKPtZOryH3cfeskUgy5saIwG1RBkIaX58"
+      const authToken = "eyJhbGciOiJIUzI1NiJ9.eyJhcGlfa2V5X2lkIjoiSEZEYmhJUUI3UUctTWpNa3dPQTIiLCJtZW1iZXJfcmVmZXJlbmNlX2lkIjoiNDUyNzc2NzIyODQ5NTI5NSIsImFjY291bnRfaWQiOiJWb1lvdlh3Qm42OWk2elVjSVBBYyIsInNwYWNlX25hbWUiOiJ0ZXN0LXNwYWNlLTEiLCJuYW1lIjoiQ2FybWluZSBMLiIsIm1lbWJlcl90eXBlIjoiSW5kaXZpZHVhbCIsIm1lbWJlcl9pZCI6IlhvTnhjb1FCeTZhenVmT1RNdzhWIiwicmVzb3VyY2VfYWNjZXNzIjp7InppcW5pLWdhcGkiOnsicm9sZXMiOlsiUHVibGljIiwiTWVtYmVyIiwiVmlld0FjaGlldmVtZW50cyIsIlZpZXdBd2FyZHMiLCJDbGFpbUF3YXJkcyIsIlZpZXdDb21wZXRpdGlvbnMiLCJWaWV3Q29udGVzdHMiLCJWaWV3RmlsZXMiLCJWaWV3TWVtYmVycyIsIk1lbWJlcnNPcHRpbiIsIlZpZXdNZXNzYWdlcyIsIkNvbm5lY3RQcm94eSIsIlZpZXdSZXdhcmRzIiwiVmlld1J1bGVzIl19fSwic3ViIjoiWG9OeGNvUUJ5NmF6dWZPVE13OFYiLCJqdGkiOiI5YTlkZGQ2OS04NmY4LTQ2NjEtYWJkMS02MjQ1MjhkYWYzNTYiLCJpYXQiOjE2Njg3NzY2MzQsImV4cCI6MTY3MDkzNjYzNH0.2YfBoMPIM2JQF0xGU6LaikTZd8Uu2DVA3EC6Gw3qlx0"
       const apiClientStomp = ApiClientStomp.instance;
 
       await apiClientStomp.connect({token: authToken})
       this.client = apiClientStomp
 
-      const memberApiWsClient = new MembersApiWs(this.client)
+      const memberRequest = MemberRequest.constructFromObject(
+          {
+            'includeFields': [],
+            'includeCustomFields': [],
+            'includeMetaDataFields': []
+          },
+          null);
+      const memberApiWsClient = new MembersApiWs(apiClientStomp);
 
-      const memberRequest = MemberRequest.constructFromObject(      {
-        "includeFields": [],
-        "includeCustomFields": [],
-        "includeMetaDataFields": []
-      }, null)
+      memberApiWsClient.getMember(memberRequest, (data) => {
+        console.log('DATA', data);
+        // this.member = data.data;
+        this.$store.dispatch('setMemberAction', data.data);
+      });
 
-      memberApiWsClient.getMember( memberRequest ,(data) => {
-        this.member = data.data;
-        console.log('getMember data', data)
-      })
     },
   }
-}
+};
 </script>
 
 <style lang="scss">
 @import 'src/assets/scss/variables';
+
 .app-layout {
   display: flex;
   width: 100%;

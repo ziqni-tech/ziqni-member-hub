@@ -1,7 +1,7 @@
 <template>
   <div class="page-header">
-    <UserProfile :name="member.name" />
-    <Welcome :name="member.name" />
+    <UserProfile :name="memberData?.name" />
+    <Welcome :name="memberData?.name" />
     <UserProgress />
     <UserEnergy :energy-value="1200" :increment-energy-value="5" />
     <Notifications :number-of-notifications="5" />
@@ -17,6 +17,9 @@ import UserProgress from './UserProgress';
 import UserEnergy from './UserEnergy';
 import Notifications from './Notifications';
 import GameModeSwitch from './GameModeSwitch';
+import { computed, ref } from 'vue';
+import { useStore } from 'vuex';
+import useConnect from '../../hooks/useConnect';
 
 export default {
   name: 'Header',
@@ -31,6 +34,15 @@ export default {
   },
   props: {
     member: Object
+  },
+  setup() {
+    // const memberData = ref();
+    const store = useStore();
+
+    const memberData = computed(() => store.state.memberData);
+    console.log('header data', memberData);
+
+    return {memberData}
   },
 }
 </script>

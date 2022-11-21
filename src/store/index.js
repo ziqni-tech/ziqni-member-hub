@@ -1,7 +1,13 @@
-import { createStore } from 'vuex'
+import { createStore } from 'vuex';
+import apiClient from './modules/apiClientModule';
+import memberData from './modules/memberModule';
 
-const store = createStore({
+const store = createStore(
+  {
+    modules: {
+      apiClient,
+      memberData
+    }
+  });
 
-})
-
-export default store
+export default store;

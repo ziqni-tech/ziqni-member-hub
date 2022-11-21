@@ -3,9 +3,9 @@
     <div class="image-wrapper">
       <img :src="$options.profileIcon" alt="">
     </div>
-    <div class="place-wrapper">
-      <div class="place">
-        123
+    <div class="place-wrapper" :class="setPlaceWrapperBg()">
+      <div class="place" :class="setPlaceTextColor()">
+        {{ setPlace() }}
       </div>
     </div>
   </div>
@@ -16,7 +16,43 @@ import profileIcon from '../../assets/icons/profile.svg';
 
 export default {
   name: 'Avatar',
-  profileIcon
+  profileIcon,
+  props: {
+    place: Number
+  },
+  methods: {
+    setPlace() {
+      switch (this.place) {
+        case 1:
+          return `${this.place}st`;
+        case 2:
+          return `${this.place}nd`;
+        case 3:
+          return `${this.place}rd`;
+        default:
+          return `${this.place}th`;
+      }
+    },
+    setPlaceTextColor() {
+      if (this.place < 4) {
+        return 'black-text-color'
+      } else {
+        return 'white-text-color'
+      }
+    },
+    setPlaceWrapperBg() {
+      switch (this.place) {
+        case 1:
+          return `first-place-wrapper-bg`;
+        case 2:
+          return `second-place-wrapper-bg`;
+        case 3:
+          return `third-place-wrapper-bg`;
+        default:
+          return `default-place-wrapper-bg`;
+      }
+    }
+  }
 };
 </script>
 
@@ -47,17 +83,42 @@ export default {
     }
   }
 
+  .first-place-wrapper-bg {
+    background: #F2DB94;
+  }
+  .second-place-wrapper-bg {
+    background: #CBCBCB;
+  }
+  .third-place-wrapper-bg {
+    background: #F5C1A1;
+  }
+  .default-place-wrapper-bg {
+    background: black;
+  }
+
   .place-wrapper {
     position: absolute;
     top: 29px;
     left: -2px;
     width: 36px;
     height: 19px;
-    background: #CBCBCB;
     display: flex;
     justify-content: center;
     align-items: end;
 
+    .place {
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 700;
+      font-size: 15px;
+      line-height: 22px;
+    }
+    .black-text-color {
+      color: #2F2F2F;
+    }
+    .white-text-color {
+      color: #EFEFEF;
+    }
   }
 }
 </style>

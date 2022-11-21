@@ -76,6 +76,7 @@ export default {
   background: linear-gradient(180deg, #574FA3 0%, #5D53C2 100%);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   border-radius: 20px;
+  margin-bottom: 20px;
 
   .status {
     position: absolute;

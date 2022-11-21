@@ -5,15 +5,20 @@
       <span># Tournaments Played</span>
       <span>Earnings</span>
     </div>
-    <LeaderboardItem />
-    <LeaderboardItem />
-    <LeaderboardItem />
-    <LeaderboardItem />
-    <LeaderboardItem />
+    <LeaderboardItem :place="1" />
+    <LeaderboardItem :place="2"  />
+    <LeaderboardItem :place="3"  />
+    <LeaderboardItem :place="4"  />
+    <LeaderboardItem :place="5"  />
   </div>
 </template>
 
 <script>
+// import { ApiClientStomp,
+//   // EntityChangesApiWs,
+//   LeaderboardSubscriptionApiWs
+// } from '@ziqni-tech/member-api-client';
+
 import { CTable, CTableHead, CTableBody, CTableRow, CTableHeaderCell, CTableDataCell } from '@coreui/vue';
 import Avatar from '../../shared/components/Avatar';
 import LeaderboardItem from './LeaderboardItem';
@@ -33,6 +38,21 @@ export default {
   data: () => {
     return {}
   },
+  methods: {
+    // subscribeToLeaderboard
+    getLeaderBord() {
+      // const apiClientStomp = ApiClientStomp.instance;
+      // const apiLeaderboardWsClient = new LeaderboardSubscriptionApiWs(this.client);
+      // const leaderboardSubscriptionRequest = {
+      //   action: 'Subscribe', entityId: '',  leaderboardFilter: {
+      //     ranksAboveToInclude: 1,
+      //     ranksBelowToInclude: 20,
+      //     topRanksToInclude: 20
+      //   }
+      // }
+      // apiLeaderboardWsClient.leaderboardSubscription(leaderboardSubscriptionRequest, (data) => {console.log("SYS Callback Data", data)})
+    }
+  }
 };
 </script>
 
@@ -41,6 +61,7 @@ export default {
   width: 1035px;
   display: flex;
   flex-direction: column;
+  align-items: center;
 
   &__header {
     width: 100%;
