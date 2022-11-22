@@ -16,21 +16,8 @@
         <h2 class="section-title">Current Tournaments</h2>
         <ActionsBlock />
       </div>
-      <div class="tournament-cards">
-        <TournamentCard class="tournament-card" />
-        <TournamentCard />
-        <TournamentCard />
-        <TournamentCard />
-        <TournamentCard />
-        <TournamentCard />
-        <TournamentCard />
-        <TournamentCard />
-        <TournamentCard />
-        <TournamentCard />
-        <TournamentCard />
-        <TournamentCard />
-        <TournamentCard />
-        <TournamentCard />
+      <div class="tournament-cards" v-for="c in competitions">
+        <TournamentCard class="tournament-card" :key="c.id" />
       </div>
     </div>
   </div>
@@ -41,7 +28,7 @@ import { CContainer } from '@coreui/vue';
 import ActionsBlock from '../shared/components/actions-block/ActionsBlock';
 import TournamentCard from '../components/tournaments/TournamentCard';
 
-import TournamentsContainer from '../components/tournaments/TournamentsContainer';
+import { ApiClientStomp, CompetitionRequest, CompetitionsApiWs } from '@ziqni-tech/member-api-client';
 
 const tournamentCards = [
   {title: 'King Tournament', percentComplete: 64, pricePerHour: 32, someCount: 132, bg: 'king-tournament'},
@@ -56,6 +43,55 @@ export default {
     CContainer,
     ActionsBlock,
     TournamentCard
+  },
+  data() {
+    return {
+      competitions: []
+    }
+  },
+  created() {
+    this.initialize();
+  },
+  methods: {
+    initialize() {
+      this.competitions = this.$store.state.competitions
+      if (!this.competitions) {
+        this.getTournaments()
+      }
+    },
+    async getTournaments() {
+      try {
+        const competitionsApiWsClient = new CompetitionsApiWs(ApiClientStomp.instance);
+        const activeCompetitionRequest = CompetitionRequest.constructFromObject({
+          competitionFilter: {
+            statusCode: {
+              moreThan: 10,
+              lessThan: 35
+            },
+            sortBy: [{
+              queryField: 'created',
+              order: 'Desc'
+            }],
+            limit: 20,
+            skip: 0
+          }
+        }, null);
+
+        await competitionsApiWsClient.getCompetitions(activeCompetitionRequest, (res) => {
+          this.competitions = res.data;
+          this.$store.dispatch('setCurrentCompetitionsAction', res.data);
+        });
+      } catch (error) {
+        console.log('activeCompetitionRequest', error);
+      }
+    }
+  },
+  watch: {
+    competitions(val) {
+      if (val) {
+        this.competitions = val;
+      }
+    }
   }
 };
 </script>

@@ -17,7 +17,6 @@ const mutations = {
 
 const actions = {
   setMemberAction({ commit }, payload) {
-    console.log('ACTION', payload);
     commit('SET_MEMBER_DATA', payload);
   }
 };

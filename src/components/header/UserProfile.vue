@@ -59,7 +59,7 @@ export default {
       .full-name {
         font-weight: 600;
         font-size: 14px;
-        line-height: 10px;
+        line-height: 16px;
         padding-right: 10px;
         max-width: 200px;
         white-space: nowrap;
