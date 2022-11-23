@@ -16,17 +16,7 @@
         </div>
       </div>
     </div>
-    <div class="section">
-      <div class="section-header">
-        <h2 class="section-title">Current Tournaments</h2>
-        <ActionsBlock />
-      </div>
-      <div class="tournament-cards">
-        <TournamentCard class="tournament-card" />
-        <TournamentCard />
-        <TournamentCard />
-      </div>
-    </div>
+    <CurrentTournamentsSection />
     <div class="section">
       <div class="section-header">
         <h2 class="section-title">Current Missions</h2>
@@ -38,7 +28,6 @@
         <MissionCard class="missions-card" />
       </div>
     </div>
-
   </CContainer>
 </template>
 
@@ -59,6 +48,7 @@ import winTournamentIcon from '../assets/icons/win-tournament.svg';
 import StartsInCard from '../components/StartsInCard';
 import MissionCard from '../components/MissionCard';
 import ActionsBlock from '../shared/components/actions-block/ActionsBlock';
+import CurrentTournamentsSection from '../components/tournaments/CurrentTournamentsSection';
 
 const tournamentCards = [
   {title: 'King Tournament', icon: kingTournamentIcon, percentComplete: 64, pricePerHour: 32, someCount: 132, bg: 'king-tournament'},
@@ -69,6 +59,7 @@ export default {
   name: 'Dashboard',
   tournamentCards,
   components: {
+    CurrentTournamentsSection,
     ActionsBlock,
     MissionCard,
     StartsInCard,

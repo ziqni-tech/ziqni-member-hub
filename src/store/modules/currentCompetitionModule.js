@@ -17,7 +17,6 @@ const mutations = {
 
 const actions = {
   setCurrentCompetitionsAction({ commit }, payload) {
-    console.log('ACTION', payload);
     commit('SET_CURRENT_COMPETITIONS', payload);
   }
 };

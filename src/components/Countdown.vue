@@ -134,9 +134,6 @@ export default {
       finish: false
     }
   },
-  created() {
-    console.log('props', this.isDetailCard);
-  },
   mounted() {
     const _self = this
     window.setInterval(() => {
@@ -187,6 +184,10 @@ export default {
   align-items: center;
   width: 100%;
   padding: 0 5px;
+
+  .indicator__block {
+    margin-left: 5px;
+  }
 }
 .space-between {
   justify-content: space-between;
@@ -211,7 +212,7 @@ export default {
 }
 
 .title-big {
-  width: 50%;
+  //width: 50%;
   font-family: 'Poppins';
   font-style: normal;
   font-weight: 400;
@@ -223,7 +224,7 @@ export default {
 }
 
 .title-medium {
-  width: 30%;
+  //width: 30%;
   font-family: 'Poppins';
   font-style: normal;
   font-weight: 500;
@@ -232,7 +233,7 @@ export default {
   color: #FFFFFF;
 }
 .title-small {
-  width: 30%;
+  //width: 30%;
   font-family: 'Poppins';
   font-style: normal;
   font-weight: 500;
@@ -242,7 +243,7 @@ export default {
   color: #FFFFFF;
 }
 .title-x-small {
-  width: 30%;
+  //width: 30%;
   font-family: 'Poppins';
   font-style: normal;
   font-weight: 600;

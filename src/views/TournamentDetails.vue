@@ -1,10 +1,10 @@
 <template>
-  <div class="page-container">
+  <div class="page-container" v-if="isReady">
     <div class="header">
-      <h1 class="title">Candy Stars 😝</h1>
+      <h1 class="title">{{ tournamentItem ? tournamentItem.name : '' }} 😝</h1>
       <img class="share-icon" :src="$options.shareIcon" />
     </div>
-    <TournamentDetailsCard />
+    <TournamentDetailsCard :tournament="tournamentItem" />
     <div class="header">
       <h2 class="title">Leaderboard</h2>
       <img class="share-icon" :src="$options.shareIcon" />
@@ -20,13 +20,12 @@ import { CImage } from '@coreui/vue';
 import ActionsBlock from '../shared/components/actions-block/ActionsBlock';
 import Leaderboard from '../components/tournament-leaders/Leaderboard';
 
-import banner from '../assets/images/banner.png';
 import shareIcon from '../assets/icons/share-icon.svg';
 import TopThree from '../components/tournament-leaders/TopThree';
 import TournamentDetailsCard from '../components/tournaments/TournamentDetailsCard';
+import { ApiClientStomp, CompetitionRequest, CompetitionsApiWs } from '@ziqni-tech/member-api-client';
 export default {
   name: 'TournamentDetails',
-  banner,
   shareIcon,
   components: {
     TournamentDetailsCard,
@@ -34,6 +33,37 @@ export default {
     Leaderboard,
     ActionsBlock,
     CImage
+  },
+  data() {
+    return {
+      tournamentItem: null,
+      isReady: false
+    }
+  },
+  created() {
+    this.initialize();
+  },
+  methods: {
+    async initialize() {
+      try {
+        const competitionsApiWsClient = new CompetitionsApiWs(ApiClientStomp.instance)
+        const competitionRequest = CompetitionRequest.constructFromObject(      {
+          competitionFilter: {
+            productIds: [],
+            tags: [],
+            startDate:null,
+            endDate: null,
+            ids: [this.$route.params.id],
+        }
+        }, null)
+        await competitionsApiWsClient.getCompetitions(competitionRequest, (res) => {
+          this.tournamentItem = res.data[0];
+          this.isReady = true;
+        })
+      } catch (error) {
+        console.log('get competition error', error);
+      }
+    }
   }
 };
 </script>

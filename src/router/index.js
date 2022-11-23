@@ -5,24 +5,24 @@ const routes = [
     {
         path: '/',
         name: 'Dashboard',
-        component: () => import('@/views/Dashboard.vue'),
+        component: () => import('@/views/Dashboard'),
     },
     {
         path: '/tournaments',
         name: 'Tournaments',
-        component: () => import('@/views/Tournaments.vue'),
+        component: () => import('@/views/Tournaments'),
         // children: [
         //     {
-        //         path: '/details',
+        //         path: '/tournaments/details/:id',
         //         name: 'TournamentDetails',
-        //         component: () => import('@/views/TournamentDetails.vue'),
+        //         component: () => import('@/views/TournamentDetails'),
         //     },
         // ]
     },
     {
-        path: '/tournaments/details',
+        path: '/tournaments/details/:id',
         name: 'TournamentDetails',
-        component: () => import('@/views/TournamentDetails.vue'),
+        component: () => import('@/views/TournamentDetails'),
     },
     {
         path: '/missions',

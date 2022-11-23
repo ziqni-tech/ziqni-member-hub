@@ -2,10 +2,13 @@
   <div class="tournament-details-card">
     <div class="card-banner">
       <img :src="$options.banner" alt="">
+      <div class="status">
+        <Status :status="cardItem.status" />
+      </div>
     </div>
     <div class="tournament-data">
       <div class="main-data">
-        <span class="main-data__title">Candy Stars 😝</span>
+        <span class="main-data__title">{{ cardItem?.name }} 😝</span>
         <span class="main-data__rate">RTP: 84% 💎 Rate: 4.9 ✨</span>
       </div>
       <div class="prize">
@@ -18,7 +21,7 @@
         </div>
       </div>
       <Countdown
-          :date="end"
+          :date="cardItem?.scheduledEndDate"
           :title="'Ends in'"
           :is-row="true"
           :is-detail-card="true"
@@ -46,10 +49,17 @@ export default {
     Status,
     Countdown,
   },
+  props: {
+    tournament: Object
+  },
   data () {
     return {
-      end: new Date('2023-01-01T00:00:00')
+      end: new Date('2023-01-01T00:00:00'),
+      cardItem: null
     };
+  },
+  created() {
+    this.cardItem = this.tournament;
   },
   methods: {
     finish() {
@@ -70,7 +80,13 @@ export default {
   overflow: hidden;
 
   .card-banner {
+    position: relative;
 
+    .status {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
   }
 
   .tournament-data {

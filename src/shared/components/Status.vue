@@ -1,7 +1,7 @@
 <template>
-  <div class="status" :class="status.toLowerCase()">
-    <div class="status__icon" :class="status.toLowerCase()">{{ setStatusIcon() }}</div>
-    <div class="status__title" :class="status.toLowerCase()">{{ capitalizeStatus() }}</div>
+  <div class="status" :class="itemStatus()">
+    <div class="status__icon" :class="itemStatus()">{{ setStatusIcon() }}</div>
+    <div class="status__title" :class="itemStatus()">{{ capitalizeStatus() }}</div>
   </div>
 </template>
 
@@ -22,7 +22,19 @@ export default {
         case 'upcoming':
           return 'U';
         case 'closed':
+        case 'finalised':
           return 'C'
+      }
+    },
+    itemStatus() {
+      switch (this.status.toLowerCase()) {
+        case 'active':
+          return 'active';
+        case 'upcoming':
+          return 'upcoming';
+        case 'closed':
+        case 'finalised':
+          return 'closed'
       }
     },
     capitalizeStatus() {

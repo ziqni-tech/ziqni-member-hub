@@ -1,14 +1,14 @@
 <template>
   <div class="tournament-card">
     <div class="status">
-      <Status :status="'active'" />
+      <Status :status="cardItem.status" />
     </div>
     <div class="left">
       <div class="logo-casino">
         <img :src="$options.candyImg" alt="">
       </div>
       <Countdown
-        :date="end"
+        :date="cardItem.scheduledEndDate"
         :title="'Ends in'"
         :is-row="true"
         :is-medium-size="true"
@@ -17,7 +17,7 @@
     </div>
     <div class="tournament-data">
       <div class="main-data">
-        <span class="main-data__title">Candy Stars 😝</span>
+        <span class="main-data__title">{{ cardItem.name }} 😝</span>
         <span class="main-data__rate">RTP: 84% 💎 Rate: 4.9 ✨</span>
       </div>
       <div class="prize">
@@ -29,10 +29,14 @@
           <img :src="$options.cupImg" alt="">
         </div>
       </div>
-      <CButton class="btn">
-        <span class="btn__text">See More</span>
-        <img :src="$options.btnIcon" alt="">
-      </CButton>
+      <router-link :to="{name: 'TournamentDetails', params: {
+          id: cardItem.id,
+        }}">
+        <CButton class="btn">
+          <span class="btn__text">See More</span>
+          <img :src="$options.btnIcon" alt="">
+        </CButton>
+      </router-link>
     </div>
   </div>
 </template>
@@ -55,10 +59,17 @@ export default {
     Countdown,
     CButton
   },
+  props: {
+    card: Object
+  },
   data () {
     return {
-      end: new Date('2023-01-01T00:00:00')
+      end: new Date('2023-01-01T00:00:00'),
+      cardItem: null
     };
+  },
+  created() {
+    this.cardItem = this.card;
   },
   methods: {
     finish() {
@@ -105,6 +116,10 @@ export default {
     display: flex;
     flex-direction: column;
     padding-left: 25px;
+
+    & > a {
+      text-decoration: none;
+    }
 
     .main-data {
       display: flex;
