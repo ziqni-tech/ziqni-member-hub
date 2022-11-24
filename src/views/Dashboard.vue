@@ -42,22 +42,13 @@ import MonthlyTournament from '../components/MonthlyTournament';
 import InstantRewardsChancesCard from '../components/InstantRewardsChancesCard'
 import SponsoredByCard from '../components/SponsoredByCard';
 
-import kingTournamentIcon from '../assets/icons/king-tournament.svg';
-import starTournamentIcon from '../assets/icons/star-tournament.svg';
-import winTournamentIcon from '../assets/icons/win-tournament.svg';
 import StartsInCard from '../components/StartsInCard';
 import MissionCard from '../components/MissionCard';
 import ActionsBlock from '../shared/components/actions-block/ActionsBlock';
 import CurrentTournamentsSection from '../components/tournaments/CurrentTournamentsSection';
 
-const tournamentCards = [
-  {title: 'King Tournament', icon: kingTournamentIcon, percentComplete: 64, pricePerHour: 32, someCount: 132, bg: 'king-tournament'},
-  {title: 'Star Tournament', icon: starTournamentIcon, percentComplete: 54, pricePerHour: 28, someCount: 130, bg: 'star-tournament'},
-  {title: 'Win Tournament', icon: winTournamentIcon, percentComplete: 74, pricePerHour: 28, someCount: 130, bg: 'win-tournament'},
-]
 export default {
   name: 'Dashboard',
-  tournamentCards,
   components: {
     CurrentTournamentsSection,
     ActionsBlock,
@@ -77,7 +68,7 @@ export default {
 
 <style lang="scss">
 .container {
-  padding: 30px 45px;
+  padding: 19px 45px;
   margin: 0;
 
   .section {

@@ -3,7 +3,7 @@
     <Sidebar/>
     <div class="right-part">
       <Navbar :member="member" />
-      <div class="content">
+      <div class="page-content">
         <slot/>
       </div>
     </div>
@@ -17,7 +17,7 @@
 import { CSpinner } from '@coreui/vue';
 import Navbar from '../components/header/TheHeader';
 import Sidebar from '../components/sidebar/TheSidebar';
-import { ApiClientStomp, LeaderboardApiWs, MemberRequest, MembersApiWs } from '@ziqni-tech/member-api-client';
+import { ApiClientStomp, MemberRequest, MembersApiWs } from '@ziqni-tech/member-api-client';
 
 export default {
   name: 'AppLayout',
@@ -102,10 +102,22 @@ export default {
     flex-direction: column;
     width: 100%;
 
-    .content {
+    .page-content {
       width: 100%;
       height: 100%;
       background: $bg-primary-light-purplish-blue;
+      overflow-y: scroll;
+
+      &::-webkit-scrollbar {
+        height: 7px;
+        width: 7px;
+        background-color: #f0f0f0;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        border-radius: 3px;
+        background-color: #8a8a8a;
+      }
     }
   }
 }

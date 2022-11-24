@@ -33,9 +33,11 @@
     "@coreui/vue": "^4.5.0",
     "@coreui/vue-chartjs": "^2.0.1",
     "@ziqni-tech/member-api-client": "^1.0.2",
+    "apexcharts": "^3.36.3",
     "core-js": "^3.25.5",
     "vue": "^3.2.41",
     "vue-router": "^4.1.5",
+    "vue3-apexcharts": "^1.4.1",
     "vuex": "^4.1.0"
   },
   "devDependencies": {
