@@ -17,17 +17,7 @@
       </div>
     </div>
     <CurrentTournamentsSection />
-    <div class="section">
-      <div class="section-header">
-        <h2 class="section-title">Current Missions</h2>
-        <ActionsBlock />
-      </div>
-      <div class="missions-cards">
-        <MissionCard class="missions-card" />
-        <MissionCard class="missions-card" />
-        <MissionCard class="missions-card" />
-      </div>
-    </div>
+    <CurrentMissionsSection />
   </CContainer>
 </template>
 
@@ -43,16 +33,16 @@ import InstantRewardsChancesCard from '../components/InstantRewardsChancesCard'
 import SponsoredByCard from '../components/SponsoredByCard';
 
 import StartsInCard from '../components/StartsInCard';
-import MissionCard from '../components/MissionCard';
 import ActionsBlock from '../shared/components/actions-block/ActionsBlock';
 import CurrentTournamentsSection from '../components/tournaments/CurrentTournamentsSection';
+import CurrentMissionsSection from '../components/missions/CurrentMissionsSection';
 
 export default {
   name: 'Dashboard',
   components: {
+    CurrentMissionsSection,
     CurrentTournamentsSection,
     ActionsBlock,
-    MissionCard,
     StartsInCard,
     SponsoredByCard,
     MonthlyTournament,

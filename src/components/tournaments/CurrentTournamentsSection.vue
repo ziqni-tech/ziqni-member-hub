@@ -44,8 +44,8 @@ export default {
         const activeCompetitionRequest = CompetitionRequest.constructFromObject({
           competitionFilter: {
             statusCode: {
-              moreThan: 5,
-              lessThan: 150
+              moreThan: 10,
+              lessThan: 30
             },
             sortBy: [{
               queryField: 'created',

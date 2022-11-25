@@ -320,7 +320,7 @@ export default {
   }
   &__digit-big-size {
     font-weight: 500;
-    font-size: 20px;
+    font-size: 21px;
     line-height: 22px;
     margin-bottom: 5px;
     color: rgba(255, 255, 255, 0.6);

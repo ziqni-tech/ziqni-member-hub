@@ -23,7 +23,7 @@ import Leaderboard from '../components/tournament-leaders/Leaderboard';
 import shareIcon from '../assets/icons/share-icon.svg';
 import TopThree from '../components/tournament-leaders/TopThree';
 import TournamentDetailsCard from '../components/tournaments/TournamentDetailsCard';
-import { ApiClientStomp, CompetitionRequest, CompetitionsApiWs } from '@ziqni-tech/member-api-client';
+import { ApiClientStomp, CompetitionRequest, CompetitionsApiWs, LeaderboardApiWs } from '@ziqni-tech/member-api-client';
 export default {
   name: 'TournamentDetails',
   shareIcon,
@@ -60,6 +60,20 @@ export default {
           this.tournamentItem = res.data[0];
           this.isReady = true;
         })
+
+        const apiLeaderboardWsClient = new LeaderboardApiWs(ApiClientStomp.instance);
+        const leaderboardSubscriptionRequest = {
+          action: 'Subscribe',
+          entityId: 'n38yUoQBSPM0WYwFnk1B',
+          leaderboardFilter: {
+            // ranksAboveToInclude: 1,
+            // ranksBelowToInclude: 20,
+            // topRanksToInclude: 20
+          }
+        };
+        await apiLeaderboardWsClient.subscribeToLeaderboard(leaderboardSubscriptionRequest, (data) => {
+          console.log('LEADERBOARD', data);
+        });
       } catch (error) {
         console.log('get competition error', error);
       }

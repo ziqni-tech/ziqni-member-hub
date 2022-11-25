@@ -25,10 +25,10 @@
 
 <script>
 import { CProgress, CProgressBar } from '@coreui/vue';
-import Countdown from './Countdown';
-import cardImage from '../assets/images/world_cup.png'
-import peopleIcon from '../assets/icons/People.png';
-import trophyIcon from '../assets/icons/Trophy.png';
+import Countdown from '../Countdown';
+import cardImage from '../../assets/images/world_cup.png'
+import peopleIcon from '../../assets/icons/People.png';
+import trophyIcon from '../../assets/icons/Trophy.png';
 export default {
   name: 'MissionCard',
   cardImage,
