@@ -3,8 +3,8 @@
       v-for="(item, index) in navItems"
       :key="index"
   >
-    <router-link :to="item.to" class="item-link">
-      <div class="icon-wrapper">
+    <router-link :to="item.to" class="item-link" :style="{'--itemBg': `url(${bgImg})`}">
+      <div class="icon-wrapper" :style="{'--itemEllipse': `url(${itemEllipse})`}">
         <img class="icon" :src="item.icon" :alt="item.name" >
       </div>
       <span class="link-text">{{ item.name }}</span>
@@ -14,6 +14,8 @@
 
 <script>
 import { CNavItem } from '@coreui/vue';
+import bgImg from '../../assets/images/sellection_item.png';
+import itemEllipse from '../../assets/images/item-Ellipse.png';
 export default {
   name: 'SidebarItems',
   components: {
@@ -21,6 +23,12 @@ export default {
   },
   props: {
     navItems: Array
+  },
+  data() {
+    return {
+      bgImg,
+      itemEllipse
+    }
   }
 };
 </script>
@@ -45,28 +53,19 @@ export default {
   > .router-link-active {
     padding: 49px 0;
     position: relative;
-    //background: $sidebar-active-link-color;
-    &:before {
-      content: '';
-      position: absolute;
-      top: 64%;
-      left: -10px;
-      width: 170px;
-      height: 90px;
-      border-radius: 50%;
-      //background: white;
-      //background: $sidebar-active-link-color;
-    }
+
     &:after {
       content: '';
       position: absolute;
-      top: -38%;
-      left: -10px;
-      width: 170px;
-      height: 90px;
-      border-radius: 50%;
-      //background: white;
-      //background: $sidebar-active-link-color;
+      width: 116px;
+      height: 169px;
+      background-image: var(--itemBg);
+      background-size: contain;
+      background-repeat: no-repeat;
+      top: -15px;
+      left: 0;
+      transition: all 1s;
+      z-index: 1;
     }
   }
 
@@ -76,29 +75,29 @@ export default {
     &:before {
       content: '';
       position: absolute;
-      top: 30%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 84px;
-      height: 84px;
-      border-radius: 50%;
-      //background: $sidebar-active-link-color;
-      background: linear-gradient(90deg, rgba(111,100,208,1) 0%, rgba(171,167,217,1) 86%, rgba(171,167,217,1) 86%);
+      width: 107px;
+      height: 107px;
+      background-image: var(--itemEllipse);
+      background-size: contain;
+      background-repeat: no-repeat;
+      top: -26px;
+      left: -32px;
       transition: all 1s;
+      z-index: 3;
     }
 
     &:after {
       content: '';
       position: absolute;
-      top: 30%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 58px;
-      height: 58px;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
-      //background: linear-gradient(144.96deg, rgba(255, 255, 255, 0) 24.08%, #EFF1F5 79.39%);
-      background: linear-gradient(146.22deg, #DBE0E7 9.7%, #F8FBFF 86.02%);
+      top: 40%;
+      left: 60%;
+      transform: translate(-50%, -50%);
       transition: all 1s;
+      z-index: 4;
+      background: linear-gradient(146.22deg, #DBE0E7 9.7%, #F8FBFF 86.02%);
     }
   }
 
@@ -116,12 +115,12 @@ export default {
 
       .icon {
         position: absolute;
-        top: 30%;
-        left: 50%;
+        top: 43%;
+        left: 55%;
         transform: translate(-50%, -50%);
         width: 100%;
         height: 100%;
-        z-index: 1;
+        z-index: 5;
       }
     }
 
@@ -132,7 +131,8 @@ export default {
       font-size: 16px;
       line-height: 24px;
       text-transform: capitalize;
-      padding-bottom: 47px;
+      padding-top: 10px;
+      padding-bottom: 35px;
       padding-left: 16px;
     }
   }
