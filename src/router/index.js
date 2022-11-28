@@ -1,5 +1,4 @@
-import { createWebHistory, createRouter } from "vue-router";
-
+import { createWebHistory, createRouter } from 'vue-router';
 
 const routes = [
     {
@@ -10,20 +9,19 @@ const routes = [
     {
         path: '/tournaments',
         name: 'Tournaments',
-        component: () => import('@/views/Tournaments'),
-        // children: [
-        //     {
-        //         path: '/tournaments/details/:id',
-        //         name: 'TournamentDetails',
-        //         component: () => import('@/views/TournamentDetails'),
-        //     },
-        // ]
-    },
-    {
-        path: '/tournaments/details/:id',
-        name: 'TournamentDetails',
-        component: () => import('@/views/TournamentDetails'),
-        // component: () => import('@/views/MissionDetails'),
+        component: () => import('@/views/tournaments/TournamentsView'),
+        children: [
+            {
+                path: '',
+                name: 'Tournaments',
+                component: () => import('@/views/tournaments/Tournaments'),
+            },
+            {
+                path: ':id',
+                name: 'TournamentDetails',
+                component: () => import('@/views/tournaments/TournamentDetails'),
+            },
+        ]
     },
     {
         path: '/missions',

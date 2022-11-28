@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import CurrentTournamentsSection from '../components/tournaments/CurrentTournamentsSection';
-import FeatureTournamentsSection from '../components/tournaments/FeatureTournamentsSection';
+import CurrentTournamentsSection from '../../components/tournaments/CurrentTournamentsSection';
+import FeatureTournamentsSection from '../../components/tournaments/FeatureTournamentsSection';
 
 export default {
   name: 'Tournaments',

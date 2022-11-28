@@ -17,12 +17,12 @@
 
 <script>
 import { CImage } from '@coreui/vue';
-import ActionsBlock from '../shared/components/actions-block/ActionsBlock';
-import Leaderboard from '../components/tournament-leaders/Leaderboard';
+import ActionsBlock from '../../shared/components/actions-block/ActionsBlock';
+import Leaderboard from '../../components/tournament-leaders/Leaderboard';
 
-import shareIcon from '../assets/icons/share-icon.svg';
-import TopThree from '../components/tournament-leaders/TopThree';
-import TournamentDetailsCard from '../components/tournaments/TournamentDetailsCard';
+import shareIcon from '../../assets/icons/share-icon.svg';
+import TopThree from '../../components/tournament-leaders/TopThree';
+import TournamentDetailsCard from '../../components/tournaments/TournamentDetailsCard';
 import { ApiClientStomp, CompetitionRequest, CompetitionsApiWs, LeaderboardApiWs } from '@ziqni-tech/member-api-client';
 export default {
   name: 'TournamentDetails',
