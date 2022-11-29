@@ -84,7 +84,6 @@ export default {
 
 <style lang="scss">
 .page-container {
-  padding: 21px 42px;
 
   .tournament_card {
     max-width: 1030px;

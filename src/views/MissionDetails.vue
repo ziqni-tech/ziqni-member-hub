@@ -21,7 +21,6 @@ export default {
 
 <style lang="scss">
 .page-container {
-  padding: 21px 42px;
 
   .header {
     display: flex;

@@ -1,5 +1,5 @@
 <template>
-  <CContainer>
+  <div class="page-container">
     <div class="section">
       <div class="section_header">
         <h2 class="section-title">Feature Promotions</h2>
@@ -18,7 +18,7 @@
     </div>
     <CurrentTournamentsSection />
     <CurrentMissionsSection />
-  </CContainer>
+  </div>
 </template>
 
 <script>
@@ -57,10 +57,7 @@ export default {
 </script>
 
 <style lang="scss">
-.container {
-  padding: 19px 45px;
-  margin: 0;
-
+.page-container {
   .section {
     width: 100%;
     display: flex;

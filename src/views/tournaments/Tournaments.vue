@@ -19,7 +19,5 @@ export default {
 </script>
 
 <style lang="scss">
-.page-container {
-  padding: 21px 42px;
-}
+
 </style>

@@ -6,6 +6,7 @@ import CoreuiVue from '@coreui/vue';
 
 import index from './router';
 import AppLayout from './layouts/AppLayout';
+import './assets/scss/main.scss';
 
 
 createApp({

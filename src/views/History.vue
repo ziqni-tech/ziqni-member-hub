@@ -1,5 +1,7 @@
 <template>
-  <h1>History</h1>
+  <div class="page-container">
+    <h1 class="section-title">History</h1>
+  </div>
 </template>
 
 <script>
