@@ -14,8 +14,8 @@
 
 <script>
 import { CNavItem } from '@coreui/vue';
-import bgImg from '../../assets/images/sellection_item.png';
-import itemEllipse from '../../assets/images/item-Ellipse.png';
+import bgImg from '../../assets/icons/sellection_item.png';
+import itemEllipse from '../../assets/icons/icon-Siri.png';
 export default {
   name: 'SidebarItems',
   components: {
@@ -84,20 +84,6 @@ export default {
       left: -32px;
       transition: all 1s;
       z-index: 3;
-    }
-
-    &:after {
-      content: '';
-      position: absolute;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      top: 40%;
-      left: 60%;
-      transform: translate(-50%, -50%);
-      transition: all 1s;
-      z-index: 4;
-      background: linear-gradient(146.22deg, #DBE0E7 9.7%, #F8FBFF 86.02%);
     }
   }
 
