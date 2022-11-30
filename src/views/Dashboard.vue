@@ -55,64 +55,38 @@ export default {
 </script>
 
 <style lang="scss">
-//.page-container {
-  .section {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+.tournament-cards, .missions-cards {
+  width: 100%;
+  display: flex;
+  align-items: center;
 
-    .section-header {
-      width: inherit;
+  .tournament-card {
+    margin-right: 30px;
+  }
+
+  .missions-card {
+    margin-right: 30px;
+  }
+}
+
+.info-container {
+  display: flex;
+
+  .charts-container {
+    padding: 0 20px;
+
+    .starts-in-cards {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      padding: 50px 45px 30px 0;
+      padding-bottom: 18px;
     }
   }
+}
 
-  .tournament-cards, .missions-cards {
-    width: 100%;
-    display: flex;
-    align-items: center;
-
-    .tournament-card {
-      margin-right: 30px;
-    }
-
-    .missions-card {
-      margin-right: 30px;
-    }
-  }
-
-  .section-title {
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 22px;
-    line-height: 33px;
-    color: #737478;
-  }
-
-  .info-container {
-    display: flex;
-
-    .charts-container {
-      padding: 0 20px;
-
-      .starts-in-cards {
-        display: flex;
-        justify-content: space-between;
-        padding-bottom: 18px;
-      }
-    }
-  }
-
-  .cards-container {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding-top: 55px;
-  }
-//}
+.cards-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 55px;
+}
 </style>

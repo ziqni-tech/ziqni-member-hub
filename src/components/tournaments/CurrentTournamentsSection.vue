@@ -76,42 +76,27 @@ export default {
 </script>
 
 <style lang="scss">
-.section {
+.tournament-cards, .missions-cards {
   width: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  overflow: hidden;
+  overflow-x: scroll;
 
-  .section-header {
-    width: inherit;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 50px 45px 30px 0;
+  .tournament-card {
+    margin-right: 30px;
   }
 
-  .tournament-cards, .missions-cards {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    overflow: hidden;
-    overflow-x: scroll;
+  &::-webkit-scrollbar {
+    height: 7px;
+    width: 7px;
+    background-color: #f0f0f0;
+  }
 
-    .tournament-card {
-      margin-right: 30px;
-    }
-
-    &::-webkit-scrollbar {
-      height: 7px;
-      width: 7px;
-      background-color: #f0f0f0;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      border-radius: 3px;
-      background-color: #8a8a8a;
-    }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: #8a8a8a;
   }
 }
 </style>
