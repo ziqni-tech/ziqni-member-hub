@@ -1,0 +1,75 @@
+// Font
+$mainFont                : 'Poppins', sans-serif;
+
+// Size
+$mainFontColor           : #101010;
+$mainFontSize            : 18px;
+$mainFontWeight          : 500;
+$mainLineHeight          : 1.4;
+
+$lgDesktopWidth          : 1400px;
+$desktopWidth            : 1280px;
+$smDesktopWidth          : 1024px;
+$tableWidth              : 768px;
+$smTableWidth            : 640px;
+$phoneWidth              : 480px;
+$smPhoneWidth            : 320px;
+
+// helpers
+$g-0    : #ffffff;
+$g-999  : #000000;
+
+// Background
+$primary-bg              : #FAFAFE;
+$secondary-bg            : #FFFFFF;
+
+// Status Colors
+$sts-green               : #188A2A;
+$sts-green-light         : #1ECE30;
+$sts-green-lighter       : #8FFF9B;
+$sts-red                 : #CE624B;
+$sts-red-light           : #F89A81;
+$sts-red-lighter         : #FFE7E0;
+$sts-grey                : #727272;
+$sts-grey-light          : #C4C4C4;
+$sts-grey-lighter        : #E8E8E8;
+
+// Text colors
+$txt-title               : #737478;
+$txt-dark-grey           : #5F6165;
+$txt-white-transparent   : rgba(255, 255, 255, 0.8);
+$txt-light               : #EFEFEF;
+$txt-primary             : #6F64D0;
+$txt-secondary           : #ABA7D9;
+
+// Buttons
+$btn-bg-orange           : #F6876A;
+$btn-bg-violet           : #5D53C2;
+
+// Cards
+$card-bg-gradient        : linear-gradient(180deg, #574FA3 0%, #5D53C2 100%);
+$card-bg-primary         : #5951AA;
+
+
+// Main color
+$default-color           : #ffffff;
+$primary-color           : #5D53C2;
+$success-color           : #26de81;
+$danger-color            : #F6876A;
+$warning-color           : #fed330;
+$light-color             : #999999;
+$purple-color            : #8854d0;
+$purple-color-100        : #aa8ad6;
+
+// Neutral Color
+$neutral-primary         : #5F6165;
+$neutral-regular         : #737478;
+$neutral-secondary       : #909399;
+$neutral-placeholder     : #C0C4CC;
+
+// Border Color
+$border-base             : #DCDFE6;
+$border-light            : #E4E7ED;
+$border-lighter          : #EBEEF5;
+$border-lightex          : #F2F6FC;
+$border-orange           : #F6876A;
