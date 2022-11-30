@@ -1,9 +1,9 @@
 .section-title {
-  font-family: 'Poppins';
+  font-family: $mainFont;
   font-style: normal;
   font-weight: 700;
   font-size: 22px;
   line-height: 33px;
-  color: #737478;
+  color: $txt-title;
   text-align: start;
 }
