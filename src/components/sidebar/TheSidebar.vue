@@ -28,31 +28,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../../assets/scss/variables';
 
-.sidebar {
-  height: 100%;
-  min-width: 280px;
-
-  .brand {
-    padding: 39px 0 22px 57px;
-    background: $bg-primary-white;
-
-    .logo-wrapper {
-      width: 124px;
-      height: 31px;
-      object-fit: cover;
-      overflow: hidden;
-      .logo {
-        width: 100%;
-        height: 100%;
-      }
-    }
-  }
-
-  .sidebar-nav {
-    background: $bg-primary-white;
-    padding-top: 60px;
-  }
-}
 </style>
