@@ -77,21 +77,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import 'src/assets/scss/variables';
-.spinner-wrapper {
-  width: 100vw;
-  height: 100vh;
-  position: relative;
-
-  .spinner {
-    position: absolute;
-    top: 35%;
-    left: 50%;
-    width: 80px;
-    height: 80px;
-  }
-}
-
 .app-layout {
   display: flex;
   width: 100%;
@@ -101,24 +86,6 @@ export default {
     display: flex;
     flex-direction: column;
     width: 100%;
-
-    .page-content {
-      width: 100%;
-      height: 100%;
-      background: $bg-primary-light-purplish-blue;
-      overflow-y: scroll;
-
-      &::-webkit-scrollbar {
-        height: 7px;
-        width: 7px;
-        background-color: #f0f0f0;
-      }
-
-      &::-webkit-scrollbar-thumb {
-        border-radius: 3px;
-        background-color: #8a8a8a;
-      }
-    }
   }
 }
 </style>

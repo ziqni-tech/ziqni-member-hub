@@ -1,8 +1,6 @@
 <template>
-  <div class="page-container">
-    <h1 class="section-title">Instant Rewards</h1>
-    <InstantRewardsCard />
-  </div>
+  <h1 class="section-title">Instant Rewards</h1>
+  <InstantRewardsCard />
 </template>
 
 <script>

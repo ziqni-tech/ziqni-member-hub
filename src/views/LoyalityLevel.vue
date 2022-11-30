@@ -1,12 +1,9 @@
 <template>
-  <div class="page-container">
-    <h1 class="page-title">Loyality Level</h1>
-    <LoyalityCard />
-    <div class="loyality-charts">
-      <LoyalityLevelChartsCard />
-    </div>
+  <h1 class="page-title">Loyality Level</h1>
+  <LoyalityCard />
+  <div class="loyality-charts">
+    <LoyalityLevelChartsCard />
   </div>
-
 </template>
 
 <script>

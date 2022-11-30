@@ -1,8 +1,6 @@
 <template>
-  <div class="page-container">
-    <FeaturedMissionsSection />
-    <CurrentMissionsSection />
-  </div>
+  <FeaturedMissionsSection />
+  <CurrentMissionsSection />
 </template>
 
 <script>

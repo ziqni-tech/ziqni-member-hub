@@ -1,7 +1,5 @@
 <template>
-  <div class="page-container">
-    <h1 class="section-title">Loyality Store</h1>
-  </div>
+  <h1 class="section-title">Loyality Store</h1>
 </template>
 
 <script>

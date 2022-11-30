@@ -1,24 +1,22 @@
 <template>
-  <div class="page-container">
-    <div class="section">
-      <div class="section_header">
-        <h2 class="section-title">Feature Promotions</h2>
-      </div>
-      <div class="info-container">
-        <MonthlyTournament />
-        <div class="charts-container">
-          <div class="starts-in-cards">
-            <SponsoredByCard />
-            <StartsInCard />
-            <StartsInCard />
-          </div>
-          <InstantRewardsChancesCard />
+  <div class="section">
+    <div class="section_header">
+      <h2 class="section-title">Feature Promotions</h2>
+    </div>
+    <div class="info-container">
+      <MonthlyTournament />
+      <div class="charts-container">
+        <div class="starts-in-cards">
+          <SponsoredByCard />
+          <StartsInCard />
+          <StartsInCard />
         </div>
+        <InstantRewardsChancesCard />
       </div>
     </div>
-    <CurrentTournamentsSection />
-    <CurrentMissionsSection />
   </div>
+  <CurrentTournamentsSection />
+  <CurrentMissionsSection />
 </template>
 
 <script>
@@ -57,7 +55,7 @@ export default {
 </script>
 
 <style lang="scss">
-.page-container {
+//.page-container {
   .section {
     width: 100%;
     display: flex;
@@ -116,5 +114,5 @@ export default {
     justify-content: space-between;
     padding-top: 55px;
   }
-}
+//}
 </style>
