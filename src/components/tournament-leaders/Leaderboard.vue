@@ -57,6 +57,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../../assets/scss/utils/vars';
 .leader-board {
   width: 1035px;
   display: flex;
@@ -70,12 +71,12 @@ export default {
     align-items: center;
     padding: 19px 14px 17px;
 
-    font-family: 'Poppins';
+    font-family: $mainFont;
     font-style: normal;
     font-weight: 600;
     font-size: 18px;
     line-height: 27px;
-    color: #848589;
+    color: $sts-grey-medium;
   }
 }
 </style>

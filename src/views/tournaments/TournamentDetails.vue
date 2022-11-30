@@ -1,13 +1,13 @@
 <template>
   <div class="page-container" v-if="isReady">
     <div class="header">
-      <h1 class="title">{{ tournamentItem ? tournamentItem.name : '' }} 😝</h1>
-      <img class="share-icon" :src="$options.shareIcon" />
+      <h1 class="section-title">{{ tournamentItem ? tournamentItem.name : '' }} 😝</h1>
+      <img class="share-icon" src="../../assets/icons/share-icon.svg"  alt=""/>
     </div>
     <TournamentDetailsCard :tournament="tournamentItem" />
     <div class="header">
-      <h2 class="title">Leaderboard</h2>
-      <img class="share-icon" :src="$options.shareIcon" />
+      <h2 class="section-title">Leaderboard</h2>
+      <img class="share-icon" src="../../assets/icons/share-icon.svg"  alt=""/>
     </div>
     <div class="tables">
       <Leaderboard />
@@ -16,23 +16,19 @@
 </template>
 
 <script>
-import { CImage } from '@coreui/vue';
 import ActionsBlock from '../../shared/components/actions-block/ActionsBlock';
 import Leaderboard from '../../components/tournament-leaders/Leaderboard';
 
-import shareIcon from '../../assets/icons/share-icon.svg';
 import TopThree from '../../components/tournament-leaders/TopThree';
 import TournamentDetailsCard from '../../components/tournaments/TournamentDetailsCard';
 import { ApiClientStomp, CompetitionRequest, CompetitionsApiWs, LeaderboardApiWs } from '@ziqni-tech/member-api-client';
 export default {
   name: 'TournamentDetails',
-  shareIcon,
   components: {
     TournamentDetailsCard,
     TopThree,
     Leaderboard,
     ActionsBlock,
-    CImage
   },
   data() {
     return {
@@ -84,7 +80,6 @@ export default {
 
 <style lang="scss">
 .page-container {
-
   .tournament_card {
     max-width: 1030px;
     height: 310px;
@@ -97,18 +92,8 @@ export default {
   .header {
     display: flex;
     justify-content: start;
-    padding-top: 46px;
     background: none;
     border: none;
-
-    .title {
-      font-family: 'Montserrat';
-      font-style: normal;
-      font-weight: 700;
-      font-size: 22px;
-      line-height: 27px;
-      color: #737478;
-    }
 
     .share-icon {
       height: 30px;

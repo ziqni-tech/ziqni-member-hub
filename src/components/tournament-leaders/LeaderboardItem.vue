@@ -2,9 +2,9 @@
   <div class="leader-board__item" :class="setItemBgColor()">
     <div class="item_player">
       <Avatar :place="itemPLace" />
-      <span class="item_player__name">sebastianpozzo</span>
+      <span class="item_player__name" :style="{'--color': itemPLace < 4 ? '#43360E' : '#ffffff' }">sebastianpozzo</span>
     </div>
-    <span class="tournaments-played">10</span>
+    <span class="tournaments-played" :style="{'--color': itemPLace < 4 ? '#43360E' : '#ffffff' }">10</span>
     <div class="earnings-wrapper">
       <div class="earnings" :class="setEarningsBgColor()">$66127</div>
     </div>
@@ -54,24 +54,25 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../../assets/scss/utils/vars';
 .gold {
   width: 100%;
-  background: linear-gradient(180deg, rgba(220, 195, 21, 0.9) 0%, rgba(255, 223, 0, 0.9) 100%);
+  background: $gold-gradient ;
 }
 .grey {
   width: 100%;
-  background: linear-gradient(180deg, #DDDDDD 0%, #C3BABA 100%);
+  background: $silver-gradient ;
 }
 .bronze {
   width: 100%;
-  background: linear-gradient(180deg, #F5C1A1 0%, rgba(245, 193, 161, 0.723958) 27.6%, #ECAB84 100%);
+  background: $bronze-gradient;
 }
 .default {
   width: 97%;
-  background: #5D53C2;
+  background: $primary-color;
 }
 .orange {
-  background: #F6876A;
+  background: $danger-color ;
 }
 .leader-board__item {
   display: flex;
@@ -89,23 +90,23 @@ export default {
 
     &__name {
       padding-left: 40px;
-      font-family: 'Poppins';
+      font-family: $mainFont;
       font-style: normal;
       font-weight: 600;
       font-size: 18px;
       line-height: 27px;
-      color: #43360E;
+      color: var(--color);
     }
   }
 
   .tournaments-played {
     width: 33%;
-    font-family: 'Poppins';
+    font-family: $mainFont;
     font-style: normal;
     font-weight: 600;
     font-size: 18px;
     line-height: 27px;
-    color: #43360E;
+    color: var(--color);
   }
 
   .earnings-wrapper {
@@ -121,13 +122,13 @@ export default {
       height: 37px;
       border-radius: 8px;
 
-      font-family: 'Poppins';
+      font-family: $mainFont;
       font-style: normal;
       font-weight: 600;
       font-size: 21px;
       line-height: 32px;
       text-align: center;
-      color: #FFFFFF;
+      color: $g-0;
     }
   }
 }

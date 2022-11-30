@@ -7,6 +7,11 @@
   background: $btn-bg-orange;
   border-radius: 5px;
 
+  &:hover {
+    background: $btn-bg-hover-orange;
+    border-color: $btn-bg-hover-orange;
+  }
+
   &__text {
     font-family: $mainFont;
     font-style: normal;
@@ -35,6 +40,11 @@
   line-height: 18px;
   text-align: center;
   color: $g-0;
+
+  &:hover {
+    background: $btn-bg-hover-orange;
+    border-color: $btn-bg-hover-orange;
+  }
 }
 
 .s-btn {
@@ -47,6 +57,11 @@
   font-size: 11px;
   line-height: 12px;
   color: $g-0;
+
+  &:hover {
+    background: $btn-bg-hover-orange;
+    border-color: $btn-bg-hover-orange;
+  }
 }
 
 .r-btn {
@@ -58,6 +73,11 @@
   justify-content: center;
   background: $btn-bg-violet;
   margin-right: 16px;
+
+  &:hover {
+    border-color: $btn-bg-hover-violet;
+    background: $btn-bg-hover-violet;
+  }
 }
 
 .dd-btn {
