@@ -8,7 +8,7 @@
        <span class="up-to">Up to </span>
        <span class="up-to">€ 1300 + 250 Free Spins</span>
      </div>
-     <CButton class="btn">Sign up</CButton>
+     <CButton class="s-btn">Sign up</CButton>
    </CCardBody>
  </CCard>
 </template>
@@ -86,18 +86,6 @@ export default {
         text-transform: uppercase;
         color: #FFFFFF;
       }
-    }
-
-    .btn {
-      padding: 3px 22px;
-      background: #F6876A;
-      border-radius: 3px;
-      font-family: 'Poppins';
-      font-style: normal;
-      font-weight: 700;
-      font-size: 11px;
-      line-height: 12px;
-      color: #FFFFFF;
     }
   }
 }

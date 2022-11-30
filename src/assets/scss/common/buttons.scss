@@ -1,0 +1,70 @@
+.b-btn {
+  display: flex;
+  align-items: center;
+  padding: 13px 28px 13px 26px;
+  gap: 8px;
+
+  background: $btn-bg-orange;
+  border-radius: 5px;
+
+  &__text {
+    font-family: $mainFont;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 22px;
+    display: flex;
+    align-items: center;
+    color: $g-0;
+  }
+  & > img {
+    margin-left: 18px;
+  }
+}
+
+.m-btn {
+  width: 205px;
+  height: 34px;
+  background: #F6876A;
+  border-radius: 5px;
+
+  font-family: $mainFont;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 18px;
+  text-align: center;
+  color: $g-0;
+}
+
+.s-btn {
+  padding: 3px 22px;
+  background: #F6876A;
+  border-radius: 3px;
+  font-family: $mainFont;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 11px;
+  line-height: 12px;
+  color: $g-0;
+}
+
+.r-btn {
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $btn-bg-violet;
+  margin-right: 16px;
+}
+
+.dd-btn {
+  background: #F6876A;
+  color: #FFFFFF;
+
+  &::after {
+    margin-left: 28px;
+  }
+}

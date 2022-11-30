@@ -15,7 +15,7 @@
             :is-big-size="true"
             @onFinish="finish()"
           />
-          <CButton class="register-btn">Register</CButton>
+          <CButton class="m-btn">Register</CButton>
         </div>
         <CCardImage class="card-image" :src="$options.dragonImg" />
       </div>
@@ -112,21 +112,6 @@ export default {
         font-weight: 500;
         font-size: 19px;
         line-height: 26px;
-        text-align: center;
-        color: #FFFFFF;
-      }
-
-      .register-btn {
-        width: 205px;
-        height: 34px;
-        background: #F6876A;
-        border-radius: 5px;
-
-        font-family: 'Poppins';
-        font-style: normal;
-        font-weight: 700;
-        font-size: 16px;
-        line-height: 18px;
         text-align: center;
         color: #FFFFFF;
       }

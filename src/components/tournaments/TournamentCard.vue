@@ -5,7 +5,7 @@
     </div>
     <div class="left">
       <div class="logo-casino">
-        <img :src="$options.candyImg" alt="">
+        <img src="../../assets/images/candy.png" alt="">
       </div>
       <Countdown
         :date="cardItem.scheduledEndDate"
@@ -26,15 +26,15 @@
           <span class="prize_data__price">$ 1,500</span>
         </div>
         <div class="prize_img">
-          <img :src="$options.cupImg" alt="">
+          <img src="../../assets/images/mini_cup.png" alt="">
         </div>
       </div>
       <router-link :to="{name: 'TournamentDetails', params: {
           id: cardItem.id,
         }}">
-        <CButton class="btn">
-          <span class="btn__text">See More</span>
-          <img :src="$options.btnIcon" alt="">
+        <CButton class="b-btn">
+          <span class="b-btn__text">See More</span>
+          <img src="../../assets/icons/button_icon.svg" alt="">
         </CButton>
       </router-link>
     </div>
@@ -44,16 +44,10 @@
 <script>
 import { CButton } from '@coreui/vue';
 import Countdown from '../Countdown';
-import candyImg from '../../assets/images/candy.png';
-import cupImg from '../../assets/images/mini_cup.png';
-import btnIcon from '../../assets/icons/button_icon.svg';
 import Status from '../../shared/components/Status';
 
 export default {
   name: 'TournamentCard',
-  candyImg,
-  btnIcon,
-  cupImg,
   components: {
     Status,
     Countdown,
@@ -182,32 +176,6 @@ export default {
         justify-content: center;
         object-fit: cover;
         padding-left: 20px;
-      }
-    }
-
-    .btn {
-      display: flex;
-      align-items: center;
-      padding: 13px 28px 13px 26px;
-      gap: 8px;
-
-      width: 156px;
-      height: 52px;
-
-      background: #F6876A;
-      border-radius: 5px;
-      &__text {
-        font-family: 'Poppins';
-        font-style: normal;
-        font-weight: 700;
-        font-size: 15px;
-        line-height: 22px;
-        display: flex;
-        align-items: center;
-        color: #FFFFFF;
-      }
-      & > img {
-        margin-left: 18px;
       }
     }
   }

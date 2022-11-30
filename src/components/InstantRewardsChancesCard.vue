@@ -6,7 +6,7 @@
         <div class="card-content">
           <div class="content-block">
             <span class="card-title">Instant Rewards Chances</span>
-            <CButton class="see-more-btn">See more</CButton>
+            <CButton class="m-btn">See more</CButton>
           </div>
         </div>
       </div>
@@ -86,24 +86,7 @@ export default {
             line-height: 27px;
             color: #FFFFFF;
           }
-
-          .see-more-btn {
-            width: 205px;
-            height: 34px;
-            background: #F6876A;
-            border-radius: 5px;
-
-            font-family: 'Poppins';
-            font-style: normal;
-            font-weight: 700;
-            font-size: 16px;
-            line-height: 18px;
-            text-align: center;
-            color: #FFFFFF;
-          }
         }
-
-
       }
     }
   }
