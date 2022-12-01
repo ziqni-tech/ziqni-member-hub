@@ -24,7 +24,7 @@
                 </CCol>
               </CRow>
             </div>
-            <CButton class="btn">Sign up</CButton>
+            <button class="s-btn">Sign up</button>
           </div>
         </div>
       </div>
@@ -121,7 +121,7 @@ export default {
           height: 30%;
           border-bottom: 0.5px solid rgba(255, 255, 255, 0.3);
 
-          font-family: 'Poppins';
+          font-family: 'Poppins', sans-serif;
           font-style: normal;
           font-weight: 700;
           font-size: 9px;
@@ -129,6 +129,8 @@ export default {
           color: #FCFCFC;
         }
         .content {
+          font-family: 'Poppins', sans-serif;
+          font-style: normal;
           width: 100%;
           height: 70%;
           background: none;
@@ -148,8 +150,6 @@ export default {
               .card-row-label {
                 padding: 0;
                 flex-grow: 1;
-                font-family: 'Poppins';
-                font-style: normal;
                 font-weight: 500;
                 font-size: 6px;
                 line-height: 9px;
@@ -159,8 +159,6 @@ export default {
               .card-row-content {
                 padding: 0;
                 flex-grow: 1;
-                font-family: 'Poppins';
-                font-style: normal;
                 font-weight: 400;
                 font-size: 6px;
                 line-height: 9px;
@@ -171,20 +169,6 @@ export default {
           }
         }
       }
-    }
-
-
-
-    .btn {
-      padding: 3px 22px;
-      background: #F6876A;
-      border-radius: 3px;
-      font-family: 'Poppins';
-      font-style: normal;
-      font-weight: 700;
-      font-size: 11px;
-      line-height: 12px;
-      color: #FFFFFF;
     }
   }
 }

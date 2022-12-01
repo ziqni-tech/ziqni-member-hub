@@ -201,7 +201,7 @@ export default {
 
 .detail-card-title {
   width: 55px;
-  font-family: 'Poppins';
+  font-family: 'Poppins', 'sans-serif';
   font-style: normal;
   font-weight: 400;
   font-size: 17px;
@@ -212,8 +212,7 @@ export default {
 }
 
 .title-big {
-  //width: 50%;
-  font-family: 'Poppins';
+  font-family: 'Poppins', 'sans-serif';
   font-style: normal;
   font-weight: 400;
   font-size: 17px;
@@ -224,8 +223,9 @@ export default {
 }
 
 .title-medium {
-  //width: 30%;
-  font-family: 'Poppins';
+  max-width: 45px;
+  text-align: start;
+  font-family: 'Poppins', 'sans-serif';
   font-style: normal;
   font-weight: 500;
   font-size: 17px;
@@ -233,18 +233,18 @@ export default {
   color: #FFFFFF;
 }
 .title-small {
-  //width: 30%;
-  font-family: 'Poppins';
+  font-family: 'Poppins', 'sans-serif';
   font-style: normal;
   font-weight: 500;
   font-size: 11px;
   line-height: 12px;
   text-transform: uppercase;
   color: #FFFFFF;
+  max-width: 30px;
+  text-align: start;
 }
 .title-x-small {
-  //width: 30%;
-  font-family: 'Poppins';
+  font-family: 'Poppins', 'sans-serif';
   font-style: normal;
   font-weight: 600;
   font-size: 7px;
@@ -290,7 +290,7 @@ export default {
   }
 
   &__digit-detail-card {
-    font-family: 'Poppins';
+    font-family: 'Poppins', 'sans-serif';
     font-style: normal;
     font-weight: 500;
     font-size: 17.3286px;
@@ -299,7 +299,7 @@ export default {
     color: #FFFFFF;
   }
   &__text-detail-card {
-    font-family: 'Poppins';
+    font-family: 'Poppins', 'sans-serif';
     font-style: normal;
     font-weight: 500;
     font-size: 10.5897px;
@@ -310,7 +310,7 @@ export default {
   &__text-big-size {
     text-transform: capitalize;
     margin-bottom: 5px;
-    font-family: 'Poppins';
+    font-family: 'Poppins', 'sans-serif';
     font-style: normal;
     font-weight: 500;
     font-size: 13px;
@@ -323,11 +323,11 @@ export default {
     font-size: 21px;
     line-height: 22px;
     margin-bottom: 5px;
-    color: rgba(255, 255, 255, 0.6);
+    color: #FFFFFF;
   }
 
   &__text-medium-size {
-    font-family: 'Poppins';
+    font-family: 'Poppins', 'sans-serif';
     font-style: normal;
     font-weight: 500;
     font-size: 11px;
@@ -335,7 +335,7 @@ export default {
     color: rgba(255, 255, 255, 0.6);;
   }
   &__digit-medium-size {
-    font-family: 'Poppins';
+    font-family: 'Poppins', 'sans-serif';
     font-style: normal;
     font-weight: 500;
     font-size: 17px;
@@ -344,7 +344,7 @@ export default {
   }
 
   &__text-small-size {
-    font-family: 'Poppins';
+    font-family: 'Poppins', 'sans-serif';
     font-style: normal;
     font-weight: 500;
     font-size: 7px;
@@ -352,7 +352,7 @@ export default {
     color: #FFFFFF;
   }
   &__digit-small-size {
-    font-family: 'Poppins';
+    font-family: 'Poppins', 'sans-serif';
     font-style: normal;
     font-weight: 500;
     font-size: 11px;
@@ -361,7 +361,7 @@ export default {
   }
 
   &__text-x-small-size {
-    font-family: 'Poppins';
+    font-family: 'Poppins', 'sans-serif';
     font-style: normal;
     font-weight: 600;
     font-size: 5px;
@@ -369,7 +369,7 @@ export default {
     color: #FFFFFF;
   }
   &__digit-x-small-size {
-    font-family: 'Poppins';
+    font-family: 'Poppins', 'sans-serif';
     font-style: normal;
     font-weight: 600;
     font-size: 8px;

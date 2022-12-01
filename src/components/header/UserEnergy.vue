@@ -4,17 +4,24 @@
       <img src="../../assets/icons/lightning-icon.svg" alt="">
     </div>
     <span class="energy-value">{{energyValue}}</span>
-    <span class="increment-energy-value">+{{incrementEnergyValue}}/hour</span>
+    <span v-if="!isMobile" class="increment-energy-value">+{{incrementEnergyValue}}/hour</span>
   </div>
 </template>
 
 <script>
+import { useMedia } from '../../hooks/useMedia';
+
 export default {
   name: 'UserEnergy',
   props: {
     energyValue: Number,
     incrementEnergyValue: Number
-  }
+  },
+  setup() {
+    const isMobile = useMedia('(max-width: 480px)')
+
+    return {isMobile}
+  },
 };
 </script>
 

@@ -6,7 +6,7 @@
         <div class="card-content">
           <div class="content-block">
             <span class="card-title">Instant Rewards Chances</span>
-            <CButton class="m-btn">See more</CButton>
+            <button class="m-btn">See more</button>
           </div>
         </div>
       </div>
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { CCard, CCardBody, CCardImage, CButton  } from '@coreui/vue';
+import { CCard, CCardBody, CCardImage } from '@coreui/vue';
 import kittyImg from '../assets/images/kitty.png';
 
 export default {
@@ -25,7 +25,6 @@ export default {
     CCard,
     CCardBody,
     CCardImage,
-    CButton
   }
 };
 </script>
@@ -79,7 +78,7 @@ export default {
           height: 100%;
 
           .card-title {
-            font-family: 'Poppins';
+            font-family: 'Poppins', 'sans-serif';
             font-style: normal;
             font-weight: 700;
             font-size: 18px;

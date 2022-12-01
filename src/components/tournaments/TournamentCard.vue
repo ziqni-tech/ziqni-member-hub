@@ -74,11 +74,15 @@ export default {
 </script>
 
 <style lang="scss">
+@import 'src/assets/scss/utils/vars';
+
 .tournament-card {
+  font-family: $mainFont;
+  font-style: normal;
   position: relative;
   display: flex;
   padding: 20px 15px 24px 30px;
-  background: linear-gradient(180deg, #574FA3 0%, #5D53C2 100%);
+  background: $card-bg-gradient;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   border-radius: 20px;
   margin-bottom: 20px;
@@ -110,10 +114,7 @@ export default {
     display: flex;
     flex-direction: column;
     padding-left: 25px;
-
-    & > a {
-      text-decoration: none;
-    }
+    max-width: 183px;
 
     .main-data {
       display: flex;
@@ -121,17 +122,17 @@ export default {
       align-items: flex-start;
 
       &__title {
-        font-family: 'Poppins';
-        font-style: normal;
         font-weight: 700;
         font-size: 18px;
         line-height: 27px;
         color: #FFFBFF;
+        max-width: 158px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       &__rate {
-        font-family: 'Poppins';
-        font-style: normal;
         font-weight: 400;
         font-size: 12px;
         line-height: 18px;
@@ -150,8 +151,6 @@ export default {
         align-items: flex-start;
 
         &__title {
-          font-family: 'Poppins';
-          font-style: normal;
           font-weight: 500;
           font-size: 14px;
           line-height: 21px;
@@ -159,8 +158,6 @@ export default {
         }
 
         &__price {
-          font-family: 'Poppins';
-          font-style: normal;
           font-weight: 700;
           font-size: 20px;
           line-height: 30px;

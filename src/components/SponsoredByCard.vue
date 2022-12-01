@@ -8,13 +8,13 @@
        <span class="up-to">Up to </span>
        <span class="up-to">€ 1300 + 250 Free Spins</span>
      </div>
-     <CButton class="s-btn">Sign up</CButton>
+     <button class="s-btn">Sign up</button>
    </CCardBody>
  </CCard>
 </template>
 
 <script>
-import { CCard, CCardBody, CButton, CCardImage, CCardText  } from '@coreui/vue';
+import { CCard, CCardBody, CCardImage, CCardText  } from '@coreui/vue';
 import sponsorLogo from '../assets/images/sponsored-by-logo.svg';
 
 export default {
@@ -25,7 +25,6 @@ export default {
     CCardText,
     CCard,
     CCardBody,
-    CButton
   }
 };
 </script>
@@ -44,7 +43,7 @@ export default {
     align-items: center;
 
     .card-title {
-      font-family: 'Poppins';
+      font-family: 'Poppins', sans-serif;
       font-style: normal;
       font-weight: 600;
       font-size: 12px;

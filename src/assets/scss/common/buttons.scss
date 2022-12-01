@@ -7,6 +7,16 @@
   background: $btn-bg-orange;
   border-radius: 5px;
 
+  @media screen and (max-width: $desktopWidth) {
+  //  font-size: 16px;
+  }
+  @media screen and (max-width: $tableWidth) {
+    //padding: 0;
+  }
+  @media screen and (max-width: $phoneWidth) {
+
+  }
+
   &:hover {
     background: $btn-bg-hover-orange;
     border-color: $btn-bg-hover-orange;
@@ -30,7 +40,8 @@
 .m-btn {
   width: 205px;
   height: 34px;
-  background: #F6876A;
+  background: $btn-bg-orange;
+  border-color: $btn-bg-orange;
   border-radius: 5px;
 
   font-family: $mainFont;
@@ -49,7 +60,8 @@
 
 .s-btn {
   padding: 3px 22px;
-  background: #F6876A;
+  background: $btn-bg-orange;
+  border-color: $btn-bg-orange;
   border-radius: 3px;
   font-family: $mainFont;
   font-style: normal;
@@ -74,6 +86,16 @@
   background: $btn-bg-violet;
   margin-right: 16px;
 
+  @media screen and (max-width: $phoneWidth) {
+    width: 24px;
+    height: 24px;
+    object-fit: cover;
+    & > img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
   &:hover {
     border-color: $btn-bg-hover-violet;
     background: $btn-bg-hover-violet;
@@ -81,7 +103,7 @@
 }
 
 .dd-btn {
-  background: #F6876A;
+  background: $btn-bg-orange;
   color: #FFFFFF;
 
   &::after {

@@ -4,11 +4,12 @@
       <h2 class="section-title">Current Tournaments</h2>
       <ActionsBlock/>
     </div>
-    <div class="tournament-cards">
+    <div class="tournament-cards" v-if="competitions">
       <div v-for="c in competitions">
         <TournamentCard class="tournament-card" :key="c.id" :card="c"/>
       </div>
     </div>
+    <NotFoundItems v-else :title="'Current Tournaments'" />
   </div>
 </template>
 
@@ -16,10 +17,12 @@
 import ActionsBlock from '../../shared/components/actions-block/ActionsBlock';
 import TournamentCard from '../../components/tournaments/TournamentCard';
 import { ApiClientStomp, CompetitionRequest, CompetitionsApiWs } from '@ziqni-tech/member-api-client';
+import NotFoundItems from '../NotFoundItems';
 
 export default {
   name: 'CurrentTournamentsSection',
   components: {
+    NotFoundItems,
     ActionsBlock,
     TournamentCard
   },
