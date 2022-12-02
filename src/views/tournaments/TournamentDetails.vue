@@ -62,9 +62,9 @@ export default {
           action: 'Subscribe',
           entityId: 'n38yUoQBSPM0WYwFnk1B',
           leaderboardFilter: {
-            // ranksAboveToInclude: 1,
-            // ranksBelowToInclude: 20,
-            // topRanksToInclude: 20
+            ranksAboveToInclude: 1,
+            ranksBelowToInclude: 20,
+            topRanksToInclude: 20
           }
         };
         await apiLeaderboardWsClient.subscribeToLeaderboard(leaderboardSubscriptionRequest, (data) => {

@@ -1,4 +1,5 @@
 import dashboardIcon from '../../assets/icons/sidebar/dashboard.svg';
+// import dashboardIcon from '../../assets/icons/sidebar/home_.png';
 import historyIcon from '../../assets/icons/sidebar/history.svg';
 import messagesIcon from '../../assets/icons/sidebar/messages.svg';
 import tournamentsIcon from '../../assets/icons/sidebar/tournaments.svg';

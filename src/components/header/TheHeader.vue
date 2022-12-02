@@ -4,8 +4,8 @@
       <img src="../../assets/icons/m-logo.png" alt="">
     </div>
     <div class="page-header__user-data">
-      <UserProfile :name="member?.name" />
-      <Welcome v-if="!isMobile" :name="member?.name" />
+      <UserProfile :name="member.memberData.name" />
+      <Welcome v-if="!isMobile" :name="member.memberData.name" />
       <UserProgress />
       <UserEnergy :energy-value="1200" :increment-energy-value="5" />
       <Notifications :number-of-notifications="5" />
@@ -24,6 +24,7 @@ import Notifications from './Notifications';
 import GameModeSwitch from './GameModeSwitch';
 
 import { useMedia } from '../../hooks/useMedia';
+import { useStore } from 'vuex';
 
 export default {
   name: 'Header',
@@ -36,19 +37,17 @@ export default {
     Notifications,
     GameModeSwitch
   },
-  props: {
-    member: Object
-  },
+
   setup() {
-    const isMobile = useMedia('(max-width: 480px)')
-    console.log('useMedia isMobile', isMobile);
-    return {isMobile}
+    const isMobile = useMedia('(max-width: 480px)');
+    const store = useStore();
+    const member = store.state.memberData;
+
+    return {isMobile, member}
   },
 }
 </script>
 
 <style lang="scss">
-@import 'src/assets/scss/utils/vars';
-
 
 </style>
