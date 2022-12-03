@@ -1,55 +1,53 @@
 <template>
-  <div class="leader-board__item" :class="setItemBgColor()">
+  <div class="leader-board__item" :class="setItemBgColor">
     <div class="item_player">
       <Avatar :place="itemPLace" />
       <span class="item_player__name" :style="{'--color': itemPLace < 4 ? '#43360E' : '#ffffff' }">sebastianpozzo</span>
     </div>
     <span class="tournaments-played" :style="{'--color': itemPLace < 4 ? '#43360E' : '#ffffff' }">10</span>
     <div class="earnings-wrapper">
-      <div class="earnings" :class="setEarningsBgColor()">$66127</div>
+      <div class="earnings" :class="setEarningsBgColor">$66127</div>
     </div>
   </div>
 </template>
 
 <script>
 import Avatar from '../../shared/components/Avatar';
+import { computed } from 'vue';
 export default {
   name: 'LeaderboardItem',
   components: {
     Avatar
   },
-  data() {
-    return {
-      itemPLace: null
-    }
-  },
   props: {
     place: Number
   },
-  created() {
-    this.itemPLace = this.place;
-  },
-  methods: {
-    setItemBgColor() {
-      switch (this.itemPLace) {
+  setup({place}) {
+    const itemPLace = place;
+
+    const setItemBgColor = computed(() => {
+      switch (itemPLace) {
         case 1:
-          return 'gold';
+          return  'gold';
         case 2:
-          return 'grey';
+          return  'grey';
         case 3:
-          return 'bronze';
+          return  'bronze';
         default:
-          return 'default'
+          return  'default'
       }
-    },
-    setEarningsBgColor() {
-      if (this.itemPLace < 4) {
-        return 'default'
+    })
+
+    const setEarningsBgColor = computed(() => {
+      if (itemPLace < 4) {
+        return  'default';
       } else {
-        return 'orange'
+        return  'orange';
       }
-    }
-  }
+    })
+
+    return { itemPLace, setItemBgColor, setEarningsBgColor }
+  },
 };
 </script>
 
@@ -78,6 +76,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   border-radius: 8px;
   padding: 7px 8px;
   margin-bottom: 30px;
@@ -87,6 +86,11 @@ export default {
     justify-content: flex-start;
     align-items: center;
     width: 33%;
+
+    @media screen and (max-width: $desktopWidth) {
+      width: 100%;
+      padding-bottom: 5px;
+    }
 
     &__name {
       padding-left: 40px;

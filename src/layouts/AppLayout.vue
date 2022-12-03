@@ -3,7 +3,7 @@
     <Sidebar v-if="!isMobile"/>
     <MobileSidebar v-else />
     <div class="right-part">
-      <Navbar />
+      <Navbar :member="member" />
       <div class="page-content">
         <slot/>
       </div>
@@ -20,7 +20,7 @@ import Navbar from '../components/header/TheHeader';
 import Sidebar from '../components/sidebar/TheSidebar';
 import { ApiClientStomp, MemberRequest, MembersApiWs } from '@ziqni-tech/member-api-client';
 import MobileSidebar from '../components/sidebar/MobileSidebar';
-import { onMounted, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useMedia } from '../hooks/useMedia';
 
@@ -37,6 +37,7 @@ export default {
     const isReady = ref(false);
     const store = useStore();
     const isMobile = useMedia('(max-width: 480px)');
+    const member = reactive({})
 
     onMounted(async () => {
       await ApiClientStomp.instance.connect({token: authToken})
@@ -52,12 +53,13 @@ export default {
       const memberApiWsClient = new MembersApiWs(ApiClientStomp.instance);
 
       memberApiWsClient.getMember(memberRequest, async (data) => {
+        member.value = await data.data
         await store.dispatch('setMemberAction', data.data);
         isReady.value = true;
       });
     })
 
-    return {isReady, isMobile}
+    return { isReady, isMobile, member }
   },
 };
 </script>

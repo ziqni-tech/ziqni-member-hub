@@ -4,8 +4,8 @@
       <img src="../../assets/icons/m-logo.png" alt="">
     </div>
     <div class="page-header__user-data">
-      <UserProfile :name="member.memberData.name" />
-      <Welcome v-if="!isMobile" :name="member.memberData.name" />
+      <UserProfile :name="member.name" />
+      <Welcome v-if="!isMobile" :name="member.name" />
       <UserProgress />
       <UserEnergy :energy-value="1200" :increment-energy-value="5" />
       <Notifications :number-of-notifications="5" />
@@ -37,13 +37,14 @@ export default {
     Notifications,
     GameModeSwitch
   },
-
-  setup() {
+  props: {
+    member: Object
+  },
+  setup(props) {
     const isMobile = useMedia('(max-width: 480px)');
-    const store = useStore();
-    const member = store.state.memberData;
+    const member = props.member.value;
 
-    return {isMobile, member}
+    return { isMobile, member }
   },
 }
 </script>
