@@ -9,20 +9,10 @@
   </CDropdown>
 </template>
 
-<script>
+<script setup>
 import { CDropdown, CDropdownToggle, CDropdownMenu, CDropdownItem } from '@coreui/vue';
-export default {
-  name: 'DropdownBtn',
-  components: {
-    CDropdown,
-    CDropdownToggle,
-    CDropdownMenu,
-    CDropdownItem
-  },
-  props: {
-    btnTitle: String
-  }
-};
+
+const props = defineProps({ btnTitle: String });
 </script>
 
 <style lang="scss">

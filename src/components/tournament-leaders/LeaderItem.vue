@@ -8,26 +8,20 @@
         'third-place': place === 'third'
       }"
     >
-      <img v-show="place === 'first'" class="crown" :src="$options.crownIcon" />
-      <img class="profile" :src="$options.profileIcon" />
+      <img v-show="place === 'first'" class="crown" :src="crownIcon" />
+      <img class="profile" :src="profileIcon" />
     </div>
     <span class="name">name</span>
     <span class="level">level 5</span>
   </div>
 </template>
 
-<script>
+<script setup>
 import crownIcon from '../../assets/images/crown.svg';
 import profileIcon from '../../assets/icons/profile.svg';
 
-export default {
-  name: 'LeaderItem',
-  crownIcon,
-  profileIcon,
-  props: {
-    place: String
-  }
-};
+const props = defineProps({ place: String })
+
 </script>
 
 <style lang="scss">

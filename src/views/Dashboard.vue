@@ -19,39 +19,16 @@
   <CurrentMissionsSection />
 </template>
 
-<script>
-import { CContainer } from '@coreui/vue';
-import TotalInfo from '../components/TotalInfo';
-import TournamentCard from '../components/tournaments/TournamentCard';
-import PieChartCard from '../components/PieChartCard';
-import ActivityChartCard from '../components/ActivityChartCard';
-
+<script setup>
 import MonthlyTournament from '../components/MonthlyTournament';
 import InstantRewardsChancesCard from '../components/InstantRewardsChancesCard'
 import SponsoredByCard from '../components/SponsoredByCard';
 
 import StartsInCard from '../components/StartsInCard';
-import ActionsBlock from '../shared/components/actions-block/ActionsBlock';
+
 import CurrentTournamentsSection from '../components/tournaments/CurrentTournamentsSection';
 import CurrentMissionsSection from '../components/missions/CurrentMissionsSection';
 
-export default {
-  name: 'Dashboard',
-  components: {
-    CurrentMissionsSection,
-    CurrentTournamentsSection,
-    ActionsBlock,
-    StartsInCard,
-    SponsoredByCard,
-    MonthlyTournament,
-    PieChartCard,
-    CContainer,
-    TotalInfo,
-    TournamentCard,
-    ActivityChartCard,
-    InstantRewardsChancesCard
-  }
-};
 </script>
 
 <style lang="scss">

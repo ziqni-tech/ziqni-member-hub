@@ -1,7 +1,7 @@
 <template>
   <CCard class="starts-in-card">
     <CCardBody class="starts-in-card-body">
-      <CCardImage class="card-icon" :src="$options.gatesOfOlympusIcon" />
+      <CCardImage class="card-icon" :src="gatesOfOlympusIcon" />
       <Countdown
         :date="end"
         :title="'Starts in'"
@@ -10,11 +10,11 @@
         @onFinish="finish()"
       />
       <div class="content-wrapper">
-        <CCardImage class="card-image" :src="$options.gatesOfOlympusImg" />
+        <CCardImage class="card-image" :src="gatesOfOlympusImg" />
         <div class="content-card">
           <div class="content-title">Gates of Olympus - Free Online Slots Tournament</div>
           <div class="content">
-            <div class="card-rows" v-for="row in $options.rows">
+            <div class="card-rows" v-for="row in rows">
               <CRow class="card-row" key="{{row.label}}">
                 <CCol class="card-row-label">
                   {{ row.label }}
@@ -32,8 +32,8 @@
   </CCard>
 </template>
 
-<script>
-import { CCard, CCardBody, CButton, CCardImage, CCardText, CRow, CCol } from '@coreui/vue';
+<script setup>
+import { CCard, CCardBody, CCardImage, CRow, CCol } from '@coreui/vue';
 import gatesOfOlympusImg from '../assets/images/Gates-of-Olympus.png';
 import gatesOfOlympusIcon from '../assets/images/Gates-of-Olympus-icon.svg';
 import Countdown from './Countdown';
@@ -45,32 +45,12 @@ const rows = [
   {label: 'Spins', content: '250'},
 ]
 
-export default {
-  name: 'StartsInCard',
-  gatesOfOlympusImg,
-  gatesOfOlympusIcon,
-  rows,
-  components: {
-    Countdown,
-    CCardImage,
-    CCardText,
-    CCard,
-    CCardBody,
-    CButton,
-    CRow,
-    CCol
-  },
-  data () {
-    return {
-      end: new Date('2023-01-01T00:00:00')
-    };
-  },
-  methods: {
-    finish() {
-      console.log('finish');
-    }
-  }
-};
+const end = new Date('2023-01-01T00:00:00');
+
+const finish = () => {
+  console.log('finish');
+}
+
 </script>
 
 <style lang="scss">

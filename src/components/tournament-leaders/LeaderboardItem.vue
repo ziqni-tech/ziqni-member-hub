@@ -1,54 +1,43 @@
 <template>
   <div class="leader-board__item" :class="setItemBgColor">
     <div class="item_player">
-      <Avatar :place="itemPLace" />
-      <span class="item_player__name" :style="{'--color': itemPLace < 4 ? '#43360E' : '#ffffff' }">sebastianpozzo</span>
+      <Avatar :place="place" />
+      <span class="item_player__name" :style="{'--color': place < 4 ? '#43360E' : '#ffffff' }">sebastianpozzo</span>
     </div>
-    <span class="tournaments-played" :style="{'--color': itemPLace < 4 ? '#43360E' : '#ffffff' }">10</span>
+    <span class="tournaments-played" :style="{'--color': place < 4 ? '#43360E' : '#ffffff' }">10</span>
     <div class="earnings-wrapper">
       <div class="earnings" :class="setEarningsBgColor">$66127</div>
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
 import Avatar from '../../shared/components/Avatar';
 import { computed } from 'vue';
-export default {
-  name: 'LeaderboardItem',
-  components: {
-    Avatar
-  },
-  props: {
-    place: Number
-  },
-  setup({place}) {
-    const itemPLace = place;
+const props = defineProps({ place: Number });
 
-    const setItemBgColor = computed(() => {
-      switch (itemPLace) {
-        case 1:
-          return  'gold';
-        case 2:
-          return  'grey';
-        case 3:
-          return  'bronze';
-        default:
-          return  'default'
-      }
-    })
 
-    const setEarningsBgColor = computed(() => {
-      if (itemPLace < 4) {
-        return  'default';
-      } else {
-        return  'orange';
-      }
-    })
+const setItemBgColor = computed(() => {
+  switch (props.place) {
+    case 1:
+      return  'gold';
+    case 2:
+      return  'grey';
+    case 3:
+      return  'bronze';
+    default:
+      return  'default'
+  }
+})
 
-    return { itemPLace, setItemBgColor, setEarningsBgColor }
-  },
-};
+const setEarningsBgColor = computed(() => {
+  if (props.place < 4) {
+    return  'default';
+  } else {
+    return  'orange';
+  }
+})
+
 </script>
 
 <style lang="scss">

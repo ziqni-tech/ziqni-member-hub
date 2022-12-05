@@ -4,34 +4,22 @@
     <div class="sidebar-menu-btn" @click="handleClickBtn" :class="isClicked ? 'sidebar-menu-btn__active' : ''">
       <img src="../../assets/icons/sidebar/mob-menu-btn.png" alt="">
     </div>
-    <MobileSidebarItems v-if="isClicked" :nav-items="$options.sidebarNav" />
+    <MobileSidebarItems v-if="isClicked" :nav-items="sidebarNav" />
   </div>
 </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue';
 import sidebarNav from './sidebarNav';
 import MobileSidebarItems from './MobileSidebarItems';
 
-export default {
-  name: 'MobileSidebar',
-  components: { MobileSidebarItems },
-  sidebarNav,
-  setup() {
-    const isClicked = ref(false);
+const isClicked = ref(false);
 
-    const handleClickBtn = () => {
-      isClicked.value = !isClicked.value
-    }
+const handleClickBtn = () => {
+  isClicked.value = !isClicked.value
+}
 
-    return {
-      isClicked,
-      handleClickBtn
-    }
-  }
-
-};
 </script>
 
 <style lang="scss">

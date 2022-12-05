@@ -6,19 +6,10 @@
   </div>
 </template>
 
-<script>
-import { CContainer } from '@coreui/vue';
+<script setup>
 import LoyalityCard from '../components/loyality-level/LoyalityCard';
 import LoyalityLevelChartsCard from '../components/loyality-level/LoyalityLevelChartsCard';
 
-export default {
-  name: 'LoyalityLevel',
-  components: {
-    LoyalityLevelChartsCard,
-    CContainer,
-    LoyalityCard
-  }
-};
 </script>
 
 <style lang="scss">

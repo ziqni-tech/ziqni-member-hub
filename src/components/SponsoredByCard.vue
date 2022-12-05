@@ -2,7 +2,7 @@
  <CCard class="sponsored-by-card">
    <CCardBody class="sponsored-by-card-body">
      <CCardText class="card-title">MONTHLY TOURNAMENT SPONSORED BY</CCardText>
-     <CCardImage class="card-img" :src="$options.sponsorLogo" />
+     <CCardImage class="card-img" :src="sponsorLogo" />
      <div class="offer">
        <span class="offer-title">Welcome package</span>
        <span class="up-to">Up to </span>
@@ -13,20 +13,10 @@
  </CCard>
 </template>
 
-<script>
+<script setup>
 import { CCard, CCardBody, CCardImage, CCardText  } from '@coreui/vue';
 import sponsorLogo from '../assets/images/sponsored-by-logo.svg';
 
-export default {
-  name: 'SponsoredByCard',
-  sponsorLogo,
-  components: {
-    CCardImage,
-    CCardText,
-    CCard,
-    CCardBody,
-  }
-};
 </script>
 
 <style lang="scss">

@@ -12,25 +12,13 @@
   </CNavItem>
 </template>
 
-<script>
+<script setup>
 import { CNavItem } from '@coreui/vue';
 import bgImg from '../../assets/icons/sellection_item.png';
 import itemEllipse from '../../assets/icons/icon-Siri.png';
-export default {
-  name: 'SidebarItems',
-  components: {
-    CNavItem
-  },
-  props: {
-    navItems: Array
-  },
-  data() {
-    return {
-      bgImg,
-      itemEllipse
-    }
-  }
-};
+
+const props = defineProps({ navItems: Array })
+
 </script>
 
 <style lang="scss">

@@ -4,13 +4,9 @@
 </div>
 </template>
 
-<script>
-export default {
-  name: 'NotFoundItems',
-  props: {
-    title: String
-  }
-};
+<script setup>
+const props = defineProps({ title: String });
+
 </script>
 
 <style lang="scss">

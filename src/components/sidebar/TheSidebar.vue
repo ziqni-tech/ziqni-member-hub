@@ -6,25 +6,16 @@
       </div>
     </div>
     <CSidebarNav>
-      <SidebarItems :nav-items="$options.sidebarNav" />
+      <SidebarItems :nav-items="sidebarNav" />
     </CSidebarNav>
   </CSidebar>
 </template>
 
-<script>
+<script setup>
 import { CSidebar, CSidebarNav } from '@coreui/vue';
 import SidebarItems from './SidebarItems';
 import sidebarNav from './sidebarNav';
 
-export default {
-  name: 'Sidebar',
-  sidebarNav,
-  components: {
-    SidebarItems,
-    CSidebar,
-    CSidebarNav
-  }
-};
 </script>
 
 <style lang="scss">

@@ -1,13 +1,13 @@
 <template>
   <CCard class="total-info-card">
     <CCardBody class="total-info-card-body">
-      <TotalInfoItems :items="$options.totalInfoItems" />
-      <CCardImage :src="$options.cardIcon" />
+      <TotalInfoItems :items="totalInfoItems" />
+      <CCardImage :src="cardIcon" />
     </CCardBody>
   </CCard>
 </template>
 
-<script>
+<script setup>
 import { CCard, CCardBody, CCardImage } from '@coreui/vue'
 import TotalInfoItems from './TotalInfoItems';
 import cardIcon from '../assets/icons/hand-with-medal.svg'
@@ -18,17 +18,7 @@ const totalInfoItems = [
   {title: 'Total Cost', value: '$3,00,290.00'},
   {title: 'Top Speed', value: '$5.2K'},
 ]
-export default {
-  name: 'TotalInfo',
-  totalInfoItems,
-  cardIcon,
-  components: {
-    TotalInfoItems,
-    CCard,
-    CCardBody,
-    CCardImage
-  }
-};
+
 </script>
 
 <style lang="scss">

@@ -8,27 +8,13 @@
   </CNavItem>
 </template>
 
-<script>
+<script setup>
 import { CNavItem } from '@coreui/vue';
 import bgImg from '../../assets/icons/sidebar/mob-select-item.png';
 import itemEllipse from '../../assets/icons/icon-Siri.png';
-import itemIconBg from '../../assets/icons/sidebar/mob-item-icon-bg.png';
-export default {
-  name: 'MobileSidebarItems',
-  components: {
-    CNavItem
-  },
-  props: {
-    navItems: Array
-  },
-  data() {
-    return {
-      bgImg,
-      itemEllipse,
-      itemIconBg
-    }
-  }
-};
+
+const props = defineProps({ navItems: Array });
+
 </script>
 
 <style scoped lang="scss">

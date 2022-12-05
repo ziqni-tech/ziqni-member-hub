@@ -3,12 +3,9 @@
   <InstantRewardsCard />
 </template>
 
-<script>
+<script setup>
 import InstantRewardsCard from '../components/instant-rewards/InstantRewardsCard';
-export default {
-  name: 'InstantRewards',
-  components: { InstantRewardsCard }
-};
+
 </script>
 
 <style scoped>

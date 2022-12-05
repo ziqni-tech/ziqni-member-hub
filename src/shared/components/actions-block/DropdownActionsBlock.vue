@@ -5,15 +5,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import DropdownBtn from './DropdownBtn';
 
-export default {
-  name: 'DropdownActionsBlock',
-  components: {
-    DropdownBtn
-  }
-};
 </script>
 
 <style lang="scss">

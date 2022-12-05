@@ -3,7 +3,7 @@
     <CCardBody class="monthly-tournament-card-body">
       <div class="content-wrapper">
         <div class="card-content">
-          <img :src="$options.dragonTitleImg" alt="">
+          <img :src="dragonTitleImg" alt="">
           <div>
             <div class="prize">9000&#8364;</div>
             <span class="tournament-title">Monthly Tournament</span>
@@ -17,39 +17,23 @@
           />
           <CButton class="m-btn">Register</CButton>
         </div>
-        <CCardImage class="card-image" :src="$options.dragonImg" />
+        <CCardImage class="card-image" :src="dragonImg" />
       </div>
     </CCardBody>
   </CCard>
 </template>
 
-<script>
+<script setup>
 import { CCard, CCardBody, CCardImage, CButton } from '@coreui/vue'
 import dragonImg from '../assets/images/floating-dragon.png';
 import dragonTitleImg from '../assets/images/floating-dragon-title.svg';
 import Countdown from './Countdown';
-export default {
-  name: 'MonthlyTournament',
-  dragonImg,
-  dragonTitleImg,
-  components: {
-    CCard,
-    CCardBody,
-    CCardImage,
-    CButton,
-    Countdown
-  },
-  data () {
-    return {
-      end: new Date('2023-01-01T00:00:00')
-    };
-  },
-  methods: {
-    finish() {
-      console.log('finish');
-    }
-  }
-};
+
+const end = new Date('2023-01-01T00:00:00');
+
+const finish = () => {
+  console.log('finish');
+}
 </script>
 
 <style lang="scss">

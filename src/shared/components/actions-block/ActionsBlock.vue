@@ -9,18 +9,9 @@
   </div>
 </template>
 
-<script>
-import { CContainer, CButton } from '@coreui/vue';
-import DropdownBtn from './DropdownBtn';
+<script setup>
+import { CButton } from '@coreui/vue';
 
-export default {
-  name: 'ActionsBlock',
-  components: {
-    DropdownBtn,
-    CContainer,
-    CButton
-  }
-};
 </script>
 
 <style lang="scss">

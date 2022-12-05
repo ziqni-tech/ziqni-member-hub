@@ -2,7 +2,7 @@
   <CCard class="IRC-card">
     <CCardBody class="IRC-card-body">
       <div class="content-wrapper">
-        <CCardImage class="card-image" :src="$options.kittyImg" />
+        <CCardImage class="card-image" :src="kittyImg" />
         <div class="card-content">
           <div class="content-block">
             <span class="card-title">Instant Rewards Chances</span>
@@ -14,19 +14,10 @@
   </CCard>
 </template>
 
-<script>
+<script setup>
 import { CCard, CCardBody, CCardImage } from '@coreui/vue';
 import kittyImg from '../assets/images/kitty.png';
 
-export default {
-  name: 'InstantRewardsChancesCard',
-  kittyImg,
-  components: {
-    CCard,
-    CCardBody,
-    CCardImage,
-  }
-};
 </script>
 
 <style lang="scss">

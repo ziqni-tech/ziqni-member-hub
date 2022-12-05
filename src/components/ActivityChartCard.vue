@@ -5,7 +5,7 @@
       <span>View All</span>
     </div>
     <CCardBody class="activity-card-body">
-      <img :src="$options.graphIcon" alt="graphIcon">
+      <img :src="graphIcon" alt="graphIcon">
 <!--      <CChart-->
 <!--          type="line"-->
 <!--          class="chart-line"-->
@@ -29,19 +29,11 @@
   </CCard>
 </template>
 
-<script>
+<script setup>
 import { CCard, CCardBody } from '@coreui/vue';
 import { CChart } from '@coreui/vue-chartjs';
 import graphIcon from '../assets/icons/graph.svg';
-export default {
-  name: 'ActivityChartCard',
-  components: {
-    CCard,
-    CCardBody,
-    CChart
-  },
-  graphIcon
-};
+
 </script>
 
 <style lang="scss">

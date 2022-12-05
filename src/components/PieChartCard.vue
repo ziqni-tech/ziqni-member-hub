@@ -2,7 +2,7 @@
   <CCard class="pie-chart-card">
     <CCardBody class="pie-chart-card-body">
       <div class="title-container">
-        <CCardImage class="title-icon" :src="$options.titleIcon" />
+        <CCardImage class="title-icon" :src="titleIcon" />
         <CCardTitle class="title">Range</CCardTitle>
       </div>
       <div class="chart-wrapper">
@@ -25,21 +25,10 @@
   </CCard>
 </template>
 
-<script>
+<script setup>
 import { CCard, CCardBody, CCardImage, CCardTitle } from '@coreui/vue';
 import { CChart } from '@coreui/vue-chartjs';
 import titleIcon from '../assets/icons/pie-chart-title-icon.svg';
-export default {
-  name: 'PieChartCard',
-  titleIcon,
-  components: {
-    CCardTitle,
-    CCard,
-    CCardBody,
-    CCardImage,
-    CChart
-  }
-};
 </script>
 
 <style lang="scss">

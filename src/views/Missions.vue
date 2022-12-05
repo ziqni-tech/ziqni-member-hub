@@ -3,20 +3,10 @@
   <CurrentMissionsSection />
 </template>
 
-<script>
-import { CContainer } from '@coreui/vue';
+<script setup>
 import FeaturedMissionsSection from '../components/missions/FeaturedMissionsSection';
 import CurrentMissionsSection from '../components/missions/CurrentMissionsSection';
 
-
-export default {
-  name: 'Missions',
-  components: {
-    CurrentMissionsSection,
-    FeaturedMissionsSection,
-    CContainer,
-  }
-};
 </script>
 
 <style lang="scss">

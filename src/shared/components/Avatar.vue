@@ -1,59 +1,55 @@
 <template>
   <div class="avatar">
     <div class="image-wrapper">
-      <img :src="$options.profileIcon" alt="">
+      <img :src="profileIcon" alt="">
     </div>
-    <div class="place-wrapper" :class="setPlaceWrapperBg()">
-      <div class="place" :class="setPlaceTextColor()">
-        {{ setPlace() }}
+    <div class="place-wrapper" :class="setPlaceWrapperBg">
+      <div class="place" :class="setPlaceTextColor">
+        {{ setPlace }}
       </div>
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
 import profileIcon from '../../assets/icons/profile.svg';
+import { computed } from 'vue';
 
-export default {
-  name: 'Avatar',
-  profileIcon,
-  props: {
-    place: Number
-  },
-  methods: {
-    setPlace() {
-      switch (this.place) {
-        case 1:
-          return `${this.place}st`;
-        case 2:
-          return `${this.place}nd`;
-        case 3:
-          return `${this.place}rd`;
-        default:
-          return `${this.place}th`;
-      }
-    },
-    setPlaceTextColor() {
-      if (this.place < 4) {
-        return 'black-text-color'
-      } else {
-        return 'white-text-color'
-      }
-    },
-    setPlaceWrapperBg() {
-      switch (this.place) {
-        case 1:
-          return `first-place-wrapper-bg`;
-        case 2:
-          return `second-place-wrapper-bg`;
-        case 3:
-          return `third-place-wrapper-bg`;
-        default:
-          return `default-place-wrapper-bg`;
-      }
-    }
+const props = defineProps({ place: Number });
+
+const setPlace = computed(() => {
+  switch (props.place) {
+    case 1:
+      return `${props.place}st`;
+    case 2:
+      return `${props.place}nd`;
+    case 3:
+      return `${props.place}rd`;
+    default:
+      return `${props.place}th`;
   }
-};
+})
+
+const setPlaceTextColor = computed(() => {
+  if (props.place < 4) {
+    return 'black-text-color'
+  } else {
+    return 'white-text-color'
+  }
+})
+
+const setPlaceWrapperBg = computed(() => {
+  switch (props.place) {
+    case 1:
+      return `first-place-wrapper-bg`;
+    case 2:
+      return `second-place-wrapper-bg`;
+    case 3:
+      return `third-place-wrapper-bg`;
+    default:
+      return `default-place-wrapper-bg`;
+  }
+})
 </script>
 
 <style lang="scss">

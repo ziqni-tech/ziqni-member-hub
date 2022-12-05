@@ -11,17 +11,10 @@
   </div>
 </template>
 
-<script>
-import { CCardText } from '@coreui/vue'
-export default {
-  name: 'TotalInfoItems',
-  components: {
-    CCardText
-  },
-  props: {
-    items: Array
-  }
-};
+<script setup>
+import { CCardText } from '@coreui/vue';
+const props = defineProps({ items: Array } );
+
 </script>
 
 <style lang="scss">
