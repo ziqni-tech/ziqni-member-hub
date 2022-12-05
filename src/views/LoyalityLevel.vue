@@ -1,5 +1,5 @@
 <template>
-  <h1 class="page-title">Loyality Level</h1>
+  <h1 class="section-title">Loyality Level</h1>
   <LoyalityCard />
   <div class="loyality-charts">
     <LoyalityLevelChartsCard />
@@ -9,20 +9,18 @@
 <script setup>
 import LoyalityCard from '../components/loyality-level/LoyalityCard';
 import LoyalityLevelChartsCard from '../components/loyality-level/LoyalityLevelChartsCard';
-
 </script>
 
 <style lang="scss">
-.page-title {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 22px;
-  line-height: 33px;
-  color: #737478;
-  text-align: start;
+@import '../assets/scss/utils/vars';
+.section-title{
+  padding-bottom: 30px;
 }
 .loyality-charts {
   padding-top: 75px;
+
+  @media screen and (max-width: $phoneWidth) {
+    padding-top: 40px;
+  }
 }
 </style>

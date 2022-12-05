@@ -1,6 +1,6 @@
 <template>
   <div class="chart-wrapper">
-    <apexchart class="semicircle-gauge" width="100" type="radialBar" :options="chartOptions" :series="series"></apexchart>
+    <apexchart class="semicircle-gauge" width="105" type="radialBar" :options="chartOptions" :series="series"></apexchart>
     <div class="chart-name">Excellent</div>
     <div class="impression-share">Impression Share</div>
   </div>
@@ -79,6 +79,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../../assets/scss/utils/vars';
 .chart-wrapper {
   position: relative;
   width: 120px;
@@ -102,7 +103,7 @@ export default {
     left: 50%;
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
-    font-family: 'DM Sans';
+    font-family: 'DM Sans', sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 10px;
@@ -111,12 +112,23 @@ export default {
   }
 
   .impression-share {
-    font-family: 'DM Sans';
+    position: absolute;
+    bottom: 0;
+    font-family: 'DM Sans', sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 14px;
     line-height: 18px;
     color: #72767C;
+  }
+  @media screen and (max-width: $phoneWidth) {
+    .impression-share {
+      position: absolute;
+      bottom: 0;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 16px;
+    }
   }
 }
 </style>

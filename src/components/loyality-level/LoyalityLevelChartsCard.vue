@@ -1,32 +1,35 @@
 <template>
   <div class="loyality-charts-card">
     <div class="user-data">
-      <span class="user-data__name">Clinton Peltonen</span>
+      <span class="user-data__name">Killan James</span>
       <span class="user-data__earnings">$16,605</span>
       <span class="user-data__market_avarage">market avarage is $16,224</span>
-      <span class="user-data__btn"><img :src="$options.buttonArrowIcon" alt=""></span>
+      <span class="user-data__btn"><img :src="buttonArrowIcon" alt=""></span>
     </div>
     <SemiCircleGaugeChart />
     <MultipleRadialbarsChart />
     <ModelSpend
-      :icon="$options.carIcon"
+      v-if="!isMobile"
+      :icon="carIcon"
       :price="'1,174'"
       :title="'Model Spend'"
     />
     <ModelSpend
-      :icon="$options.arrowIcon"
+      v-if="!isMobile"
+      :icon="arrowIcon"
       :price="'1,174'"
       :title="'Model Spend'"
     />
     <ModelSpend
-      :icon="$options.dollarIcon"
+      v-if="!isMobile"
+      :icon="dollarIcon"
       :price="'811'"
       :title="'Spend per Unit Turned'"
     />
   </div>
 </template>
 
-<script>
+<script setup>
 import MultipleRadialbarsChart from './MultipleRadialbarsChart';
 import SemiCircleGaugeChart from './SemiCircleGaugeChart';
 import carIcon from '../../assets/icons/loyality-level/chart-card-car-icon.png';
@@ -34,17 +37,13 @@ import arrowIcon from '../../assets/icons/loyality-level/chart-card-arrow-icon.p
 import dollarIcon from '../../assets/icons/loyality-level/chart-card-dollar-icon.png';
 import buttonArrowIcon from '../../assets/icons/loyality-level/chart-card-button-arrow-icon.png';
 import ModelSpend from './ModelSpend';
-export default {
-  name: 'LoyalityLevelChartsCard',
-  carIcon,
-  arrowIcon,
-  dollarIcon,
-  buttonArrowIcon,
-  components: { ModelSpend, SemiCircleGaugeChart, MultipleRadialbarsChart }
-};
+import { useMedia } from '../../hooks/useMedia';
+
+const isMobile = useMedia('(max-width: 480px)');
 </script>
 
 <style lang="scss">
+@import '../../assets/scss/utils/vars';
 .loyality-charts-card {
   display: flex;
   align-items: center;
@@ -55,22 +54,41 @@ export default {
   box-shadow: 0 7px 21px rgba(180, 180, 180, 0.25);
   border-radius: 10px;
 
+  @media screen and (max-width: $phoneWidth) {
+    padding: 14px 18px;
+
+    .user-data {
+
+      &__name {
+        max-width: 100px;
+        font-weight: 500;
+      }
+
+      &__market_avarage {
+        max-width: 100px;
+      }
+    }
+  }
+
   .user-data {
     display: flex;
     flex-direction: column;
     align-items: start;
 
     &__name {
-      font-family: 'DM Sans';
+      //font-family: 'Poppins', sans-serif;
       font-style: normal;
       font-weight: 700;
       font-size: 20px;
       line-height: 26px;
       color: #242731;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     &__earnings {
-      font-family: 'DM Sans';
+      font-family: 'Poppins', sans-serif;
       font-style: normal;
       font-weight: 500;
       font-size: 18px;
@@ -80,13 +98,17 @@ export default {
     }
 
     &__market_avarage {
-      font-family: 'DM Sans';
+      font-family: 'Poppins', sans-serif;
       font-style: normal;
       font-weight: 500;
       font-size: 12px;
       line-height: 16px;
       color: #72767C;
       padding: 5px 0 8px;
+      //white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: start;
     }
 
     &__btn {

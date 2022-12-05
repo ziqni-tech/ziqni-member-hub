@@ -14,8 +14,7 @@
   </div>
 </template>
 
-<script>
-import { CNavbar } from '@coreui/vue';
+<script setup>
 import UserProfile from './UserProfile';
 import Welcome from './Welcome';
 import UserProgress from './UserProgress';
@@ -24,29 +23,11 @@ import Notifications from './Notifications';
 import GameModeSwitch from './GameModeSwitch';
 
 import { useMedia } from '../../hooks/useMedia';
-import { useStore } from 'vuex';
 
-export default {
-  name: 'Header',
-  components: {
-    CNavbar,
-    UserProfile,
-    Welcome,
-    UserProgress,
-    UserEnergy,
-    Notifications,
-    GameModeSwitch
-  },
-  props: {
-    member: Object
-  },
-  setup(props) {
-    const isMobile = useMedia('(max-width: 480px)');
-    const member = props.member.value;
+const props = defineProps({ member: Object });
+const isMobile = useMedia('(max-width: 480px)');
+const member = props.member.value;
 
-    return { isMobile, member }
-  },
-}
 </script>
 
 <style lang="scss">
