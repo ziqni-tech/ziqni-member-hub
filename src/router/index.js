@@ -27,12 +27,19 @@ const routes = [
         path: '/missions',
         name: 'Missions',
         component: () => import('@/views/Missions'),
+        // children: [
+        //     {
+        //         path: '',
+        //         name: 'Missions',
+        //         component: () => import('@/views/Missions'),
+        //     },
+            // {
+            //     path: ':id',
+            //     name: 'MissionDetails',
+            //     component: () => import('@/views/MissionDetails'),
+            // },
+        // ]
     },
-    // {
-    //     path: '/missions/details/:id',
-    //     name: 'MissionDetails',
-    //     component: () => import('@/views/MissionDetails'),
-    // },
     {
         path: '/loyality-Level',
         name: 'LoyalityLevel',
@@ -52,6 +59,11 @@ const routes = [
         path: '/messages',
         name: 'Messages',
         component: () => import('@/views/Messages'),
+    },
+    {
+        path: '/calendar',
+        name: 'Calendar',
+        component: () => import('@/views/Calendar'),
     },
     {
         path: '/history',
