@@ -1,10 +1,14 @@
 <template>
   <div class="leader-board__item" :class="setItemBgColor">
     <div class="item_player">
-      <Avatar :place="place" />
-      <span class="item_player__name" :style="{'--color': place < 4 ? '#43360E' : '#ffffff' }">sebastianpozzo</span>
+      <Avatar :place="leaderboardItem.rank" />
+      <span
+        v-for="member in leaderboardItem.members"
+        class="item_player__name"
+        :style="{'--color': leaderboardItem.rank < 4 ? '#43360E' : '#ffffff' }"
+      >{{ member.name }}</span>
     </div>
-    <span class="tournaments-played" :style="{'--color': place < 4 ? '#43360E' : '#ffffff' }">10</span>
+    <span class="tournaments-played" :style="{'--color': leaderboardItem.rank < 4 ? '#43360E' : '#ffffff' }">10</span>
     <div class="earnings-wrapper">
       <div class="earnings" :class="setEarningsBgColor">$66127</div>
     </div>
@@ -14,11 +18,12 @@
 <script setup>
 import Avatar from '../../shared/components/Avatar';
 import { computed } from 'vue';
-const props = defineProps({ place: Number });
+const props = defineProps({ item: Object });
+const leaderboardItem = props.item;
 
-
+// {rank: 1, score: 626.5, bestScores: null, members: Array(1)}
 const setItemBgColor = computed(() => {
-  switch (props.place) {
+  switch (leaderboardItem.rank) {
     case 1:
       return  'gold';
     case 2:
@@ -31,8 +36,8 @@ const setItemBgColor = computed(() => {
 })
 
 const setEarningsBgColor = computed(() => {
-  if (props.place < 4) {
-    return  'default';
+  if (leaderboardItem.rank < 4) {
+    return  'purple';
   } else {
     return  'orange';
   }
@@ -58,6 +63,9 @@ const setEarningsBgColor = computed(() => {
   width: 97%;
   background: $primary-color;
 }
+.purple {
+  background: $primary-color;
+}
 .orange {
   background: $danger-color ;
 }
@@ -75,11 +83,6 @@ const setEarningsBgColor = computed(() => {
     justify-content: flex-start;
     align-items: center;
     width: 33%;
-
-    @media screen and (max-width: $desktopWidth) {
-      width: 100%;
-      padding-bottom: 5px;
-    }
 
     &__name {
       padding-left: 40px;
@@ -111,8 +114,7 @@ const setEarningsBgColor = computed(() => {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 117px;
-      height: 37px;
+      padding: 5px 19px;
       border-radius: 8px;
 
       font-family: $mainFont;
@@ -122,6 +124,38 @@ const setEarningsBgColor = computed(() => {
       line-height: 32px;
       text-align: center;
       color: $g-0;
+    }
+  }
+}
+@media screen and (max-width: $desktopWidth) {
+  .leader-board__item {
+    margin-bottom: 10px;
+    width: 100%;
+
+    .item_player {
+      .item_player__name {
+        font-size: 14px;
+        padding: 0 0 0 5px;
+        max-width: 120px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+    .tournaments-played {
+      font-size: 14px;
+      line-height: 17px;
+    }
+    .earnings-wrapper {
+      display: flex;
+      justify-content: flex-end;
+
+      .earnings {
+        padding: 5px 10px;
+        border-radius: 6px;
+        font-size: 16px;
+        line-height: 20px;
+      }
     }
   }
 }

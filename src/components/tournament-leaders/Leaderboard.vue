@@ -5,55 +5,16 @@
       <span># Tournaments Played</span>
       <span>Earnings</span>
     </div>
-    <LeaderboardItem :place="1" />
-    <LeaderboardItem :place="2"  />
-    <LeaderboardItem :place="3"  />
-    <LeaderboardItem :place="4"  />
-    <LeaderboardItem :place="5"  />
+    <div class="leader-board__item-wrapper" v-for="item in leaderboard">
+      <LeaderboardItem :item="item" />
+    </div>
   </div>
 </template>
 
-<script>
-// import { ApiClientStomp,
-//   // EntityChangesApiWs,
-//   LeaderboardSubscriptionApiWs
-// } from '@ziqni-tech/member-api-client';
-
-import { CTable, CTableHead, CTableBody, CTableRow, CTableHeaderCell, CTableDataCell } from '@coreui/vue';
-import Avatar from '../../shared/components/Avatar';
+<script setup>
 import LeaderboardItem from './LeaderboardItem';
+const props = defineProps({ leaderboard: Array });
 
-export default {
-  name: 'Leaderboard',
-  components: {
-    LeaderboardItem,
-    CTable,
-    CTableHead,
-    CTableBody,
-    CTableRow,
-    CTableHeaderCell,
-    CTableDataCell,
-    Avatar
-  },
-  data: () => {
-    return {}
-  },
-  methods: {
-    // subscribeToLeaderboard
-    getLeaderBord() {
-      // const apiClientStomp = ApiClientStomp.instance;
-      // const apiLeaderboardWsClient = new LeaderboardSubscriptionApiWs(this.client);
-      // const leaderboardSubscriptionRequest = {
-      //   action: 'Subscribe', entityId: '',  leaderboardFilter: {
-      //     ranksAboveToInclude: 1,
-      //     ranksBelowToInclude: 20,
-      //     topRanksToInclude: 20
-      //   }
-      // }
-      // apiLeaderboardWsClient.leaderboardSubscription(leaderboardSubscriptionRequest, (data) => {console.log("SYS Callback Data", data)})
-    }
-  }
-};
 </script>
 
 <style lang="scss">
@@ -63,6 +24,12 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  &__item-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
 
   &__header {
     width: 100%;
@@ -77,6 +44,16 @@ export default {
     font-size: 18px;
     line-height: 27px;
     color: $sts-grey-medium;
+  }
+}
+@media screen and (max-width: $phoneWidth) {
+  .leader-board {
+    width: 100%;
+    &__header {
+      padding: 7px 0;
+      font-size: 14px;
+      line-height: 17px;
+    }
   }
 }
 </style>

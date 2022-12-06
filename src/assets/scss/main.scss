@@ -66,6 +66,10 @@ li {
   background: $primary-bg;
   padding: 19px 38px;
   overflow-y: scroll;
+  
+  @media screen and (max-width: $phoneWidth) {
+    padding: 7px 10px;
+  }
 
   &::-webkit-scrollbar {
     height: 7px;
