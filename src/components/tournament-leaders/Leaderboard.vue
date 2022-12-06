@@ -5,9 +5,12 @@
       <span># Tournaments Played</span>
       <span>Earnings</span>
     </div>
-    <div class="leader-board__item-wrapper" v-for="item in leaderboard">
-      <LeaderboardItem :item="item" />
+    <div class="leaderboard-items">
+      <div class="leaderboard-items__item-wrapper" v-for="item in leaderboard">
+        <LeaderboardItem :item="item" />
+      </div>
     </div>
+
   </div>
 </template>
 
@@ -25,11 +28,33 @@ const props = defineProps({ leaderboard: Array });
   flex-direction: column;
   align-items: center;
 
-  &__item-wrapper {
+  .leaderboard-items {
     width: 100%;
+    height: 400px;
+    overflow-y: scroll;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
+    &::-webkit-scrollbar {
+      height: 7px;
+      width: 7px;
+      background-color: $primary-bg;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 3px;
+      background-color: $scrollbar-color;
+    }
+
+    &__item-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
   }
+
+
 
   &__header {
     width: 100%;
@@ -49,6 +74,11 @@ const props = defineProps({ leaderboard: Array });
 @media screen and (max-width: $phoneWidth) {
   .leader-board {
     width: 100%;
+
+    .leaderboard-items {
+      height: 340px;
+    }
+
     &__header {
       padding: 7px 0;
       font-size: 14px;
