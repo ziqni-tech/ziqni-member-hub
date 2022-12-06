@@ -79,6 +79,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../../assets/scss/utils/vars';
 .tournament-cards, .missions-cards {
   width: 100%;
   display: flex;
@@ -100,6 +101,14 @@ export default {
   &::-webkit-scrollbar-thumb {
     border-radius: 3px;
     background-color: #8a8a8a;
+  }
+}
+@media screen and (max-width: $phoneWidth) {
+  .tournament-cards {
+
+    .tournament-card {
+      margin: 0 0 10px;
+    }
   }
 }
 </style>

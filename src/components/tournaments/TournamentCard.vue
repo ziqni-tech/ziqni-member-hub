@@ -127,9 +127,11 @@ export default {
         line-height: 27px;
         color: #FFFBFF;
         max-width: 158px;
+        min-width: 158px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        text-align: start;
       }
 
       &__rate {
