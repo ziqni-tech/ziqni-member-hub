@@ -5,17 +5,18 @@
       <span># Tournaments Played</span>
       <span>Earnings</span>
     </div>
-    <div class="leaderboard-items">
+    <div class="leaderboard-items" v-if="leaderboard">
       <div class="leaderboard-items__item-wrapper" v-for="item in leaderboard">
         <LeaderboardItem :item="item" />
       </div>
     </div>
-
+    <NotFoundItems v-else :title="'players'" />
   </div>
 </template>
 
 <script setup>
 import LeaderboardItem from './LeaderboardItem';
+import NotFoundItems from '../NotFoundItems';
 const props = defineProps({ leaderboard: Array });
 
 </script>

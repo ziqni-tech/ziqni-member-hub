@@ -92,7 +92,7 @@ export default {
           };
           await apiLeaderboardWsClient.subscribeToLeaderboard(leaderboardSubscriptionRequest, ({ data }) => {
             this.leaderboard = data.leaderboardEntries;
-            console.warn('LEADERBOARD', data.leaderboardEntries);
+            console.warn('CONTEST LEADERBOARD', data);
           });
         })
 

@@ -54,6 +54,7 @@ const finish = () => {
 </script>
 
 <style lang="scss">
+@import '../assets/scss/utils/vars';
 .starts-in-card {
   width: 180px;
   height: 232px;
@@ -75,7 +76,7 @@ const finish = () => {
 
     .content-wrapper {
       position: relative;
-      width: 178px;
+      width: 98%;
       height: 168px;
       border-radius: 14px;
       overflow: hidden;
@@ -87,10 +88,11 @@ const finish = () => {
 
       .content-card {
         position: absolute;
-        width: 168px;
+        width: 98%;
         height: 149px;
         bottom: 0;
-        left: 5px;
+        left: 50%;
+        transform: translateX(-50%);
         background: rgba(93, 83, 194, 0.59);
         backdrop-filter: blur(10px);
         border-radius: 14px;

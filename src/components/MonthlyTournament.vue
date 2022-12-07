@@ -37,11 +37,19 @@ const finish = () => {
 </script>
 
 <style lang="scss">
+@import '../assets/scss/utils/vars';
+
 .monthly-tournament-card {
   width: 360px;
   height: 454px;
   border-radius: 14px;
   overflow: hidden;
+
+  @media screen and (max-width: $phoneWidth){
+    .monthly-tournament-card {
+      width: 100%;
+    }
+  }
 
   .monthly-tournament-card-body {
     padding: 0;
@@ -79,10 +87,10 @@ const finish = () => {
       justify-content: space-between;
       align-items: center;
       padding: 16px 10px 41px;
+      font-family: 'Poppins', sans-serif;
+      font-style: normal;
 
       .prize {
-        font-family: 'Poppins';
-        font-style: normal;
         font-weight: 700;
         font-size: 39px;
         line-height: 52px;
@@ -91,8 +99,6 @@ const finish = () => {
       }
 
       .tournament-title {
-        font-family: 'Poppins';
-        font-style: normal;
         font-weight: 500;
         font-size: 19px;
         line-height: 26px;

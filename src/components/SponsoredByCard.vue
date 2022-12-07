@@ -20,6 +20,7 @@ import sponsorLogo from '../assets/images/sponsored-by-logo.svg';
 </script>
 
 <style lang="scss">
+@import '../assets/scss/utils/vars';
 .sponsored-by-card {
   width: 180px;
   height: 232px;
@@ -52,10 +53,10 @@ import sponsorLogo from '../assets/images/sponsored-by-logo.svg';
     .offer {
       display: flex;
       flex-direction: column;
+      font-family: 'Poppins', sans-serif;
+      font-style: normal;
 
       .offer-title {
-        font-family: 'Poppins';
-        font-style: normal;
         font-weight: 600;
         font-size: 13px;
         line-height: 20px;
@@ -63,10 +64,12 @@ import sponsorLogo from '../assets/images/sponsored-by-logo.svg';
         letter-spacing: 0.3px;
         text-transform: uppercase;
         color: #F38F1F;
+        @media screen and (max-width: $phoneWidth){
+          font-size: 12px;
+          line-height: 14px;
+        }
       }
       .up-to {
-        font-family: 'Poppins';
-        font-style: normal;
         font-weight: 500;
         font-size: 13px;
         line-height: 20px;
@@ -74,6 +77,11 @@ import sponsorLogo from '../assets/images/sponsored-by-logo.svg';
         letter-spacing: 0.3px;
         text-transform: uppercase;
         color: #FFFFFF;
+
+        @media screen and (max-width: $phoneWidth){
+          font-size: 10px;
+          line-height: 14px;
+        }
       }
     }
   }

@@ -32,22 +32,11 @@ import CurrentMissionsSection from '../components/missions/CurrentMissionsSectio
 </script>
 
 <style lang="scss">
-.tournament-cards, .missions-cards {
-  width: 100%;
-  display: flex;
-  align-items: center;
-
-  .tournament-card {
-    margin-right: 30px;
-  }
-
-  .missions-card {
-    margin-right: 30px;
-  }
-}
+@import '../assets/scss/utils/vars';
 
 .info-container {
   display: flex;
+  width: 100%;
 
   .charts-container {
     padding: 0 20px;
@@ -59,11 +48,19 @@ import CurrentMissionsSection from '../components/missions/CurrentMissionsSectio
     }
   }
 }
+@media screen and (max-width: $phoneWidth){
+  .info-container {
+    flex-wrap: wrap;
+    justify-content: center;
 
-.cards-container {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  padding-top: 55px;
+    .charts-container {
+      padding: 10px 0 0;
+      width: 100%;
+
+      .starts-in-cards {
+        width: 100%;
+      }
+    }
+  }
 }
 </style>
