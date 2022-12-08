@@ -33,7 +33,7 @@
     "@coreui/vue": "^4.5.0",
     "@coreui/vue-chartjs": "^2.0.1",
     "@vueuse/core": "^9.6.0",
-    "@ziqni-tech/member-api-client": "1.0.3",
+    "@ziqni-tech/member-api-client": "^1.0.4",
     "apexcharts": "^3.36.3",
     "core-js": "^3.25.5",
     "vue": "^3.2.41",

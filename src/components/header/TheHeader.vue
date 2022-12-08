@@ -4,8 +4,8 @@
       <img src="../../assets/icons/m-logo.png" alt="">
     </div>
     <div class="page-header__user-data">
-      <UserProfile :name="member.name" />
-      <Welcome v-if="!isMobile" :name="member.name" />
+      <UserProfile :name="member?.name" />
+      <Welcome v-if="!isMobile" :name="member?.name" />
       <UserProgress />
       <UserEnergy :energy-value="1200" :increment-energy-value="5" />
       <Notifications :number-of-notifications="5" />

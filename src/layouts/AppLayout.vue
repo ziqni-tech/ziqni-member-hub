@@ -3,9 +3,9 @@
     <Sidebar v-if="!isMobile"/>
     <MobileSidebar v-else />
     <div class="right-part">
-      <Navbar :member="member" />
+      <Navbar v-if="member" :member="member" />
       <div class="page-content">
-        <slot/>
+        <router-view />
       </div>
     </div>
   </div>
@@ -23,6 +23,7 @@ import MobileSidebar from '../components/sidebar/MobileSidebar';
 import { onMounted, reactive, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useMedia } from '../hooks/useMedia';
+import { useRoute, useRouter } from 'vue-router';
 
 export default {
   name: 'AppLayout',
@@ -33,15 +34,16 @@ export default {
     CSpinner
   },
   setup() {
-    const authToken = "eyJhbGciOiJIUzI1NiJ9.eyJhcGlfa2V5X2lkIjoiSEZEYmhJUUI3UUctTWpNa3dPQTIiLCJtZW1iZXJfcmVmZXJlbmNlX2lkIjoiNDUyNzc2NzIyODQ5NTI5NSIsImFjY291bnRfaWQiOiJWb1lvdlh3Qm42OWk2elVjSVBBYyIsInNwYWNlX25hbWUiOiJ0ZXN0LXNwYWNlLTEiLCJuYW1lIjoiQ2FybWluZSBMLiIsIm1lbWJlcl90eXBlIjoiSW5kaXZpZHVhbCIsIm1lbWJlcl9pZCI6IlhvTnhjb1FCeTZhenVmT1RNdzhWIiwicmVzb3VyY2VfYWNjZXNzIjp7InppcW5pLWdhcGkiOnsicm9sZXMiOlsiUHVibGljIiwiTWVtYmVyIiwiVmlld0FjaGlldmVtZW50cyIsIlZpZXdBd2FyZHMiLCJDbGFpbUF3YXJkcyIsIlZpZXdDb21wZXRpdGlvbnMiLCJWaWV3Q29udGVzdHMiLCJWaWV3RmlsZXMiLCJWaWV3TWVtYmVycyIsIk1lbWJlcnNPcHRpbiIsIlZpZXdNZXNzYWdlcyIsIkNvbm5lY3RQcm94eSIsIlZpZXdSZXdhcmRzIiwiVmlld1J1bGVzIl19fSwic3ViIjoiWG9OeGNvUUJ5NmF6dWZPVE13OFYiLCJqdGkiOiI5YTlkZGQ2OS04NmY4LTQ2NjEtYWJkMS02MjQ1MjhkYWYzNTYiLCJpYXQiOjE2Njg3NzY2MzQsImV4cCI6MTY3MDkzNjYzNH0.2YfBoMPIM2JQF0xGU6LaikTZd8Uu2DVA3EC6Gw3qlx0";
-    const isReady = ref(false);
     const store = useStore();
+    const router = useRouter();
+    const route = useRoute();
+    const isReady = ref(false);
     const isMobile = useMedia('(max-width: 480px)');
-    const member = reactive({})
+    const member = reactive({});
+    console.warn('ROUTER', route.name)
 
     onMounted(async () => {
-      await ApiClientStomp.instance.connect({token: authToken})
-
+      await ApiClientStomp.instance.connect({token: localStorage.getItem('token')});
       const memberRequest = MemberRequest.constructFromObject(
           {
             'includeFields': [],

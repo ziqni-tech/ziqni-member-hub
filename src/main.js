@@ -4,7 +4,7 @@ import store from './store';
 
 import CoreuiVue from '@coreui/vue';
 
-import index from './router';
+import router from './router';
 import AppLayout from './layouts/AppLayout';
 import './assets/scss/main.scss';
 
@@ -12,7 +12,7 @@ import './assets/scss/main.scss';
 createApp({
             extends: App,
           })
-  .use(index)
+  .use(router)
   .use(CoreuiVue)
   .use(store)
   .component('AppLayout', AppLayout)

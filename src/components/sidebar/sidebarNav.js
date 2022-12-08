@@ -11,7 +11,7 @@ import calendarIcon from '../../assets/icons/sidebar/calendar_icon.svg';
 const sidebarNav = [
     {
         name: 'Dashboard',
-        to: '/',
+        to: '/dashboard',
         icon: dashboardIcon,
     },
     {

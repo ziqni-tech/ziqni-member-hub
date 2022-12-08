@@ -48,7 +48,7 @@ export default {
           competitionFilter: {
             statusCode: {
               moreThan: 5,
-              lessThan: 150
+              lessThan: 35
             },
             sortBy: [{
               queryField: 'created',
