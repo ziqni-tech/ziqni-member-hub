@@ -1,6 +1,6 @@
 <template>
   <div class="app-layout" v-if="isReady">
-    <Sidebar v-if="!isMobile"/>
+    <Sidebar v-if="!isMobile" @logOut="logOut"/>
     <MobileSidebar v-else />
     <div class="right-part">
       <Navbar v-if="member" :member="member" />
@@ -61,7 +61,13 @@ export default {
       });
     })
 
-    return { isReady, isMobile, member }
+    const logOut = async () => {
+      await ApiClientStomp.instance.disconnect()
+      localStorage.removeItem('token')
+      router.push({ path: '/login' })
+    }
+
+    return { isReady, isMobile, member, logOut }
   },
 };
 </script>
