@@ -1,14 +1,14 @@
 <template>
   <div class="leader-board__item" :class="setItemBgColor">
     <div class="item_player">
-      <Avatar :place="leaderboardItem.rank" />
+      <Avatar :place="place" />
       <span
         v-for="member in leaderboardItem.members"
         class="item_player__name"
-        :style="{'--color': leaderboardItem.rank < 4 ? '#43360E' : '#ffffff' }"
+        :style="{'--color': place < 4 ? '#43360E' : '#ffffff' }"
       >{{ member.name }}</span>
     </div>
-    <span class="tournaments-played" :style="{'--color': leaderboardItem.rank < 4 ? '#43360E' : '#ffffff' }">10</span>
+    <span class="tournaments-played" :style="{'--color': place < 4 ? '#43360E' : '#ffffff' }">10</span>
     <div class="earnings-wrapper">
       <div class="earnings" :class="setEarningsBgColor">$66127</div>
     </div>
@@ -18,12 +18,13 @@
 <script setup>
 import Avatar from '../../shared/components/Avatar';
 import { computed } from 'vue';
-const props = defineProps({ item: Object });
+const props = defineProps({ item: Object, idx: Number });
 const leaderboardItem = props.item;
+const place = props.idx + 1;
 
 // {rank: 1, score: 626.5, bestScores: null, members: Array(1)}
 const setItemBgColor = computed(() => {
-  switch (leaderboardItem.rank) {
+  switch (place) {
     case 1:
       return  'gold';
     case 2:
@@ -36,7 +37,7 @@ const setItemBgColor = computed(() => {
 })
 
 const setEarningsBgColor = computed(() => {
-  if (leaderboardItem.rank < 4) {
+  if (place < 4) {
     return  'purple';
   } else {
     return  'orange';

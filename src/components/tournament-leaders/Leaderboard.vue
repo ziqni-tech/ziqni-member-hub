@@ -6,8 +6,8 @@
       <span>Earnings</span>
     </div>
     <div class="leaderboard-items" v-if="leaderboard">
-      <div class="leaderboard-items__item-wrapper" v-for="item in leaderboard">
-        <LeaderboardItem :item="item" />
+      <div class="leaderboard-items__item-wrapper" v-for="(item, index) in leaderboard">
+        <LeaderboardItem :item="item" :idx="index" :key="index" />
       </div>
     </div>
     <NotFoundItems v-else :title="'players'" />
