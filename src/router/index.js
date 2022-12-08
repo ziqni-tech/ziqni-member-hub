@@ -1,15 +1,13 @@
-import { createWebHistory, createRouter } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
+import AuthGuard from './auth-guard';
 
 const routes = [
-  {
-    path: '/login',
-    name: 'Login',
-    component: () => import('@/views/pages/Login'),
-  },
   {
     path: '/',
     name: 'Home',
     component: () => import('@/layouts/AppLayout'),
+    beforeEnter: AuthGuard,
+    redirect: '/dashboard',
     children: [
       {
         path: 'dashboard',
@@ -82,19 +80,16 @@ const routes = [
       },
     ]
   },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('@/views/pages/Login'),
+  },
 ];
 
-const isAuthenticated = localStorage.getItem('token');
-
 const router = createRouter({
-                              history: createWebHistory(),
+                              history: createWebHashHistory(),
                               routes,
                             });
-
-router.beforeEach((to, from, next) => {
-  if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' });
-  else next();
-});
-
 
 export default router;
