@@ -117,7 +117,7 @@ export default {
 
   .header {
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     background: none;
     border: none;
 

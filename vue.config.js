@@ -9,12 +9,13 @@ module.exports = {
     resolve: {
       symlinks: false,
       fallback: { "querystring": require.resolve("querystring-es3") }
+    },
+    performance: {
+      hints: false,
+      maxEntrypointSize: 512000,
+      maxAssetSize: 512000
     }
   },
-
-  transpileDependencies: [
-    // '@coreui/utils'
-  ],
 
   // devServer: {
     // proxy: 'https://api.ziqni.com/',

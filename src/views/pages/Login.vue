@@ -45,7 +45,7 @@ const generateUserToken = async () => {
   if (body.data && body.data.jwtToken) {
     const token = body.data.jwtToken;
     localStorage.setItem('token', token);
-    router.push({ path: '/dashboard' })
+    await router.push({ path: '/dashboard' })
   } else {
     console.error('Member Token Error', body.errors[0].message);
   }

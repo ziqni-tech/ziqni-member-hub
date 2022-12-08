@@ -65,7 +65,7 @@ import kittyImg from '../assets/images/kitty.png';
         z-index: 5;
         padding: 36px 34px 41px;
         display: flex;
-        justify-content: start;
+        justify-content: flex-start;
 
         .content-block {
           display: flex;

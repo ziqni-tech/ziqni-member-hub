@@ -15,13 +15,13 @@ import MissionDetailsCard from '../components/missions/MissionDetailsCard';
 <style lang="scss">
 .header {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   padding-top: 46px;
   background: none;
   border: none;
 
   .title {
-    font-family: 'Montserrat';
+    font-family: 'Montserrat', sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 22px;

@@ -64,7 +64,7 @@ export default {
     const logOut = async () => {
       await ApiClientStomp.instance.disconnect()
       localStorage.removeItem('token')
-      router.push({ path: '/login' })
+      await router.push({ path: '/login' })
     }
 
     return { isReady, isMobile, member, logOut }

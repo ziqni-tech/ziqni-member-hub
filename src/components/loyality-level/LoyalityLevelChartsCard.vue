@@ -73,7 +73,7 @@ const isMobile = useMedia('(max-width: 480px)');
   .user-data {
     display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: flex-start;
 
     &__name {
       //font-family: 'Poppins', sans-serif;

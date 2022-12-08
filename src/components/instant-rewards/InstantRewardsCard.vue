@@ -46,7 +46,7 @@ export default {
   width: 665px;
   height: 325px;
   display: flex;
-  justify-content:start;
+  justify-content: flex-start;
   overflow: hidden;
   background: #FFFFFF;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
@@ -82,7 +82,7 @@ export default {
     align-items: flex-start;
 
     &__title {
-      font-family: 'Poppins';
+      font-family: 'Poppins', sans-serif;
       font-style: normal;
       font-weight: 500;
       font-size: 18px;

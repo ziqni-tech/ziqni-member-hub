@@ -23,7 +23,7 @@ export default {
 .model-spend {
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: flex-start;
 
   &__icon {
     width: 36px;

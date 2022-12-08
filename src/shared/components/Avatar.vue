@@ -100,10 +100,10 @@ const setPlaceWrapperBg = computed(() => {
     height: 19px;
     display: flex;
     justify-content: center;
-    align-items: end;
+    align-items: flex-end;
 
     .place {
-      font-family: 'Poppins';
+      font-family: 'Poppins', sans-serif;
       font-style: normal;
       font-weight: 700;
       font-size: 15px;
