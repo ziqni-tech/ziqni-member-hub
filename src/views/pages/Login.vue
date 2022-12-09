@@ -1,9 +1,9 @@
 <template>
   <div class="login-page">
-    <div class="form">
+    <div class="login-form">
       <CFormInput
-          type="text"
-          v-model="memberRefId"
+        type="text"
+        v-model="memberRefId"
       />
       <button class="m-btn login-btn" @click="generateUserToken">
         Log In
@@ -62,7 +62,7 @@ const generateUserToken = async () => {
   align-items: center;
   justify-content: center;
 
-  .form {
+  .login-form {
     position: absolute;
     top: 35%;
   }

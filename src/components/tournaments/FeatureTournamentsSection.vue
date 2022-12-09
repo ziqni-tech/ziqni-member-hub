@@ -85,11 +85,6 @@ export default {
   align-items: center;
   flex-wrap: wrap;
   overflow: hidden;
-  overflow-x: scroll;
-
-  .tournament-card {
-    margin-right: 30px;
-  }
 
   &::-webkit-scrollbar {
     height: 7px;

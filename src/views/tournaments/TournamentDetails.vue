@@ -2,15 +2,15 @@
   <div class="page-container" v-if="isReady">
     <div class="header">
       <h1 class="section-title">{{ tournamentItem ? tournamentItem.name : '' }} 😝</h1>
-      <img class="share-icon" src="../../assets/icons/share-icon.svg"  alt=""/>
+      <img class="share-icon" src="../../assets/icons/share-icon.svg" alt=""/>
     </div>
-    <TournamentDetailsCard :tournament="tournamentItem" />
+    <TournamentDetailsCard :tournament="tournamentItem"/>
     <div class="header">
       <h2 class="section-title">Leaderboard</h2>
-      <img class="share-icon" src="../../assets/icons/share-icon.svg"  alt=""/>
+      <img class="share-icon" src="../../assets/icons/share-icon.svg" alt=""/>
     </div>
     <div class="tables">
-      <Leaderboard :leaderboard="leaderboard" />
+      <Leaderboard :leaderboard="leaderboard"/>
     </div>
   </div>
 </template>
@@ -28,6 +28,7 @@ import {
   ContestsApiWs,
   LeaderboardApiWs
 } from '@ziqni-tech/member-api-client';
+import { useGetRewards } from '../../hooks/useGetRewards';
 
 export default {
   name: 'TournamentDetails',
@@ -42,7 +43,7 @@ export default {
       tournamentItem: null,
       leaderboard: null,
       isReady: false
-    }
+    };
   },
   created() {
     this.initialize();
@@ -50,23 +51,23 @@ export default {
   methods: {
     async initialize() {
       try {
-        const competitionsApiWsClient = new CompetitionsApiWs(ApiClientStomp.instance)
-        const competitionRequest = CompetitionRequest.constructFromObject(      {
+        const competitionsApiWsClient = new CompetitionsApiWs(ApiClientStomp.instance);
+        const competitionRequest = CompetitionRequest.constructFromObject({
           competitionFilter: {
             productIds: [],
             tags: [],
-            startDate:null,
+            startDate: null,
             endDate: null,
             ids: [this.$route.params.id],
-        }
-        }, null)
-        await competitionsApiWsClient.getCompetitions(competitionRequest, async ({data}) => {
+          }
+        }, null);
+        await competitionsApiWsClient.getCompetitions(competitionRequest, async ({ data }) => {
           this.tournamentItem = await data[0];
-          console.warn("COMPETITION", data[0])
+          console.warn('COMPETITION', data[0]);
           this.isReady = true;
-        })
+        });
 
-        const contestApiWsClient = new ContestsApiWs(ApiClientStomp.instance)
+        const contestApiWsClient = new ContestsApiWs(ApiClientStomp.instance);
         const contestRequest = ContestRequest.constructFromObject({
           contestFilter: {
             productIds: [],
@@ -75,26 +76,43 @@ export default {
             endDate: null,
             ids: [],
             competitionIds: [this.$route.params.id],
-            constraints: []
+            constraints: [],
+            statusCode: {
+              moreThan: 10,
+              lessThan: 100
+            },
           }
-        }, null)
-        await contestApiWsClient.getContests(contestRequest, async ({ data }) => {
-          console.warn("CONTEST", data[0])
+        }, null);
+
+        await contestApiWsClient.getContests(contestRequest, async (data) => {
+          console.warn('CONTEST', data.data[0]);
+          const activeContest = data.data.filter(c => c.status === 'Active');
+
+          const contestId = activeContest.length ? activeContest[0].id : data.data[0].id;
+
+          // const { rewards } = await useGetRewards({
+          //   entityType: 'Contest',
+          //   entityIds: [
+          //     contestId
+          //   ]
+          // })
+          // console.warn('REWARDS', rewards);
+
           const apiLeaderboardWsClient = new LeaderboardApiWs(ApiClientStomp.instance);
           const leaderboardSubscriptionRequest = {
             action: 'Subscribe',
-            entityId: data[0].id,
+            entityId: contestId,
             leaderboardFilter: {
               ranksAboveToInclude: 10,
               ranksBelowToInclude: 10,
               topRanksToInclude: 1
             }
           };
-          await apiLeaderboardWsClient.subscribeToLeaderboard(leaderboardSubscriptionRequest, ({ data }) => {
-            this.leaderboard = data.leaderboardEntries;
+          await apiLeaderboardWsClient.subscribeToLeaderboard(leaderboardSubscriptionRequest, (data) => {
+            this.leaderboard = data.data?.leaderboardEntries;
             console.warn('CONTEST LEADERBOARD', data);
           });
-        })
+        });
 
       } catch (error) {
         console.log('get competition error', error);
@@ -105,6 +123,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../../assets/scss/utils/vars';
+
 .page-container {
   .tournament_card {
     max-width: 1030px;
@@ -118,6 +138,7 @@ export default {
   .header {
     display: flex;
     justify-content: flex-start;
+    align-items: flex-start;
     background: none;
     border: none;
 

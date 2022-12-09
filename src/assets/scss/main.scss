@@ -103,6 +103,11 @@ li {
   align-items: center;
   justify-content: space-between;
   padding-bottom: 25px;
+
+  @media screen and (max-width: $phoneWidth) {
+    flex-wrap: wrap;
+    padding: 0 70px 15px 0;
+  }
 }
 
 .section {

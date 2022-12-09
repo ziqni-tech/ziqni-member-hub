@@ -29,7 +29,7 @@ import kittyImg from '../assets/images/kitty.png';
   overflow: hidden;
   
   @media screen and (max-width: $phoneWidth) {
-    width: 405px;
+    width: 390px;
   }
 
   .IRC-card-body {

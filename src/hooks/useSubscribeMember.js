@@ -1,28 +1,27 @@
 import { ref } from 'vue';
 import { ApiClientStomp, MemberRequest, MembersApiWs } from '@ziqni-tech/member-api-client';
 
-const useSubscribeMember = () => {
+export const useSubscribeMember = async () => {
   const member = ref({});
+  const isReady = ref(false);
 
-  try {
-    const memberApiWsClient = new MembersApiWs(ApiClientStomp.instance);
-    const memberRequest = MemberRequest.constructFromObject(
-      {
-        'includeFields': [],
-        'includeCustomFields': [],
-        'includeMetaDataFields': []
-      },
-      null);
+  const memberApiWsClient = await new MembersApiWs(ApiClientStomp.instance);
+  const memberRequest = MemberRequest.constructFromObject(
+    {
+      'includeFields': [],
+      'includeCustomFields': [],
+      'includeMetaDataFields': []
+    },
+    null);
 
-    memberApiWsClient.getMember(memberRequest, (data) => {
-      member.value = data.data;
+  memberApiWsClient.getMember(memberRequest, async (data) => {
+    member.value = await data.data;
+    isReady.value = true;
     });
 
-  } catch (e) {
-    console.log('member subscription error', e);
-  }
 
   return {
-    member
+    member,
+    isReady
   };
-}
+};

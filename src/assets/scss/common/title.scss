@@ -6,4 +6,8 @@
   line-height: 33px;
   color: $txt-title;
   text-align: start;
+
+  @media screen and (max-width: $phoneWidth) {
+    padding-bottom: 7px;
+  }
 }

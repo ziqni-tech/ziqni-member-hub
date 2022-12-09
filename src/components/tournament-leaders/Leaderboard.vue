@@ -55,8 +55,6 @@ const props = defineProps({ leaderboard: Array });
     }
   }
 
-
-
   &__header {
     width: 100%;
     display: flex;
@@ -81,7 +79,7 @@ const props = defineProps({ leaderboard: Array });
     }
 
     &__header {
-      padding: 7px 0;
+      padding: 7px 5px;
       font-size: 14px;
       line-height: 17px;
     }

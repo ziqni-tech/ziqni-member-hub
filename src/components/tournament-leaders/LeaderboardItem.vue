@@ -10,7 +10,7 @@
     </div>
     <span class="tournaments-played" :style="{'--color': place < 4 ? '#43360E' : '#ffffff' }">10</span>
     <div class="earnings-wrapper">
-      <div class="earnings" :class="setEarningsBgColor">$66127</div>
+      <div class="earnings" :class="setEarningsBgColor">{{ leaderboardItem.score }}</div>
     </div>
   </div>
 </template>

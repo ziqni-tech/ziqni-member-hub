@@ -1,7 +1,7 @@
 <template>
   <div class="section">
     <div class="section-header">
-      <h2 class="section-title">Current Missions</h2>
+      <h2 class="section-title">Feature Missions</h2>
       <ActionsBlock />
     </div>
     <div class="tournament-cards">
@@ -28,11 +28,6 @@ export default {
   align-items: center;
   flex-wrap: wrap;
   overflow: hidden;
-  overflow-x: scroll;
-
-  .tournament-card {
-    margin-right: 30px;
-  }
 
   &::-webkit-scrollbar {
     height: 7px;

@@ -1,11 +1,11 @@
 <template>
   <div class="app-layout" v-if="isReady">
     <Sidebar v-if="!isMobile" @logOut="logOut"/>
-    <MobileSidebar v-else />
+    <MobileSidebar v-else/>
     <div class="right-part">
-      <Navbar v-if="member" :member="member" />
+      <Navbar v-if="member" :member="member"/>
       <div class="page-content">
-        <router-view />
+        <router-view/>
       </div>
     </div>
   </div>
@@ -23,7 +23,7 @@ import MobileSidebar from '../components/sidebar/MobileSidebar';
 import { onMounted, reactive, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useMedia } from '../hooks/useMedia';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 
 export default {
   name: 'AppLayout',
@@ -36,38 +36,38 @@ export default {
   setup() {
     const store = useStore();
     const router = useRouter();
-    const route = useRoute();
     const isReady = ref(false);
     const isMobile = useMedia('(max-width: 480px)');
     const member = reactive({});
-    console.warn('ROUTER', route.name)
 
     onMounted(async () => {
-      await ApiClientStomp.instance.connect({token: localStorage.getItem('token')});
+      await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
+
       const memberRequest = MemberRequest.constructFromObject(
-          {
-            'includeFields': [],
-            'includeCustomFields': [],
-            'includeMetaDataFields': []
-          },
-          null);
+        {
+          'includeFields': [],
+          'includeCustomFields': [],
+          'includeMetaDataFields': []
+        },
+        null);
 
       const memberApiWsClient = new MembersApiWs(ApiClientStomp.instance);
 
       memberApiWsClient.getMember(memberRequest, async (data) => {
-        member.value = await data.data
+        console.warn('MEMBER', data.data);
+        member.value = await data.data;
         await store.dispatch('setMemberAction', data.data);
         isReady.value = true;
       });
-    })
+    });
 
     const logOut = async () => {
-      await ApiClientStomp.instance.disconnect()
-      localStorage.removeItem('token')
-      await router.push({ path: '/login' })
-    }
+      await ApiClientStomp.instance.disconnect();
+      localStorage.removeItem('token');
+      await router.push({ path: '/login' });
+    };
 
-    return { isReady, isMobile, member, logOut }
+    return { isReady, isMobile, member, logOut };
   },
 };
 </script>

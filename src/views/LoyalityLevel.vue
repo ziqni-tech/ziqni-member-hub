@@ -13,9 +13,6 @@ import LoyalityLevelChartsCard from '../components/loyality-level/LoyalityLevelC
 
 <style lang="scss">
 @import '../assets/scss/utils/vars';
-.section-title{
-  padding-bottom: 30px;
-}
 .loyality-charts {
   padding-top: 75px;
 

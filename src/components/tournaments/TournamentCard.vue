@@ -86,6 +86,13 @@ export default {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   border-radius: 20px;
   margin-bottom: 20px;
+  margin-right: 30px;
+
+  @media screen and (max-width: $phoneWidth){
+    padding: 10px 7px 10px 15px;
+    margin-bottom: 10px;
+    margin-right: 0;
+  }
 
   .status {
     position: absolute;
@@ -115,6 +122,9 @@ export default {
     flex-direction: column;
     padding-left: 25px;
     max-width: 183px;
+    @media screen and (max-width: $phoneWidth){
+      padding-left: 12px;
+    }
 
     .main-data {
       display: flex;
@@ -132,6 +142,13 @@ export default {
         overflow: hidden;
         text-overflow: ellipsis;
         text-align: start;
+
+        @media screen and (max-width: $phoneWidth) {
+          font-weight: 600;
+          font-size: 14px;
+          max-width: 145px;
+          min-width: 145px;
+        }
       }
 
       &__rate {
