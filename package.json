@@ -6,7 +6,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "dev": "cross-env --env.production=dev webpack-dev-server --config ./webpack/webpack.config.js --progress --mode development"
+    "dev": "cross-env --env.production=dev webpack-dev-server --config ./webpack/webpack.config.js --progress --mode development",
+    "webpack build": "webpack --config ./webpack/webpack.config.js --mode production"
   },
   "repository": {
     "type": "git",
