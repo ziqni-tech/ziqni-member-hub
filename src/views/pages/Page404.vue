@@ -5,9 +5,7 @@
       <h4 class="pt-3">Oops! You're lost.</h4>
       <p class="text-muted">The page you are looking for was not found.</p>
     </div>
-
   </div>
-
 </template>
 
 <script>

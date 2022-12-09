@@ -83,6 +83,10 @@ const routes = [
     name: 'Login',
     component: () => import('@/views/pages/Login'),
   },
+  {
+    path: '/:pathMatch(.*)*',
+    component: () => import('@/views/pages/Page404')
+  }
 ];
 
 const router = createRouter({
