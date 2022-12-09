@@ -17,7 +17,6 @@ const routes = [
       {
         path: 'tournaments',
         name: 'Tournaments',
-        component: () => import('@/views/tournaments/TournamentsView'),
         children: [
           {
             path: '',
