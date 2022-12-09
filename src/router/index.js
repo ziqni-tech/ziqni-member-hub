@@ -34,19 +34,18 @@ const routes = [
       {
         path: 'missions',
         name: 'Missions',
-        component: () => import('@/views/Missions'),
-        // children: [
-        //     {
-        //         path: '',
-        //         name: 'Missions',
-        //         component: () => import('@/views/Missions'),
-        //     },
-        // {
-        //     path: ':id',
-        //     name: 'MissionDetails',
-        //     component: () => import('@/views/MissionDetails'),
-        // },
-        // ]
+        children: [
+          {
+            path: '',
+            name: 'Missions',
+            component: () => import('@/views/Missions'),
+          },
+          {
+            path: ':id',
+            name: 'MissionDetails',
+            component: () => import('@/views/MissionDetails'),
+          },
+        ]
       },
       {
         path: 'loyality-Level',
@@ -88,8 +87,8 @@ const routes = [
 ];
 
 const router = createRouter({
-                              history: createWebHashHistory(),
-                              routes,
-                            });
+  history: createWebHashHistory(),
+  routes,
+});
 
 export default router;
