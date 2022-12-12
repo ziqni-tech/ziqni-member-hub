@@ -3,7 +3,7 @@
     <div class="card-banner">
       <img :src="banner" alt="">
       <div class="status">
-        <Status :status="tournament.status" />
+        <Status v-if="tournament && tournament.status" :status="tournament.status" />
       </div>
     </div>
     <div class="tournament-data-wrapper">
@@ -23,7 +23,8 @@
         </div>
       </div>
       <Countdown
-        :date="tournament?.scheduledEndDate"
+        v-if="tournament && tournament.scheduledEndDate"
+        :date="tournament.scheduledEndDate"
         :title="'Ends in'"
         :is-row="!isMobile"
         :is-column="isMobile"

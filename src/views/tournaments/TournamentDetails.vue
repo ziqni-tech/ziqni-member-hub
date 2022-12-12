@@ -10,7 +10,7 @@
       <img class="share-icon" src="../../assets/icons/share-icon.svg" alt=""/>
     </div>
     <div class="tables">
-      <Leaderboard :leaderboard="leaderboard"/>
+      <Leaderboard v-if="leaderboard" :leaderboard="leaderboard"/>
     </div>
   </div>
 </template>
@@ -85,18 +85,13 @@ export default {
         }, null);
 
         await contestApiWsClient.getContests(contestRequest, async (data) => {
-          console.warn('CONTEST', data.data[0]);
+          if (!this.tournamentItem) {
+            this.tournamentItem = data.data[0];
+          }
+
           const activeContest = data.data.filter(c => c.status === 'Active');
 
           const contestId = activeContest.length ? activeContest[0].id : data.data[0].id;
-
-          // const { rewards } = await useGetRewards({
-          //   entityType: 'Contest',
-          //   entityIds: [
-          //     contestId
-          //   ]
-          // })
-          // console.warn('REWARDS', rewards);
 
           const apiLeaderboardWsClient = new LeaderboardApiWs(ApiClientStomp.instance);
           const leaderboardSubscriptionRequest = {

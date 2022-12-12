@@ -3,14 +3,14 @@
     <div class="item_player">
       <Avatar :place="place" />
       <span
-        v-for="member in leaderboardItem.members"
+        v-for="member in leaderboardItem?.members"
         class="item_player__name"
         :style="{'--color': place < 4 ? '#43360E' : '#ffffff' }"
       >{{ member.name }}</span>
     </div>
     <span class="tournaments-played" :style="{'--color': place < 4 ? '#43360E' : '#ffffff' }">10</span>
     <div class="earnings-wrapper">
-      <div class="earnings" :class="setEarningsBgColor">{{ leaderboardItem.score }}</div>
+      <div class="earnings" :class="setEarningsBgColor">{{ leaderboardItem?.score }}</div>
     </div>
   </div>
 </template>

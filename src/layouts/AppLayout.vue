@@ -3,7 +3,7 @@
     <Sidebar v-if="!isMobile" @logOut="logOut"/>
     <MobileSidebar v-else/>
     <div class="right-part">
-      <Navbar v-if="member" :member="member"/>
+      <Navbar v-if="currentMember" :member="currentMember"/>
       <div class="page-content">
         <router-view/>
       </div>
@@ -38,7 +38,7 @@ export default {
     const router = useRouter();
     const isReady = ref(false);
     const isMobile = useMedia('(max-width: 480px)');
-    const member = reactive({});
+    const currentMember = reactive({});
 
     onMounted(async () => {
       await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
@@ -55,7 +55,7 @@ export default {
 
       memberApiWsClient.getMember(memberRequest, async (data) => {
         console.warn('MEMBER', data.data);
-        member.value = await data.data;
+        currentMember.value = await data.data;
         await store.dispatch('setMemberAction', data.data);
         isReady.value = true;
       });
@@ -67,7 +67,7 @@ export default {
       await router.push({ path: '/login' });
     };
 
-    return { isReady, isMobile, member, logOut };
+    return { isReady, isMobile, currentMember, logOut };
   },
 };
 </script>
