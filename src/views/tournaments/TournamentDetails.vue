@@ -1,5 +1,5 @@
 <template>
-  <div class="page-container" v-if="isReady">
+  <div v-if="isReady">
     <div class="header">
       <h1 class="section-title">{{ tournamentItem ? tournamentItem.name : '' }} 😝</h1>
       <img class="share-icon" src="../../assets/icons/share-icon.svg" alt=""/>
@@ -29,6 +29,10 @@ import {
   LeaderboardApiWs
 } from '@ziqni-tech/member-api-client';
 import { useGetRewards } from '../../hooks/useGetRewards';
+import { ref } from 'vue'
+import { useRoute } from 'vue-router';
+import { useGetContest } from '../../hooks/useGetContest';
+import { useGetLeaderboard } from '../../hooks/useGetLeaderboard';
 
 export default {
   name: 'TournamentDetails',
@@ -120,32 +124,30 @@ export default {
 <style lang="scss">
 @import '../../assets/scss/utils/vars';
 
-.page-container {
-  .tournament_card {
-    max-width: 1030px;
-    height: 310px;
-  }
+.tournament_card {
+  max-width: 1030px;
+  height: 310px;
+}
 
-  .banner {
-    width: 100%;
-  }
+.banner {
+  width: 100%;
+}
 
-  .header {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    background: none;
-    border: none;
+.header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  background: none;
+  border: none;
 
-    .share-icon {
-      height: 30px;
-      width: 30px;
-      margin-left: 18px;
-    }
+  .share-icon {
+    height: 30px;
+    width: 30px;
+    margin-left: 18px;
   }
+}
 
-  .tables {
-    display: flex;
-  }
+.tables {
+  display: flex;
 }
 </style>

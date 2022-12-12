@@ -2,8 +2,12 @@
   height: 100%;
   min-width: 280px;
 
-  @media screen and (max-width: $phoneWidth) {
+  @media screen and (max-width: $smDesktopWidth) {
     display: none;
+  }
+
+  @media screen and (max-width: $desktopWidth) {
+    min-width: 200px;
   }
 
   .brand {
@@ -23,6 +27,7 @@
   }
 
   .sidebar-nav {
+    height: 100%;
     background: $secondary-bg;
     padding-top: 60px;
   }

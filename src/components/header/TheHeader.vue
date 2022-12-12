@@ -25,7 +25,7 @@ import GameModeSwitch from './GameModeSwitch';
 import { useMedia } from '../../hooks/useMedia';
 
 const props = defineProps({ member: Object });
-const isMobile = useMedia('(max-width: 480px)');
+const isMobile = useMedia('(max-width: 1280px)');
 const member = props.member.value;
 
 </script>

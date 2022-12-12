@@ -37,7 +37,7 @@ export default {
     const store = useStore();
     const router = useRouter();
     const isReady = ref(false);
-    const isMobile = useMedia('(max-width: 480px)');
+    const isMobile = useMedia('(max-width: 1280px)');
     const currentMember = reactive({});
 
     onMounted(async () => {

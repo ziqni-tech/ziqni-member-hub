@@ -48,6 +48,7 @@ import { useMedia } from '../../hooks/useMedia';
 const props = defineProps({ tournament: Object });
 const end = new Date('2023-01-01T00:00:00');
 const isMobile = useMedia('(max-width: 480px)');
+console.warn('DETAIL', props);
 const finish = () => {
   console.log('finish');
 }
@@ -60,7 +61,7 @@ const finish = () => {
   position: relative;
   display: flex;
   max-width: 1030px;
-  max-height: 290px;
+  //max-height: 290px;
   background: #5D53C2;
   border-radius: 12px;
   overflow: hidden;
@@ -159,7 +160,7 @@ const finish = () => {
   }
 
 }
-@media screen and (max-width: $phoneWidth) {
+@media screen and (max-width: $desktopWidth) {
   .tournament-details-card {
     display: flex;
     flex-wrap: wrap;

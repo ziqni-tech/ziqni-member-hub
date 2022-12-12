@@ -88,7 +88,14 @@ export default {
   margin-bottom: 20px;
   margin-right: 30px;
 
-  @media screen and (max-width: $phoneWidth){
+  @media screen and (max-width: $desktopWidth) {
+    padding: 10px 7px 10px 15px;
+    margin-bottom: 10px;
+    margin-right: 0;
+    max-width: 390px;
+  }
+
+  @media screen and (max-width: $tableWidth) {
     padding: 10px 7px 10px 15px;
     margin-bottom: 10px;
     margin-right: 0;

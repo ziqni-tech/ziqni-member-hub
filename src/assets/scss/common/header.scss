@@ -16,8 +16,8 @@
     flex-wrap: nowrap;
   }
 
-  @media screen and (max-width: $phoneWidth) {
-    padding: 9px 22px 9px 26px;
+  @media screen and (max-width: $desktopWidth) {
+    padding: 9px 22px;
 
     &__mobile-logo {
       width: 100%;

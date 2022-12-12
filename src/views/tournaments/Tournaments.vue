@@ -1,8 +1,6 @@
 <template>
-  <div class="page-container">
-    <CurrentTournamentsSection />
-    <FeatureTournamentsSection />
-  </div>
+  <CurrentTournamentsSection />
+  <FeatureTournamentsSection />
 </template>
 
 <script>

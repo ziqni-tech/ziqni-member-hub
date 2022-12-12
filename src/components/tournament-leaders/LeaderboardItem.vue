@@ -135,7 +135,7 @@ const setEarningsBgColor = computed(() => {
     width: 100%;
 
     .item_player {
-      .item_player__name {
+      &__name-block {
         font-size: 14px;
         padding: 0 0 0 5px;
         max-width: 120px;
