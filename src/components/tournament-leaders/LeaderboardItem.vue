@@ -2,11 +2,11 @@
   <div class="leader-board__item" :class="setItemBgColor">
     <div class="item_player">
       <Avatar :place="place" />
-      <span
-        v-for="member in leaderboardItem?.members"
-        class="item_player__name"
-        :style="{'--color': place < 4 ? '#43360E' : '#ffffff' }"
-      >{{ member.name }}</span>
+      <div class="item_player__name-block" :style="{'--color': place < 4 ? '#43360E' : '#ffffff' }">
+        <span v-for="member in leaderboardItem?.members">
+          {{ member.name }}
+        </span>
+      </div>
     </div>
     <span class="tournaments-played" :style="{'--color': place < 4 ? '#43360E' : '#ffffff' }">10</span>
     <div class="earnings-wrapper">
@@ -73,7 +73,6 @@ const setEarningsBgColor = computed(() => {
 .leader-board__item {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   flex-wrap: wrap;
   border-radius: 8px;
   padding: 7px 8px;
@@ -82,10 +81,11 @@ const setEarningsBgColor = computed(() => {
   .item_player {
     display: flex;
     justify-content: flex-start;
-    align-items: center;
     width: 33%;
 
-    &__name {
+    &__name-block {
+      display: flex;
+      flex-direction: column;
       padding-left: 40px;
       font-family: $mainFont;
       font-style: normal;
@@ -112,6 +112,7 @@ const setEarningsBgColor = computed(() => {
     justify-content: flex-end;
 
     .earnings {
+      max-height: 42px;
       display: flex;
       align-items: center;
       justify-content: center;
