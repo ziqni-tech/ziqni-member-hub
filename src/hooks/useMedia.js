@@ -6,7 +6,7 @@ export const useMedia = (query) => {
   watchEffect((onInvalidate) => {
     const media = window.matchMedia(query);
 
-    if(media.matches !== matches) {
+    if(media.matches !== matches.value) {
       matches.value = media.matches;
     }
 
