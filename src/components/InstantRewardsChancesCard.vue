@@ -23,8 +23,8 @@ import kittyImg from '../assets/images/kitty.png';
 <style lang="scss">
 @import '../assets/scss/utils/vars';
 .IRC-card {
-  width: 611px;
-  height: 204px;
+  //width: 611px;
+  //height: 204px;
   filter: drop-shadow(0px 7px 21px rgba(180, 180, 180, 0.25));
   overflow: hidden;
   

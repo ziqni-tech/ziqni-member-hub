@@ -40,8 +40,8 @@ const finish = () => {
 @import '../assets/scss/utils/vars';
 
 .monthly-tournament-card {
-  width: 360px;
-  height: 454px;
+  //width: 360px;
+  //height: 454px;
   border-radius: 14px;
   overflow: hidden;
 

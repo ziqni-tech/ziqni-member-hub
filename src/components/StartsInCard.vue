@@ -56,8 +56,8 @@ const finish = () => {
 <style lang="scss">
 @import '../assets/scss/utils/vars';
 .starts-in-card {
-  width: 180px;
-  height: 232px;
+  //width: 180px;
+  //height: 232px;
   background: #5D53C2;
   border-radius: 8px;
 
