@@ -1,18 +1,17 @@
 <template>
-  <div v-if="isReady">
-    <div class="header">
-      <h1 class="section-title">{{ tournamentItem ? tournamentItem.name : '' }} 😝</h1>
-      <img class="share-icon" src="../../assets/icons/share-icon.svg" alt=""/>
-    </div>
-    <TournamentDetailsCard :tournament="tournamentItem"/>
-    <div class="header">
-      <h2 class="section-title">Leaderboard</h2>
-      <img class="share-icon" src="../../assets/icons/share-icon.svg" alt=""/>
-    </div>
-    <div class="tables">
-      <Leaderboard v-if="leaderboard" :leaderboard="leaderboard"/>
-    </div>
+  <div class="header">
+    <h1 class="section-title">{{ tournamentItem ? tournamentItem.name : '' }} 😝</h1>
+    <img class="share-icon" src="../../assets/icons/share-icon.svg" alt=""/>
   </div>
+  <TournamentDetailsCard :tournament="tournamentItem"/>
+  <div class="header" v-if="leaderboard">
+    <h2 class="section-title">Leaderboard</h2>
+    <img class="share-icon" src="../../assets/icons/share-icon.svg" alt=""/>
+  </div>
+  <div class="tables" v-if="leaderboard">
+    <Leaderboard :leaderboard="leaderboard"/>
+  </div>
+  <NotFoundItems v-else :title="'available competition'" />
 </template>
 
 <script>
@@ -33,10 +32,13 @@ import { ref } from 'vue'
 import { useRoute } from 'vue-router';
 import { useGetContest } from '../../hooks/useGetContest';
 import { useGetLeaderboard } from '../../hooks/useGetLeaderboard';
+import NotFoundItems from '../../components/NotFoundItems';
+// NO AVAILABLE COMPETITION
 
 export default {
   name: 'TournamentDetails',
   components: {
+    NotFoundItems,
     TournamentDetailsCard,
     TopThree,
     Leaderboard,
@@ -46,7 +48,6 @@ export default {
     return {
       tournamentItem: null,
       leaderboard: null,
-      isReady: false
     };
   },
   created() {
@@ -62,13 +63,16 @@ export default {
             tags: [],
             startDate: null,
             endDate: null,
+            statusCode: {
+              moreThan: 5,
+              lessThan: 100
+            },
             ids: [this.$route.params.id],
           }
         }, null);
         await competitionsApiWsClient.getCompetitions(competitionRequest, async ({ data }) => {
           this.tournamentItem = await data[0];
           console.warn('COMPETITION', data[0]);
-          this.isReady = true;
         });
 
         const contestApiWsClient = new ContestsApiWs(ApiClientStomp.instance);
@@ -89,6 +93,7 @@ export default {
         }, null);
 
         await contestApiWsClient.getContests(contestRequest, async (data) => {
+          console.warn('CONTEST', data.data);
           if (!this.tournamentItem) {
             this.tournamentItem = data.data[0];
           }
@@ -123,6 +128,13 @@ export default {
 
 <style lang="scss">
 @import '../../assets/scss/utils/vars';
+
+@media screen and (max-width: 1280px){
+  .tournament_card {
+    width: 100%;
+    //height: 310px;
+  }
+}
 
 .tournament_card {
   max-width: 1030px;

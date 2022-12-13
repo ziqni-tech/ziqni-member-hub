@@ -22,23 +22,5 @@ export default {
 </script>
 
 <style lang="scss">
-.tournament-cards, .missions-cards {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  overflow: hidden;
-  overflow-x: scroll;
 
-  &::-webkit-scrollbar {
-    height: 7px;
-    width: 7px;
-    background-color: #f0f0f0;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border-radius: 3px;
-    background-color: #8a8a8a;
-  }
-}
 </style>

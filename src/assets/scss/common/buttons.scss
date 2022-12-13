@@ -8,14 +8,14 @@
   border-radius: 5px;
 
   @media screen and (max-width: $desktopWidth) {
-    padding: 10px 14px;
+    padding: 8px 10px;
   }
-  @media screen and (max-width: $tableWidth) {
-    padding: 10px 14px;
+
+  @media screen and (max-width: $tableWidth) and (min-width: $smTableWidth) {
+    padding: 3px 5px;
+    margin-top: 10px;
   }
-  @media screen and (max-width: $phoneWidth) {
-    padding: 10px 14px;
-  }
+
 
   &:hover {
     background: $btn-bg-hover-orange;
@@ -31,9 +31,20 @@
     display: flex;
     align-items: center;
     color: $g-0;
+
+    @media screen and (max-width: $tableWidth) {
+      font-size: 13px;
+      line-height: 18px;
+    }
   }
   & > img {
     margin-left: 18px;
+    @media screen and (max-width: $desktopWidth) {
+      margin-left: 5px;
+    }
+    @media screen and (max-width: $tableWidth) {
+      margin-left: 0;
+    }
   }
 }
 

@@ -5,8 +5,8 @@
       <ActionsBlock/>
     </div>
     <div class="tournament-cards" v-if="competitions">
-      <div v-for="c in competitions">
-        <TournamentCard class="tournament-card" :key="c.id" :card="c"/>
+      <div v-for="c in competitions" class="tournament-card-wrapper">
+        <TournamentCard :key="c.id" :card="c"/>
       </div>
     </div>
     <NotFoundItems v-else :title="'Feature Tournaments'" />
@@ -79,22 +79,5 @@ export default {
 </script>
 
 <style lang="scss">
-.tournament-cards, .missions-cards {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  overflow: hidden;
 
-  &::-webkit-scrollbar {
-    height: 7px;
-    width: 7px;
-    background-color: #f0f0f0;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border-radius: 3px;
-    background-color: #8a8a8a;
-  }
-}
 </style>

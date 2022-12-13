@@ -48,7 +48,7 @@ import { useMedia } from '../../hooks/useMedia';
 const props = defineProps({ tournament: Object });
 const end = new Date('2023-01-01T00:00:00');
 const isMobile = useMedia('(max-width: 480px)');
-console.warn('DETAIL', props);
+
 const finish = () => {
   console.log('finish');
 }
@@ -164,6 +164,7 @@ const finish = () => {
   .tournament-details-card {
     display: flex;
     flex-wrap: wrap;
+    width: 100%;
 
     .card-banner {
       position: relative;
