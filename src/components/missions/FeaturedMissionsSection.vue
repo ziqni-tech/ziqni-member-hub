@@ -5,7 +5,7 @@
       <ActionsBlock />
     </div>
     <div class="tournament-cards">
-      <div>
+      <div class="tournament-card-wrapper" v-for="card in 5">
         <MissionCard />
       </div>
     </div>

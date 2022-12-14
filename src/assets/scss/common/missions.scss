@@ -1,0 +1,65 @@
+.mission-card {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  position: relative;
+  display: flex;
+  background: #5951AA;
+  border-radius: 16px;
+  align-items: flex-start;
+  width: 100%;
+  height: auto;
+
+  .card-image {
+    width: 35%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 16px 0 0 16px;
+
+    & > img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .mission-data {
+    color: #FFFFFF;
+    font-weight: 600;
+    font-size: 11px;
+    line-height: 16px;
+    padding: 13px 0 10px 20px;
+
+    .title {
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 27px;
+      color: #FFFBFF;
+      text-align: start;
+      margin: 0;
+    }
+
+    .prize-fund {
+      display: flex;
+      align-items: flex-start;
+
+      .fund {
+        margin-left: 5px;
+      }
+    }
+  }
+
+  .mission-progress {
+    margin-top: 10px;
+  }
+
+  .progress {
+    width: 185px;
+    background: linear-gradient(180deg, #EDDFF3 0%, #E8EAEC 100%);
+    border-radius: 24px;
+
+    .progress-bar {
+      background: linear-gradient(180deg, #1ECE30 0%, #188A2A 100%);
+      box-shadow: inset 0 2.29752px 4.59504px rgba(255, 255, 255, 0.25), inset 0px -2.29752px 4.59504px rgba(0, 0, 0, 0.25);
+      border-radius: 4px;
+    }
+  }
+}
