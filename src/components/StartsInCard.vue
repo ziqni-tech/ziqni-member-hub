@@ -56,10 +56,16 @@ const finish = () => {
 <style lang="scss">
 @import '../assets/scss/utils/vars';
 .starts-in-card {
+  width: 32%;
   //width: 180px;
   //height: 232px;
   background: #5D53C2;
   border-radius: 8px;
+
+  @media screen and (max-width: $phoneWidth){
+    width: 50%;
+    margin-bottom: 10px;
+  }
 
   .starts-in-card-body {
     padding: 0;

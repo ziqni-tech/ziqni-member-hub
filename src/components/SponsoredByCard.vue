@@ -22,10 +22,16 @@ import sponsorLogo from '../assets/images/sponsored-by-logo.svg';
 <style lang="scss">
 @import '../assets/scss/utils/vars';
 .sponsored-by-card {
-  width: 180px;
+  width: 32%;
   height: 232px;
   background: #5D53C2;
   border-radius: 8px;
+
+  @media screen and (max-width: $phoneWidth){
+    width: 50%;
+    margin-bottom: 10px;
+  }
+
   .sponsored-by-card-body {
     padding: 12px 0;
     display: flex;

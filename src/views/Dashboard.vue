@@ -11,7 +11,9 @@
           <StartsInCard />
           <StartsInCard />
         </div>
-        <InstantRewardsChancesCard />
+        <div class="instant-rewards-chances-card-wrapper">
+          <InstantRewardsChancesCard />
+        </div>
       </div>
     </div>
   </div>
@@ -48,7 +50,7 @@ import CurrentMissionsSection from '../components/missions/CurrentMissionsSectio
     }
   }
 }
-@media screen and (max-width: $phoneWidth){
+@media screen and (max-width: 850px) {
   .info-container {
     flex-wrap: wrap;
     justify-content: center;
@@ -56,8 +58,39 @@ import CurrentMissionsSection from '../components/missions/CurrentMissionsSectio
     .charts-container {
       padding: 10px 0 0;
       width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
       .starts-in-cards {
+        width: 90%;
+        padding-bottom: 10px;
+      }
+      .instant-rewards-chances-card-wrapper {
+        width: 90%;
+      }
+    }
+  }
+}
+@media screen and (max-width: $phoneWidth) {
+  .info-container {
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .charts-container {
+      padding: 10px 0 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .starts-in-cards {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .instant-rewards-chances-card-wrapper {
         width: 100%;
       }
     }

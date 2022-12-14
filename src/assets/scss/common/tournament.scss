@@ -13,7 +13,7 @@
   @media screen and (max-width: $desktopWidth) {
     width: 33%;
   }
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: $smDesktopWidth) {
     width: 49%;
   }
   @media screen and (max-width: $phoneWidth) {
