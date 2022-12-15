@@ -33,7 +33,6 @@ import { useRoute } from 'vue-router';
 import { useGetContest } from '../../hooks/useGetContest';
 import { useGetLeaderboard } from '../../hooks/useGetLeaderboard';
 import NotFoundItems from '../../components/NotFoundItems';
-// NO AVAILABLE COMPETITION
 
 export default {
   name: 'TournamentDetails',
@@ -107,8 +106,8 @@ export default {
             action: 'Subscribe',
             entityId: contestId,
             leaderboardFilter: {
-              ranksAboveToInclude: 10,
-              ranksBelowToInclude: 10,
+              ranksAboveToInclude: 20,
+              ranksBelowToInclude: 20,
               topRanksToInclude: 1
             }
           };

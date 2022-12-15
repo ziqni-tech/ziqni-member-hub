@@ -61,7 +61,6 @@ const finish = () => {
   position: relative;
   display: flex;
   max-width: 1030px;
-  //max-height: 290px;
   background: #5D53C2;
   border-radius: 12px;
   overflow: hidden;
@@ -160,7 +159,7 @@ const finish = () => {
   }
 
 }
-@media screen and (max-width: $desktopWidth) {
+@media screen and (max-width: $smDesktopWidth) {
   .tournament-details-card {
     display: flex;
     flex-wrap: wrap;

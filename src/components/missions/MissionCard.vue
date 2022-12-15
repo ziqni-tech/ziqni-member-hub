@@ -1,4 +1,5 @@
 <template>
+  <router-link :to="{name: 'MissionDetails', params: { id: 1 }}" >
   <div class="mission-card">
     <div class="card-image">
       <img :src="$options.cardImage" alt="">
@@ -21,6 +22,7 @@
       </CProgress>
     </div>
   </div>
+  </router-link>
 </template>
 
 <script>

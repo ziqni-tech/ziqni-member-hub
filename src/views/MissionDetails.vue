@@ -16,7 +16,6 @@ import MissionDetailsCard from '../components/missions/MissionDetailsCard';
 .header {
   display: flex;
   justify-content: flex-start;
-  padding-top: 46px;
   background: none;
   border: none;
 
