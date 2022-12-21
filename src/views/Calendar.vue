@@ -2,14 +2,14 @@
   <div class="text-center section">
     <h2 class="section-title pt-5">Calendar</h2>
     <calendar-view
-        :items="competitions"
-        :show-date="showDate"
-        :time-format-options="{ hour: 'numeric', minute: '2-digit' }"
-        class="theme-default holiday-us-traditional "
-        :starting-day-of-week="1"
-        :enable-drag-drop="false"
-        :displayPeriodUom="displayPeriod"
-        @click-item="clickEvent"
+      :items="competitions"
+      :show-date="showDate"
+      :time-format-options="{ hour: 'numeric', minute: '2-digit' }"
+      class="theme-default holiday-us-traditional "
+      :starting-day-of-week="1"
+      :enable-drag-drop="false"
+      :displayPeriodUom="displayPeriod"
+      @click-item="clickEvent"
     >
       <template #header="{ headerProps }">
         <calendar-view-header slot="header" :header-props="headerProps" @input="setShowDate" />
@@ -20,20 +20,16 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { ApiClientStomp, CompetitionRequest, CompetitionsApiWs } from '@ziqni-tech/member-api-client';
 import { CalendarView, CalendarViewHeader } from 'vue-simple-calendar';
 import '../../node_modules/vue-simple-calendar/dist/style.css';
 import '../../node_modules/vue-simple-calendar/dist/css/default.css';
-import '../../node_modules/vue-simple-calendar/dist/css/holidays-us.css';
 
-const store = useStore();
-const router = useRouter()
-
-const competitions = ref([]);
+const router = useRouter();
 const showDate = ref(new Date());
 const displayPeriod = 'month';
+const competitions = ref([]);
 
 const setShowDate = (d) => {
   showDate.value = d;
@@ -97,7 +93,8 @@ const clickEvent = (val) => {
 
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+@import "../assets/scss/utils/vars";
 .cv-wrapper {
   height: 696px;
   width: 100%;
@@ -124,21 +121,50 @@ const clickEvent = (val) => {
   min-height: 6rem;
 }
 
-.competition {
-  font-size: 0.85em;
+.cv-header {
+  background-color: $primary-bg !important;
+  .cv-header-nav {
+    .previousYear,
+    .previousPeriod,
+    .currentPeriod,
+    .nextPeriod,
+    .nextYear {
+      background-color: $primary-bg !important;
+    }
 
-  &:hover {
-    cursor: pointer;
   }
+}
+.cv-header-days {
+  .cv-header-day {
+    background-color: $primary-bg !important;
+  }
+}
+.cv-weekdays {
+  .cv-day {
+    background-color: #FFFFFF !important;
+  }
+  .today {
+    background-color: $primary-bg !important;
+    border: 2px solid $border-base !important;
+    box-sizing: border-box !important;
+  }
+  .outsideOfMonth {
+    background-color: $sts-grey-lightest !important;
+  }
+}
+
+.competition {
+  font-size: 0.85em !important;
+  cursor: pointer !important;
 
   &-active {
-    background-color: #188A2A !important;
+    background-color: $sts-green-light  !important;
   }
   &-ready {
-    background-color: #CE624B;
+    background-color: $sts-red-light !important;
   }
   &-finalised {
-    background-color: #727272;
+    background-color: $sts-grey-light !important;
   }
 }
 </style>
