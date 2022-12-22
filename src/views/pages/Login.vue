@@ -45,10 +45,16 @@ const generateUserToken = async () => {
   if (body.data && body.data.jwtToken) {
     const token = body.data.jwtToken;
     localStorage.setItem('token', token);
-    await router.push({ path: '/dashboard' })
+    router.go(0)
   } else {
     console.error('Member Token Error', body.errors[0].message);
   }
+}
+
+const isLoggedIn = !!localStorage.getItem('token');
+
+if (isLoggedIn) {
+  router.push({ name: 'Dashboard' });
 }
 </script>
 
