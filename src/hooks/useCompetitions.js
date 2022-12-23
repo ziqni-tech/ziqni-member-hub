@@ -5,7 +5,7 @@ export const useCompetitions = () => {
   const competitions = ref([]);
   const totalRecords = ref(0);
 
-  const getCompetitionsHandler = async (statusCode, limit, skip) => {
+  const getCompetitionsHandler = async (statusCode, limit, skip, ids) => {
     const competitionsApiWsClient = new CompetitionsApiWs(ApiClientStomp.instance);
 
     const activeCompetitionRequest = CompetitionRequest.constructFromObject({
@@ -16,7 +16,8 @@ export const useCompetitions = () => {
           order: 'Desc'
         }],
         limit,
-        skip
+        skip,
+        ids
       }
     }, null);
 
