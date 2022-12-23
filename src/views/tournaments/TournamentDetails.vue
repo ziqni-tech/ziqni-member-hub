@@ -14,115 +14,43 @@
   <NotFoundItems v-else :title="'available competition'" />
 </template>
 
-<script>
-import ActionsBlock from '../../shared/components/actions-block/ActionsBlock';
+<script setup>
 import Leaderboard from '../../components/tournament-leaders/Leaderboard';
-import TopThree from '../../components/tournament-leaders/TopThree';
 import TournamentDetailsCard from '../../components/tournaments/TournamentDetailsCard';
-import {
-  ApiClientStomp,
-  CompetitionRequest,
-  CompetitionsApiWs,
-  ContestRequest,
-  ContestsApiWs,
-  LeaderboardApiWs
-} from '@ziqni-tech/member-api-client';
-import { useGetRewards } from '../../hooks/useGetRewards';
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
-import { useGetContest } from '../../hooks/useGetContest';
+import { useGetContests } from '../../hooks/useGetContests';
 import { useGetLeaderboard } from '../../hooks/useGetLeaderboard';
 import NotFoundItems from '../../components/NotFoundItems';
+import { useCompetitions } from '../../hooks/useCompetitions';
 
-export default {
-  name: 'TournamentDetails',
-  components: {
-    NotFoundItems,
-    TournamentDetailsCard,
-    TopThree,
-    Leaderboard,
-    ActionsBlock,
-  },
-  data() {
-    return {
-      tournamentItem: null,
-      leaderboard: null,
-    };
-  },
-  created() {
-    this.initialize();
-  },
-  methods: {
-    async initialize() {
-      try {
-        const competitionsApiWsClient = new CompetitionsApiWs(ApiClientStomp.instance);
-        const competitionRequest = CompetitionRequest.constructFromObject({
-          competitionFilter: {
-            productIds: [],
-            tags: [],
-            startDate: null,
-            endDate: null,
-            statusCode: {
-              moreThan: 5,
-              lessThan: 100
-            },
-            ids: [this.$route.params.id],
-          }
-        }, null);
-        await competitionsApiWsClient.getCompetitions(competitionRequest, async ({ data }) => {
-          this.tournamentItem = await data[0];
-          console.warn('COMPETITION', data[0]);
-        });
+const { getCompetitionsHandler, competitions } = useCompetitions();
+const { getEntityContests, contests } = useGetContests();
+const { getEntityLeaderboard, leaderboard } = useGetLeaderboard();
 
-        const contestApiWsClient = new ContestsApiWs(ApiClientStomp.instance);
-        const contestRequest = ContestRequest.constructFromObject({
-          contestFilter: {
-            productIds: [],
-            tags: [],
-            startDate: null,
-            endDate: null,
-            ids: [],
-            competitionIds: [this.$route.params.id],
-            constraints: [],
-            statusCode: {
-              moreThan: 10,
-              lessThan: 100
-            },
-          }
-        }, null);
+const route = useRoute();
+const ids = [route.params.id];
+const statusCode = {
+  moreThan: 5,
+  lessThan: 100
+}
 
-        await contestApiWsClient.getContests(contestRequest, async (data) => {
-          console.warn('CONTEST', data.data);
-          if (!this.tournamentItem) {
-            this.tournamentItem = data.data[0];
-          }
+const tournamentItem = ref(null);
 
-          const activeContest = data.data.filter(c => c.status === 'Active');
+getCompetitionsHandler(statusCode, 1, 0, ids);
 
-          const contestId = activeContest.length ? activeContest[0].id : data.data[0].id;
+watchEffect( () => {
+  tournamentItem.value = competitions.value[0];
+  const competitionId = competitions.value[0]?.id;
+  if (competitionId) getEntityContests(competitionId)
+})
 
-          const apiLeaderboardWsClient = new LeaderboardApiWs(ApiClientStomp.instance);
-          const leaderboardSubscriptionRequest = {
-            action: 'Subscribe',
-            entityId: contestId,
-            leaderboardFilter: {
-              ranksAboveToInclude: 20,
-              ranksBelowToInclude: 20,
-              topRanksToInclude: 1
-            }
-          };
-          await apiLeaderboardWsClient.subscribeToLeaderboard(leaderboardSubscriptionRequest, (data) => {
-            this.leaderboard = data.data?.leaderboardEntries;
-            console.warn('CONTEST LEADERBOARD', data);
-          });
-        });
-
-      } catch (error) {
-        console.log('get competition error', error);
-      }
-    }
+watchEffect( () => {
+  if (contests.value[0]) {
+    const contestId = contests.value[0].id;
+    getEntityLeaderboard(contestId);
   }
-};
+})
 </script>
 
 <style lang="scss">
