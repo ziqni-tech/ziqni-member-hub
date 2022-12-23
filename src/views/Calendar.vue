@@ -2,7 +2,7 @@
   <div class="text-center section">
     <h2 class="section-title pt-5">Calendar</h2>
     <calendar-view
-      :items="competitions"
+      :items="competitionItems"
       :show-date="showDate"
       :time-format-options="{ hour: 'numeric', minute: '2-digit' }"
       class="theme-default holiday-us-traditional "
@@ -19,9 +19,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
-import { ApiClientStomp, CompetitionRequest, CompetitionsApiWs } from '@ziqni-tech/member-api-client';
+import { useCompetitions } from '../hooks/useCompetitions';
+
 import { CalendarView, CalendarViewHeader } from 'vue-simple-calendar';
 import '../../node_modules/vue-simple-calendar/dist/style.css';
 import '../../node_modules/vue-simple-calendar/dist/css/default.css';
@@ -29,58 +30,45 @@ import '../../node_modules/vue-simple-calendar/dist/css/default.css';
 const router = useRouter();
 const showDate = ref(new Date());
 const displayPeriod = 'month';
-const competitions = ref([]);
+const { competitions, getCompetitionsHandler } = useCompetitions();
+
+const statusCode = {
+  moreThan: 10,
+  lessThan: 100
+}
+const limit = 20
 
 const setShowDate = (d) => {
   showDate.value = d;
 }
-const getTournaments = async () => {
-  try {
-    const competitionsApiWsClient = new CompetitionsApiWs(ApiClientStomp.instance);
-    const activeCompetitionRequest = CompetitionRequest.constructFromObject({
-      competitionFilter: {
-        statusCode: {
-          moreThan: 10,
-          lessThan: 100
-        },
-        sortBy: [{
-          queryField: 'created',
-          order: 'Desc'
-        }],
-        limit: 20,
-        skip: 0
-      }
-    }, null);
 
-    await competitionsApiWsClient.getCompetitions(activeCompetitionRequest, (res) => {
-      competitions.value = res.data.map(item => {
-        let itemClass = '';
-        switch (item.status) {
-          case 'Active':
-            itemClass = 'competition-active';
-            break;
-          case 'Ready':
-            itemClass = 'competition-ready';
-            break;
-          case 'Finalised':
-            itemClass = 'competition-finalised';
-            break;
-        }
-        return {
-          id: item.id,
-          title: item.name,
-          startDate: new Date(item.scheduledStartDate),
-          endDate: new Date(item.scheduledEndDate),
-          classes: ['competition', itemClass],
-        }
-      })
-    });
-  } catch (error) {
-    console.log('activeCompetitionRequest', error);
-  }
-}
+getCompetitionsHandler(statusCode, limit, 0, []);
 
-getTournaments();
+const competitionItems = ref([]);
+
+watchEffect(() => {
+  competitionItems.value = competitions.value.map(item => {
+    let itemClass = '';
+    switch (item.status) {
+      case 'Active':
+        itemClass = 'competition-active';
+        break;
+      case 'Ready':
+        itemClass = 'competition-ready';
+        break;
+      case 'Finalised':
+        itemClass = 'competition-finalised';
+        break;
+    }
+    return {
+      id: item.id,
+      title: item.name,
+      startDate: new Date(item.scheduledStartDate),
+      endDate: new Date(item.scheduledEndDate),
+      classes: ['competition', itemClass],
+    }
+  })
+})
 
 const clickEvent = (val) => {
   router.push({
