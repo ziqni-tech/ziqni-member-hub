@@ -4,78 +4,46 @@
       <h2 class="section-title">Current Tournaments</h2>
       <ActionsBlock/>
     </div>
-    <div class="tournament-cards" v-if="competitions">
-      <div v-for="c in competitions" class="tournament-card-wrapper">
+    <div class="tournament-cards" v-if="currentCompetitions">
+      <div v-for="c in currentCompetitions" class="tournament-card-wrapper">
         <TournamentCard :key="c.id" :card="c"/>
       </div>
     </div>
     <NotFoundItems v-else :title="'Current Tournaments'" />
+    <button class="b-btn b-btn__text" v-if="isShowMore" @click="loadMore">
+      Show More
+    </button>
   </div>
 </template>
 
-<script>
+<script setup>
 import ActionsBlock from '../../shared/components/actions-block/ActionsBlock';
 import TournamentCard from '../../components/tournaments/TournamentCard';
-import { ApiClientStomp, CompetitionRequest, CompetitionsApiWs } from '@ziqni-tech/member-api-client';
 import NotFoundItems from '../NotFoundItems';
+import { computed, ref, watchEffect } from 'vue';
+import { useCompetitions } from '../../hooks/useCompetitions'
 
-export default {
-  name: 'CurrentTournamentsSection',
-  components: {
-    NotFoundItems,
-    ActionsBlock,
-    TournamentCard
-  },
-  data() {
-    return {
-      competitions: []
-    }
-  },
-  created() {
-    this.initialize();
-  },
-  methods: {
-    initialize() {
-      this.competitions = this.$store.state.competitions
-      if (!this.competitions) {
-        this.getTournaments()
-      }
-    },
-    async getTournaments() {
-      try {
-        const competitionsApiWsClient = new CompetitionsApiWs(ApiClientStomp.instance);
-        const activeCompetitionRequest = CompetitionRequest.constructFromObject({
-          competitionFilter: {
-            statusCode: {
-              moreThan: 20,
-              lessThan: 30
-            },
-            sortBy: [{
-              queryField: 'created',
-              order: 'Desc'
-            }],
-            limit: 20,
-            skip: 0
-          }
-        }, null);
+const { totalRecords, getCompetitionsHandler, competitions } = useCompetitions();
+const currentCompetitions = ref([]);
+const limit = ref(3);
+const skip = ref(0);
+const statusCode = {
+  moreThan: 20,
+  lessThan: 30
+}
 
-        await competitionsApiWsClient.getCompetitions(activeCompetitionRequest, (res) => {
-          this.competitions = res.data;
-          this.$store.dispatch('setCurrentCompetitionsAction', res.data);
-        });
-      } catch (error) {
-        console.log('activeCompetitionRequest', error);
-      }
-    }
-  },
-  watch: {
-    competitions(val) {
-      if (val) {
-        this.competitions = val;
-      }
-    }
-  }
-};
+getCompetitionsHandler(statusCode, limit.value, skip.value)
+
+watchEffect(() => {
+  currentCompetitions.value = [...currentCompetitions.value, ...competitions.value];
+});
+
+const isShowMore = computed(() => currentCompetitions.value.length < totalRecords.value)
+
+const loadMore = async() => {
+  skip.value = currentCompetitions.value.length
+  await getCompetitionsHandler(statusCode, limit.value, skip.value)
+}
 </script>
 
 <style lang="scss">
