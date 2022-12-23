@@ -1,38 +1,34 @@
 import { ApiClientStomp, CompetitionRequest, CompetitionsApiWs } from '@ziqni-tech/member-api-client';
-import { reactive } from 'vue';
-import { useStore } from 'vuex';
+import { ref } from 'vue';
 
-const useCompetitions = async () => {
-  const store = useStore();
-  const competitions = reactive([]);
+export const useCompetitions = () => {
+  const competitions = ref([]);
+  const totalRecords = ref(0);
 
-  try {
+  const getCompetitionsHandler = async (statusCode, limit, skip) => {
     const competitionsApiWsClient = new CompetitionsApiWs(ApiClientStomp.instance);
+
     const activeCompetitionRequest = CompetitionRequest.constructFromObject({
       competitionFilter: {
-        statusCode: {
-          moreThan: 10,
-          lessThan: 35
-        },
+        statusCode,
         sortBy: [{
           queryField: 'created',
           order: 'Desc'
         }],
-        limit: 20,
-        skip: 0
+        limit,
+        skip
       }
     }, null);
 
     await competitionsApiWsClient.getCompetitions(activeCompetitionRequest, (res) => {
       competitions.value = res.data;
-      store.dispatch('setCurrentCompetitionsAction', res.data);
-
+      totalRecords.value = res.meta.totalRecordsFound;
     });
-  } catch (error) {
-    console.log('activeCompetitionRequest', error);
   }
 
-  return { competitions }
+  return {
+    getCompetitionsHandler,
+    competitions,
+    totalRecords
+  }
 }
-
-export default useCompetitions;
