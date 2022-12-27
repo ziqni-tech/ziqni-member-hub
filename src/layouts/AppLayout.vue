@@ -25,7 +25,7 @@ import { onMounted, reactive, ref, watchEffect } from 'vue';
 import { useStore } from 'vuex';
 import { useMedia } from '../hooks/useMedia';
 import { useRouter } from 'vue-router';
-import Alert from '../components/Alert';
+import Alert from '../components/notifications/Alert';
 
 const store = useStore();
 const router = useRouter();

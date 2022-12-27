@@ -24,7 +24,7 @@ const showAlert = ref(false)
 watchEffect(() => {
   if (props.message) {
     messageItem.value = props.message;
-    showAlert.value = true
+    // showAlert.value = true
   }
 })
 
