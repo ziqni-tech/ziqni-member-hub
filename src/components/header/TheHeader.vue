@@ -8,7 +8,7 @@
       <Welcome v-if="!isMobile" :name="member?.name" />
       <UserProgress />
       <UserEnergy :energy-value="1200" :increment-energy-value="5" />
-      <Notifications :number-of-notifications="5" />
+      <Notifications :number-of-notifications="notificationsCount" />
       <GameModeSwitch v-if="!isMobile" />
     </div>
   </div>
@@ -23,10 +23,20 @@ import Notifications from './Notifications';
 import GameModeSwitch from './GameModeSwitch';
 
 import { useMedia } from '../../hooks/useMedia';
+import { useStore } from 'vuex';
+import { ref, watchEffect } from 'vue';
 
 const props = defineProps({ member: Object });
 const isMobile = useMedia('(max-width: 1280px)');
 const member = props.member.value;
+const store = useStore();
+const notificationsCount = ref(0);
+
+watchEffect(() => {
+  const notifications = store.getters.getNotifications;
+  notificationsCount.value = notifications.length;
+})
+
 
 </script>
 
