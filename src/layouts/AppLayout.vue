@@ -58,10 +58,7 @@ onMounted(async () => {
     console.warn('sendSys headers:', headers);
     console.warn('sendSys json:', json);
     message.value = json;
-
-    if (json.entityType === 'Message') {
-      this.getMessage(json.entityId);
-    }
+    store.dispatch('setNotificationAction', json)
   });
 });
 
