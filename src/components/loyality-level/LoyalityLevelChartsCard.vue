@@ -1,7 +1,7 @@
 <template>
   <div class="loyality-charts-card">
     <div class="user-data">
-      <span class="user-data__name">Killan James</span>
+      <span class="user-data__name">{{ memberData.name }}</span>
       <span class="user-data__earnings">$16,605</span>
       <span class="user-data__market_avarage">market avarage is $16,224</span>
       <span class="user-data__btn"><img :src="buttonArrowIcon" alt=""></span>
@@ -40,6 +40,9 @@ import ModelSpend from './ModelSpend';
 import { useMedia } from '../../hooks/useMedia';
 
 const isMobile = useMedia('(max-width: 480px)');
+const props = defineProps({ member: Object })
+const memberData = props.member;
+
 </script>
 
 <style lang="scss">
