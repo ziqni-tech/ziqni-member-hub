@@ -7,15 +7,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
+const props = defineProps({ numberOfNotifications: Number })
 
-
-export default {
-  name: 'Notifications',
-  props: {
-    numberOfNotifications: Number
-  }
-};
 </script>
 
 <style lang="scss">
