@@ -28,7 +28,6 @@ const showNotifications = () => {
 }
 
 const removeNotification = (val) => {
-  console.log('remove', val);
   store.dispatch('removeNotificationAction', val)
 }
 
