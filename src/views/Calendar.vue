@@ -33,8 +33,8 @@ const displayPeriod = 'month';
 const { competitions, getCompetitionsHandler } = useCompetitions();
 
 const statusCode = {
-  moreThan: 10,
-  lessThan: 100
+  moreThan: 5,
+  lessThan: 35
 }
 const limit = 20
 
