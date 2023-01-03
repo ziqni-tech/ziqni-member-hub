@@ -14,8 +14,7 @@ const mutations = {
     state.notifications.push(payload);
   },
   REMOVE_NOTIFICATION(state, payload) {
-    const idx = state.notifications.findIndex(el => el.entityId === payload)
-    state.notifications.splice(idx, 1);
+    state.notifications = state.notifications.filter(el => el.entityId !== payload);
   }
 };
 
