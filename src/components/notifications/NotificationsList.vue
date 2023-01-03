@@ -7,7 +7,9 @@
       </p>
       <p class="notifications-list_item__data_text">ID: {{ item.entityId }}</p>
     </div>
-    <button class="notifications-list_item__close" @click="removeItem(item.entityId)">X</button>
+    <div class="notifications-list_item__close" @click="removeItem(item.entityId)">
+      <img src="../../assets/icons/close-icon.png" alt="close">
+    </div>
   </CListGroupItem>
   <div class="empty-notification-list" v-else>Notification list is empty</div>
 </div>
@@ -45,7 +47,7 @@ const removeItem = (id) => {
 
   &::-webkit-scrollbar {
     height: 7px;
-    width: 3px;
+    width: 0;
     background-color: $primary-bg;
   }
 
@@ -60,7 +62,7 @@ const removeItem = (id) => {
     justify-content: space-between;
     width: 100%;
     border: 1px solid $border-base;
-    padding-right: 10px;
+    padding-left: 5px;
 
     &__data {
       display: flex;
@@ -77,6 +79,9 @@ const removeItem = (id) => {
 
     &__close {
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
   }
