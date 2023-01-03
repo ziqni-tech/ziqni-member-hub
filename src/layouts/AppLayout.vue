@@ -32,7 +32,7 @@ const router = useRouter();
 const isReady = ref(false);
 const isMobile = useMedia('(max-width: 1280px)');
 const currentMember = reactive({});
-const message = ref(null)
+const message = ref(null);
 
 onMounted(async () => {
   await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
@@ -54,11 +54,9 @@ onMounted(async () => {
     isReady.value = true;
   });
 
-  ApiClientStomp.instance.sendSys('', {}, (json, headers) => {
-    console.warn('sendSys headers:', headers);
-    console.warn('sendSys json:', json);
-    message.value = json;
-    store.dispatch('setNotificationAction', json)
+  ApiClientStomp.instance.sendSys('', {}, (data, headers) => {
+    message.value = data;
+    store.dispatch('setNotificationAction', data);
   });
 });
 
@@ -69,7 +67,7 @@ const logOut = async () => {
 };
 
 watchEffect(() => {
-  if (message) console.warn('MESSAGE', message.value);
+  if (message.value) console.warn('MESSAGE', message.value);
 })
 </script>
 

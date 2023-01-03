@@ -3,7 +3,7 @@
     <div class="icon-wrapper">
       <img class="icon" src="../../assets/icons/bell-icon.svg" alt="">
     </div>
-    <span class="number-of-notifications">{{ numberOfNotifications }}</span>
+    <span class="number-of-notifications">{{ notificationsList.length }}</span>
     <NotificationsList
       v-if="isShowNotifications"
       :notifications="notificationsList"
@@ -14,22 +14,46 @@
 
 <script setup>
 import NotificationsList from '../notifications/NotificationsList';
-import { ref } from 'vue';
+import { ref, watchEffect } from 'vue';
 import { useStore } from 'vuex';
 
-const props = defineProps({ numberOfNotifications: Number });
 const store = useStore();
-const notificationsList = store.getters.getNotifications;
+const props = defineProps({ messages: Array});
+
+const notificationsList = ref([]);
+
+const makeUniqArr = (arr) => {
+  const seen = {};
+  const result = [];
+  let j = 0;
+
+  for (let i = 0; i < arr.length; i++) {
+    const item = arr[i];
+
+    const key = item.entityId;
+    if (!seen[key]) {
+      seen[key] = 1;
+      result[j++] = item;
+    }
+  }
+
+  return result;
+};
+
+watchEffect(() => {
+  const notifications = store.getters.getNotifications;
+  notificationsList.value = makeUniqArr(notifications);
+})
 
 const isShowNotifications = ref(false);
 
 const showNotifications = () => {
-  isShowNotifications.value = !isShowNotifications.value
-}
+  isShowNotifications.value = !isShowNotifications.value;
+};
 
 const removeNotification = (val) => {
-  store.dispatch('removeNotificationAction', val)
-}
+  store.dispatch('removeNotificationAction', val);
+};
 
 </script>
 
