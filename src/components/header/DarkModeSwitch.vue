@@ -1,6 +1,6 @@
 <template>
   <div class="game-mode-switch">
-    <span class="label">Game Mode OFF</span>
+    <span class="label">Dark Mode OFF</span>
     <CFormSwitch />
   </div>
 </template>
@@ -24,7 +24,7 @@ export default {
 
   .label {
     padding: 0 10px;
-    font-family: 'Poppins';
+    font-family: 'Poppins', sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 14px;

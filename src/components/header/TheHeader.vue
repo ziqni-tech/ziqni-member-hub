@@ -9,7 +9,7 @@
       <UserProgress />
       <UserEnergy :energy-value="1200" :increment-energy-value="5" />
       <Notifications :number-of-notifications="notificationsCount" />
-      <GameModeSwitch v-if="!isMobile" />
+      <DarkModeSwitch v-if="!isMobile" />
     </div>
   </div>
 </template>
@@ -20,7 +20,7 @@ import Welcome from './Welcome';
 import UserProgress from './UserProgress';
 import UserEnergy from './UserEnergy';
 import Notifications from './Notifications';
-import GameModeSwitch from './GameModeSwitch';
+import DarkModeSwitch from './DarkModeSwitch';
 
 import { useMedia } from '../../hooks/useMedia';
 import { useStore } from 'vuex';
