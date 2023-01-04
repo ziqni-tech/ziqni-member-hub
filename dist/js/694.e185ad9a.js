@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkziqni_member_home"]=self["webpackChunkziqni_member_home"]||[]).push([[694],{9694:(e,n,t)=>{t.r(n),t.d(n,{default:()=>l});var r=t(4448),s={class:"section-title"};function c(e,n,t,c,o,i){return(0,r.openBlock)(),(0,r.createElementBlock)("h1",s,"History")}const o={name:"History"};var i=t(3744);const a=(0,i.Z)(o,[["render",c]]),l=a}}]);
+//# sourceMappingURL=694.e185ad9a.js.map
