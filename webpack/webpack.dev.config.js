@@ -8,7 +8,7 @@ module.exports = {
         main: './src/main.js',
     },
     output: {
-        path: path.resolve(__dirname, '../dist'),
+        path: path.resolve(__dirname, '../build'),
         filename: '[name].[contenthash:8].js',
         chunkFilename: '[name].[contenthash:8].js',
     },
@@ -52,7 +52,7 @@ module.exports = {
                 loader: 'file-loader',
                 options: {
                     name: '[name][contenthash:8].[ext]',
-                    outputPath: 'assets/img',
+                    outputPath: '/img',
                     esModule: false,
                 },
             },
