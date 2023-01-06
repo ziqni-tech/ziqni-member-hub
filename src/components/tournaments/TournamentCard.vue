@@ -17,7 +17,7 @@
     </div>
     <div class="tournament-data">
       <div class="main-data">
-        <span class="main-data__title">{{ cardItem.name }} 😝</span>
+        <span class="main-data__title">{{ cardItem.name }}</span>
         <div class="main-data__rate">
           <span>RTP: 84% 💎</span>
           <span>Rate: 4.9 ✨</span>
