@@ -4,8 +4,8 @@
       <h2 class="section-title">Current Tournaments</h2>
       <ActionsBlock/>
     </div>
-    <div class="tournament-cards" v-if="currentCompetitions">
-      <div v-for="c in currentCompetitions" class="tournament-card-wrapper">
+    <div class="cards-grid" v-if="currentCompetitions">
+      <div v-for="c in currentCompetitions" class="card-wrapper">
         <TournamentCard :key="c.id" :card="c"/>
       </div>
     </div>
@@ -21,7 +21,9 @@ import ActionsBlock from '../../shared/components/actions-block/ActionsBlock';
 import TournamentCard from '../../components/tournaments/TournamentCard';
 import NotFoundItems from '../NotFoundItems';
 import { computed, ref, watchEffect } from 'vue';
-import { useCompetitions } from '../../hooks/useCompetitions'
+import { useCompetitions } from '../../hooks/useCompetitions';
+import { rewardFormatter } from '../../utils/rewardFormatter';
+import { useGetAwards } from '../../hooks/useGetAwards';
 
 const { totalRecords, getCompetitionsHandler, competitions } = useCompetitions();
 const currentCompetitions = ref([]);
@@ -32,11 +34,29 @@ const statusCode = {
   lessThan: 30
 }
 
-getCompetitionsHandler(statusCode, limit.value, skip.value)
+const { getAvailableAwards, awards } = useGetAwards();
+
+getCompetitionsHandler(statusCode, limit.value, skip.value);
 
 watchEffect(() => {
   currentCompetitions.value = [...currentCompetitions.value, ...competitions.value];
 });
+
+watchEffect( () => {
+  currentCompetitions.value.map( async (item) => {
+    await getAvailableAwards([item.id]);
+  })
+})
+
+watchEffect(() => {
+  if (awards.value) {
+    console.warn('IF AWARDS', awards.value);
+    awards.value.map(item => {
+      console.log('rewardFormatter(item)', rewardFormatter(item));
+      return rewardFormatter(item);
+    })
+  }
+})
 
 const isShowMore = computed(() => currentCompetitions.value.length < totalRecords.value)
 

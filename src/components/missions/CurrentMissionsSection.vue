@@ -4,8 +4,8 @@
       <h2 class="section-title">Current Missions</h2>
       <ActionsBlock />
     </div>
-    <div class="tournament-cards">
-      <div class="tournament-card-wrapper" v-for="card in 7">
+    <div class="cards-grid">
+      <div class="card-wrapper" v-for="card in 7">
         <MissionCard />
       </div>
     </div>

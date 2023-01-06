@@ -3,8 +3,8 @@
     <h1 class="section-title">Loyalty Store</h1>
     <ActionsBlock />
   </div>
-  <div class="tournament-cards">
-    <div v-for="(card, index) in 7" class="tournament-card-wrapper">
+  <div class="cards-grid">
+    <div v-for="(card, index) in 7" class="card-wrapper">
       <LoyalityStoreCard :key="index"/>
     </div>
   </div>

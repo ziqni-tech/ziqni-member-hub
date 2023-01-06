@@ -4,8 +4,8 @@
       <h2 class="section-title">Feature Tournaments</h2>
       <ActionsBlock/>
     </div>
-    <div class="tournament-cards" v-if="currentCompetitions">
-      <div v-for="c in currentCompetitions" class="tournament-card-wrapper">
+    <div class="cards-grid" v-if="currentCompetitions">
+      <div v-for="c in currentCompetitions" class="card-wrapper">
         <TournamentCard :key="c.id" :card="c"/>
       </div>
     </div>
