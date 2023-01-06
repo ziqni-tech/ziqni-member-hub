@@ -9,7 +9,7 @@
     <div class="tournament-data-wrapper">
       <div class="tournament-data">
         <div class="main-data">
-          <span class="main-data__title">{{ tournament?.name }} 😝</span>
+          <span class="main-data__title">{{ tournament?.name }}</span>
           <span class="main-data__rate">RTP: 84% 💎 Rate: 4.9 ✨</span>
         </div>
         <div class="prize">

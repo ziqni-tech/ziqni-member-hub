@@ -1,8 +1,8 @@
 import { ApiClientStomp, LeaderboardApiWs } from '@ziqni-tech/member-api-client';
-import { ref } from 'vue';
+import { useStore } from 'vuex';
 
 export const useGetLeaderboard = () => {
-  const leaderboard = ref(null);
+  const store = useStore()
 
   const getEntityLeaderboard = async (contestId) => {
     const apiLeaderboardWsClient = new LeaderboardApiWs(ApiClientStomp.instance);
@@ -15,13 +15,18 @@ export const useGetLeaderboard = () => {
         topRanksToInclude: 1
       }
     };
+    await store.dispatch('leaderboardRequest');
+
     await apiLeaderboardWsClient.subscribeToLeaderboard(leaderboardSubscriptionRequest, (res) => {
-      leaderboard.value = res.data?.leaderboardEntries;
+      if (!res.errors.length) {
+        store.dispatch('setLeaderboardAction', res.data.leaderboardEntries)
+      } else {
+        store.dispatch('setLeaderboardErrorAction', res.errors)
+      }
     });
   }
 
   return {
-    getEntityLeaderboard,
-    leaderboard
+    getEntityLeaderboard
   }
 }

@@ -4,6 +4,7 @@ import apiClient from './modules/apiClientModule';
 import memberData from './modules/memberModule';
 import currentCompetitions from './modules/currentCompetitionModule';
 import notifications from './modules/notificationModule';
+import leaderboard from './modules/leaderboardModule';
 
 const store = createStore(
   {
@@ -12,7 +13,8 @@ const store = createStore(
       apiClient,
       memberData,
       currentCompetitions,
-      notifications
+      notifications,
+      leaderboard
     }
   });
 
