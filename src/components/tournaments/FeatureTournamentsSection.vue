@@ -4,8 +4,9 @@
       <h2 class="section-title">Feature Tournaments</h2>
       <ActionsBlock/>
     </div>
-    <div class="cards-grid" v-if="currentCompetitions">
-      <div v-for="c in currentCompetitions" class="card-wrapper">
+    <Loader v-if="isLoading" :title="'Current Tournaments are loading...'" />
+    <div class="cards-grid" v-else-if="isLoaded && featureCompetitions.length">
+      <div v-for="c in featureCompetitions" class="card-wrapper">
         <TournamentCard :key="c.id" :card="c"/>
       </div>
     </div>
@@ -23,6 +24,7 @@ import NotFoundItems from '../NotFoundItems';
 
 import { computed, ref, watchEffect } from 'vue';
 import { useCompetitions } from '../../hooks/useCompetitions'
+import Loader from '../Loader';
 
 const { totalRecords, getCompetitionsHandler, competitions } = useCompetitions();
 const currentCompetitions = ref([]);

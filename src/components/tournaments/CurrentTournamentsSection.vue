@@ -4,7 +4,8 @@
       <h2 class="section-title">Current Tournaments</h2>
       <ActionsBlock/>
     </div>
-    <div class="cards-grid" v-if="currentCompetitions">
+    <Loader v-if="isLoading" :title="'Current Tournaments are loading...'" />
+    <div class="cards-grid" v-else-if="currentCompetitions.length && isLoaded">
       <div v-for="c in currentCompetitions" class="card-wrapper">
         <TournamentCard :key="c.id" :card="c"/>
       </div>
@@ -17,13 +18,15 @@
 </template>
 
 <script setup>
-import ActionsBlock from '../../shared/components/actions-block/ActionsBlock';
-import TournamentCard from '../../components/tournaments/TournamentCard';
-import NotFoundItems from '../NotFoundItems';
 import { computed, ref, watchEffect } from 'vue';
+
+import NotFoundItems from '../NotFoundItems';
+import { useGetAwards } from '../../hooks/useGetAwards';
 import { useCompetitions } from '../../hooks/useCompetitions';
 import { rewardFormatter } from '../../utils/rewardFormatter';
-import { useGetAwards } from '../../hooks/useGetAwards';
+import TournamentCard from '../../components/tournaments/TournamentCard';
+import ActionsBlock from '../../shared/components/actions-block/ActionsBlock';
+import Loader from '../Loader';
 
 const { totalRecords, getCompetitionsHandler, competitions } = useCompetitions();
 const currentCompetitions = ref([]);
