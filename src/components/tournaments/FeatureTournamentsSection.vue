@@ -26,25 +26,30 @@ import { computed, ref, watchEffect } from 'vue';
 import { useCompetitions } from '../../hooks/useCompetitions'
 import Loader from '../Loader';
 
-const { totalRecords, getCompetitionsHandler, competitions } = useCompetitions();
-const currentCompetitions = ref([]);
+const { totalRecords, getCompetitionsHandler, competitions, isLoaded, isLoading } = useCompetitions();
+const featureCompetitions = ref([]);
 const limit = ref(3);
 const skip = ref(0);
 const statusCode = {
   moreThan: 5,
   lessThan: 35
 }
-
-getCompetitionsHandler(statusCode, limit.value, skip.value)
+const tournamentRequestData = {
+  statusCode,
+  limit: limit.value,
+  skip: skip.value,
+  ids: []
+}
+getCompetitionsHandler(tournamentRequestData)
 
 watchEffect(() => {
-  currentCompetitions.value = [...currentCompetitions.value, ...competitions.value];
+  featureCompetitions.value = [...featureCompetitions.value, ...competitions.value];
 });
 
-const isShowMore = computed(() => currentCompetitions.value.length < totalRecords.value)
+const isShowMore = computed(() => featureCompetitions.value.length < totalRecords.value)
 
 const loadMore = async() => {
-  skip.value = currentCompetitions.value.length
+  skip.value = featureCompetitions.value.length
   await getCompetitionsHandler(statusCode, limit.value, skip.value)
 }
 </script>

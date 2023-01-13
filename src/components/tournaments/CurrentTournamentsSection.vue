@@ -28,7 +28,15 @@ import TournamentCard from '../../components/tournaments/TournamentCard';
 import ActionsBlock from '../../shared/components/actions-block/ActionsBlock';
 import Loader from '../Loader';
 
-const { totalRecords, getCompetitionsHandler, competitions } = useCompetitions();
+const {
+  totalRecords,
+  getCompetitionsHandler,
+  competitions,
+  isLoaded,
+  isLoading,
+  error
+} = useCompetitions();
+
 const currentCompetitions = ref([]);
 const limit = ref(3);
 const skip = ref(0);
@@ -39,7 +47,15 @@ const statusCode = {
 
 const { getAvailableAwards, awards } = useGetAwards();
 
-getCompetitionsHandler(statusCode, limit.value, skip.value);
+const tournamentRequestData = {
+  type: 'current',
+  statusCode,
+  limit: limit.value,
+  skip: skip.value,
+  ids: []
+}
+
+getCompetitionsHandler(tournamentRequestData);
 
 watchEffect(() => {
   currentCompetitions.value = [...currentCompetitions.value, ...competitions.value];

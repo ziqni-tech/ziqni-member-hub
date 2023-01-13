@@ -44,7 +44,13 @@ const leaderboardIsLoading = ref(false);
 const leaderboardIsLoaded = ref(false);
 const leaderboardEntries = ref(null);
 
-getCompetitionsHandler(statusCode, 1, 0, ids);
+const tournamentRequestData = {
+  statusCode,
+  limit: 1,
+  skip: 0,
+  ids
+}
+getCompetitionsHandler(tournamentRequestData);
 
 watchEffect( () => {
   tournamentItem.value = competitions.value[0];

@@ -4,11 +4,15 @@ import { ref } from 'vue';
 export const useCompetitions = () => {
   const competitions = ref([]);
   const totalRecords = ref(0);
+  const isLoading = ref(true);
+  const isLoaded = ref(false)
+  const error = ref(null);
 
-  const getCompetitionsHandler = async (statusCode, limit, skip, ids) => {
+  const getCompetitionsHandler = async (tournamentRequestData) => {
     const competitionsApiWsClient = new CompetitionsApiWs(ApiClientStomp.instance);
+    const { statusCode, limit, skip, ids } = tournamentRequestData;
 
-    const activeCompetitionRequest = CompetitionRequest.constructFromObject({
+    const competitionRequest = CompetitionRequest.constructFromObject({
       competitionFilter: {
         statusCode,
         sortBy: [{
@@ -21,15 +25,25 @@ export const useCompetitions = () => {
       }
     }, null);
 
-    await competitionsApiWsClient.getCompetitions(activeCompetitionRequest, (res) => {
-      competitions.value = res.data;
-      totalRecords.value = res.meta.totalRecordsFound;
+    await competitionsApiWsClient.getCompetitions(competitionRequest, (res) => {
+      if (res.errors?.length) {
+        error.value = res.errors
+      } else {
+        competitions.value = res.data;
+        totalRecords.value = res.meta.totalRecordsFound;
+        isLoading.value = false;
+        isLoaded.value = true;
+      }
+
     });
   }
 
   return {
     getCompetitionsHandler,
     competitions,
-    totalRecords
+    totalRecords,
+    isLoading,
+    isLoaded,
+    error
   }
 }
