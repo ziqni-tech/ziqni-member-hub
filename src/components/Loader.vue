@@ -18,18 +18,21 @@ const title = props.title;
 @import '../assets/scss/utils/vars';
 .loader {
   height: 100%;
+  min-height: 200px;
   width: 100%;
   position: relative;
 
   .spinner-wrapper {
     position: absolute;
-    top: 20%;
+    top: 30%;
     left: 50%;
+    transform: translate(-50%);
     display: flex;
     flex-direction: column;
     align-items: center;
     @media screen and (max-width: $phoneWidth) {
       left: 0;
+      transform: translate(0);
     }
 
     &__spinner {
