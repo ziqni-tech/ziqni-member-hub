@@ -55,8 +55,12 @@ onMounted(async () => {
   });
 
   ApiClientStomp.instance.sendSys('', {}, (data, headers) => {
-    message.value = data;
-    store.dispatch('setNotificationAction', data);
+    if (data.leaderboardEntries) {
+      store.dispatch('setLeaderboardAction', data.leaderboardEntries)
+    } else {
+      message.value = data;
+      store.dispatch('setNotificationAction', data);
+    }
   });
 });
 
