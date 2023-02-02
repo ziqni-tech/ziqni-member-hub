@@ -17,7 +17,7 @@
       </div>
     </div>
   </div>
-  <CurrentTournamentsSection />
+  <CurrentTournamentsSection :is-dashboard="true" />
   <CurrentMissionsSection />
 </template>
 

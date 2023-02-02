@@ -11,7 +11,7 @@
       </div>
     </div>
     <NotFoundItems v-else :title="'Current Tournaments'" />
-    <button class="b-btn b-btn__text" v-if="currentCompetitions.length && isShowMore" @click="loadMore">
+    <button class="b-btn b-btn__text" v-if="currentCompetitions.length && isShowMore && !isDashboard" @click="loadMore">
       Show More
     </button>
   </div>
@@ -27,6 +27,13 @@ import { rewardFormatter } from '../../utils/rewardFormatter';
 import TournamentCard from '../../components/tournaments/TournamentCard';
 import ActionsBlock from '../../shared/components/actions-block/ActionsBlock';
 import Loader from '../Loader';
+
+const props = defineProps({
+  isDashboard: {
+    type: Boolean,
+    default: false
+  }
+});
 
 const {
   totalRecords,
@@ -80,8 +87,8 @@ watchEffect(() => {
 const isShowMore = computed(() => currentCompetitions.value.length < totalRecords.value)
 
 const loadMore = async() => {
-  skip.value = currentCompetitions.value.length
-  await getCompetitionsHandler(statusCode, limit.value, skip.value)
+  tournamentRequestData.skip = currentCompetitions.value.length;
+  await getCompetitionsHandler(tournamentRequestData)
 }
 </script>
 

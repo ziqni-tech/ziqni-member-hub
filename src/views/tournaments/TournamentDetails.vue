@@ -8,11 +8,11 @@
     <h2 class="section-title">Leaderboard</h2>
     <img class="share-icon" src="../../assets/icons/share-icon.svg" alt="" />
   </div>
-  <Loader v-if="leaderboardIsLoading" :title="'Leaderboard are loading...'" />
+  <Loader v-if="leaderboardIsLoading" :title="'Leaderboard loading...'" />
   <div class="tables" v-else-if="leaderboardIsLoaded && leaderboardEntries">
     <Leaderboard :leaderboard="leaderboardEntries" />
   </div>
-  <NotFoundItems v-else :title="'available competition'" />
+  <NotFoundItems v-else :title="'active members'" />
 </template>
 
 <script setup>

@@ -10,7 +10,7 @@
     </div>
     <Alert :message="message" />
   </div>
-  <div class="spinner-wrapper" v-else>
+  <div class="spinner-wrapper app-spinner" v-else>
     <CSpinner class="spinner" color="secondary"/>
   </div>
 </template>
@@ -55,7 +55,7 @@ onMounted(async () => {
   });
 
   ApiClientStomp.instance.sendSys('', {}, (data, headers) => {
-    if (data.leaderboardEntries) {
+    if (data.hasOwnProperty('leaderboardEntries')) {
       store.dispatch('setLeaderboardAction', data.leaderboardEntries)
     } else {
       message.value = data;
@@ -86,5 +86,9 @@ watchEffect(() => {
     flex-direction: column;
     width: 100%;
   }
+}
+
+.app-spinner {
+  height: 100vh;
 }
 </style>
