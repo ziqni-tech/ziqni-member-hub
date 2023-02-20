@@ -4,7 +4,7 @@
       <h2 class="section-title">Feature Tournaments</h2>
       <ActionsBlock/>
     </div>
-    <Loader v-if="isLoading" :title="'Feature Tournaments are loading...'"/>
+    <Loader v-if="isLoading" :title="'Feature Tournaments are loading'"/>
     <div class="cards-grid" v-else-if="isLoaded && featureCompetitions.length">
       <div v-for="c in featureCompetitions" class="card-wrapper">
         <TournamentCard :key="c.id" :card="c"/>

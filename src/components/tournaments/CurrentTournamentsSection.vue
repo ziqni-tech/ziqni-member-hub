@@ -4,7 +4,7 @@
       <h2 class="section-title">Current Tournaments</h2>
       <ActionsBlock/>
     </div>
-    <Loader v-if="isLoading" :title="'Current Tournaments are loading...'" />
+    <Loader v-if="isLoading" :title="'Current Tournaments are loading'" />
     <div class="cards-grid" v-else-if="currentCompetitions.length && isLoaded">
       <div v-for="c in currentCompetitions" class="card-wrapper">
         <TournamentCard :key="c.id" :card="c"/>

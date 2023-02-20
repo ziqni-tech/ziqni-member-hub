@@ -11,12 +11,11 @@
     <Alert :message="message" />
   </div>
   <div class="spinner-wrapper app-spinner" v-else>
-    <CSpinner class="spinner" color="secondary"/>
+    <Loader :title="'Loading'"/>
   </div>
 </template>
 
 <script setup>
-import { CSpinner } from '@coreui/vue';
 import Navbar from '../components/header/TheHeader';
 import Sidebar from '../components/sidebar/TheSidebar';
 import { ApiClientStomp, MemberRequest, MembersApiWs } from '@ziqni-tech/member-api-client';
@@ -26,6 +25,7 @@ import { useStore } from 'vuex';
 import { useMedia } from '../hooks/useMedia';
 import { useRouter } from 'vue-router';
 import Alert from '../components/notifications/Alert';
+import Loader from '../components/Loader';
 
 const store = useStore();
 const router = useRouter();
