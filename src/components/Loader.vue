@@ -60,13 +60,14 @@ const title = props.title;
 
     &__title {
       margin-top: 10px;
+      color: #5D53C2;
 
       .loader-dots {
         display: inline-block;
         vertical-align: middle;
         overflow: hidden;
         width: 1.2em;
-        color: black;
+        color: #5D53C2;
         text-align: left;
 
         &::after {
