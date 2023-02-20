@@ -1,9 +1,9 @@
 <template>
   <div class="leader-board">
     <div class="leader-board__header">
-      <span>player</span>
+      <span>Player</span>
       <span># Tournaments Played</span>
-      <span>Earnings</span>
+      <span>Score</span>
     </div>
     <div class="leaderboard-items">
       <div class="leaderboard-items__item-wrapper" v-for="(item, index) in leaderboard">

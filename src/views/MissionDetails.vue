@@ -1,7 +1,7 @@
 <template>
   <div class="header">
-    <h1 class="title">{{ 'World cup 2022🏆' }} 😝</h1>
-    <img class="share-icon" :src="shareIcon" />
+    <h1 class="title">{{ 'World cup 2022🏆' }}</h1>
+    <img class="share-icon" :src="shareIcon" alt="" />
   </div>
   <MissionDetailsCard />
 </template>
