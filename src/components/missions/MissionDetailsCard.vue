@@ -81,8 +81,8 @@ export default {
   border-radius: 30px;
 
   &__banner {
+    display: block;
     position: relative;
-    height: 100%;
     width: 40%;
     border-radius: 30px 0 0 30px;
 
