@@ -25,7 +25,7 @@ import { useGetAwards } from '../../hooks/useGetAwards';
 import { useCompetitions } from '../../hooks/useCompetitions';
 import { rewardFormatter } from '../../utils/rewardFormatter';
 import TournamentCard from '../../components/tournaments/TournamentCard';
-import ActionsBlock from '../../shared/components/actions-block/ActionsBlock';
+import ActionsBlock from '../../shared/components/UI/actions-block/ActionsBlock';
 import Loader from '../Loader';
 
 const props = defineProps({
@@ -88,7 +88,7 @@ const isShowMore = computed(() => currentCompetitions.value.length < totalRecord
 
 const loadMore = async() => {
   tournamentRequestData.skip = currentCompetitions.value.length;
-  await getCompetitionsHandler(tournamentRequestData)
+  await getCompetitionsHandler(tournamentRequestData);
 }
 </script>
 

@@ -13,7 +13,7 @@
 <script>
 import { CContainer, CButton } from '@coreui/vue';
 import TournamentCard from './TournamentCard_v2';
-import ActionsBlock from '../../shared/components/actions-block/ActionsBlock';
+import ActionsBlock from '../../shared/components/UI/actions-block/ActionsBlock';
 
 export default {
   name: 'TournamentsContainer',

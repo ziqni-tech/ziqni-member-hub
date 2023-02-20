@@ -12,7 +12,7 @@
 
 <script setup>
 import LoyalityStoreCard from '../components/LoyalityStoreCard';
-import ActionsBlock from '../shared/components/actions-block/ActionsBlock';
+import ActionsBlock from '../shared/components/UI/actions-block/ActionsBlock';
 
 </script>
 

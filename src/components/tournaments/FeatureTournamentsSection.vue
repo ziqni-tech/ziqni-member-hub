@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-import ActionsBlock from '../../shared/components/actions-block/ActionsBlock';
+import ActionsBlock from '../../shared/components/UI/actions-block/ActionsBlock';
 import TournamentCard from '../../components/tournaments/TournamentCard';
 import NotFoundItems from '../NotFoundItems';
 

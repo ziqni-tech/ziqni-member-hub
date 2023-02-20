@@ -11,13 +11,31 @@
   overflow: hidden;
 
   .card-image {
-    width: 150px;
-    height: 140px;
+    display: block;
+    max-width: 200px;
+    min-width: 130px;
+    width: 200px;
+    height: 100%;
     border-radius: 16px 0 0 16px;
-    background-size: 100% 100%;
+    background-size: cover;
+    background-position: center;
+
+    & > img {
+      width: 100%;
+      height: 100%;
+    }
+    @media screen and (max-width: $phoneWidth){
+      display: block;
+      width: 130px;
+      height: 184px;
+      object-fit: cover;
+    }
   }
 
   .mission-data {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
     color: #FFFFFF;
     font-weight: 600;
     font-size: 11px;
@@ -43,8 +61,16 @@
     }
   }
 
+  .countdown-wrapper {
+    max-width: 185px;
+  }
+
   .mission-progress {
     margin-top: 10px;
+  }
+
+  .register-btn {
+    align-self: flex-end;
   }
 
   .progress {

@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import ActionsBlock from '../../shared/components/actions-block/ActionsBlock';
+import ActionsBlock from '../../shared/components/UI/actions-block/ActionsBlock';
 import MissionCard from './MissionCard';
 export default {
   name: 'CurrentMissionsSection',

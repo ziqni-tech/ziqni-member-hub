@@ -1,10 +1,10 @@
 <template>
   <div class="actions">
     <CButton variant="outline" class="r-btn" >
-      <img src="../../../assets/icons/white-grid.svg" alt="">
+      <img src="../../../../assets/icons/white-grid.svg" alt="">
     </CButton>
     <CButton variant="outline" class="r-btn" >
-      <img src="../../../assets/icons/btn-settings.svg" alt="">
+      <img src="../../../../assets/icons/btn-settings.svg" alt="">
     </CButton>
   </div>
 </template>
