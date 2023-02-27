@@ -4,7 +4,7 @@
       <img :src="cardImage" alt="">
     </div>
     <div class="mission-data">
-      <h2 class="title">World Cup 2022 🏆</h2>
+      <h2 class="title">{{ missionItem.name }}</h2>
       <div class="prize-fund">
         <span><img :src="peopleIcon" alt=""> 100 </span>
         <span class="fund"><img :src="trophyIcon" alt=""> $1000 </span>
@@ -21,7 +21,10 @@
       <CProgress class="mission-progress" :height="13" >
         <CProgressBar :value="25" >25%</CProgressBar>
       </CProgress>
-      <router-link class="register-btn" :to="{name: 'MissionDetails', params: { id: 1 }}" >
+      <router-link class="register-btn" :to="{
+        name: 'MissionDetails',
+        params: { id: missionItem.id }
+      }" >
         <CButton class="m-btn">
           <span class="b-btn__text">Register</span>
           <img src="../../assets/icons/button_icon.svg" alt="">
@@ -39,6 +42,12 @@ import peopleIcon from '../../assets/icons/People.png';
 import trophyIcon from '../../assets/icons/Trophy.png';
 
 const end = new Date('2023-01-01T00:00:00')
+
+const props = defineProps({
+  mission: Object
+})
+const missionItem = props.mission;
+console.log('missionItem', missionItem);
 
 const finish = () => {
   console.log('finish');

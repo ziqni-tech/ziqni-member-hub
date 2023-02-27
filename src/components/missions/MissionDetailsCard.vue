@@ -1,16 +1,16 @@
 <template>
   <div class="mission-details-card">
     <div class="mission-details-card__banner">
-      <img :src="$options.banner" alt="">
+      <img :src="banner" alt="">
       <div class="status">
         <Status :status="'Active'" />
       </div>
     </div>
-    <div class="mission-data">
-      <h2 class="mission-data__title">World Cup 2022 🏆</h2>
+    <div v-if="cardItem" class="mission-data">
+      <h2 class="mission-data__title">{{ cardItem?.name }}</h2>
       <div class="mission-data__fund">
-        <div class="mission-data__fund__data"><img :src="$options.peopleIcon" alt=""> 100 </div>
-        <div class="mission-data__fund__data"><img :src="$options.trophyIcon" alt=""> $1000 </div>
+        <div class="mission-data__fund__data"><img :src="peopleIcon" alt=""> 100 </div>
+        <div class="mission-data__fund__data"><img :src="trophyIcon" alt=""> $1000 </div>
       </div>
       <div class="mission-data__countdown">
         <Countdown
@@ -35,7 +35,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { CProgress, CProgressBar } from '@coreui/vue';
 import Countdown from '../Countdown';
 import Status from '../../shared/components/Status';
@@ -43,28 +43,16 @@ import banner from '../../assets/images/world-cup.jpg';
 import peopleIcon from '../../assets/icons/People.png';
 import trophyIcon from '../../assets/icons/Trophy.png';
 
-export default {
-  name: 'MissionDetailsCard',
-  banner,
-  peopleIcon,
-  trophyIcon,
-  components: {
-    CProgress,
-    CProgressBar,
-    Status,
-    Countdown
-  },
-  data () {
-    return {
-      end: new Date('2023-01-01T00:00:00'),
-    };
-  },
-  methods: {
-    finish() {
-      console.log('finish');
-    }
-  }
-};
+const props = defineProps({
+  mission: Object
+})
+const cardItem = props.mission;
+
+const end = new Date('2023-01-01T00:00:00');
+const finish = () => {
+  console.log('finish');
+}
+
 </script>
 
 <style lang="scss">

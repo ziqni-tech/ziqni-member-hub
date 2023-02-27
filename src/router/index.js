@@ -37,12 +37,12 @@ const routes = [
           {
             path: '',
             name: 'Missions',
-            component: () => import('@/views/Missions'),
+            component: () => import('@/views/missions/Missions'),
           },
           {
             path: ':id',
             name: 'MissionDetails',
-            component: () => import('@/views/MissionDetails'),
+            component: () => import('@/views/missions/MissionDetails'),
           },
         ]
       },
