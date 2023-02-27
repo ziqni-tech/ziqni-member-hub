@@ -7,6 +7,9 @@ import CoreuiVue from '@coreui/vue';
 
 import AppLayout from './layouts/AppLayout';
 import './assets/scss/main.scss';
+import VNetworkGraph from 'v-network-graph';
+import 'v-network-graph/lib/style.css';
+
 
 
 createApp({
@@ -14,6 +17,7 @@ createApp({
           })
   .use(router)
   .use(CoreuiVue)
+  .use(VNetworkGraph)
   .use(store)
   .component('AppLayout', AppLayout)
   .mount('#app');
