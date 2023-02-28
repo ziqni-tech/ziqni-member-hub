@@ -18,7 +18,7 @@
     </div>
   </div>
   <CurrentTournamentsSection :is-dashboard="true" />
-  <CurrentMissionsSection />
+  <CurrentMissionsSection :is-dashboard="true" />
 </template>
 
 <script setup>
