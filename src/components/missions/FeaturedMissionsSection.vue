@@ -23,6 +23,7 @@ import { AchievementRequest, AchievementsApiWs, ApiClientStomp } from '@ziqni-te
 import ActionsBlock from '../../shared/components/UI/actions-block/ActionsBlock';
 import MissionCard from './MissionCard';
 import Loader from '../Loader';
+import { useStore } from 'vuex';
 
 const props = defineProps({
   isDashboard: {
@@ -31,9 +32,11 @@ const props = defineProps({
   }
 });
 
-const featureMissions = ref([])
-const missions = ref([])
-const totalRecords = ref(0)
+const store = useStore();
+
+const featureMissions = computed(() => store.getters.getFeatureMissions);
+const totalRecords = computed(() => store.getters.getFeatureMissionsTotalRecords);
+
 const limit = ref(3);
 const skip = ref(0);
 const isLoading = ref(false);
@@ -64,30 +67,26 @@ const getAchievementsRequest = async () => {
   const achievementsApiWsClient = new AchievementsApiWs(ApiClientStomp.instance);
 
   await achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
-    totalRecords.value = res.meta.totalRecordsFound
-    missions.value = res.data;
+    store.dispatch('setFeatureMissionsAction', res);
     isLoading.value = false;
   });
 }
-onMounted(() => {
-  getAchievementsRequest()
-})
+
+if (!featureMissions.value.length) getAchievementsRequest();
 
 const isShowMore = computed(() => featureMissions.value.length < totalRecords.value)
 
 const loadMore = async() => {
   isLoading.value = true;
   const achievementsApiWsClient = new AchievementsApiWs(ApiClientStomp.instance);
+
   achievementsRequest.achievementFilter.skip = featureMissions.value.length;
+
   await achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
-    missions.value = res.data;
+    store.dispatch('setFeatureMissionsAction', res);
     isLoading.value = false;
   });
 }
-
-watchEffect(() => {
-  featureMissions.value = [...featureMissions.value, ...missions.value];
-});
 
 </script>
 
