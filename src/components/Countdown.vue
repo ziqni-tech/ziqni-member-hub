@@ -96,7 +96,10 @@
 export default {
   name: 'Countdown',
   props: {
-    date: null,
+    date: {
+      type: String,
+      default: '2023-01-01T00:00:00'
+    },
     title: String,
     isRow: {
       type: Boolean,
@@ -149,7 +152,7 @@ export default {
       return this.calculatedDate - this.now
     },
     calculatedDate() {
-      return Math.trunc(Date.parse(this.event) / 1000)
+      return Math.trunc(Date.parse(this.date) / 1000)
     },
     seconds() {
       if (this.secondCount < 0) return 0
@@ -170,6 +173,9 @@ export default {
   },
   methods: {
     twoDigits(value) {
+      if (isNaN(value)) {
+        return '00'
+      }
       if (value.toString().length <= 1) {
         return '0' + value.toString()
       }

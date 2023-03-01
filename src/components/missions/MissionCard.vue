@@ -11,7 +11,7 @@
       </div>
       <div class="countdown-wrapper">
         <Countdown
-            :date="end"
+            :date="missionItem.scheduling.endDate"
             :title="'Ends in'"
             :is-row="true"
             :is-small-size="true"
@@ -40,8 +40,6 @@ import Countdown from '../Countdown';
 import cardImage from '../../assets/images/world_cup.png'
 import peopleIcon from '../../assets/icons/People.png';
 import trophyIcon from '../../assets/icons/Trophy.png';
-
-const end = new Date('2023-01-01T00:00:00')
 
 const props = defineProps({
   mission: Object

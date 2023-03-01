@@ -14,7 +14,7 @@
       </div>
       <div class="mission-data__countdown">
         <Countdown
-          :date="end"
+          :date="cardItem.scheduling.endDate"
           :title="'Ends in'"
           :is-row="true"
           :is-big-size="true"
@@ -48,7 +48,6 @@ const props = defineProps({
 })
 const cardItem = props.mission;
 
-const end = new Date('2023-01-01T00:00:00');
 const finish = () => {
   console.log('finish');
 }
