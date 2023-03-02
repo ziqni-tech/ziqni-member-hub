@@ -45,7 +45,6 @@ const props = defineProps({
   mission: Object
 })
 const missionItem = props.mission;
-console.log('missionItem', missionItem);
 
 const finish = () => {
   console.log('finish');

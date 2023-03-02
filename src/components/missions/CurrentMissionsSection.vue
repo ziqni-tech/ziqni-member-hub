@@ -43,7 +43,7 @@ const isLoading = ref(false);
 
 const achievementsRequest = AchievementRequest.constructFromObject({
   achievementFilter: {
-    productIds: [],
+    productTagsFilter: [],
     ids: [],
     status: [],
     sortBy: [
