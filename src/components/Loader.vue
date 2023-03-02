@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-const props = defineProps({title: { type: String, default: 'Loading...' }})
+const props = defineProps({title: { type: String, default: 'Loading' }})
 const title = props.title;
 
 </script>
