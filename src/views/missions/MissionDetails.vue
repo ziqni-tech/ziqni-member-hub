@@ -1,21 +1,30 @@
 <template>
-  <div class="header">
-    <h1 class="title">{{ mission.name}}</h1>
-    <img class="share-icon" :src="shareIcon" alt="" />
+  <div v-if="isLoaded" class="wrapper">
+    <div class="header">
+      <h1 class="title">{{ mission.name }}</h1>
+      <img class="share-icon" :src="shareIcon" alt=""/>
+    </div>
+    <MissionDetailsCard :mission="mission"/>
+        <div class="graph-wrapper">
+          <v-network-graph
+              ref="graph"
+              v-if="result"
+              v-model:selected-nodes="selectedNodes"
+              :nodes="result.nodesResult"
+              :edges="result.edgesResult"
+              :configs="configs"
+              class="m-graph"
+              :layouts="layouts"
+          />
+        </div>
   </div>
-  <MissionDetailsCard :mission="mission" />
-  <v-network-graph
-      v-if="nodes && edges"
-      v-model:selected-nodes="selectedNodes"
-      :nodes="nodes"
-      :edges="edges"
-      :configs="configs"
-      class="graph"
-  />
+  <Loader v-else/>
+
 </template>
 
 <script setup>
-import { onBeforeMount, watchEffect, ref } from 'vue';
+import { onBeforeMount, ref, reactive, watch } from 'vue';
+import dagre from 'dagre/dist/dagre.min.js';
 
 import shareIcon from '../../assets/icons/share-icon.svg';
 import MissionDetailsCard from '../../components/missions/MissionDetailsCard';
@@ -29,34 +38,56 @@ import {
 } from '@ziqni-tech/member-api-client';
 import { defineConfigs } from 'v-network-graph';
 import { useRoute } from 'vue-router';
+import Loader from '../../components/Loader';
+
+const nodeSize = 40;
 
 const configs = defineConfigs({
   view: {
-    // zoomEnabled: false
-  },
-  edge: {
-
+    zoomEnabled: false,
+    // panEnabled: false
   },
   node: {
-    selectable: false,
+    normal: { radius: nodeSize / 2 },
+    label: { direction: 'south', color: '#5951AA' },
+  },
+  edge: {
+    normal: {
+      color: '#4466cc',
+      width: 3,
+    },
+    margin: 4,
+    marker: {
+      target: {
+        type: 'arrow',
+        width: 4,
+        height: 4,
+      },
+    },
   },
 });
 
-const result = ref(null);
-const nodes = ref(null);
-const edges = ref(null);
-const route = useRoute()
-console.warn('ROUTE', route.params.id);
-const mission = ref(null)
+const graph = ref(null);
 
-const selectedNodes = ref([])
+const result = ref(null);
+
+const route = useRoute();
+const mission = ref(null);
+const isLoaded = ref(false);
+const isGraphLoaded = ref(false);
+
+const selectedNodes = ref([]);
+
+const layouts = reactive({
+  nodes: {},
+});
 
 const getMissionRequest = async () => {
   const achievementsApiWsClient = new AchievementsApiWs(ApiClientStomp.instance);
 
   const achievementsRequest = AchievementRequest.constructFromObject({
     achievementFilter: {
-      productIds: [],
+      productTagsFilter: [],
       ids: [route.params.id],
       status: [],
       sortBy: [
@@ -76,15 +107,15 @@ const getMissionRequest = async () => {
   }, null);
 
   await achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
-
     console.warn('MISSIONS', res);
     mission.value = res.data[0];
+    isLoaded.value = true;
   });
-}
+};
 
 onBeforeMount(() => {
-  getMissionRequest()
-  getMission()
+  getMissionGraphData();
+  getMissionRequest();
 });
 
 const getAchievementOrder = (nodes, edges) => {
@@ -97,16 +128,16 @@ const getAchievementOrder = (nodes, edges) => {
         source: nodes.find(n => n.entityId === edge.headEntityId).name,
         target: nodes.find(n => n.entityId === edge.tailEntityId).name
       };
-      nodesResult[nodes.find(n => n.entityId === edge.headEntityId).name] = { name: nodes.find(n => n.entityId === edge.headEntityId).name }
-      const selectedNode =  nodes.find(n => n.entityId === route.params.id).name;
-      selectedNodes.value.push(selectedNode)
+      nodesResult[nodes.find(n => n.entityId === edge.headEntityId).name] = { name: nodes.find(n => n.entityId === edge.headEntityId).name };
+      const selectedNode = nodes.find(n => n.entityId === route.params.id).name;
+      selectedNodes.value.push(selectedNode);
     }
   }
 
-  return { edgesResult, nodesResult }
-}
+  return { edgesResult, nodesResult };
+};
 
-const getMission = async () => {
+const getMissionGraphData = async () => {
   const graphsApiWsClient = new GraphsApiWs(ApiClientStomp.instance);
   const entityGraphRequest = EntityGraphRequest.constructFromObject({
     ids: [route.params.id],
@@ -114,34 +145,91 @@ const getMission = async () => {
     languageKey: '',
     includes: [],
     entityType: 'Achievement'
-  }, null)
+  }, null);
 
   await graphsApiWsClient.getGraph(entityGraphRequest, (res) => {
-    console.warn('RES', res.data);
     const nodes = res.data.nodes;
-    const edges = res.data.graphs[0].edges
+    const edges = res.data.graphs[0].edges;
 
-    result.value = getAchievementOrder(nodes, edges)
+    result.value = getAchievementOrder(nodes, edges);
     console.log('RESULT', result);
   });
-}
-
-watchEffect(() => {
-  if (result.value) {
-    nodes.value = result.value.nodesResult;
-    edges.value = result.value.edgesResult;
+};
+const layout = (direction) => {
+  if (Object.keys(result.value.nodesResult).length <= 1
+      || Object.keys(result.value.edgesResult).length === 0
+  ) {
+    isGraphLoaded.value = true;
+    return;
   }
-})
 
-console.log('NODES', nodes.value);
-console.log('EDGES', edges.value);
+  const g = new dagre.graphlib.Graph();
+
+  g.setGraph({
+    rankdir: direction,
+    nodesep: nodeSize * 2,
+    edgesep: nodeSize,
+    ranksep: nodeSize * 2,
+  });
+
+  g.setDefaultEdgeLabel(() => ({}));
+
+  Object.entries(result.value.nodesResult).forEach(([nodeId, node]) => {
+    g.setNode(nodeId, { label: node.name, width: nodeSize, height: nodeSize });
+  });
+
+  Object.values(result.value.edgesResult).forEach(edge => {
+    g.setEdge(edge.source, edge.target);
+  });
+
+  dagre.layout(g);
+
+  const box = {};
+
+  g.nodes().forEach((nodeId) => {
+    const x = g.node(nodeId).x;
+    const y = g.node(nodeId).y;
+    layouts.nodes[nodeId] = { x, y };
+
+    box.top = box.top ? Math.min(box.top, y) : y;
+    box.bottom = box.bottom ? Math.max(box.bottom, y) : y;
+    box.left = box.left ? Math.min(box.left, x) : x;
+    box.right = box.right ? Math.max(box.right, x) : x;
+  });
+
+  const graphMargin = nodeSize * 2;
+  const viewBox = {
+    top: (box.top ?? 0) - graphMargin,
+    bottom: (box.bottom ?? 0) + graphMargin,
+    left: (box.left ?? 0) - graphMargin,
+    right: (box.right ?? 0) + graphMargin,
+  };
+  graph.value?.setViewBox(viewBox);
+  isGraphLoaded.value = true;
+};
+
+watch(result, (currentValue, oldValue) => {
+  if (currentValue || oldValue) {
+    layout('LR');
+  }
+});
+
 </script>
 
 <style lang="scss">
-.graph {
-  width: 800px;
-  height: 600px;
-  border: 1px solid #000;
+.graph-wrapper {
+  height: 500px;
+
+  .graph {
+    width: 100%;
+    min-height: 500px;
+    //height: auto;
+  }
+}
+
+.wrapper {
+  //height: 100%;
+  width: 100%;
 }
 
 .header {
