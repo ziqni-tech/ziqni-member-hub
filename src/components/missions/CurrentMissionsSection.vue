@@ -34,7 +34,11 @@ const props = defineProps({
 
 const store = useStore();
 
-const currentMissions = computed(() => store.getters.getCurrentMissions);
+const currentMissions = computed(() => {
+  return props.isDashboard
+      ? store.getters.getCurrentMissions.slice(0, 3)
+      : store.getters.getCurrentMissions;
+});
 const totalRecords = computed(() => store.getters.getCurrentMissionsTotalRecords);
 
 const limit = ref(3);
