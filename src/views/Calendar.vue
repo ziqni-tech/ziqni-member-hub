@@ -19,18 +19,20 @@
 </template>
 
 <script setup>
-import { ref, watchEffect } from 'vue';
+import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useCompetitions } from '../hooks/useCompetitions';
 
 import { CalendarView, CalendarViewHeader } from 'vue-simple-calendar';
 import '../../node_modules/vue-simple-calendar/dist/style.css';
 import '../../node_modules/vue-simple-calendar/dist/css/default.css';
+import { useStore } from 'vuex';
 
 const router = useRouter();
 const showDate = ref(new Date());
 const displayPeriod = 'month';
-const { competitions, getCompetitionsHandler } = useCompetitions();
+const { tournamentsResponse, getCompetitionsHandler } = useCompetitions();
+const store = useStore();
 
 const statusCode = {
   moreThan: 5,
@@ -42,12 +44,13 @@ const setShowDate = (d) => {
   showDate.value = d;
 }
 
-getCompetitionsHandler(statusCode, limit, 0, []);
+getCompetitionsHandler({ statusCode, limit, skip: 0, ids: [] });
 
 const competitionItems = ref([]);
 
-watchEffect(() => {
-  competitionItems.value = competitions.value.map(item => {
+watch(tournamentsResponse, (value) => {
+  const competitions = value.data;
+  competitionItems.value = competitions.map(item => {
     let itemClass = '';
     switch (item.status) {
       case 'Active':
