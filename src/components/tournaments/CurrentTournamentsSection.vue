@@ -54,7 +54,7 @@ const limit = ref(3);
 const skip = ref(0);
 const statusCode = {
   moreThan: 5,
-  lessThan: 90
+  lessThan: 35
 }
 
 const { getAvailableAwards, awards } = useGetAwards();
