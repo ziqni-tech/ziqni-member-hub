@@ -2,11 +2,7 @@ import { ApiClientStomp, CompetitionRequest, CompetitionsApiWs } from '@ziqni-te
 import { ref } from 'vue';
 
 export const useCompetitions = () => {
-  const competitions = ref([]);
-  const totalRecords = ref(0);
-  const isLoading = ref(true);
-  const isLoaded = ref(false)
-  const error = ref(null);
+  const tournamentsResponse = ref(null)
 
   const getCompetitionsHandler = async (tournamentRequestData) => {
     const competitionsApiWsClient = new CompetitionsApiWs(ApiClientStomp.instance);
@@ -26,24 +22,12 @@ export const useCompetitions = () => {
     }, null);
 
     await competitionsApiWsClient.getCompetitions(competitionRequest, (res) => {
-      if (res.errors?.length) {
-        error.value = res.errors
-      } else {
-        competitions.value = res.data;
-        totalRecords.value = res.meta.totalRecordsFound;
-        isLoading.value = false;
-        isLoaded.value = true;
-      }
-
+      tournamentsResponse.value = res;
     });
   }
 
   return {
     getCompetitionsHandler,
-    competitions,
-    totalRecords,
-    isLoading,
-    isLoaded,
-    error
+    tournamentsResponse
   }
 }
