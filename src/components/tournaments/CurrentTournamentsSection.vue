@@ -4,7 +4,7 @@
       <h2 class="section-title">Current Tournaments</h2>
       <ActionsBlock/>
     </div>
-    <Loader v-if="isLoading" :title="'Current Tournaments are loading'" />
+    <Loader v-if="!isLoaded" :title="'Current Tournaments are loading'" />
     <div class="cards-grid" v-else-if="currentCompetitions.length && isLoaded">
       <div v-for="c in currentCompetitions" class="card-wrapper">
         <TournamentCard :key="c.id" :card="c"/>
@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-import { computed, ref, watchEffect } from 'vue';
+import { computed, ref, watch, watchEffect } from 'vue';
 
 import NotFoundItems from '../NotFoundItems';
 import { useGetAwards } from '../../hooks/useGetAwards';
@@ -27,6 +27,7 @@ import { rewardFormatter } from '../../utils/rewardFormatter';
 import TournamentCard from '../../components/tournaments/TournamentCard';
 import ActionsBlock from '../../shared/components/UI/actions-block/ActionsBlock';
 import Loader from '../Loader';
+import { useStore } from 'vuex';
 
 const props = defineProps({
   isDashboard: {
@@ -36,20 +37,24 @@ const props = defineProps({
 });
 
 const {
-  totalRecords,
   getCompetitionsHandler,
-  competitions,
-  isLoaded,
-  isLoading,
-  error
+  tournamentsResponse
 } = useCompetitions();
 
-const currentCompetitions = ref([]);
+const store = useStore();
+const isLoaded = ref(true);
+const currentCompetitions = computed(() => {
+  return props.isDashboard
+      ? store.getters.getCurrentTournaments.slice(0, 3)
+      : store.getters.getCurrentTournaments;
+});
+const tournamentsTotalRecords = computed(() => store.getters.getCurrentTournamentsTotalRecords);
+
 const limit = ref(3);
 const skip = ref(0);
 const statusCode = {
-  moreThan: 20,
-  lessThan: 30
+  moreThan: 5,
+  lessThan: 90
 }
 
 const { getAvailableAwards, awards } = useGetAwards();
@@ -62,17 +67,10 @@ const tournamentRequestData = {
   ids: []
 }
 
-getCompetitionsHandler(tournamentRequestData);
-
-watchEffect(() => {
-  currentCompetitions.value = [...currentCompetitions.value, ...competitions.value];
-});
-
-watchEffect( () => {
-  currentCompetitions.value.map( async (item) => {
-    await getAvailableAwards([item.id]);
-  })
-})
+if (!currentCompetitions.value.length) {
+  isLoaded.value = false;
+  getCompetitionsHandler(tournamentRequestData);
+}
 
 watchEffect(() => {
   if (awards.value) {
@@ -84,7 +82,12 @@ watchEffect(() => {
   }
 })
 
-const isShowMore = computed(() => currentCompetitions.value.length < totalRecords.value)
+watch(tournamentsResponse, (currentValue, oldValue) => {
+  store.dispatch('setCurrentTournamentsAction', currentValue);
+  isLoaded.value = true;
+});
+
+const isShowMore = computed(() => currentCompetitions.value.length < tournamentsTotalRecords.value)
 
 const loadMore = async() => {
   tournamentRequestData.skip = currentCompetitions.value.length;

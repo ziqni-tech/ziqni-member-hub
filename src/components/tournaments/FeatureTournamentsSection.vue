@@ -4,7 +4,7 @@
       <h2 class="section-title">Feature Tournaments</h2>
       <ActionsBlock/>
     </div>
-    <Loader v-if="isLoading" :title="'Feature Tournaments are loading'"/>
+    <Loader v-if="!isLoaded" :title="'Feature Tournaments are loading'"/>
     <div class="cards-grid" v-else-if="isLoaded && featureCompetitions.length">
       <div v-for="c in featureCompetitions" class="card-wrapper">
         <TournamentCard :key="c.id" :card="c"/>
@@ -22,12 +22,16 @@ import ActionsBlock from '../../shared/components/UI/actions-block/ActionsBlock'
 import TournamentCard from '../../components/tournaments/TournamentCard';
 import NotFoundItems from '../NotFoundItems';
 
-import { computed, ref, watchEffect } from 'vue';
+import { computed, ref, watch, watchEffect } from 'vue';
 import { useCompetitions } from '../../hooks/useCompetitions';
 import Loader from '../Loader';
+import { useStore } from 'vuex';
 
-const { totalRecords, getCompetitionsHandler, competitions, isLoaded, isLoading } = useCompetitions();
-const featureCompetitions = ref([]);
+const { getCompetitionsHandler, tournamentsResponse } = useCompetitions();
+const isLoaded = ref(true);
+const store = useStore();
+const featureCompetitions = computed(() => store.getters.getFeatureTournaments);
+const tournamentsTotalRecords = computed(() => store.getters.getFeatureTournamentsTotalRecords);
 const limit = ref(3);
 const skip = ref(0);
 const statusCode = {
@@ -40,13 +44,18 @@ const tournamentRequestData = {
   skip: skip.value,
   ids: []
 };
-getCompetitionsHandler(tournamentRequestData);
 
-watchEffect(() => {
-  featureCompetitions.value = [...featureCompetitions.value, ...competitions.value];
+if (!featureCompetitions.value.length) {
+  isLoaded.value = false;
+  getCompetitionsHandler(tournamentRequestData);
+}
+
+watch(tournamentsResponse, (currentValue, oldValue) => {
+  store.dispatch('setFeatureTournamentsAction', currentValue);
+  isLoaded.value = true;
 });
 
-const isShowMore = computed(() => featureCompetitions.value.length < totalRecords.value);
+const isShowMore = computed(() => featureCompetitions.value.length < tournamentsTotalRecords.value);
 
 const loadMore = async () => {
   tournamentRequestData.skip = featureCompetitions.value.length;
