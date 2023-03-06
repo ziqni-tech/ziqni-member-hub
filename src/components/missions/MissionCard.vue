@@ -26,7 +26,7 @@
         params: { id: missionItem.id }
       }" >
         <CButton class="m-btn">
-          <span class="b-btn__text">Register</span>
+          <span class="b-btn__text">See More</span>
           <img src="../../assets/icons/button_icon.svg" alt="">
         </CButton>
       </router-link>
