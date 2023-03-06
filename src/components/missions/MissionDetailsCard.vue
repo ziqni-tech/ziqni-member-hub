@@ -31,12 +31,16 @@
         <span class="mission-data__terms-and-conditions__title">Terms & Conditions Apply </span>
         <span class="mission-data__terms-and-conditions__text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero</span>
       </div>
+      <CButton class="m-btn register-btn" @click="register">
+        <span class="b-btn__text">Register</span>
+        <img src="../../assets/icons/button_icon.svg" alt="">
+      </CButton>
     </div>
   </div>
 </template>
 
 <script setup>
-import { CProgress, CProgressBar } from '@coreui/vue';
+import { CProgress, CProgressBar, CButton } from '@coreui/vue';
 import Countdown from '../Countdown';
 import Status from '../../shared/components/Status';
 import banner from '../../assets/images/world-cup.jpg';
@@ -46,10 +50,15 @@ import trophyIcon from '../../assets/icons/Trophy.png';
 const props = defineProps({
   mission: Object
 })
+const emit = defineEmits(['registerMission'])
 const cardItem = props.mission;
 
 const finish = () => {
   console.log('finish');
+}
+
+const register = () => {
+  emit('registerMission')
 }
 
 </script>
@@ -88,7 +97,6 @@ const finish = () => {
   .mission-data {
     display: flex;
     flex-direction: column;
-    width: 45%;
     padding: 20px 0 0 42px;
 
     &__title {
@@ -158,6 +166,11 @@ const finish = () => {
       box-shadow: inset 0 2.29752px 4.59504px rgba(255, 255, 255, 0.25), inset 0px -2.29752px 4.59504px rgba(0, 0, 0, 0.25);
       border-radius: 4px;
     }
+  }
+
+  .register-btn {
+    align-self: flex-end;
+    margin-bottom: 10px;
   }
 }
 @media screen and (max-width: $smDesktopWidth) {

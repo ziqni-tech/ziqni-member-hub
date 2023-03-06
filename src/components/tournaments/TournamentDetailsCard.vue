@@ -33,12 +33,16 @@
         @onFinish="finish()"
         class="countdown"
       />
+      <CButton class="m-btn register-btn" @click="register">
+        <span class="b-btn__text">Register</span>
+        <img src="../../assets/icons/button_icon.svg" alt="">
+      </CButton>
     </div>
-
   </div>
 </template>
 
 <script setup>
+import { CButton } from '@coreui/vue';
 import banner from '../../assets/images/CandyStars-Banner.png';
 import cupImg from '../../assets/images/mini_cup.png';
 import Status from '../../shared/components/Status';
@@ -46,11 +50,16 @@ import Countdown from '../Countdown';
 import { useMedia } from '../../hooks/useMedia';
 
 const props = defineProps({ tournament: Object });
+const emit = defineEmits(['registerTournament']);
 const end = new Date('2023-01-01T00:00:00');
 const isMobile = useMedia('(max-width: 480px)');
 
 const finish = () => {
   console.log('finish');
+}
+
+const register = () => {
+  emit('registerTournament')
 }
 </script>
 
@@ -156,6 +165,12 @@ const finish = () => {
         }
       }
     }
+
+    .register-btn {
+      align-self: flex-end;
+      margin: 20px 20px 15px 0;
+    }
+
   }
 
 }

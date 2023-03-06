@@ -4,19 +4,23 @@
       <h1 class="title">{{ mission.name }}</h1>
       <img class="share-icon" :src="shareIcon" alt=""/>
     </div>
-    <MissionDetailsCard :mission="mission"/>
-        <div class="graph-wrapper">
-          <v-network-graph
-              ref="graph"
-              v-if="result"
-              v-model:selected-nodes="selectedNodes"
-              :nodes="result.nodesResult"
-              :edges="result.edgesResult"
-              :configs="configs"
-              class="m-graph"
-              :layouts="layouts"
-          />
-        </div>
+    <MissionDetailsCard :mission="mission" @registerMission="registerMission"/>
+    <div class="graph-wrapper">
+      <v-network-graph
+          ref="graph"
+          v-if="result"
+          v-model:selected-nodes="selectedNodes"
+          :nodes="result.nodesResult"
+          :edges="result.edgesResult"
+          :configs="configs"
+          class="m-graph"
+          :layouts="layouts"
+      >
+        <template #edge-label="{ edge, ...slotProps }">
+          <v-edge-label :text="edge.label" align="center" vertical-align="above" v-bind="slotProps"/>
+        </template>
+      </v-network-graph>
+    </div>
   </div>
   <Loader v-else/>
 
@@ -34,7 +38,9 @@ import {
   AchievementsApiWs,
   ApiClientStomp,
   EntityGraphRequest,
-  GraphsApiWs
+  GraphsApiWs,
+  ManageOptinRequest,
+  OptInApiWs,
 } from '@ziqni-tech/member-api-client';
 import { defineConfigs } from 'v-network-graph';
 import { useRoute } from 'vue-router';
@@ -234,6 +240,20 @@ watch(result, (currentValue, oldValue) => {
     layout('LR');
   }
 });
+
+const registerMission = async () => {
+  const optInApiWsClient = new OptInApiWs(ApiClientStomp.instance);
+
+  const optInRequest = ManageOptinRequest.constructFromObject({
+    entityId: route.params.id,
+    entityType: 'Achievement',
+    action: 'join'
+  }, null);
+
+  await optInApiWsClient.manageOptin(optInRequest, (res) => {
+    console.warn('JOIN RES', res);
+  })
+}
 
 </script>
 

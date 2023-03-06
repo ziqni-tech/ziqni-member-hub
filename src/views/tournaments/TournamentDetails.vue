@@ -1,24 +1,27 @@
 <template>
-  <div class="header">
-    <h1 class="section-title">{{ tournamentItem ? tournamentItem.name : '' }}</h1>
-    <img class="share-icon" src="../../assets/icons/share-icon.svg" alt="" />
+  <Loader v-if="!isLoaded" :title="'Loading'" />
+  <div v-else>
+    <div class="header">
+      <h1 class="section-title">{{ tournamentItem.name }}</h1>
+      <img class="share-icon" src="../../assets/icons/share-icon.svg" alt="" />
+    </div>
+    <TournamentDetailsCard :tournament="tournamentItem" @registerTournament="registerTournament" />
+    <div class="header" v-if="leaderboard">
+      <h2 class="section-title">Leaderboard</h2>
+      <img class="share-icon" src="../../assets/icons/share-icon.svg" alt="" />
+    </div>
+    <div class="tables" v-if="leaderboardIsLoaded && leaderboardEntries">
+      <Leaderboard :leaderboard="leaderboardEntries" />
+    </div>
+    <NotFoundItems v-else :title="'active members'" />
   </div>
-  <TournamentDetailsCard :tournament="tournamentItem" />
-  <div class="header" v-if="leaderboard">
-    <h2 class="section-title">Leaderboard</h2>
-    <img class="share-icon" src="../../assets/icons/share-icon.svg" alt="" />
-  </div>
-  <Loader v-if="leaderboardIsLoading" :title="'Leaderboard loading...'" />
-  <div class="tables" v-else-if="leaderboardIsLoaded && leaderboardEntries">
-    <Leaderboard :leaderboard="leaderboardEntries" />
-  </div>
-  <NotFoundItems v-else :title="'active members'" />
+
 </template>
 
 <script setup>
 import Leaderboard from '../../components/tournament-leaders/Leaderboard';
 import TournamentDetailsCard from '../../components/tournaments/TournamentDetailsCard';
-import { onUnmounted, ref, watchEffect } from 'vue';
+import { onUnmounted, ref, watchEffect, watch, onBeforeMount, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useGetContests } from '../../hooks/useGetContests';
 import { useGetLeaderboard } from '../../hooks/useGetLeaderboard';
@@ -26,9 +29,9 @@ import NotFoundItems from '../../components/NotFoundItems';
 import { useCompetitions } from '../../hooks/useCompetitions';
 import { useStore } from 'vuex';
 import Loader from '../../components/Loader';
-import { ApiClientStomp, LeaderboardApiWs } from '@ziqni-tech/member-api-client';
+import { ApiClientStomp, LeaderboardApiWs, ManageOptinRequest, OptInApiWs } from '@ziqni-tech/member-api-client';
 
-const { getCompetitionsHandler, competitions } = useCompetitions();
+const { getCompetitionsHandler, tournamentsResponse } = useCompetitions();
 const { getEntityContests, contests } = useGetContests();
 const { getEntityLeaderboard, leaderboard } = useGetLeaderboard();
 
@@ -41,9 +44,9 @@ const statusCode = {
 
 const store = useStore();
 const tournamentItem = ref(null);
-const leaderboardIsLoading = ref(false);
-const leaderboardIsLoaded = ref(false);
-const leaderboardEntries = ref(null);
+const isLoaded = ref(false)
+const leaderboardIsLoaded = computed(() => store.getters.getLeaderboardIsLoaded);
+const leaderboardEntries = computed(() => store.getters.getLeaderboardEntries);
 
 const tournamentRequestData = {
   statusCode,
@@ -51,26 +54,22 @@ const tournamentRequestData = {
   skip: 0,
   ids
 };
+onBeforeMount(() => getCompetitionsHandler(tournamentRequestData));
 
-getCompetitionsHandler(tournamentRequestData);
-
-watchEffect(() => {
-  tournamentItem.value = competitions.value[0];
-  const competitionId = competitions.value[0]?.id;
-  if (competitionId) getEntityContests(competitionId);
-});
+watch(tournamentsResponse, (currentValue, oldValue) => {
+  if (currentValue) {
+    isLoaded.value = true;
+    tournamentItem.value = currentValue.data[0];
+    const competitionId = currentValue.data[0]?.id;
+    getEntityContests(competitionId);
+  }
+})
 
 watchEffect(() => {
   if (contests.value[0]) {
     const contestId = contests.value[0].id;
     getEntityLeaderboard(contestId);
   }
-});
-
-watchEffect(() => {
-  leaderboardIsLoading.value = store.getters.getLeaderboardIsLoading;
-  leaderboardIsLoaded.value = store.getters.getLeaderboardIsLoaded;
-  leaderboardEntries.value = store.getters.getLeaderboardEntries;
 });
 
 const unsubscribeEntityLeaderboard = async () => {
@@ -92,7 +91,22 @@ const unsubscribeEntityLeaderboard = async () => {
   });
 };
 
+const registerTournament= async () => {
+  const optInApiWsClient = new OptInApiWs(ApiClientStomp.instance);
+
+  const optInRequest = ManageOptinRequest.constructFromObject({
+    entityId: route.params.id,
+    entityType: 'Competition',
+    action: 'join'
+  }, null);
+
+  await optInApiWsClient.manageOptin(optInRequest, (res) => {
+    console.warn('JOIN RES', res);
+  })
+}
+
 onUnmounted(() => unsubscribeEntityLeaderboard());
+
 </script>
 
 <style lang="scss" scoped>
