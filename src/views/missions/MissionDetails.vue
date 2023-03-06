@@ -53,8 +53,11 @@ const configs = defineConfigs({
   },
   edge: {
     normal: {
-      color: '#4466cc',
+      color: edge => edge.color,
       width: 3,
+    },
+    label: {
+      color: '#4466cc'
     },
     margin: 4,
     marker: {
@@ -107,7 +110,6 @@ const getMissionRequest = async () => {
   }, null);
 
   await achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
-    console.warn('MISSIONS', res);
     mission.value = res.data[0];
     isLoaded.value = true;
   });
@@ -124,15 +126,35 @@ const getAchievementOrder = (nodes, edges) => {
 
   for (const edge of edges) {
     if (edge.headEntityId !== null) {
+      let color;
+      switch (edge.graphEdgeType) {
+        case 'MUST': {
+          color = '#1ECE30';
+          break;
+        }
+        case 'SHOULD': {
+          color = 'rgb(238, 187, 0)';
+          break;
+        }
+        case 'MUST-NOT': {
+          color = '#CE624B';
+          break;
+        }
+      }
       edgesResult['edge' + edge.ordering] = {
         source: nodes.find(n => n.entityId === edge.headEntityId).name,
-        target: nodes.find(n => n.entityId === edge.tailEntityId).name
+        target: nodes.find(n => n.entityId === edge.tailEntityId).name,
+        label: edge.graphEdgeType,
+        color: color
       };
-      nodesResult[nodes.find(n => n.entityId === edge.headEntityId).name] = { name: nodes.find(n => n.entityId === edge.headEntityId).name };
-      const selectedNode = nodes.find(n => n.entityId === route.params.id).name;
-      selectedNodes.value.push(selectedNode);
     }
   }
+
+  for (const node of nodes) {
+    nodesResult[node.name] = { name: node.name };
+  }
+  const selectedNode = nodes.find(n => n.entityId === route.params.id).name;
+  selectedNodes.value.push(selectedNode);
 
   return { edgesResult, nodesResult };
 };
@@ -152,7 +174,6 @@ const getMissionGraphData = async () => {
     const edges = res.data.graphs[0].edges;
 
     result.value = getAchievementOrder(nodes, edges);
-    console.log('RESULT', result);
   });
 };
 const layout = (direction) => {
@@ -218,7 +239,7 @@ watch(result, (currentValue, oldValue) => {
 
 <style lang="scss">
 .graph-wrapper {
-  height: 500px;
+  height: 700px;
 
   .graph {
     width: 100%;
