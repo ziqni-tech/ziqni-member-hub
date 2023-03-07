@@ -101,7 +101,11 @@ const registerTournament= async () => {
   }, null);
 
   await optInApiWsClient.manageOptin(optInRequest, (res) => {
-    console.warn('JOIN RES', res);
+    console.warn('JOIN RES', res.data);
+    if (res.data) {
+      const message = 'you successfully joined';
+      store.dispatch('setAlertMessage', message);
+    }
   })
 }
 

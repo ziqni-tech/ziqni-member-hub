@@ -1,36 +1,58 @@
 <template>
   <CAlert
       class="alert-message"
-      color="info"
+      color="success"
       :visible="showAlert"
       dismissible
       @close="closeAlert"
   >
     <h1 class="alert-message_title">
-      {{ messageItem.entityType }}
+      {{ messageItem }}
     </h1>
-    <p>ID: {{ messageItem.entityId }}</p>
+<!--    <p>ID: {{ messageItem.entityId }}</p>-->
   </CAlert>
 </template>
 
 <script setup>
 import { CAlert } from '@coreui/vue';
-import { ref, watchEffect } from 'vue';
+import { computed, ref, watch, watchEffect } from 'vue';
+import { useStore } from 'vuex';
+// :color="success ? 'success':  'danger'"
 
-const props = defineProps({ message: Object });
+// const props = defineProps({ message: Object });
 const messageItem = ref(null);
-const showAlert = ref(false)
+const showAlert = ref(false);
+const store = useStore()
 
-watchEffect(() => {
-  if (props.message) {
-    messageItem.value = props.message;
-    // showAlert.value = true
+const alertMessage = computed(() => store.getters.getAlertMessage)
+
+// watchEffect(() => {
+//   if (props.message) {
+//     messageItem.value = props.message;
+//     showMessage();
+//   }
+// });
+
+watch(alertMessage, (currentValue, oldValue) => {
+  if (currentValue) {
+    console.warn('STORE', currentValue);
+    messageItem.value = currentValue;
+    showMessage();
   }
 })
 
+const showMessage = () => {
+  console.warn('SHOW MESSAGE', messageItem.value);
+  showAlert.value = true;
+  setTimeout(() => {
+    showAlert.value = false;
+    store.dispatch('removeAlertMessage')
+  }, 5000);
+};
+
 const closeAlert = () => {
-  showAlert.value = false
-}
+  showAlert.value = false;
+};
 
 </script>
 
@@ -48,6 +70,7 @@ const closeAlert = () => {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+
   &_title {
     align-self: center;
   }

@@ -1,12 +1,17 @@
 const state = {
   notifications: [],
+  alertMessage: null,
   isLoaded: false,
   error: null
 };
+
 const getters = {
   getNotifications(state) {
     return state.notifications;
-  }
+  },
+  getAlertMessage(state) {
+    return state.alertMessage;
+  },
 };
 
 const mutations = {
@@ -15,10 +20,23 @@ const mutations = {
   },
   REMOVE_NOTIFICATION(state, payload) {
     state.notifications = state.notifications.filter(el => el.entityId !== payload);
+  },
+  SET_ALERT_MESSAGE(state, payload) {
+    state.alertMessage = payload;
+  },
+  REMOVE_ALERT_MESSAGE(state, payload) {
+    state.alertMessage = null;
   }
 };
 
 const actions = {
+  setAlertMessage({commit}, payload) {
+    console.warn('PAYLOAD', payload);
+    commit('SET_ALERT_MESSAGE', payload)
+  },
+  removeAlertMessage({commit}, payload) {
+    commit('REMOVE_ALERT_MESSAGE')
+  },
   setNotificationAction({ commit }, payload) {
     commit('SET_NOTIFICATION_DATA', payload);
   },

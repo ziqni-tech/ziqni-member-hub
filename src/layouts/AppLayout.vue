@@ -59,7 +59,7 @@ onMounted(async () => {
       store.dispatch('setLeaderboardAction', data.leaderboardEntries)
     } else {
       message.value = data;
-      store.dispatch('setNotificationAction', data);
+      // store.dispatch('setNotificationAction', data);
     }
   });
 });
