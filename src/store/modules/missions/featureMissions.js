@@ -10,41 +10,27 @@ const getters = {
     return state.featureMissions;
   },
   getFeatureMissionsTotalRecords(state) {
-    return state.totalRecords
-  },
-  getFeatureMissionsLoading(state) {
-    return state.isLoading
-  },
-  getFeatureMissionsLoaded(state) {
-    return state.isLoaded
+    return state.totalRecords;
   },
 };
 
 const mutations = {
-  FEATURE_MISSIONS_API_REQUEST(state) {
-    state.isLoading = true;
-    state.isLoaded = false;
-  },
   SET_FEATURE_MISSIONS(state, payload) {
-    state.featureMissions = [...state.featureMissions, ...payload.data];
-    state.totalRecords = payload.meta.totalRecordsFound
+    state.featureMissions = [...state.featureMissions, ...payload];
     state.isLoading = false;
     state.isLoaded = true;
   },
-  SET_FEATURE_MISSIONS_ERROR(state, payload) {
-    state.error = payload;
-    state.isLoading = false;
-    state.isLoaded = true;
+  SET_FEATURE_MISSIONS_TOTAL_RECORDS(state, payload) {
+    state.totalRecords = payload;
   },
 };
 
 const actions = {
-  featureMissionsRequest({ commit }, payload) {
-    commit('FEATURE_MISSIONS_API_REQUEST')
-  },
   setFeatureMissionsAction({ commit }, payload) {
-    console.log('ACTION', payload);
     commit('SET_FEATURE_MISSIONS', payload);
+  },
+  setCurrentMissionsTotalRecords({ commit }, payload) {
+    commit('SET_FEATURE_MISSIONS_TOTAL_RECORDS', payload);
   },
 };
 
