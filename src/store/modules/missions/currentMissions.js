@@ -1,6 +1,7 @@
 const state = {
   isLoading: false,
   currentMissions: [],
+  currentMission: null,
   totalRecords: 0,
   isLoaded: false,
   error: null
@@ -9,42 +10,37 @@ const getters = {
   getCurrentMissions(state) {
     return state.currentMissions;
   },
+  getCurrentMission(state) {
+    return state.currentMission;
+  },
   getCurrentMissionsTotalRecords(state) {
-    return state.totalRecords
-  },
-  getCurrentMissionsLoading(state) {
-    return state.isLoading
-  },
-  getCurrentMissionsLoaded(state) {
-    return state.isLoaded
+    return state.totalRecords;
   },
 };
 
 const mutations = {
-  CURRENT_MISSIONS_API_REQUEST(state) {
-    state.isLoading = true;
-    state.isLoaded = false;
-  },
   SET_CURRENT_MISSIONS(state, payload) {
-    state.totalRecords = payload.meta.totalRecordsFound
-    state.currentMissions = [...state.currentMissions, ...payload.data];
+    state.currentMissions = [...state.currentMissions, ...payload];
     state.isLoading = false;
     state.isLoaded = true;
   },
-  SET_CURRENT_MISSIONS_ERROR(state, payload) {
-    state.error = payload;
-    state.isLoading = false;
-    state.isLoaded = true;
+  SET_CURRENT_MISSIONS_TOTAL_RECORDS(state, payload) {
+    state.totalRecords = payload;
+  },
+  SET_CURRENT_MISSION(state, payload) {
+    state.currentMission = payload;
   },
 };
 
 const actions = {
-  currentMissionsRequest({ commit }, payload) {
-    commit('CURRENT_MISSIONS_API_REQUEST')
+  setCurrentMissionsTotalRecords({ commit }, payload) {
+    commit('SET_CURRENT_MISSIONS_TOTAL_RECORDS', payload);
   },
   setCurrentMissionsAction({ commit }, payload) {
-    console.log('ACTION', payload);
     commit('SET_CURRENT_MISSIONS', payload);
+  },
+  setCurrentMissionAction({ commit }, payload) {
+    commit('SET_CURRENT_MISSION', payload);
   },
 };
 
