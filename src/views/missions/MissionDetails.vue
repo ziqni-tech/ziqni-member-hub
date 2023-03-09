@@ -4,7 +4,7 @@
       <h1 class="title">{{ mission.name }}</h1>
       <img class="share-icon" :src="shareIcon" alt=""/>
     </div>
-    <MissionDetailsCard :mission="mission" @registerMission="registerMission"/>
+    <MissionDetailsCard :mission="mission" @joinMission="joinMission" @leaveMission="leaveMission"/>
     <div class="graph-wrapper">
       <v-network-graph
           ref="graph"
@@ -41,10 +41,12 @@ import {
   GraphsApiWs,
   ManageOptinRequest,
   OptInApiWs,
+  OptInStatesRequest
 } from '@ziqni-tech/member-api-client';
 import { defineConfigs } from 'v-network-graph';
 import { useRoute } from 'vue-router';
 import Loader from '../../components/Loader';
+import { useStore } from 'vuex';
 
 const nodeSize = 40;
 
@@ -87,6 +89,8 @@ const isGraphLoaded = ref(false);
 
 const selectedNodes = ref([]);
 
+const store = useStore();
+
 const layouts = reactive({
   nodes: {},
 });
@@ -117,13 +121,46 @@ const getMissionRequest = async () => {
 
   await achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
     mission.value = res.data[0];
+    console.warn('MISSION', res.data[0]);
     isLoaded.value = true;
+  });
+};
+
+const getOptInStatus = async () => {
+  const optInApiWsClient = new OptInApiWs(ApiClientStomp.instance);
+
+  const optInStateRequest = OptInStatesRequest.constructFromObject({
+    optinStatesFilter: {
+      entityTypes: ['Achievement'],
+      ids: [route.params.id],
+      statusCodes: {
+        gt: 0,
+        lt: 40
+      },
+      skip: 0,
+      limit: 10
+    }
+  }, null);
+
+  await optInApiWsClient.optInStates(optInStateRequest, (res) => {
+    if (res.data.length) {
+      const status = res.data[0].status;
+      const percentage = res.data[0].percentageComplete;
+
+      mission.value.entrantStatus = status ? status : '';
+      mission.value.percentageComplete = percentage ? percentage : 0;
+    } else {
+      mission.value.percentageComplete = 0;
+      mission.value.entrantStatus = '';
+    }
+    store.dispatch('setCurrentMissionAction', mission.value);
   });
 };
 
 onBeforeMount(() => {
   getMissionGraphData();
   getMissionRequest();
+  getOptInStatus();
 });
 
 const getAchievementOrder = (nodes, edges) => {
@@ -241,7 +278,7 @@ watch(result, (currentValue, oldValue) => {
   }
 });
 
-const registerMission = async () => {
+const joinMission = async () => {
   const optInApiWsClient = new OptInApiWs(ApiClientStomp.instance);
 
   const optInRequest = ManageOptinRequest.constructFromObject({
@@ -251,9 +288,31 @@ const registerMission = async () => {
   }, null);
 
   await optInApiWsClient.manageOptin(optInRequest, (res) => {
-    console.warn('JOIN RES', res);
-  })
-}
+    if (res.data) {
+      const message = `You successfully joined the ${mission.value.name} mission`;
+      store.dispatch('setAlertMessage', message);
+      getOptInStatus();
+    }
+  });
+};
+
+const leaveMission = async () => {
+  const optInApiWsClient = new OptInApiWs(ApiClientStomp.instance);
+
+  const optInRequest = ManageOptinRequest.constructFromObject({
+    entityId: route.params.id,
+    entityType: 'Achievement',
+    action: 'leave'
+  }, null);
+
+  await optInApiWsClient.manageOptin(optInRequest, (res) => {
+    if (res.data) {
+      const message = `You successfully leaved the ${mission.value.name} mission`;
+      store.dispatch('setAlertMessage', message);
+      getOptInStatus();
+    }
+  });
+};
 
 </script>
 

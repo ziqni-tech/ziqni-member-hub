@@ -1,9 +1,9 @@
 <template>
-  <div class="mission-details-card">
+  <div v-if="cardItem" class="mission-details-card">
     <div class="mission-details-card__banner">
       <img :src="banner" alt="">
       <div class="status">
-        <Status :status="'Active'" />
+        <Status :status="cardItem.status" />
       </div>
     </div>
     <div v-if="cardItem" class="mission-data">
@@ -24,41 +24,74 @@
       </div>
       <div class="mission-data__progress">
         <CProgress :height="23" >
-          <CProgressBar :value="25" >25%</CProgressBar>
+          <CProgressBar :value="cardItem.percentageComplete" >{{ cardItem.percentageComplete }}%</CProgressBar>
         </CProgress>
       </div>
       <div class="mission-data__terms-and-conditions">
         <span class="mission-data__terms-and-conditions__title">Terms & Conditions Apply </span>
         <span class="mission-data__terms-and-conditions__text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero</span>
       </div>
-      <CButton class="m-btn register-btn" @click="register">
-        <span class="b-btn__text">Register</span>
+      <CButton v-if="!cardItem.entrantStatus" class="m-btn register-btn" @click="register">
+        <span class="b-btn__text">Join</span>
+        <img src="../../assets/icons/button_icon.svg" alt="">
+      </CButton>
+      <CButton v-if="cardItem.entrantStatus" class="m-btn register-btn" @click="openModal">
+        <span class="b-btn__text">Leave</span>
         <img src="../../assets/icons/button_icon.svg" alt="">
       </CButton>
     </div>
   </div>
+  <Modal
+      :modalShow="leaveModal"
+      :messageGeneral="'Are you sure you want to leave this mission?'"
+      :title="'Leave the mission'"
+      :successBtnLabel="'Leave'"
+      @doFunction="leave"
+      @closeModal="closeModal"
+      v-on:toggle-modal="leaveModal = false"
+  />
 </template>
 
 <script setup>
+import { computed, ref, warn } from 'vue';
 import { CProgress, CProgressBar, CButton } from '@coreui/vue';
 import Countdown from '../Countdown';
 import Status from '../../shared/components/Status';
 import banner from '../../assets/images/world-cup.jpg';
 import peopleIcon from '../../assets/icons/People.png';
 import trophyIcon from '../../assets/icons/Trophy.png';
+import Modal from '../../shared/components/Modal'
+import { useStore } from 'vuex';
 
 const props = defineProps({
   mission: Object
 })
-const emit = defineEmits(['registerMission'])
-const cardItem = props.mission;
+const store = useStore()
+const cardItem = computed(() => store.getters.getCurrentMission)
 
+const emit = defineEmits(['joinMission', 'leaveMission'])
+// const cardItem = props.mission;
+const leaveModal = ref(false)
+console.warn('cardItem', cardItem)
 const finish = () => {
   console.log('finish');
 }
 
 const register = () => {
-  emit('registerMission')
+  emit('joinMission')
+}
+
+const leave = () => {
+  emit('leaveMission')
+  leaveModal.value = false;
+}
+
+const openModal = () => {
+  leaveModal.value = true;
+}
+
+const closeModal = () => {
+  leaveModal.value = false;
 }
 
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="mission-card">
-    <div class="card-image" >
+    <div class="card-image">
       <img :src="cardImage" alt="">
     </div>
     <div class="mission-data">
@@ -18,13 +18,13 @@
             @onFinish="finish()"
         />
       </div>
-      <CProgress class="mission-progress" :height="13" >
-        <CProgressBar :value="25" >25%</CProgressBar>
+      <CProgress class="mission-progress" :height="13">
+        <CProgressBar :value="missionItem.percentageComplete">{{ missionItem.percentageComplete }}%</CProgressBar>
       </CProgress>
       <router-link class="register-btn" :to="{
         name: 'MissionDetails',
         params: { id: missionItem.id }
-      }" >
+      }">
         <CButton class="m-btn">
           <span class="b-btn__text">See More</span>
           <img src="../../assets/icons/button_icon.svg" alt="">
@@ -37,18 +37,18 @@
 <script setup>
 import { CProgress, CProgressBar, CButton } from '@coreui/vue';
 import Countdown from '../Countdown';
-import cardImage from '../../assets/images/world_cup.png'
+import cardImage from '../../assets/images/world_cup.png';
 import peopleIcon from '../../assets/icons/People.png';
 import trophyIcon from '../../assets/icons/Trophy.png';
 
 const props = defineProps({
   mission: Object
-})
+});
 const missionItem = props.mission;
 
 const finish = () => {
   console.log('finish');
-}
+};
 </script>
 
 <style lang="scss">
