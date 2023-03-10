@@ -35,7 +35,7 @@ const { tournamentsResponse, getCompetitionsHandler } = useCompetitions();
 const store = useStore();
 
 const statusCode = {
-  moreThan: 5,
+  moreThan: 15,
   lessThan: 35
 }
 const limit = 20
