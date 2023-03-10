@@ -4,12 +4,16 @@ const state = {
   currentTournamentsTotalRecords: 0,
   featureTournaments: [],
   featureTournamentsTotalRecords: 0,
+  currentTournament: null,
   isLoaded: false,
   error: null
 };
 const getters = {
   getCurrentTournaments(state) {
     return state.currentTournaments;
+  },
+  getCurrentTournament(state) {
+    return state.currentTournament;
   },
   getCurrentTournamentsLoading(state) {
     return state.isLoading
@@ -43,6 +47,9 @@ const mutations = {
     state.isLoading = true;
     state.isLoaded = false;
   },
+  SET_CURRENT_TOURNAMENT(state, payload) {
+    state.currentTournament = payload;
+  },
   SET_CURRENT_TOURNAMENTS(state, payload) {
     const { data, meta } = payload;
     state.currentTournamentsTotalRecords = meta.totalRecordsFound;
@@ -75,6 +82,9 @@ const actions = {
   },
   featureTournamentsRequest({ commit }, payload) {
     commit('FEATURE_TOURNAMENTS_API_REQUEST')
+  },
+  setCurrentTournamentAction({ commit }, payload) {
+    commit('SET_CURRENT_TOURNAMENT', payload);
   },
   setCurrentTournamentsAction({ commit }, payload) {
     commit('SET_CURRENT_TOURNAMENTS', payload);
