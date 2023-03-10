@@ -23,44 +23,75 @@
         </div>
       </div>
       <Countdown
-        v-if="tournament && tournament.scheduledEndDate"
-        :date="tournament.scheduledEndDate"
-        :title="'Ends in'"
-        :is-row="!isMobile"
-        :is-column="isMobile"
-        :is-detail-card="!isMobile"
-        :is-medium-size="isMobile"
-        @onFinish="finish()"
-        class="countdown"
+          v-if="tournament && tournament.scheduledEndDate"
+          :date="tournament.scheduledEndDate"
+          :title="'Ends in'"
+          :is-row="!isMobile"
+          :is-column="isMobile"
+          :is-detail-card="!isMobile"
+          :is-medium-size="isMobile"
+          @onFinish="finish()"
+          class="countdown"
       />
-      <CButton class="m-btn register-btn" @click="register">
-        <span class="b-btn__text">Register</span>
+      <CButton v-if="!isEntrant" class="m-btn register-btn" @click="join">
+        <span class="b-btn__text">Join</span>
+        <img src="../../assets/icons/button_icon.svg" alt="">
+      </CButton>
+      <CButton v-else class="m-btn register-btn" @click="openModal">
+        <span class="b-btn__text">Leave</span>
         <img src="../../assets/icons/button_icon.svg" alt="">
       </CButton>
     </div>
   </div>
+  <Modal
+      :modalShow="leaveModal"
+      :messageGeneral="'Are you sure you want to leave this tournament?'"
+      :title="'Leave the tournament'"
+      :successBtnLabel="'Leave'"
+      @doFunction="leave"
+      @closeModal="closeModal"
+      v-on:toggle-modal="leaveModal = false"
+  />
 </template>
 
 <script setup>
 import { CButton } from '@coreui/vue';
+import { ref } from 'vue';
+
 import banner from '../../assets/images/CandyStars-Banner.png';
 import cupImg from '../../assets/images/mini_cup.png';
 import Status from '../../shared/components/Status';
 import Countdown from '../Countdown';
 import { useMedia } from '../../hooks/useMedia';
+import Modal from '../../shared/components/Modal';
 
 const props = defineProps({ tournament: Object });
-const emit = defineEmits(['registerTournament']);
+const emit = defineEmits(['joinTournament', 'leaveTournament']);
 const end = new Date('2023-01-01T00:00:00');
 const isMobile = useMedia('(max-width: 480px)');
+let leaveModal = ref(false);
+const isEntrant = props.tournament.entrantStatus === 'Entrant' || props.tournament.entrantStatus === 'Entering';
 
 const finish = () => {
   console.log('finish');
-}
+};
 
-const register = () => {
-  emit('registerTournament')
-}
+const join = () => {
+  emit('joinTournament');
+};
+
+const leave = () => {
+  emit('leaveTournament');
+  leaveModal.value = false;
+};
+
+const openModal = () => {
+  leaveModal.value = true;
+};
+
+const closeModal = () => {
+  leaveModal.value = false;
+};
 </script>
 
 <style lang="scss">
@@ -174,6 +205,7 @@ const register = () => {
   }
 
 }
+
 @media screen and (max-width: $smDesktopWidth) {
   .tournament-details-card {
     display: flex;
@@ -267,13 +299,16 @@ const register = () => {
           }
         }
       }
+
       .countdown {
         width: 50%;
         align-items: center;
         padding: 25px 0;
+
         .space-between {
           //justify-content: space-evenly;
         }
+
         .title-medium {
           max-width: 100px;
           padding-bottom: 10px;

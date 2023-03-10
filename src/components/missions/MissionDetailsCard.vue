@@ -70,9 +70,9 @@ const store = useStore()
 const cardItem = computed(() => store.getters.getCurrentMission)
 
 const emit = defineEmits(['joinMission', 'leaveMission'])
-// const cardItem = props.mission;
-const leaveModal = ref(false)
-console.warn('cardItem', cardItem)
+
+let leaveModal = ref(false)
+
 const finish = () => {
   console.log('finish');
 }

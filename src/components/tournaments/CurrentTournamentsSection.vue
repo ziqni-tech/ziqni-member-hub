@@ -53,7 +53,7 @@ const tournamentsTotalRecords = computed(() => store.getters.getCurrentTournamen
 const limit = ref(3);
 const skip = ref(0);
 const statusCode = {
-  moreThan: 5,
+  moreThan: 15,
   lessThan: 35
 }
 
