@@ -35,14 +35,12 @@ const alertMessage = computed(() => store.getters.getAlertMessage)
 
 watch(alertMessage, (currentValue, oldValue) => {
   if (currentValue) {
-    console.warn('STORE', currentValue);
     messageItem.value = currentValue;
     showMessage();
   }
 })
 
 const showMessage = () => {
-  console.warn('SHOW MESSAGE', messageItem.value);
   showAlert.value = true;
   setTimeout(() => {
     showAlert.value = false;

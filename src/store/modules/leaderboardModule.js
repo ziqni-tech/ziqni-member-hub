@@ -19,7 +19,6 @@ const getters = {
 
 const mutations = {
   API_REQUEST(state) {
-    console.warn('API_REQUEST');
     state.isLoading = true;
     state.isLoaded = false;
   },

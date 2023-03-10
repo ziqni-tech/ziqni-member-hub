@@ -31,7 +31,6 @@ const mutations = {
 
 const actions = {
   setAlertMessage({commit}, payload) {
-    console.warn('PAYLOAD', payload);
     commit('SET_ALERT_MESSAGE', payload)
   },
   removeAlertMessage({commit}, payload) {
