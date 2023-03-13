@@ -1,10 +1,20 @@
 <template>
   <div class="login-page">
     <div class="login-form">
-      <CFormInput
-        type="text"
-        v-model="memberRefId"
-      />
+      <div class="form-row">
+        <CFormInput
+            label="memberRefId"
+            type="text"
+            v-model="memberRefIdFirstSpace"
+        />
+      </div>
+      <div class="form-row">
+        <CFormInput
+            label="apiKey"
+            type="text"
+            v-model="apiKeyFirstSpace"
+        />
+      </div>
       <button class="m-btn login-btn" @click="generateUserToken">
         Log In
       </button>
@@ -19,13 +29,17 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter();
 const memberRefId = ref('1092564679937416');
+const memberRefIdFirstSpace = ref('Player-1');
 const apiKey = 'c771c80ca14d9a4263a8deead17ce083';
+const apiKeyFirstSpace = '25f99a84a166da4c67abe90a30801c41';
 const expires = 36000;
 
 const generateUserToken = async () => {
   const memberTokenRequest = {
-    member: memberRefId.value,
-    apiKey: apiKey,
+    // member: memberRefId.value,
+    member: memberRefIdFirstSpace.value,
+    // apiKey: apiKey,
+    apiKey: apiKeyFirstSpace,
     isReferenceId: true,
     expires: expires,
     resource: 'ziqni-gapi'
@@ -71,6 +85,16 @@ if (isLoggedIn) {
   .login-form {
     position: absolute;
     top: 35%;
+
+    .form-row {
+      display: flex;
+      align-items: center;
+      padding-bottom: 15px;
+
+      .form-label {
+        margin-right: 10px;
+      }
+    }
   }
 
   .login-btn {
