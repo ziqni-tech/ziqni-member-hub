@@ -14,8 +14,8 @@
 
 <script setup>
 import { CNavItem } from '@coreui/vue';
-import bgImg from '../../assets/icons/sellection_item.png';
-import itemEllipse from '../../assets/icons/icon-Siri.png';
+import bgImg from '../../assets/icons/Sellectio_blue.svg';
+import itemEllipse from '../../assets/icons/icon_siri.svg';
 
 const props = defineProps({ navItems: Array })
 
@@ -69,7 +69,7 @@ const props = defineProps({ navItems: Array })
       background-size: contain;
       background-repeat: no-repeat;
       top: -26px;
-      left: -32px;
+      left: -34px;
       transition: all 1s;
       z-index: 3;
     }
@@ -82,15 +82,14 @@ const props = defineProps({ navItems: Array })
 
     .icon-wrapper {
       width: 30px;
-      height: 56px;
       object-fit: cover;
       position: relative;
       margin-left: 57px;
 
       .icon {
         position: absolute;
-        top: 43%;
-        left: 55%;
+        top: 33%;
+        left: 45%;
         transform: translate(-50%, -50%);
         width: 100%;
         height: 100%;
