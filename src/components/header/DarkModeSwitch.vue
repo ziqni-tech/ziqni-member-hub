@@ -1,18 +1,43 @@
 <template>
   <div class="game-mode-switch">
-    <span class="label">Dark Mode OFF</span>
-    <CFormSwitch />
+    <span class="label">Dark Mode {{ darkMode ? 'On' : 'Off' }}</span>
+    <CFormSwitch @change="toggleTheme" v-model="darkMode"/>
   </div>
 </template>
 
-<script>
-import { CFormSwitch } from '@coreui/vue'
-export default {
-  name: 'GameModeSwitch',
-  components: {
-    CFormSwitch
+<script setup>
+import { onMounted, ref, watch } from 'vue';
+import { CFormSwitch } from '@coreui/vue';
+import { useStore } from 'vuex';
+
+const darkMode = ref(false);
+const darkClass = 'dark-mode';
+const store = useStore()
+
+const toggleTheme = (value) => {
+  const body = document.querySelector('body');
+  
+  if (value) {
+    body.classList.add(darkClass);
+    localStorage.setItem('darkMode', true);
+    store.dispatch('setTheme', darkMode.value)
+  } else {
+    body.classList.remove(darkClass);
+    localStorage.setItem('darkMode', false);
+    store.dispatch('setTheme', darkMode.value)
   }
 };
+
+onMounted(() => {
+  const storedValue = localStorage.getItem('darkMode');
+  if (storedValue) {
+    darkMode.value = storedValue === 'true';
+  }
+  toggleTheme(darkMode.value);
+});
+
+watch(darkMode, toggleTheme);
+
 </script>
 
 <style lang="scss">
