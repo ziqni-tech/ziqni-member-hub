@@ -5,8 +5,6 @@
   justify-content: space-between;
   flex-wrap: wrap;
   padding: 29px 33px 15px 46px;
-  background: $primary-bg;
-  border-bottom: 0.2px solid $border-header;
 
   &__user-data {
     width: 100%;
@@ -27,4 +25,14 @@
       padding-bottom: 15px;
     }
   }
+}
+
+.header-light-mode {
+  background: $primary-bg-light-LM;
+  border-bottom: 0.2px solid $border-header-light-mode;
+}
+
+.header-dark-mode {
+  background: $primary-bg-light-DM;
+  border-bottom: 0.2px solid $border-header-dark-mode;
 }

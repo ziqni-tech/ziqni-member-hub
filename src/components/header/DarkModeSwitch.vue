@@ -16,7 +16,7 @@ const store = useStore()
 
 const toggleTheme = (value) => {
   const body = document.querySelector('body');
-  
+
   if (value) {
     body.classList.add(darkClass);
     localStorage.setItem('darkMode', true);

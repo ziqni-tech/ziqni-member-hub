@@ -12,13 +12,14 @@
 
   .brand {
     padding: 39px 0 22px 57px;
-    background: $secondary-bg;
+    background: inherit;
 
     .logo-wrapper {
       width: 124px;
       height: 31px;
       object-fit: cover;
       overflow: hidden;
+
       .logo {
         width: 100%;
         height: 100%;
@@ -28,7 +29,16 @@
 
   .sidebar-nav {
     height: 100%;
-    background: $secondary-bg;
+    background: inherit;
     padding-top: 60px;
   }
+}
+
+
+.sidebar-light-mode {
+  background: $primary-bg-dark-LM;
+}
+
+.sidebar-dark-mode {
+  background: $primary-bg-dark-DM;
 }

@@ -62,10 +62,10 @@ const setEarningsBgColor = computed(() => {
 }
 .default {
   width: 97%;
-  background: $primary-color;
+  background: $primary-violet-color;
 }
 .purple {
-  background: $primary-color;
+  background: $primary-violet-color;
 }
 .orange {
   background: $danger-color ;

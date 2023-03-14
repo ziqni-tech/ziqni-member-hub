@@ -2,9 +2,10 @@
 @import 'utils/reset';
 
 html {
+  background: #ebebeb;
   line-height: $mainLineHeight;
   font-size: $mainFontSize;
-  color: $mainFontColor;
+  color: $mainDarkFontColor;
   height: 100%;
   @media screen and (max-width: $desktopWidth) {
     font-size: 16px;
@@ -63,7 +64,7 @@ li {
 .page-content {
   width: 100%;
   height: 100%;
-  background: $primary-bg;
+  //background: $primary-bg;
   padding: 19px 38px;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -83,6 +84,14 @@ li {
     background-color: $scrollbar-color;
   }
 }
+
+.dark {
+  background: $primary-bg-light-DM;
+}
+
+.light {
+  background: $primary-bg-light-LM ;
+ }
 
 .spinner-wrapper {
   width: 100vw;

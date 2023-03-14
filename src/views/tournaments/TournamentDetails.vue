@@ -57,7 +57,7 @@ const tournamentItem = ref(null);
 const isLoaded = ref(false)
 const leaderboardIsLoaded = computed(() => store.getters.getLeaderboardIsLoaded);
 const leaderboardEntries = computed(() => store.getters.getLeaderboardEntries);
-const currentTournament = computed(() => store.getters.getCurrentTournament)
+const currentTournament = computed(() => store.getters.getCurrentTournament);
 
 const tournamentRequestData = {
   statusCode,
@@ -87,7 +87,7 @@ watchEffect(() => {
 });
 
 const unsubscribeEntityLeaderboard = async () => {
-  const contestId = contests.value[0].id;
+  const contestId = contests.value[0]?.id;
   const apiLeaderboardWsClient = new LeaderboardApiWs(ApiClientStomp.instance);
   const leaderboardSubscriptionRequest = {
     action: 'Unsubscribe',

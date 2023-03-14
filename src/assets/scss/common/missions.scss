@@ -5,7 +5,7 @@
   display: grid;
   grid-template-columns: 30% 70%;
   grid-gap: 1rem;
-  background: #5951AA;
+  background: $card-violet-bg-gradient;
   border-radius: 16px;
   overflow: hidden;
   margin-bottom: 20px;
@@ -28,7 +28,7 @@
     width: 65%;
     display: flex;
     flex-direction: column;
-    color: #FFFFFF;
+    color: $mainWhiteFontColor;
     font-weight: 600;
     font-size: 11px;
     line-height: 16px;

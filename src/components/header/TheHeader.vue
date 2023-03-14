@@ -1,15 +1,15 @@
 <template>
-  <div class="page-header">
+  <div class="page-header" :class="isDarkMode ? 'header-dark-mode ': 'header-light-mode'">
     <div v-if="isMobile" class="page-header__mobile-logo">
       <img src="../../assets/icons/m-logo.png" alt="">
     </div>
     <div class="page-header__user-data">
-      <UserProfile :name="member?.name" />
-      <Welcome v-if="!isMobile" :name="member?.name" />
-      <UserProgress />
-      <UserEnergy :energy-value="1200" :increment-energy-value="5" />
-      <Notifications :number-of-notifications="notificationsCount" />
-      <DarkModeSwitch v-if="!isMobile" />
+      <UserProfile :name="member?.name"/>
+      <Welcome v-if="!isMobile" :name="member?.name"/>
+      <UserProgress/>
+      <UserEnergy :energy-value="1200" :increment-energy-value="5"/>
+      <Notifications :number-of-notifications="notificationsCount"/>
+      <DarkModeSwitch />
     </div>
   </div>
 </template>
@@ -24,7 +24,7 @@ import DarkModeSwitch from './DarkModeSwitch';
 
 import { useMedia } from '../../hooks/useMedia';
 import { useStore } from 'vuex';
-import { ref, watchEffect } from 'vue';
+import { computed, ref, watch, watchEffect } from 'vue';
 
 const props = defineProps({ member: Object });
 const isMobile = useMedia('(max-width: 1280px)');
@@ -32,12 +32,17 @@ const member = props.member.value;
 const store = useStore();
 const notificationsCount = ref(0);
 
+const isDarkMode = computed(() => store.getters.getTheme);
+
+watch(isDarkMode, (value) => {
+  console.warn('ISDARK', value);
+});
 watchEffect(() => {
   const notifications = store.getters.getNotifications;
   notificationsCount.value = notifications.length;
-})
+});
 
-
+// app.directive('dark-mode', DarkModeDirective)
 </script>
 
 <style lang="scss">

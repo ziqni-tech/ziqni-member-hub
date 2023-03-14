@@ -4,7 +4,7 @@
     <MobileSidebar v-else/>
     <div class="right-part">
       <Navbar v-if="currentMember" :member="currentMember" />
-      <div class="page-content">
+      <div :class="isDarkMode ? 'dark ': 'light'" class="page-content">
         <router-view/>
       </div>
     </div>
@@ -20,7 +20,7 @@ import Navbar from '../components/header/TheHeader';
 import Sidebar from '../components/sidebar/TheSidebar';
 import { ApiClientStomp, MemberRequest, MembersApiWs } from '@ziqni-tech/member-api-client';
 import MobileSidebar from '../components/sidebar/MobileSidebar';
-import { onMounted, reactive, ref, watchEffect } from 'vue';
+import { computed, onMounted, reactive, ref, watch, watchEffect } from 'vue';
 import { useStore } from 'vuex';
 import { useMedia } from '../hooks/useMedia';
 import { useRouter } from 'vue-router';
@@ -33,6 +33,8 @@ const isReady = ref(false);
 const isMobile = useMedia('(max-width: 1280px)');
 const currentMember = reactive({});
 const message = ref(null);
+
+const isDarkMode = computed(() => store.getters.getTheme);
 
 onMounted(async () => {
   await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
