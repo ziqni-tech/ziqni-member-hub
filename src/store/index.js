@@ -7,6 +7,7 @@ import notifications from './modules/notificationModule';
 import leaderboard from './modules/leaderboardModule';
 import currentMissions from './modules/missions/currentMissions';
 import featureMissions from './modules/missions/featureMissions';
+import theme from './modules/themeModule';
 
 const store = createStore(
   {
@@ -18,7 +19,8 @@ const store = createStore(
       notifications,
       leaderboard,
       currentMissions,
-      featureMissions
+      featureMissions,
+      theme
     }
   });
 
