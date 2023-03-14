@@ -6,22 +6,39 @@
           src="@/assets/icons/z-icon.png"
           alt=""
       >
-      <span class="spinner-wrapper__title">
+      <span class="spinner-wrapper__title" :class="color">
         {{ title }}
-        <span class="loader-dots"></span>
+        <span class="loader-dots" :class="color"></span>
       </span>
     </div>
   </div>
 </template>
 
 <script setup>
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+
+const store = useStore()
 const props = defineProps({title: { type: String, default: 'Loading' }})
 const title = props.title;
+
+const color = computed(() => {
+  return store.getters.getTheme ? 'dark' : 'light'
+} )
 
 </script>
 
 <style scoped lang="scss">
 @import '../assets/scss/utils/vars';
+
+.dark {
+  color: $txt-primary-blue;
+}
+
+.light {
+  color: $txt-primary-violet;
+}
+
 .loader {
   height: 100%;
   min-height: 200px;
@@ -60,14 +77,12 @@ const title = props.title;
 
     &__title {
       margin-top: 10px;
-      color: #5D53C2;
 
       .loader-dots {
         display: inline-block;
         vertical-align: middle;
         overflow: hidden;
         width: 1.2em;
-        color: #5D53C2;
         text-align: left;
 
         &::after {

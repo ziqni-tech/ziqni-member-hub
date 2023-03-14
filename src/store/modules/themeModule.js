@@ -16,7 +16,6 @@ const mutations = {
 
 const actions = {
   setTheme({commit}, payload) {
-    console.warn('THEME', payload);
     commit('SET_THEME', payload)
   },
 

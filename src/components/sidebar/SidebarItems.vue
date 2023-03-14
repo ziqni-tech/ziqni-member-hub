@@ -3,8 +3,8 @@
       v-for="(item, index) in navItems"
       :key="index"
   >
-    <router-link :to="item.to" class="item-link" :style="{'--itemBg': `url(${bgImg})`}">
-      <div class="icon-wrapper" :style="{'--itemEllipse': `url(${itemEllipse})`}">
+    <router-link :to="item.to" class="item-link" >
+      <div class="icon-wrapper" >
         <img class="icon" :src="item.icon" :alt="item.name" >
       </div>
       <span class="link-text">{{ item.name }}</span>
@@ -14,8 +14,6 @@
 
 <script setup>
 import { CNavItem } from '@coreui/vue';
-import bgImg from '../../assets/icons/Sellectio_blue.svg';
-import itemEllipse from '../../assets/icons/icon_siri.svg';
 
 const props = defineProps({ navItems: Array })
 
@@ -47,13 +45,13 @@ const props = defineProps({ navItems: Array })
       position: absolute;
       width: 116px;
       height: 169px;
-      background-image: var(--itemBg);
+      background-image: url('../../assets/icons/icon_siri.svg');
       background-size: contain;
       background-repeat: no-repeat;
-      top: -15px;
-      left: 0;
+      top: 25px;
+      left: 20px;
       transition: all 1s;
-      z-index: 1;
+      z-index: 5;
     }
   }
 
@@ -63,13 +61,13 @@ const props = defineProps({ navItems: Array })
     &:before {
       content: '';
       position: absolute;
-      width: 107px;
-      height: 107px;
-      background-image: var(--itemEllipse);
+      width: 115px;
+      height: 170px;
+      background-image: url('../../assets/icons/Sellectio_blue.svg');
       background-size: contain;
       background-repeat: no-repeat;
-      top: -26px;
-      left: -34px;
+      top: -60px;
+      left: -55px;
       transition: all 1s;
       z-index: 3;
     }
@@ -88,17 +86,17 @@ const props = defineProps({ navItems: Array })
 
       .icon {
         position: absolute;
-        top: 33%;
+        top: 40%;
         left: 45%;
         transform: translate(-50%, -50%);
         width: 100%;
         height: 100%;
-        z-index: 5;
+        z-index: 7;
       }
     }
 
     .link-text {
-      font-family: 'Poppins';
+      font-family: 'Poppins', sans-serif;
       font-style: normal;
       font-weight: 600;
       font-size: 16px;

@@ -13,9 +13,9 @@ import { useMedia } from '../../hooks/useMedia';
 
 const isMobile = useMedia('(max-width: 480px)');
 const props = defineProps({
-                            energyValue: Number,
-                            incrementEnergyValue: Number
-                          });
+  energyValue: Number,
+  incrementEnergyValue: Number
+});
 </script>
 
 <style lang="scss">
@@ -45,7 +45,6 @@ const props = defineProps({
     font-weight: 600;
     font-size: 13px;
     line-height: 10px;
-    color: $nav-text-color;
   }
 
   .increment-energy-value {
@@ -54,9 +53,8 @@ const props = defineProps({
     font-weight: 600;
     font-size: 11px;
     line-height: 10px;
-    color: $nav-text-color;
     mix-blend-mode: normal;
-    opacity: 0.6;
+    opacity: 0.8;
   }
 }
 </style>

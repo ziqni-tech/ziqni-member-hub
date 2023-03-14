@@ -85,7 +85,6 @@ const removeNotification = (val) => {
     font-weight: 600;
     font-size: 13px;
     line-height: 10px;
-    color: $nav-text-color;
   }
 }
 

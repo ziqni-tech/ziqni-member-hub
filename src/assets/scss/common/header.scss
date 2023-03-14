@@ -30,9 +30,11 @@
 .header-light-mode {
   background: $primary-bg-light-LM;
   border-bottom: 0.2px solid $border-header-light-mode;
+  color: $txt-title;
 }
 
 .header-dark-mode {
   background: $primary-bg-light-DM;
   border-bottom: 0.2px solid $border-header-dark-mode;
+  color: $txt-white-transparent;
 }

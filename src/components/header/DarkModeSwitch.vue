@@ -56,13 +56,11 @@ watch(darkMode, toggleTheme);
     line-height: 22px;
     text-align: center;
     letter-spacing: -0.408px;
-    color: $nav-text-color;
   }
 
   .form-check-input {
     min-width: 51px;
     height: 31px;
-    //background: linear-gradient(180deg, #ABA7D9 0%, #E1E8F1 95.16%);
     box-shadow: inset 0px -0.5px 0px #FFFFFF;
   }
 }

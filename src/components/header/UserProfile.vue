@@ -20,24 +20,12 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { CAvatar } from '@coreui/vue';
 import { useMedia } from '../../hooks/useMedia';
 
-export default {
-  name: 'UserProfile',
-  components: {
-    CAvatar
-  },
-  props: {
-    name: String
-  },
-  setup() {
-    const isMobile = useMedia('(max-width: 480px)')
-
-    return {isMobile}
-  },
-}
+const isMobile = useMedia('(max-width: 480px)');
+const props = defineProps({name: String})
 </script>
 
 <style lang="scss">
@@ -60,7 +48,6 @@ export default {
     display: flex;
     flex-direction: column;
     padding: 0 10px;
-    color: $txt-dark-grey;
 
     .user-full-name {
       display: flex;

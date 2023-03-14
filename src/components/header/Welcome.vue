@@ -1,5 +1,5 @@
 <template>
-  <div class="welcome">Hello, {{name}}</div>
+  <div class="welcome">Hello, {{ name }}</div>
 </template>
 
 <script>
@@ -13,15 +13,13 @@ export default {
 
 <style lang="scss">
 .welcome {
-  font-family: 'Poppins';
+  font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 24px;
   line-height: 36px;
 
   text-transform: capitalize;
-
-  color: #5F6165;
 
   max-width: 200px;
   white-space: nowrap;

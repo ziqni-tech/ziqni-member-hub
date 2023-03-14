@@ -20,6 +20,5 @@ const props = defineProps({ title: String });
   font-size: 25px;
   line-height: 30px;
   font-weight: bold;
-  color: #5F6165;
 }
 </style>

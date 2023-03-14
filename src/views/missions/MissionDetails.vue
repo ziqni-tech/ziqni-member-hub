@@ -322,12 +322,10 @@ const leaveMission = async () => {
   .graph {
     width: 100%;
     min-height: 500px;
-    //height: auto;
   }
 }
 
 .wrapper {
-  //height: 100%;
   width: 100%;
 }
 
@@ -343,7 +341,6 @@ const leaveMission = async () => {
     font-weight: 700;
     font-size: 22px;
     line-height: 27px;
-    color: #737478;
   }
 
   .share-icon {

@@ -1,5 +1,5 @@
 <template>
-  <div class="page-header" :class="isDarkMode ? 'header-dark-mode ': 'header-light-mode'">
+  <div class="page-header" :class="isDarkMode ? 'header-dark-mode': 'header-light-mode'">
     <div v-if="isMobile" class="page-header__mobile-logo">
       <img src="../../assets/icons/m-logo.png" alt="">
     </div>
@@ -34,15 +34,11 @@ const notificationsCount = ref(0);
 
 const isDarkMode = computed(() => store.getters.getTheme);
 
-watch(isDarkMode, (value) => {
-  console.warn('ISDARK', value);
-});
 watchEffect(() => {
   const notifications = store.getters.getNotifications;
   notificationsCount.value = notifications.length;
 });
 
-// app.directive('dark-mode', DarkModeDirective)
 </script>
 
 <style lang="scss">

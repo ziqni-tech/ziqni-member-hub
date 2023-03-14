@@ -1,6 +1,6 @@
 <template>
-  <FeaturedMissionsSection  />
   <CurrentMissionsSection />
+  <FeaturedMissionsSection  />
 </template>
 
 <script setup>
