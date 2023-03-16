@@ -2,10 +2,11 @@
   <CNavItem
       v-for="(item, index) in navItems"
       :key="index"
+      :class="isDarkMode ? 'dark-mode' : 'light-mode'"
   >
-    <router-link :to="item.to" class="item-link" >
-      <div class="icon-wrapper" >
-        <img class="icon" :src="item.icon" :alt="item.name" >
+    <router-link :to="item.to" class="item-link">
+      <div class="icon-wrapper">
+        <component class="icon" :is="item.icon"/>
       </div>
       <span class="link-text">{{ item.name }}</span>
     </router-link>
@@ -14,26 +15,41 @@
 
 <script setup>
 import { CNavItem } from '@coreui/vue';
+import { useStore } from 'vuex';
+import { computed } from 'vue';
 
-const props = defineProps({ navItems: Array })
+const props = defineProps({ navItems: Array });
+const store = useStore();
+
+const isDarkMode = computed(() => store.getters.getTheme);
 
 </script>
 
 <style lang="scss">
-@import 'src/assets/scss/_variables.scss';
+@import 'src/assets/scss/utils/vars';
+
+.nav-item.dark-mode {
+  & a:hover {
+    color: $sts-grey-light;
+  }
+
+  > .router-link-active {
+    color: $sts-grey-light;
+  }
+}
 
 .nav-item {
   & a {
     text-decoration: none;
-    color: $sidebar-link-color;
+    color: $sts-grey-medium-lighter;
   }
 
   & a:hover {
-    color: $sidebar-active-link-color;
+    color: $sts-grey-medium;
   }
 
   > .router-link-active {
-    color: $sidebar-active-link-color;
+    color: $sts-grey-medium;
   }
 
   > .router-link-active {
@@ -48,8 +64,8 @@ const props = defineProps({ navItems: Array })
       background-image: url('../../assets/icons/icon_siri.svg');
       background-size: contain;
       background-repeat: no-repeat;
-      top: 25px;
-      left: 20px;
+      top: 28px;
+      left: 23px;
       transition: all 1s;
       z-index: 5;
     }
@@ -66,8 +82,8 @@ const props = defineProps({ navItems: Array })
       background-image: url('../../assets/icons/Sellectio_blue.svg');
       background-size: contain;
       background-repeat: no-repeat;
-      top: -60px;
-      left: -55px;
+      top: -87px;
+      left: -54px;
       transition: all 1s;
       z-index: 3;
     }
@@ -76,21 +92,22 @@ const props = defineProps({ navItems: Array })
   .item-link {
     display: flex;
     justify-content: flex-start;
+    align-items: center;
     width: 100%;
 
     .icon-wrapper {
-      width: 30px;
+      width: 35px;
       object-fit: cover;
       position: relative;
       margin-left: 57px;
 
       .icon {
         position: absolute;
-        top: 40%;
-        left: 45%;
+        top: 50%;
+        left: 50%;
         transform: translate(-50%, -50%);
-        width: 100%;
-        height: 100%;
+        width: 35px;
+        height: 35px;
         z-index: 7;
       }
     }
@@ -102,9 +119,7 @@ const props = defineProps({ navItems: Array })
       font-size: 16px;
       line-height: 24px;
       text-transform: capitalize;
-      padding-top: 10px;
-      padding-bottom: 35px;
-      padding-left: 16px;
+      padding: 20px 15px;
     }
   }
 }

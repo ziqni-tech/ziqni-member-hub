@@ -1,58 +1,58 @@
-import dashboardIcon from '../../assets/icons/sidebar/dashboard.svg';
-import historyIcon from '../../assets/icons/sidebar/history.svg';
-import messagesIcon from '../../assets/icons/sidebar/messages.svg';
-import tournamentsIcon from '../../assets/icons/sidebar/tournaments.svg';
-import missionsIcon from '../../assets/icons/sidebar/missions.svg';
-import loyalityLevelIcon from '../../assets/icons/sidebar/loyality-Level.svg';
-import instantRewardsIcon from '../../assets/icons/sidebar/instant-rewards.svg';
-import loyalityStoreIcon from '../../assets/icons/sidebar/loyality-store.svg';
-import calendarIcon from '../../assets/icons/sidebar/calendar_icon.svg';
+import Dashboard from './svg-icons/Dashboard';
+import Tournaments from './svg-icons/Tournaments';
+import Missions from './svg-icons/Missions';
+import LoyalityLevel from './svg-icons/LoyalityLevel';
+import InstantRewards from './svg-icons/InstantRewards';
+import LoyalityStore from './svg-icons/LoyalityStore';
+import Messages from './svg-icons/Messages';
+import Calendar from './svg-icons/Calendar';
+import History from './svg-icons/History';
 
 const sidebarNav = [
     {
         name: 'Dashboard',
         to: '/dashboard',
-        icon: dashboardIcon,
+        icon: Dashboard,
     },
     {
         name: 'Tournaments',
         to: '/tournaments',
-        icon: tournamentsIcon,
+        icon: Tournaments,
     },
     {
         name: 'Missions',
         to: '/missions',
-        icon: missionsIcon,
+        icon: Missions,
     },
     {
         name: 'Loyality Level',
         to: '/loyality-Level',
-        icon: loyalityLevelIcon,
+        icon: LoyalityLevel,
     },
     {
         name: 'Instant Rewards',
         to: '/instant-rewards',
-        icon: instantRewardsIcon,
+        icon: InstantRewards,
     },
     {
         name: 'Loyality Store',
         to: '/loyality-store',
-        icon: loyalityStoreIcon,
+        icon: LoyalityStore,
     },
     {
         name: 'Messages',
         to: '/messages',
-        icon: messagesIcon,
+        icon: Messages,
     },
     {
         name: 'Calendar',
         to: '/calendar',
-        icon: calendarIcon,
+        icon: Calendar,
     },
     {
         name: 'History',
         to: '/history',
-        icon: historyIcon,
+        icon: History,
     }
 ];
 

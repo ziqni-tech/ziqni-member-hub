@@ -1,5 +1,5 @@
 <template>
-  <CSidebar visible :class="isDarkMode ? 'sidebar-dark-mode ': 'sidebar-light-mode'">
+  <CSidebar visible :class="isDarkMode ? 'sidebar-dark-mode' : 'sidebar-light-mode'">
     <div class="brand">
       <div class="logo-wrapper">
         <img
@@ -12,7 +12,10 @@
     <CSidebarNav>
       <SidebarItems :nav-items="sidebarNav"/>
     </CSidebarNav>
-    <button @click="logOut" class="log-out-btn">Log Out</button>
+    <button @click="logOut" class="log-out-btn">
+      <Logout />
+      <span class="log-out-btn_text">Log Out</span>
+    </button>
   </CSidebar>
 </template>
 
@@ -24,6 +27,7 @@ import { computed } from 'vue';
 
 import SidebarItems from './SidebarItems';
 import sidebarNav from './sidebarNav';
+import Logout from './svg-icons/Logout';
 
 const router = useRouter();
 const store = useStore();
@@ -51,10 +55,14 @@ const logOut = () => emit('logOut');
   background-color: inherit;
   outline: none;
   border: none;
-  color: $txt-secondary;
+  color: $sts-grey-medium-lighter;
+
+  &_text {
+    margin-left: 15px;
+  }
 
   &:hover {
-    color: $txt-primary-violet;
+    color: $sts-grey-medium;
   }
 }
 </style>
