@@ -104,7 +104,7 @@ const closeModal = () => {
   position: relative;
   display: flex;
   max-width: 870px;
-  background: #5D53C2;
+  background: $card-bg-gradient;
   overflow: hidden;
   border: 4px solid #9CA3DF;
   border-radius: 30px;

@@ -11,7 +11,7 @@
       </div>
     </div>
     <NotFoundItems v-else :title="'Feature Tournaments'"/>
-    <button class="b-btn b-btn__text" v-if="featureCompetitions.length && isShowMore" @click="loadMore">
+    <button class="m-btn b-btn__text" v-if="featureCompetitions.length && isShowMore" @click="loadMore">
       Show More
     </button>
   </div>

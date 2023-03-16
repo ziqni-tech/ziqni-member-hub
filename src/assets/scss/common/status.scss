@@ -9,7 +9,7 @@
   }
 
   &.upcoming {
-    background: $sts-red;
+    background: $dark-pink;
   }
 
   &.closed {
@@ -34,12 +34,17 @@
 
   &__icon.active {
     background: $sts-green-light;
+    color: $txt-light;
   }
+
   &__icon.upcoming {
-    background: $sts-red-light;
+    background: $sts-red;
+    color: $txt-light;
   }
+
   &__icon.closed {
     background: $sts-grey-light;
+    color: $txt-light;
   }
 
   &__normal {
@@ -59,12 +64,15 @@
     line-height: 18px;
     padding-left: 6px;
   }
+
   &__title.active {
     color: $sts-green-lighter;
   }
+
   &__title.upcoming {
     color: $sts-red-lighter;
   }
+
   &__title.closed {
     color: $sts-grey-lighter;
   }

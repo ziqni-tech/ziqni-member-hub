@@ -11,6 +11,7 @@
           v-if="isCloseButton"
           color="light"
           @click="close"
+          class="cancelBtn"
       >
         {{ cancelBtnLabel }}
       </CButton>
@@ -18,6 +19,7 @@
           v-if="isSuccessButton"
           @click="doFunction"
           color="primary"
+          class="submitBtn"
       >
         {{ successBtnLabel }}
       </CButton>
@@ -76,6 +78,23 @@ const close = () => {
 
 </script>
 
-<style scoped>
+<style lang="scss">
+@import 'src/assets/scss/utils/vars';
 
+.modal-content {
+  background-color: $primary-bg-dark-LM;
+  color: $primary-bg-light-DM;
+
+  .cancelBtn {
+    background-color: $primary-bg-light-LM;
+    color: $primary-bg-light-DM;
+    border: none;
+  }
+
+  .submitBtn {
+    background-color: $light-blue;
+    color: $primary-bg-light-DM;
+    border: none;
+  }
+}
 </style>

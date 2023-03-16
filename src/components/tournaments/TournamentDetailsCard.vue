@@ -101,7 +101,7 @@ const closeModal = () => {
   position: relative;
   display: flex;
   max-width: 1030px;
-  background: #5D53C2;
+  background: $card-bg-gradient;
   border-radius: 12px;
   overflow: hidden;
   font-family: 'Poppins', sans-serif;

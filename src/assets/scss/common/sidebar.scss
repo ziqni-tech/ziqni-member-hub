@@ -42,3 +42,10 @@
 .sidebar-dark-mode {
   background: $primary-bg-dark-DM;
 }
+
+.sidebar-svg-icon-component {
+  width: 35px;
+  height: 35px;
+  fill: $sts-grey-medium-lighter;
+  //fill: $sts-grey-medium;
+}

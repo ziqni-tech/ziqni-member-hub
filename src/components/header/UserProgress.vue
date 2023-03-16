@@ -36,14 +36,15 @@ export default {
 
   .img-wrapper {
     width: 49px;
-    height: 29px;
+    height: 45px;
     object-fit: cover;
     overflow: hidden;
     margin-right: 3px;
+    padding-top: 5px;
 
     .img {
-      width: 100%;
-      height: 100%;
+      width: 40px;
+      height: 40px;
     }
   }
 
@@ -53,14 +54,14 @@ export default {
     border-radius: 24px;
 
     .progress-bar {
-      background: linear-gradient(180deg, #988AFF 0%, #5945ED 100%);
+      background: linear-gradient(180deg, #3da1d2 0%, #11457e 100%);
       box-shadow: inset 0px 2px 4px rgba(255, 255, 255, 0.25), inset 0px -2px 4px rgba(0, 0, 0, 0.25);
       border-radius: 4px;
     }
   }
 
   .progress-value {
-    font-family: 'Poppins';
+    font-family: 'Poppins', sans-serif;
     font-style: normal;
     font-weight: 600;
     font-size: 11px;

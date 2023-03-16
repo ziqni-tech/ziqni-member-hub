@@ -10,7 +10,7 @@
         <MissionCard :mission="mission"/>
       </div>
     </div>
-    <button class="b-btn b-btn__text" v-if="featureMissions.length && isShowMore && !isDashboard" @click="loadMore">
+    <button class="m-btn b-btn__text" v-if="featureMissions.length && isShowMore && !isDashboard" @click="loadMore">
       Show More
     </button>
   </div>

@@ -4,7 +4,7 @@
   padding: 13px 28px 13px 26px;
   gap: 8px;
 
-  background: $btn-bg-orange;
+  background: $medium-blue;
   border-radius: 5px;
 
   @media screen and (max-width: $desktopWidth) {
@@ -18,8 +18,8 @@
 
 
   &:hover {
-    background: $btn-bg-hover-orange;
-    border-color: $btn-bg-hover-orange;
+    background: $btn-bg-hover-violet;
+    border-color: $btn-bg-hover-violet;
   }
 
   &__text {
@@ -54,8 +54,8 @@
   justify-content: center;
   //width: 205px;
   height: 34px;
-  background: $btn-bg-orange;
-  border-color: $btn-bg-orange;
+  background: $medium-blue;
+  border-color: $medium-blue;
   border-radius: 5px;
 
   font-family: $mainFont;
@@ -77,15 +77,15 @@
   }
 
   &:hover {
-    background: $btn-bg-hover-orange;
-    border-color: $btn-bg-hover-orange;
+    background: $btn-bg-hover-violet;
+    border-color: $btn-bg-hover-violet;
   }
 }
 
 .s-btn {
   padding: 3px 22px;
-  background: $btn-bg-orange;
-  border-color: $btn-bg-orange;
+  background: $medium-blue;
+  border-color: $medium-blue;
   border-radius: 3px;
   font-family: $mainFont;
   font-style: normal;
@@ -95,8 +95,8 @@
   color: $g-0;
 
   &:hover {
-    background: $btn-bg-hover-orange;
-    border-color: $btn-bg-hover-orange;
+    background: $btn-bg-hover-violet;
+    border-color: $btn-bg-hover-violet;
   }
 }
 
@@ -106,7 +106,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: $btn-bg-violet;
+  background: $medium-blue;
   margin-right: 16px;
 
   @media screen and (max-width: $phoneWidth) {
@@ -126,7 +126,7 @@
 }
 
 .dd-btn {
-  background: $btn-bg-orange;
+  background: $medium-blue;
   color: #FFFFFF;
 
   &::after {

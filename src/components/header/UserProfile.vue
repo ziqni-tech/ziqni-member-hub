@@ -38,7 +38,7 @@ const props = defineProps({name: String})
   .profile-img {
     width: 46px;
     height: 49px;
-    background: #DDDDE6;
+    background: $dark-grey;
     border-radius: 6px;
     object-fit: cover;
     overflow: hidden;
@@ -76,7 +76,7 @@ const props = defineProps({name: String})
         text-overflow: ellipsis;
       }
       .is-pro {
-        background: $danger-color;
+        background: $blue;
         color: $g-0;
         text-transform: uppercase;
         font-weight: 700;
@@ -97,7 +97,7 @@ const props = defineProps({name: String})
         width: 6px;
         height: 6px;
         border-radius: 50%;
-        background: #534ABA;
+        background: $light-blue;
         margin: 0 5px;
       }
       .online-text {
@@ -106,7 +106,7 @@ const props = defineProps({name: String})
         font-weight: 600;
         font-size: 13px;
         line-height: 10px;
-        color: #534ABA;
+        color: $light-blue;
         text-transform: capitalize;
       }
     }

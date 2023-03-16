@@ -24,7 +24,7 @@ import DarkModeSwitch from './DarkModeSwitch';
 
 import { useMedia } from '../../hooks/useMedia';
 import { useStore } from 'vuex';
-import { computed, ref, watch, watchEffect } from 'vue';
+import { computed, ref, watchEffect } from 'vue';
 
 const props = defineProps({ member: Object });
 const isMobile = useMedia('(max-width: 1280px)');

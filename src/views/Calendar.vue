@@ -1,11 +1,12 @@
 <template>
   <div class="text-center section">
-    <h2 class="section-title pt-5">Calendar</h2>
+    <h2 class="section-title">Calendar</h2>
     <calendar-view
       :items="competitionItems"
       :show-date="showDate"
       :time-format-options="{ hour: 'numeric', minute: '2-digit' }"
-      class="theme-default holiday-us-traditional "
+      class="theme-default holiday-us-traditional"
+      :class="isDarMode ? 'darkMode' : 'lightMode'"
       :starting-day-of-week="1"
       :enable-drag-drop="false"
       :displayPeriodUom="displayPeriod"
@@ -19,7 +20,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useCompetitions } from '../hooks/useCompetitions';
 
@@ -33,6 +34,8 @@ const showDate = ref(new Date());
 const displayPeriod = 'month';
 const { tournamentsResponse, getCompetitionsHandler } = useCompetitions();
 const store = useStore();
+
+const isDarMode = computed(() => store.getters.getTheme)
 
 const statusCode = {
   moreThan: 15,
@@ -85,62 +88,142 @@ const clickEvent = (val) => {
 </script>
 
 <style lang="scss">
-@import "../assets/scss/utils/vars";
+@import 'src/assets/scss/utils/vars';
+
 .cv-wrapper {
   height: 696px;
   width: 100%;
   max-height: 696px;
   min-height: 696px;
-}
-.calendar-controls {
-  margin-right: 1rem;
-  min-width: 14rem;
-  max-width: 14rem;
-}
-.calendar-parent {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  overflow-x: hidden;
-  overflow-y: hidden;
-  max-height: 80vh;
-  background-color: white;
-}
-.cv-wrapper.period-month.periodCount-2 .cv-week,
-.cv-wrapper.period-month.periodCount-3 .cv-week,
-.cv-wrapper.period-year .cv-week {
-  min-height: 6rem;
+  border-radius: 20px;
+
+  .cv-header {
+
+    border-radius: 20px 20px 0 0;
+
+    .cv-header-nav {
+      .previousYear,
+      .previousPeriod,
+      .currentPeriod,
+      .nextPeriod,
+      .nextYear {
+        border-radius: 10px;
+        margin-right: 3px;
+      }
+    }
+  }
+
+  .cv-weeks {
+    border-radius: 0 0 20px 20px;
+  }
+  .calendar-controls {
+    margin-right: 1rem;
+    min-width: 14rem;
+    max-width: 14rem;
+  }
+  .calendar-parent {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    max-height: 80vh;
+  }
+  .cv-wrapper.period-month.periodCount-2 .cv-week,
+  .cv-wrapper.period-month.periodCount-3 .cv-week,
+  .cv-wrapper.period-year .cv-week {
+    min-height: 6rem;
+  }
 }
 
-.cv-header {
-  background-color: $primary-bg !important;
-  .cv-header-nav {
-    .previousYear,
-    .previousPeriod,
-    .currentPeriod,
-    .nextPeriod,
-    .nextYear {
-      background-color: $primary-bg !important;
+.cv-wrapper.darkMode {
+  border: 1px solid $border-header-dark-mode;
+  color: white;
+
+  .cv-header {
+    background-color: $primary-bg-light-DM !important;
+    border-radius: 20px 20px 0 0;
+    color: white;
+
+    .periodLabel {
+      background-color: $primary-bg-light-DM !important;
     }
 
+    .cv-header-nav {
+      background-color: $primary-bg-light-DM !important;
+      .previousYear,
+      .previousPeriod,
+      .currentPeriod,
+      .nextPeriod,
+      .nextYear {
+        color: white;
+        background-color: $primary-bg-light-DM;
+      }
+    }
+  }
+
+  .cv-header-days {
+    background-color: $primary-bg-light-DM !important;
+    .cv-header-day {
+      background-color: $primary-bg-light-DM !important;
+    }
+  }
+
+  .cv-weekdays {
+    .cv-day {
+      background-color: $primary-bg-light-DM;
+    }
+    .today {
+      background-color: $medium-blue !important;
+      border: 2px solid $border-header-dark-mode !important;
+    }
+    .outsideOfMonth {
+      background-color: $primary-bg-dark-DM !important;
+    }
   }
 }
-.cv-header-days {
-  .cv-header-day {
+.cv-wrapper.lightMode {
+  border: 1px solid $border-header-light-mode;
+  color: black;
+
+  .cv-wrapper.period-month.periodCount-2 .cv-week,
+  .cv-wrapper.period-month.periodCount-3 .cv-week,
+  .cv-wrapper.period-year .cv-week {
+    min-height: 6rem;
+  }
+
+  .cv-header {
     background-color: $primary-bg !important;
+
+    .cv-header-nav {
+      .previousYear,
+      .previousPeriod,
+      .currentPeriod,
+      .nextPeriod,
+      .nextYear {
+        color: black;
+        background-color: $primary-bg;
+      }
+    }
   }
-}
-.cv-weekdays {
-  .cv-day {
-    background-color: #FFFFFF !important;
+
+  .cv-header-days {
+    .cv-header-day {
+      background-color: $primary-bg !important;
+    }
   }
-  .today {
-    background-color: $primary-bg !important;
-    border: 2px solid $border-base !important;
-    box-sizing: border-box !important;
-  }
-  .outsideOfMonth {
-    background-color: $sts-grey-lightest !important;
+
+  .cv-weekdays {
+    .cv-day {
+      background-color: $primary-bg !important;
+    }
+    .today {
+      background-color: $light-blue !important;
+      border: 2px solid $border-header-light-mode !important;
+    }
+    .outsideOfMonth {
+      background-color: $primary-bg-dark-LM  !important;
+    }
   }
 }
 
@@ -149,7 +232,7 @@ const clickEvent = (val) => {
   cursor: pointer !important;
 
   &-active {
-    background-color: $sts-green-light  !important;
+    background-color: $sts-green  !important;
   }
   &-ready {
     background-color: $sts-red-light !important;

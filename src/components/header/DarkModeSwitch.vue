@@ -41,7 +41,7 @@ watch(darkMode, toggleTheme);
 </script>
 
 <style lang="scss">
-@import '../../assets/scss/variables';
+@import '../../assets/scss/utils/vars';
 
 .game-mode-switch {
   display: flex;
@@ -61,7 +61,11 @@ watch(darkMode, toggleTheme);
   .form-check-input {
     min-width: 51px;
     height: 31px;
-    box-shadow: inset 0px -0.5px 0px #FFFFFF;
+    box-shadow: inset 0px -0.5px 0px $g-0;
+  }
+
+  .form-switch .form-check-input:checked {
+    background-color: $blue ;
   }
 }
 </style>

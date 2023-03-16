@@ -138,7 +138,7 @@ const getOptInStatus = async () => {
   });
 };
 
-const joinTournament= async () => {
+const joinTournament = async () => {
   const optInApiWsClient = new OptInApiWs(ApiClientStomp.instance);
 
   const optInRequest = ManageOptinRequest.constructFromObject({

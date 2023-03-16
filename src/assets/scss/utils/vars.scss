@@ -36,18 +36,26 @@ $primary-bg-light-LM        : #ffffff;
 // new colors
 $light-blue              : #bad4e1;
 $blue                    : #11457e;
+$light-blue              : #3da1d2;
+$medium-blue             : #40409f;
+$dark-blue               : #2f3992;
 $light-pink              : #e5b7d3;
 $dark-pink               : #a10c66;
+$pink                    : #a31b8e;
 $violet                  : #675798;
-$golden                  : #f2dd4c;
+$golden                  : #efd641;
 $light-grey              : #e9e5e6;
 $dark-grey               : #b7b7ad;
+$brown                   : #a16e44;
 
-$card-violet-bg-color    : #5D53C2;
-$card-blue-bg-color      : #67a0e5;
+$card-violet-bg-color         : #5D53C2;
+$card-blue-bg-color           : #67a0e5;
+$card-deep-blue-bg-color      : #3da1d2;
+$card-bg-gradient             : linear-gradient(90deg, rgba(61,161,210,1) 0%, rgba(103,160,229,1) 86%);
+
 
 // Status Colors
-$sts-green               : #188A2A;
+$sts-green               : #34bd4c;
 $sts-green-light         : #1ECE30;
 $sts-green-lighter       : #8FFF9B;
 $sts-red                 : #CE624B;
@@ -55,9 +63,10 @@ $sts-red-light           : #F89A81;
 $sts-red-lighter         : #FFE7E0;
 $sts-grey                : #727272;
 $sts-grey-medium         : #848589;
+$sts-grey-medium-lighter : #a6a8ad;
 $sts-grey-light          : #C4C4C4;
 $sts-grey-lighter        : #E8E8E8;
-$sts-grey-lightest        : #f8f5f5;
+$sts-grey-lightest       : #f8f5f5;
 
 // Text colors
 $txt-title               : #737478;
@@ -73,7 +82,7 @@ $txt-brown               : #43360E;
 $btn-bg-orange           : #F6876A;
 $btn-bg-hover-orange     : #f36d4a;
 $btn-bg-violet           : #5D53C2;
-//$btn-bg-violet           : #67a0e5;
+$btn-bg-blue             : #3da1d2;
 $btn-bg-hover-violet     : #5144ee;
 
 // Cards

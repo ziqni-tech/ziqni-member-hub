@@ -29,8 +29,19 @@ const isDarkMode = computed(() => store.getters.getTheme);
 @import 'src/assets/scss/utils/vars';
 
 .nav-item.dark-mode {
+  & a {
+    text-decoration: none;
+    color: $sts-grey-medium;
+  }
+
   & a:hover {
     color: $sts-grey-light;
+
+    .icon-wrapper {
+      .icon{
+        fill: $sts-grey-light;
+      }
+    }
   }
 
   > .router-link-active {
@@ -46,6 +57,12 @@ const isDarkMode = computed(() => store.getters.getTheme);
 
   & a:hover {
     color: $sts-grey-medium;
+
+    .icon-wrapper {
+      .icon{
+        fill: $sts-grey-medium;
+      }
+    }
   }
 
   > .router-link-active {
