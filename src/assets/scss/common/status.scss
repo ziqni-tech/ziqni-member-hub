@@ -9,7 +9,7 @@
   }
 
   &.upcoming {
-    background: $dark-pink;
+    background: $pink;
   }
 
   &.closed {
@@ -38,7 +38,7 @@
   }
 
   &__icon.upcoming {
-    background: $sts-red;
+    background: $dark-pink;
     color: $txt-light;
   }
 

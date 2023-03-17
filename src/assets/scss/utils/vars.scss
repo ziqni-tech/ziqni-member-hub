@@ -51,13 +51,14 @@ $brown                   : #a16e44;
 $card-violet-bg-color         : #5D53C2;
 $card-blue-bg-color           : #67a0e5;
 $card-deep-blue-bg-color      : #3da1d2;
-$card-bg-gradient             : linear-gradient(90deg, rgba(61,161,210,1) 0%, rgba(103,160,229,1) 86%);
+$card-bg-gradient             : linear-gradient(180deg, rgba(61,161,210,1) 0%, rgba(103,160,229,1) 100%);
+$card-bg-gradient-transparent : linear-gradient(180deg, rgba(61,161,210,0.5) 0%, rgba(103,160,229,0.5) 100%);
 
 
 // Status Colors
 $sts-green               : #34bd4c;
 $sts-green-light         : #1ECE30;
-$sts-green-lighter       : #8FFF9B;
+$sts-green-lighter       : #7ef58b;
 $sts-red                 : #CE624B;
 $sts-red-light           : #F89A81;
 $sts-red-lighter         : #FFE7E0;

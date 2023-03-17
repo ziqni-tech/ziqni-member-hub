@@ -59,7 +59,7 @@ const finish = () => {
   width: 32%;
   //width: 180px;
   //height: 232px;
-  background: #5D53C2;
+  background: $card-bg-gradient;
   border-radius: 8px;
 
   @media screen and (max-width: $phoneWidth){
@@ -99,7 +99,8 @@ const finish = () => {
         bottom: 0;
         left: 50%;
         transform: translateX(-50%);
-        background: rgba(93, 83, 194, 0.59);
+        //background: rgba(93, 83, 194, 0.59);
+        background: $card-bg-gradient-transparent;
         backdrop-filter: blur(10px);
         border-radius: 14px;
 

@@ -1,7 +1,7 @@
 <template>
   <h1 class="section-title">Messages</h1>
   <CListGroup v-for="message in messages">
-    <CListGroupItem>
+    <CListGroupItem :class="isDarkMode ? 'darkMode' : 'lightMode'">
       <span>messageType: {{ message.messageType }}</span>
       <span>body: {{ message.body }}</span>
       <span>created: {{ message.created }}</span>
@@ -14,23 +14,26 @@
 <script setup>
 import { ApiClientStomp, MessagesApiWs } from '@ziqni-tech/member-api-client';
 import { CListGroup, CListGroupItem } from '@coreui/vue';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { useStore } from 'vuex';
 
-  // body:"message body"
-  // created:"2022-12-15T14:25:37.739Z"
-  // customFields:{}
-  // eventRefId:null
-  // eventRefType:null
-  // expiry:"2022-12-15T14:25:37.739Z"
-  // id:"lZstFoUB2Kz4vKupLc3L"
-  // memberIds:null
-  // memberTags:[]
-  // messageType:"InboxItem"
-  // metadata:{}
-  // spaceName:"test-space-1"
-  // status:null
+// body:"message body"
+// created:"2022-12-15T14:25:37.739Z"
+// customFields:{}
+// eventRefId:null
+// eventRefType:null
+// expiry:"2022-12-15T14:25:37.739Z"
+// id:"lZstFoUB2Kz4vKupLc3L"
+// memberIds:null
+// memberTags:[]
+// messageType:"InboxItem"
+// metadata:{}
+// spaceName:"test-space-1"
+// status:null
 
+const store = useStore();
 const messages = ref([]);
+const isDarkMode = computed(() => store.getters.getTheme);
 
 const messagesApiWsClient = new MessagesApiWs(ApiClientStomp.instance);
 const messageRequest = {
@@ -48,9 +51,23 @@ messagesApiWsClient.getMessages(messageRequest, (res) => {
 </script>
 
 <style lang="scss" scoped>
+@import '../assets/scss/utils/vars';
+
 .list-group-item {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin-bottom: 5px;
+}
+
+.list-group-item.darkMode {
+  background-color: $primary-bg-dark-DM;
+  border: 1px solid $border-header-dark-mode;
+  color: $light-grey;
+}
+.list-group-item.lightMode {
+  background-color: $primary-bg-dark-LM;
+  border: 1px solid $border-header-light-mode;
+  color: $txt-dark-grey;
 }
 </style>

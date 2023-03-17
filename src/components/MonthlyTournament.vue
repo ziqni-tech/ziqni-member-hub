@@ -5,7 +5,7 @@
         <div class="card-content">
           <img :src="dragonTitleImg" alt="">
           <div>
-            <div class="prize">9000&#8364;</div>
+            <div class="prize">{{ price }}</div>
             <span class="tournament-title">Monthly Tournament</span>
           </div>
           <Countdown
@@ -30,6 +30,13 @@ import dragonTitleImg from '../assets/images/floating-dragon-title.svg';
 import Countdown from './Countdown';
 
 const end = new Date('2023-01-01T00:00:00');
+
+let euro = Intl.NumberFormat('en-DE', {
+  style: 'currency',
+  currency: 'EUR',
+});
+
+const price = `${euro.format(9000)}`;
 
 const finish = () => {
   console.log('finish');
@@ -60,14 +67,14 @@ const finish = () => {
     height: 100%;
     position: relative;
 
-    &::after {
+    &::before {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background: linear-gradient(180deg, #423997 7.27%, #5D53C2 36.25%, rgba(69, 64, 123, 0) 100%);
+      background: linear-gradient(180deg, $card-deep-blue-bg-color 7.27%, $card-deep-blue-bg-color 36.25%, rgba(69, 64, 123, 0) 100%);
     }
     .card-image {
       width: 100%;
@@ -80,7 +87,6 @@ const finish = () => {
       left: 0;
       right: 0;
       bottom: 0;
-      color: #FFFFFF;
       z-index: 5;
       display: flex;
       flex-direction: column;
@@ -95,7 +101,6 @@ const finish = () => {
         font-size: 39px;
         line-height: 52px;
         text-align: center;
-        color: #FFFFFF;
       }
 
       .tournament-title {
@@ -103,7 +108,6 @@ const finish = () => {
         font-size: 19px;
         line-height: 26px;
         text-align: center;
-        color: #FFFFFF;
       }
     }
   }

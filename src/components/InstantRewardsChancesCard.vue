@@ -47,7 +47,7 @@ import kittyImg from '../assets/images/kitty.png';
         left: 0;
         right: 0;
         bottom: 0;
-        background: linear-gradient(96.62deg, #5750A4 26.11%, rgba(87, 80, 164, 0) 77.13%);
+        background: $card-bg-gradient-transparent;
       }
 
       .card-image {

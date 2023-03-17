@@ -1,6 +1,6 @@
 <template>
   <div class="user-profile">
-    <CAvatar class="profile-img" shape="rounded">CUI</CAvatar>
+    <CAvatar class="profile-img" shape="rounded">{{ initials }}</CAvatar>
     <div v-if="!isMobile" class="user-info">
       <div class="user-full-name">
         <span class="full-name">{{ name }}</span>
@@ -23,9 +23,12 @@
 <script setup>
 import { CAvatar } from '@coreui/vue';
 import { useMedia } from '../../hooks/useMedia';
+import { getInitials } from '../../utils/getInitials';
 
 const isMobile = useMedia('(max-width: 480px)');
 const props = defineProps({name: String})
+const initials = getInitials(props.name)
+console.log(getInitials('1stName 2ndName 3rdName 4thName 5thName'))
 </script>
 
 <style lang="scss">

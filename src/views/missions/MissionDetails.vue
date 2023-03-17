@@ -55,8 +55,8 @@ const configs = defineConfigs({
     // panEnabled: false
   },
   node: {
-    normal: { radius: nodeSize / 2 },
-    label: { direction: 'south', color: '#5951AA' },
+    normal: { radius: nodeSize / 2, color: '#3da1d2' },
+    label: { direction: 'south', color: '#3da1d2' },
   },
   edge: {
     normal: {
@@ -64,7 +64,7 @@ const configs = defineConfigs({
       width: 3,
     },
     label: {
-      color: '#4466cc'
+      color: '#3da1d2'
     },
     margin: 4,
     marker: {

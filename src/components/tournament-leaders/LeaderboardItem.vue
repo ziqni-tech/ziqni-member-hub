@@ -22,7 +22,6 @@ const props = defineProps({ item: Object, idx: Number });
 const leaderboardItem = props.item;
 const place = props.idx + 1;
 
-// {rank: 1, score: 626.5, bestScores: null, members: Array(1)}
 const setItemBgColor = computed(() => {
   switch (place) {
     case 1:
@@ -62,13 +61,13 @@ const setEarningsBgColor = computed(() => {
 }
 .default {
   width: 97%;
-  background: $primary-violet-color;
+  background: $light-blue;
 }
 .purple {
-  background: $primary-violet-color;
+  background: $light-blue;
 }
 .orange {
-  background: $danger-color ;
+  background: $pink;
 }
 .leader-board__item {
   display: flex;

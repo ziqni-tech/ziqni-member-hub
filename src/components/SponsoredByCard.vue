@@ -24,7 +24,7 @@ import sponsorLogo from '../assets/images/sponsored-by-logo.svg';
 .sponsored-by-card {
   width: 32%;
   height: 232px;
-  background: #5D53C2;
+  background: $card-bg-gradient;
   border-radius: 8px;
 
   @media screen and (max-width: $phoneWidth){
