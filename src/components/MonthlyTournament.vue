@@ -95,6 +95,7 @@ const finish = () => {
       padding: 16px 10px 41px;
       font-family: 'Poppins', sans-serif;
       font-style: normal;
+      color: $mainWhiteFontColor;
 
       .prize {
         font-weight: 700;

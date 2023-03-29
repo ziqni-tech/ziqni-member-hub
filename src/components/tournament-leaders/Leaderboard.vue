@@ -38,8 +38,8 @@ const props = defineProps({ leaderboard: Array });
 
     &::-webkit-scrollbar {
       height: 7px;
-      width: 7px;
-      background-color: $primary-bg;
+      width: 0;
+      background-color: $primary-bg-dark-LM;
     }
 
     &::-webkit-scrollbar-thumb {

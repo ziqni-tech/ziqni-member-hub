@@ -28,7 +28,7 @@ import { getInitials } from '../../utils/getInitials';
 const isMobile = useMedia('(max-width: 480px)');
 const props = defineProps({name: String})
 const initials = getInitials(props.name)
-console.log(getInitials('1stName 2ndName 3rdName 4thName 5thName'))
+
 </script>
 
 <style lang="scss">
@@ -37,6 +37,10 @@ console.log(getInitials('1stName 2ndName 3rdName 4thName 5thName'))
 .user-profile {
   display: flex;
   align-items: center;
+
+  .avatar {
+    border: 2px solid $border-header-dark-mode;
+  }
 
   .profile-img {
     width: 46px;

@@ -226,6 +226,10 @@ const clickEvent = (val) => {
     }
   }
 }
+.theme-default .cv-item.continued::before, .theme-default .cv-item.toBeContinued::after {
+  color: $medium-blue;
+  margin: 0 3px;
+}
 
 .competition {
   font-size: 0.85em !important;
