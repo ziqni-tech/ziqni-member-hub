@@ -185,6 +185,7 @@ export default {
 }
 </script>
 <style lang="scss">
+@import '../assets/scss/utils/vars';
 .countdown {
   display: flex;
   align-items: center;
@@ -214,7 +215,7 @@ export default {
   line-height: 18px;
   text-align: start;
   text-transform: uppercase;
-  color: #FFFFFF;
+  color: $mainWhiteFontColor;
 }
 
 .title-big {
@@ -236,7 +237,7 @@ export default {
   font-weight: 500;
   font-size: 17px;
   line-height: 18px;
-  color: #FFFFFF;
+  color: $mainWhiteFontColor;
 }
 .title-small {
   font-family: 'Poppins', 'sans-serif';
@@ -245,7 +246,7 @@ export default {
   font-size: 11px;
   line-height: 12px;
   text-transform: uppercase;
-  color: #FFFFFF;
+  color: $mainWhiteFontColor;
   max-width: 30px;
   text-align: start;
 }
@@ -256,7 +257,7 @@ export default {
   font-size: 7px;
   line-height: 12px;
   text-transform: uppercase;
-  color: #FFFFFF;
+  color: $mainWhiteFontColor;
 }
 .detail-card-indicator {
   justify-content: flex-end;
@@ -302,7 +303,7 @@ export default {
     font-size: 17.3286px;
     line-height: 18px;
     text-align: center;
-    color: #FFFFFF;
+    color: $mainWhiteFontColor;
   }
   &__text-detail-card {
     font-family: 'Poppins', 'sans-serif';
@@ -329,7 +330,7 @@ export default {
     font-size: 21px;
     line-height: 22px;
     margin-bottom: 5px;
-    color: #FFFFFF;
+    color: $mainWhiteFontColor;
   }
 
   &__text-medium-size {
@@ -346,7 +347,7 @@ export default {
     font-weight: 500;
     font-size: 17px;
     line-height: 18px;
-    color: #FFFFFF;
+    color: $mainWhiteFontColor;
   }
 
   &__text-small-size {
@@ -355,7 +356,7 @@ export default {
     font-weight: 500;
     font-size: 7px;
     line-height: 15px;
-    color: #FFFFFF;
+    color: $mainWhiteFontColor;
   }
   &__digit-small-size {
     font-family: 'Poppins', 'sans-serif';
@@ -363,7 +364,7 @@ export default {
     font-weight: 500;
     font-size: 11px;
     line-height: 12px;
-    color: #FFFFFF;
+    color: $mainWhiteFontColor;
   }
 
   &__text-x-small-size {
@@ -372,7 +373,7 @@ export default {
     font-weight: 600;
     font-size: 5px;
     line-height: 6px;
-    color: #FFFFFF;
+    color: $mainWhiteFontColor;
   }
   &__digit-x-small-size {
     font-family: 'Poppins', 'sans-serif';
@@ -380,7 +381,7 @@ export default {
     font-weight: 600;
     font-size: 8px;
     line-height: 12px;
-    color: #FFFFFF;
+    color: $mainWhiteFontColor;
   }
 }
 </style>

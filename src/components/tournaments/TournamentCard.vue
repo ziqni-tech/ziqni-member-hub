@@ -11,7 +11,7 @@
         :date="cardItem.scheduledEndDate"
         :title="'Ends in'"
         :is-row="true"
-        :is-medium-size="true"
+        :is-small-size="true"
         @onFinish="finish()"
       />
     </div>
@@ -35,7 +35,7 @@
       <router-link :to="{name: 'TournamentDetails', params: {
           id: cardItem.id,
         }}">
-        <CButton class="b-btn">
+        <CButton class="m-btn">
           <span class="b-btn__text">See More</span>
           <img src="../../assets/icons/button_icon.svg" alt="">
         </CButton>
