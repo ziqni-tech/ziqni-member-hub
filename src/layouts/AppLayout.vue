@@ -1,31 +1,26 @@
 <template>
-  <div class="app-layout" v-if="isReady">
-    <Sidebar v-if="!isMobile" @logOut="logOut" />
-    <MobileSidebar v-else/>
-    <div class="right-part">
-      <Navbar v-if="currentMember" :member="currentMember" />
-      <div :class="isDarkMode ? 'dark ': 'light'" class="page-content">
-        <router-view/>
-      </div>
+  <div id="app-layout">
+    <div id="nav-block">
+      <SidebarItems :nav-items="sidebarNav" />
     </div>
-    <Alert :message="message" />
-  </div>
-  <div class="spinner-wrapper app-spinner" v-else>
-    <Loader :title="'Loading'"/>
+    <div id="main-block">
+      main block
+    </div>
+    <div id="user-profile-block">
+      user profile
+    </div>
   </div>
 </template>
 
 <script setup>
-import Navbar from '../components/header/TheHeader';
-import Sidebar from '../components/sidebar/TheSidebar';
+import sidebarNav from '../components/sidebar/sidebarNav';
+import SidebarItems from '@/components/sidebar/SidebarItems'
 import { ApiClientStomp, MemberRequest, MembersApiWs } from '@ziqni-tech/member-api-client';
-import MobileSidebar from '../components/sidebar/MobileSidebar';
 import { computed, onMounted, reactive, ref, watch, watchEffect } from 'vue';
 import { useStore } from 'vuex';
 import { useMedia } from '../hooks/useMedia';
 import { useRouter } from 'vue-router';
-import Alert from '../components/notifications/Alert';
-import Loader from '../components/Loader';
+
 
 const store = useStore();
 const router = useRouter();
@@ -78,15 +73,36 @@ watchEffect(() => {
 </script>
 
 <style lang="scss">
-.app-layout {
-  display: flex;
-  width: 100%;
-  height: 100vh;
+html, body {
+  height: 100%;
+  margin: 0;
+}
 
-  .right-part {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+#app {
+  height: 100%;
+}
+
+#app-layout {
+  display: grid;
+  grid-template-columns: 15% 1fr 20%;
+  grid-template-rows: 1fr;
+  grid-template-areas: "nav main user-profile";
+  height: 100%;
+  margin: 0;
+
+  #nav-block {
+    grid-area: nav;
+    border: 1px solid red;
+  }
+
+  #main-block {
+    grid-area: main;
+    border: 1px solid yellowgreen;
+  }
+
+  #user-profile-block {
+    grid-area: user-profile;
+    border: 1px solid red;
   }
 }
 
