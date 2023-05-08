@@ -1,12 +1,9 @@
 import Dashboard from './svg-icons/Dashboard';
 import Tournaments from './svg-icons/Tournaments';
 import Missions from './svg-icons/Missions';
-import LoyalityLevel from './svg-icons/LoyalityLevel';
-import InstantRewards from './svg-icons/InstantRewards';
-import LoyalityStore from './svg-icons/LoyalityStore';
 import Messages from './svg-icons/Messages';
-import Calendar from './svg-icons/Calendar';
-import History from './svg-icons/History';
+import Achievements from './svg-icons/Achievements';
+import Awards from './svg-icons/Awards';
 
 const sidebarNav = [
     {
@@ -20,24 +17,14 @@ const sidebarNav = [
         icon: Tournaments,
     },
     {
-        name: 'Missions',
-        to: '/missions',
-        icon: Missions,
+        name: 'Achievements',
+        to: '/achievements',
+        icon: Achievements,
     },
     {
-        name: 'Loyality Level',
-        to: '/loyality-Level',
-        icon: LoyalityLevel,
-    },
-    {
-        name: 'Instant Rewards',
-        to: '/instant-rewards',
-        icon: InstantRewards,
-    },
-    {
-        name: 'Loyality Store',
-        to: '/loyality-store',
-        icon: LoyalityStore,
+        name: 'Awards',
+        to: '/awards',
+        icon: Awards,
     },
     {
         name: 'Messages',
@@ -45,15 +32,10 @@ const sidebarNav = [
         icon: Messages,
     },
     {
-        name: 'Calendar',
-        to: '/calendar',
-        icon: Calendar,
+        name: 'Missions',
+        to: '/missions',
+        icon: Missions,
     },
-    {
-        name: 'History',
-        to: '/history',
-        icon: History,
-    }
 ];
 
 export default sidebarNav;
