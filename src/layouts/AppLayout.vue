@@ -1,10 +1,11 @@
 <template>
   <div id="app-layout">
     <div id="nav-block">
-      <SidebarItems :nav-items="sidebarNav" />
+      <TheSidebar @logOut="logOut" />
     </div>
     <div id="main-block">
       main block
+      <router-view/>
     </div>
     <div id="user-profile-block">
       user profile
@@ -13,14 +14,12 @@
 </template>
 
 <script setup>
-import sidebarNav from '../components/sidebar/sidebarNav';
-import SidebarItems from '@/components/sidebar/SidebarItems'
 import { ApiClientStomp, MemberRequest, MembersApiWs } from '@ziqni-tech/member-api-client';
-import { computed, onMounted, reactive, ref, watch, watchEffect } from 'vue';
+import { computed, onMounted, reactive, ref, watchEffect } from 'vue';
 import { useStore } from 'vuex';
 import { useMedia } from '../hooks/useMedia';
 import { useRouter } from 'vue-router';
-
+import TheSidebar from '../components/sidebar/TheSidebar';
 
 const store = useStore();
 const router = useRouter();
@@ -73,6 +72,8 @@ watchEffect(() => {
 </script>
 
 <style lang="scss">
+@import 'src/assets/scss/_variables';
+
 html, body {
   height: 100%;
   margin: 0;
@@ -92,17 +93,33 @@ html, body {
 
   #nav-block {
     grid-area: nav;
-    border: 1px solid red;
+    background-color: $light-grey;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+    width: 15%;
   }
 
   #main-block {
     grid-area: main;
-    border: 1px solid yellowgreen;
+    padding: 0 34px 0 20px;
+    background-color: $dark-grey;
+    overflow: auto;
+    height: 100%;
+
+    &::-webkit-scrollbar {
+      width: 0;
+    }
   }
 
   #user-profile-block {
     grid-area: user-profile;
-    border: 1px solid red;
+    background-color: $light-grey;
+    position: fixed;
+    right: 0;
+    height: 100%;
+    overflow: auto;
+    width: 20%;
   }
 }
 
