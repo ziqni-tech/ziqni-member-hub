@@ -8,7 +8,7 @@
       <router-view/>
     </div>
     <div id="user-profile-block">
-      user profile
+      <UserProfile />
     </div>
   </div>
 </template>
@@ -20,6 +20,7 @@ import { useStore } from 'vuex';
 import { useMedia } from '../hooks/useMedia';
 import { useRouter } from 'vue-router';
 import TheSidebar from '../components/sidebar/TheSidebar';
+import UserProfile from '../components/user-profile/UserProfile';
 
 const store = useStore();
 const router = useRouter();

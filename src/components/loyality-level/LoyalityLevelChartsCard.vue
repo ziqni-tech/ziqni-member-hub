@@ -4,27 +4,27 @@
       <span class="user-data__name">{{ memberData.name }}</span>
       <span class="user-data__earnings">$16,605</span>
       <span class="user-data__market_avarage">market avarage is $16,224</span>
-      <span class="user-data__btn"><img :src="buttonArrowIcon" alt=""></span>
+<!--      <span class="user-data__btn"><img :src="buttonArrowIcon" alt=""></span>-->
     </div>
     <SemiCircleGaugeChart />
     <MultipleRadialbarsChart />
-    <ModelSpend
-      v-if="!isMobile"
-      :icon="carIcon"
-      :price="'1,174'"
-      :title="'Model Spend'"
-    />
-    <ModelSpend
-      v-if="!isMobile"
-      :icon="arrowIcon"
-      :price="'1,174'"
-      :title="'Model Spend'"
-    />
-    <ModelSpend
-      v-if="!isMobile"
-      :icon="dollarIcon"
-      :price="'811'"
-      :title="'Spend per Unit Turned'"
+<!--    <ModelSpend-->
+<!--      v-if="!isMobile"-->
+<!--      :icon="carIcon"-->
+<!--      :price="'1,174'"-->
+<!--      :title="'Model Spend'"-->
+<!--    />-->
+<!--    <ModelSpend-->
+<!--      v-if="!isMobile"-->
+<!--      :icon="arrowIcon"-->
+<!--      :price="'1,174'"-->
+<!--      :title="'Model Spend'"-->
+<!--    />-->
+<!--    <ModelSpend-->
+<!--      v-if="!isMobile"-->
+<!--      :icon="dollarIcon"-->
+<!--      :price="'811'"-->
+<!--      :title="'Spend per Unit Turned'"-->
     />
   </div>
 </template>
@@ -32,10 +32,10 @@
 <script setup>
 import MultipleRadialbarsChart from './MultipleRadialbarsChart';
 import SemiCircleGaugeChart from './SemiCircleGaugeChart';
-import carIcon from '../../assets/icons/loyality-level/chart-card-car-icon.png';
-import arrowIcon from '../../assets/icons/loyality-level/chart-card-arrow-icon.png';
-import dollarIcon from '../../assets/icons/loyality-level/chart-card-dollar-icon.png';
-import buttonArrowIcon from '../../assets/icons/loyality-level/chart-card-button-arrow-icon.png';
+// import carIcon from '../../assets/icons/loyality-level/chart-card-car-icon.png';
+// import arrowIcon from '../../assets/icons/loyality-level/chart-card-arrow-icon.png';
+// import dollarIcon from '../../assets/icons/loyality-level/chart-card-dollar-icon.png';
+// import buttonArrowIcon from '../../assets/icons/loyality-level/chart-card-button-arrow-icon.png';
 import ModelSpend from './ModelSpend';
 import { useMedia } from '../../hooks/useMedia';
 
