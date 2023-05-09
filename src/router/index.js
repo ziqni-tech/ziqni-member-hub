@@ -47,34 +47,19 @@ const routes = [
         ]
       },
       {
-        path: 'loyality-Level',
-        name: 'LoyalityLevel',
-        component: () => import('@/views/LoyalityLevel'),
+        path: 'achievements',
+        name: 'Achievements',
+        component: () => import('@/views/Achievements'),
       },
       {
-        path: 'instant-rewards',
-        name: 'InstantRewards',
-        component: () => import('@/views/InstantRewards'),
-      },
-      {
-        path: 'loyality-store',
-        name: 'LoyalityStore',
-        component: () => import('@/views/LoyalityStore'),
+        path: 'awards',
+        name: 'Awards',
+        component: () => import('@/views/Awards'),
       },
       {
         path: 'messages',
         name: 'Messages',
         component: () => import('@/views/Messages'),
-      },
-      {
-        path: 'calendar',
-        name: 'Calendar',
-        component: () => import('@/views/Calendar'),
-      },
-      {
-        path: 'history',
-        name: 'History',
-        component: () => import('@/views/History'),
       },
     ]
   },

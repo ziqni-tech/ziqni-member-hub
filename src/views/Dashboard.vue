@@ -4,15 +4,12 @@
       <h2 class="section-title">Feature Promotions</h2>
     </div>
     <div class="info-container">
-      <MonthlyTournament />
       <div class="charts-container">
         <div class="starts-in-cards">
-          <SponsoredByCard />
-          <StartsInCard />
-          <StartsInCard />
+
         </div>
         <div class="instant-rewards-chances-card-wrapper">
-          <InstantRewardsChancesCard />
+
         </div>
       </div>
     </div>
@@ -22,11 +19,7 @@
 </template>
 
 <script setup>
-import MonthlyTournament from '../components/MonthlyTournament';
-import InstantRewardsChancesCard from '../components/InstantRewardsChancesCard'
-import SponsoredByCard from '../components/SponsoredByCard';
 
-import StartsInCard from '../components/StartsInCard';
 
 import CurrentTournamentsSection from '../components/tournaments/CurrentTournamentsSection';
 import CurrentMissionsSection from '../components/missions/CurrentMissionsSection';
