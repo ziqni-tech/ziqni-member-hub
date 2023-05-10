@@ -1,19 +1,5 @@
 <template>
-  <div class="section">
-    <div class="section_header">
-      <h2 class="section-title">Feature Promotions</h2>
-    </div>
-    <div class="info-container">
-      <div class="charts-container">
-        <div class="starts-in-cards">
-
-        </div>
-        <div class="instant-rewards-chances-card-wrapper">
-
-        </div>
-      </div>
-    </div>
-  </div>
+  <InstantWinsSection />
   <CurrentTournamentsSection :is-dashboard="true" />
   <CurrentMissionsSection :is-dashboard="true" />
 </template>
@@ -23,6 +9,7 @@
 
 import CurrentTournamentsSection from '../components/tournaments/CurrentTournamentsSection';
 import CurrentMissionsSection from '../components/missions/CurrentMissionsSection';
+import InstantWinsSection from '../components/instant-wins/InstantWinsSection';
 
 </script>
 
