@@ -1,4 +1,5 @@
 const state = {
+  isLoading: false,
   memberData: {},
   isLoaded: false,
   error: null
@@ -10,6 +11,10 @@ const getters = {
 };
 
 const mutations = {
+  API_REQUEST(state) {
+    state.isLoading = true;
+    state.isLoaded = false;
+  },
   SET_MEMBER_DATA(state, payload) {
     state.memberData = payload;
   }

@@ -128,6 +128,8 @@
     .prize {
       color: $body-text-color;
       background-color: $dark-grey;
+      cursor: default;
+      border: none;
     }
 
     .go-button {

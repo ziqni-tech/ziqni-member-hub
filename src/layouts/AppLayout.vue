@@ -7,7 +7,7 @@
       <router-view/>
     </div>
     <div id="user-profile-block">
-      <UserProfile />
+      <UserProfile :user="currentMember" />
     </div>
   </div>
 </template>

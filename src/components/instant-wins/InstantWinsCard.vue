@@ -1,12 +1,14 @@
 <template>
- <div class="instant-wins-card">
-  <div class="instant-img" :style="{ 'background-image': `url(${img})` }"></div>
-  <div class="instant-info">
-    <h3 class="card-title">{{ title }}</h3>
-    <span class="card-description">{{ description }}</span>
-    <button class="play-btn">Play</button>
+  <div class="instant-wins-card">
+    <div class="instant-img-wrapper">
+      <div class="instant-img" :style="{ 'background-image': `url(${img})` }"></div>
+    </div>
+    <div class="instant-info">
+      <h3 class="card-title">{{ title }}</h3>
+      <span class="card-description">{{ description }}</span>
+      <button class="play-btn">Play</button>
+    </div>
   </div>
- </div>
 </template>
 
 <script setup>
@@ -14,7 +16,7 @@ const props = defineProps({
   title: String,
   description: String,
   img: String
-})
+});
 </script>
 
 <style lang="scss">
@@ -30,12 +32,23 @@ const props = defineProps({
   height: auto;
   aspect-ratio: 3 / 1;
 
-  .instant-img {
+  .instant-img-wrapper {
     width: 44%;
     height: 100%;
-    background-size: auto 100%;
-    background-repeat: no-repeat;
+    background-color: $dark-grey;
+    border-radius: $border-radius;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .instant-img {
+      width: 100%;
+      height: 100%;
+      background-size: auto 100%;
+      background-repeat: no-repeat;
+    }
   }
+
 
   .instant-info {
     display: flex;
@@ -55,7 +68,7 @@ const props = defineProps({
       font-weight: 400;
       font-size: 12px;
       line-height: 146.5%;
-      color: $main-text-color-white;
+      color: $body-text-color;
       margin-top: 10px;
     }
 

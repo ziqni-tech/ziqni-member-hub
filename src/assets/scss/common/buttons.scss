@@ -133,3 +133,18 @@
     margin-left: 28px;
   }
 }
+
+.show-more-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $border-radius;
+
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 17px;
+
+  border: 1px solid $purple;
+  color: $main-text-color-white;
+  background-color: $light-grey;
+}

@@ -2,7 +2,6 @@
   <div class="section">
     <div class="section-header">
       <h2 class="section-title">Feature Tournaments</h2>
-      <ActionsBlock/>
     </div>
     <Loader v-if="!isLoaded" :title="'Feature Tournaments are loading'"/>
     <div class="cards-grid" v-else-if="isLoaded && featureCompetitions.length">
@@ -10,17 +9,16 @@
         <TournamentCard :key="c.id" :card="c"/>
       </div>
     </div>
-    <button class="m-btn b-btn__text" v-if="featureCompetitions.length && isShowMore" @click="loadMore">
+    <button class="show-more-btn" v-if="featureCompetitions.length && isShowMore" @click="loadMore">
       Show More
     </button>
   </div>
 </template>
 
 <script setup>
-import ActionsBlock from '../../shared/components/UI/actions-block/ActionsBlock';
 import TournamentCard from '../../components/tournaments/TournamentCard';
 
-import { computed, ref, watch, watchEffect } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useCompetitions } from '../../hooks/useCompetitions';
 import Loader from '../Loader';
 import { useStore } from 'vuex';

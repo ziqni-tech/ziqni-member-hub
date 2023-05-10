@@ -9,7 +9,7 @@
         <Tournament :key="c.id" :card="c"/>
       </div>
     </div>
-    <button class="m-btn b-btn__text" v-if="currentCompetitions.length && isShowMore && !isDashboard" @click="loadMore">
+    <button class="show-more-btn" v-if="currentCompetitions.length && isShowMore && !isDashboard" @click="loadMore">
       Show More
     </button>
   </div>

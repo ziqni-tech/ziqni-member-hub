@@ -1,7 +1,7 @@
 <template>
   <div class="tournament-details-card">
     <div class="card-banner">
-      <img :src="banner" alt="">
+<!--      <img :src="banner" alt="">-->
       <div class="status">
         <Status v-if="tournament && tournament.status" :status="tournament.status" />
       </div>
@@ -18,7 +18,7 @@
             <span class="prize_data__price">$ 1,500</span>
           </div>
           <div class="prize_img">
-            <img :src="cupImg" alt="">
+<!--            <img :src="cupImg" alt="">-->
           </div>
         </div>
       </div>
@@ -58,8 +58,8 @@
 import { CButton } from '@coreui/vue';
 import { ref } from 'vue';
 
-import banner from '../../assets/images/CandyStars-Banner.png';
-import cupImg from '../../assets/images/mini_cup.png';
+// import banner from '../../assets/images/CandyStars-Banner.png';
+// import cupImg from '../../assets/images/mini_cup.png';
 import Status from '../../shared/components/Status';
 import Countdown from '../Countdown';
 import { useMedia } from '../../hooks/useMedia';
