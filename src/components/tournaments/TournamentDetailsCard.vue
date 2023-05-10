@@ -35,11 +35,11 @@
       />
       <CButton v-if="!isEntrant" class="m-btn register-btn" @click="join">
         <span class="b-btn__text">Join</span>
-        <img src="../../assets/icons/button_icon.svg" alt="">
+<!--        <img src="../../assets/icons/button_icon.svg" alt="">-->
       </CButton>
       <CButton v-else class="m-btn register-btn" @click="openModal">
         <span class="b-btn__text">Leave</span>
-        <img src="../../assets/icons/button_icon.svg" alt="">
+<!--        <img src="../../assets/icons/button_icon.svg" alt="">-->
       </CButton>
     </div>
   </div>

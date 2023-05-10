@@ -1,81 +1,88 @@
 <template>
-  <div class="tournament-card">
-    <div class="status">
-      <Status :status="cardItem.status" />
+  <div class="t-card">
+    <div class="t-card-image">
+      <img :src="cardImage" alt="">
     </div>
-    <div class="left">
-      <div class="logo-casino">
-        <img src="../../assets/images/candy.png" alt="">
-      </div>
-      <Countdown
-        :date="cardItem.scheduledEndDate"
-        :title="'Ends in'"
-        :is-row="true"
-        :is-small-size="true"
-        @onFinish="finish()"
-      />
-    </div>
-    <div class="tournament-data">
-      <div class="main-data">
-        <span class="main-data__title">{{ cardItem.name }}</span>
-        <div class="main-data__rate">
-          <span>RTP: 84% 💎</span>
-          <span>Rate: 4.9 ✨</span>
-        </div>
-      </div>
-      <div class="prize">
-        <div class="prize_data">
-          <span class="prize_data__title">1st Prize</span>
-          <span class="prize_data__price">$ 1,500</span>
-        </div>
-        <div class="prize_img">
-          <img src="../../assets/images/mini_cup.png" alt="">
-        </div>
-      </div>
-      <router-link :to="{name: 'TournamentDetails', params: {
-          id: cardItem.id,
-        }}">
-        <CButton class="m-btn">
-          <span class="b-btn__text">See More</span>
-          <img src="../../assets/icons/button_icon.svg" alt="">
-        </CButton>
-      </router-link>
+    <div class="t-info">
+      <h3 class="tournament-name">{{ cardItem.name }}</h3>
+      <TournamentDataRow :icon="expiresInIcon" :label="'expires in'" :value="cardItem.scheduledEndDate" />
+      <TournamentDataRow :icon="prizeIcon" :label="'prize'" :value="'5000'" />
+      <button class="see-more-btn">See more</button>
     </div>
   </div>
 </template>
 
-<script>
-import { CButton } from '@coreui/vue';
-import Countdown from '../Countdown';
-import Status from '../../shared/components/Status';
+<script setup>
+import TournamentDataRow from './TournamentDataRow';
+import prizeIcon from '@/assets/icons/tournament/prize.png';
+import expiresInIcon from '@/assets/icons/tournament/expires-in.png';
 
-export default {
-  name: 'TournamentCard',
-  components: {
-    Status,
-    Countdown,
-    CButton
-  },
-  props: {
-    card: Object
-  },
-  data () {
-    return {
-      end: new Date('2023-01-01T00:00:00'),
-      cardItem: null
-    };
-  },
-  created() {
-    this.cardItem = this.card;
-  },
-  methods: {
-    finish() {
-      console.log('finish');
-    }
-  }
-};
+const props = defineProps({
+  card: Object
+})
+
+const cardItem = props.card;
+import cardImage from '../../assets/images/tournaments/tournament.png';
+console.log('cardItem', cardItem);
 </script>
 
 <style lang="scss">
+@import '../../assets/scss/_variables';
 
+.t-card {
+  display: grid;
+  grid-template-rows: 45% 55%;
+  background-color: $light-grey;
+
+  .t-card-image > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .t-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 12px 13px;
+
+    .tournament-name {
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 17px;
+
+      color: $main-text-color-white;
+
+      margin-bottom: 10px;
+    }
+
+    .t-data {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, minmax(0, 1fr));
+    }
+
+
+    .see-more-btn {
+      width: 100%;
+      margin-top: auto;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 57px;
+
+      background: $purple;
+      border-radius: $border-radius;
+      border: 1px solid $border-dark;
+
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 17px;
+      color: $main-text-color-white;
+    }
+  }
+
+
+}
 </style>

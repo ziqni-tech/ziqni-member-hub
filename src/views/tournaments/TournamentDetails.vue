@@ -3,7 +3,7 @@
   <div v-else>
     <div class="header">
       <h1 class="section-title">{{ currentTournament.name }}</h1>
-      <img class="share-icon" src="../../assets/icons/share-icon.svg" alt="" />
+<!--      <img class="share-icon" src="../../assets/icons/share-icon.svg" alt="" />-->
     </div>
     <TournamentDetailsCard
         :tournament="currentTournament"
@@ -12,12 +12,11 @@
     />
     <div class="header" v-if="leaderboard">
       <h2 class="section-title">Leaderboard</h2>
-      <img class="share-icon" src="../../assets/icons/share-icon.svg" alt="" />
+<!--      <img class="share-icon" src="../../assets/icons/share-icon.svg" alt="" />-->
     </div>
     <div class="tables" v-if="leaderboardIsLoaded && leaderboardEntries">
       <Leaderboard :leaderboard="leaderboardEntries" />
     </div>
-    <NotFoundItems v-else :title="'active members'" />
   </div>
 
 </template>
@@ -29,7 +28,6 @@ import { onUnmounted, ref, watchEffect, watch, onBeforeMount, computed } from 'v
 import { useRoute } from 'vue-router';
 import { useGetContests } from '../../hooks/useGetContests';
 import { useGetLeaderboard } from '../../hooks/useGetLeaderboard';
-import NotFoundItems from '../../components/NotFoundItems';
 import { useCompetitions } from '../../hooks/useCompetitions';
 import { useStore } from 'vuex';
 import Loader from '../../components/Loader';
@@ -58,7 +56,7 @@ const isLoaded = ref(false)
 const leaderboardIsLoaded = computed(() => store.getters.getLeaderboardIsLoaded);
 const leaderboardEntries = computed(() => store.getters.getLeaderboardEntries);
 const currentTournament = computed(() => store.getters.getCurrentTournament);
-
+console.warn('leaderboardEntries', leaderboardEntries);
 const tournamentRequestData = {
   statusCode,
   limit: 1,

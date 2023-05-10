@@ -1,15 +1,15 @@
 <template>
   <InstantWinsSection />
+  <AchievementsSection />
   <CurrentTournamentsSection :is-dashboard="true" />
-  <CurrentMissionsSection :is-dashboard="true" />
 </template>
 
 <script setup>
 
 
 import CurrentTournamentsSection from '../components/tournaments/CurrentTournamentsSection';
-import CurrentMissionsSection from '../components/missions/CurrentMissionsSection';
 import InstantWinsSection from '../components/instant-wins/InstantWinsSection';
+import AchievementsSection from '../components/achievements/AchievementsSection';
 
 </script>
 

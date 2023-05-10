@@ -10,7 +10,6 @@
         <TournamentCard :key="c.id" :card="c"/>
       </div>
     </div>
-    <NotFoundItems v-else :title="'Feature Tournaments'"/>
     <button class="m-btn b-btn__text" v-if="featureCompetitions.length && isShowMore" @click="loadMore">
       Show More
     </button>
@@ -20,14 +19,15 @@
 <script setup>
 import ActionsBlock from '../../shared/components/UI/actions-block/ActionsBlock';
 import TournamentCard from '../../components/tournaments/TournamentCard';
-import NotFoundItems from '../NotFoundItems';
 
 import { computed, ref, watch, watchEffect } from 'vue';
 import { useCompetitions } from '../../hooks/useCompetitions';
 import Loader from '../Loader';
 import { useStore } from 'vuex';
+import { useGetAwards } from '../../hooks/useGetAwards';
 
 const { getCompetitionsHandler, tournamentsResponse } = useCompetitions();
+const { getAvailableAwards, awards } = useGetAwards();
 const isLoaded = ref(true);
 const store = useStore();
 const featureCompetitions = computed(() => store.getters.getFeatureTournaments);
@@ -54,6 +54,27 @@ watch(tournamentsResponse, (currentValue, oldValue) => {
   store.dispatch('setFeatureTournamentsAction', currentValue);
   isLoaded.value = true;
 });
+
+const tourIds = computed(() => featureCompetitions.value.map((item) => item.id))
+
+// watchEffect( () => {
+//   currentCompetitions.value.map( async (item) => {
+// await getAvailableAwards([item.id]);
+// })
+// })
+
+watch(tourIds, (value) => {
+  if (value) {
+    console.warn('IDS VALUE', value);
+    getAvailableAwards(value);
+  }
+})
+
+watch(awards, (value) => {
+  if (value) {
+    console.warn('FEATURE COMP AWARDS', value);
+  }
+})
 
 const isShowMore = computed(() => featureCompetitions.value.length < tournamentsTotalRecords.value);
 

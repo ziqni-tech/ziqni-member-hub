@@ -2,15 +2,13 @@
   <div class="section">
     <div class="section-header">
       <h2 class="section-title">Current Tournaments</h2>
-      <ActionsBlock/>
     </div>
     <Loader v-if="!isLoaded" :title="'Current Tournaments are loading'" />
     <div class="cards-grid" v-else-if="currentCompetitions.length && isLoaded">
       <div v-for="c in currentCompetitions" class="card-wrapper">
-        <TournamentCard :key="c.id" :card="c"/>
+        <Tournament :key="c.id" :card="c"/>
       </div>
     </div>
-    <NotFoundItems v-else :title="'Current Tournaments'" />
     <button class="m-btn b-btn__text" v-if="currentCompetitions.length && isShowMore && !isDashboard" @click="loadMore">
       Show More
     </button>
@@ -20,12 +18,10 @@
 <script setup>
 import { computed, ref, watch, watchEffect } from 'vue';
 
-import NotFoundItems from '../NotFoundItems';
 import { useGetAwards } from '../../hooks/useGetAwards';
 import { useCompetitions } from '../../hooks/useCompetitions';
 import { rewardFormatter } from '../../utils/rewardFormatter';
-import TournamentCard from '../../components/tournaments/TournamentCard';
-import ActionsBlock from '../../shared/components/UI/actions-block/ActionsBlock';
+import Tournament from '../../components/tournaments/TournamentCard';
 import Loader from '../Loader';
 import { useStore } from 'vuex';
 
@@ -72,13 +68,28 @@ if (!currentCompetitions.value.length) {
   getCompetitionsHandler(tournamentRequestData);
 }
 
+const tourIds = computed(() => currentCompetitions.value.map((item) => item.id))
+
+// watchEffect( () => {
+//   currentCompetitions.value.map( async (item) => {
+    // await getAvailableAwards([item.id]);
+  // })
+// })
+
+watch(tourIds, (value) => {
+  if (value) {
+    getAvailableAwards(value);
+    console.warn('IDS Current VALUE', value);
+  }
+})
+
 watchEffect(() => {
   if (awards.value) {
-    console.warn('IF AWARDS', awards.value);
-    awards.value.map(item => {
-      console.log('rewardFormatter(item)', rewardFormatter(item));
-      return rewardFormatter(item);
-    })
+    console.warn('IF Current AWARDS', awards.value);
+    // awards.value.map(item => {
+    //   console.log('rewardFormatter(item)', rewardFormatter(item));
+    //   return rewardFormatter(item);
+    // })
   }
 })
 
