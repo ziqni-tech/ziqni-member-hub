@@ -44,6 +44,7 @@ const color = computed(() => {
   min-height: 200px;
   width: 100%;
   position: relative;
+  background-color: inherit;
 
   .spinner-wrapper {
     position: absolute;
@@ -77,6 +78,7 @@ const color = computed(() => {
 
     &__title {
       margin-top: 10px;
+      background-color: inherit;
 
       .loader-dots {
         display: inline-block;
@@ -84,6 +86,7 @@ const color = computed(() => {
         overflow: hidden;
         width: 1.2em;
         text-align: left;
+        background-color: inherit;
 
         &::after {
           content: '\2026';

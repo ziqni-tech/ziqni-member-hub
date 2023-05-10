@@ -23,7 +23,7 @@ const props = defineProps({
 .instant-wins-card {
   display: flex;
   padding: 10px;
-  border-radius: 10px;
+  border-radius: $border-radius;
   background-color: $light-grey;
 
   width: 100%;
@@ -66,7 +66,7 @@ const props = defineProps({
       padding: 10px 57px;
 
       background: $purple;
-      border-radius: 10px;
+      border-radius: $border-radius;
       border: 1px solid $border-dark;
 
       font-weight: 700;
