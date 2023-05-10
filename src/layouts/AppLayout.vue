@@ -4,7 +4,6 @@
       <TheSidebar @logOut="logOut" />
     </div>
     <div id="main-block">
-      main block
       <router-view/>
     </div>
     <div id="user-profile-block">
@@ -103,7 +102,7 @@ html, body {
 
   #main-block {
     grid-area: main;
-    padding: 0 34px 0 20px;
+    padding: 20px 34px 0 20px;
     background-color: $dark-grey;
     overflow: auto;
     height: 100%;
