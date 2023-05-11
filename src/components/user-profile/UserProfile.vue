@@ -1,14 +1,18 @@
 <template>
   <div id="user-profile">
-    <div class="background-block" :style="{ 'background-image': `url(${require('@/assets/images/world-cup.jpg')})` }">
+    <div class="background-block" :style="{ 'background-image': `url(${require('@/assets/images/user/cover.png')})` }">
       <div class="buttons">
         <button class="btn"><img :src="notificationIcon" alt=""></button>
         <button class="btn"><img :src="sunIcon" alt=""></button>
       </div>
     </div>
     <div class="user-info">
-      <div class="user-image">img</div>
-      <div class="user-name">user name</div>
+      <div class="user-image-wrapper">
+        <div class="user-image">
+          <img src="../../assets/images/user/avatar.png" alt="">
+        </div>
+      </div>
+      <div class="user-name">{{ member.name }}</div>
       <div class="pro-label">pro</div>
       <div class="info-block">
         <ProfileInfoItem :icon="gamesIcon" :title="'Total game'" :data="'2000'" />
@@ -28,6 +32,12 @@ import winIcon from '@/assets/icons/user-info/Trophy.png'
 import loseIcon from '@/assets/icons/user-info/Skull.png'
 import notificationIcon from '@/assets/icons/user-info/notification.png'
 import sunIcon from '@/assets/icons/user-info/sun.png'
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+
+const store = useStore();
+
+const member = computed(() => store.getters.getMember)
 
 </script>
 
@@ -46,15 +56,8 @@ import sunIcon from '@/assets/icons/user-info/sun.png'
     position: relative;
     height: 24%;
     overflow: hidden;
-
-    .profile-background > img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
 
     .buttons {
       position: absolute;
@@ -89,13 +92,27 @@ import sunIcon from '@/assets/icons/user-info/sun.png'
     align-items: center;
     padding-top: 42px;
 
-    .user-image {
+    .user-image-wrapper {
       position: absolute;
       top: -68px;
       width: 100px;
       height: 100px;
       border-radius: 50%;
-      background-color: #bad4e1;
+      background-color: $purple;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .user-image {
+        width: 92px;
+        height: 92px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        border: 4px solid $border-dark;
+        background-color: $body-text-color;
+      }
     }
 
     .user-name {
@@ -110,7 +127,8 @@ import sunIcon from '@/assets/icons/user-info/sun.png'
       margin-top: 5px;
       border-radius: 5px;
       text-transform: uppercase;
-      background: #7ED4E7;
+      background: $purple;
+      color: $main-text-color-white;
       padding: 0 10px;
       font-weight: 700;
       font-size: 10px;
