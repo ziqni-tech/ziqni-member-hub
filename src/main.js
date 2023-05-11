@@ -5,7 +5,7 @@ import store from './store';
 
 import CoreuiVue from '@coreui/vue';
 
-import AppLayout from './layouts/AppLayout';
+import AppLayout from './layouts/DashboardLayout';
 import './assets/scss/main.scss';
 import VNetworkGraph from 'v-network-graph';
 import 'v-network-graph/lib/style.css';
