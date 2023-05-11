@@ -15,29 +15,47 @@
       <div class="user-name">{{ member.name }}</div>
       <div class="pro-label">pro</div>
       <div class="info-block">
-        <ProfileInfoItem :icon="gamesIcon" :title="'Total game'" :data="'2000'" />
-        <ProfileInfoItem :icon="pointsIcon" :title="'Points'" :data="'1200'" />
-        <ProfileInfoItem :icon="winIcon" :title="'Win'" :data="'85%'" />
-        <ProfileInfoItem :icon="loseIcon" :title="'Lose'" :data="'15%'" />
+        <ProfileInfoCircleProgress
+            :color="'#BEE9F3'"
+            :title="'Total game'"
+            :completed-steps="2000"
+            :total-steps="6000"
+        />
+        <ProfileInfoCircleProgress
+            :color="'#8749DC'"
+            :title="'Points'"
+            :completed-steps="1200"
+            :total-steps="10000"
+        />
+        <ProfileInfoCircleProgress
+            :color="'#6FCF97'"
+            :title="'win'"
+            :completed-steps="85"
+            :total-steps="100"
+            :is-percents="true"
+        />
+        <ProfileInfoCircleProgress
+            :color="'#EB5757'"
+            :title="'lose'"
+            :completed-steps="15"
+            :total-steps="100"
+            :is-percents="true"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import ProfileInfoItem from './ProfileInfoItem';
-import gamesIcon from '@/assets/icons/user-info/GameController.png'
-import pointsIcon from '@/assets/icons/user-info/Medal.png'
-import winIcon from '@/assets/icons/user-info/Trophy.png'
-import loseIcon from '@/assets/icons/user-info/Skull.png'
-import notificationIcon from '@/assets/icons/user-info/notification.png'
-import sunIcon from '@/assets/icons/user-info/sun.png'
+import notificationIcon from '@/assets/icons/user-info/notification.png';
+import sunIcon from '@/assets/icons/user-info/sun.png';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import ProfileInfoCircleProgress from './ProfileInfoCircleProgress';
 
 const store = useStore();
 
-const member = computed(() => store.getters.getMember)
+const member = computed(() => store.getters.getMember);
 
 </script>
 
