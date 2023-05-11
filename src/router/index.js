@@ -5,18 +5,25 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import('@/layouts/AppLayout'),
     beforeEnter: AuthGuard,
     redirect: '/dashboard',
     children: [
       {
         path: 'dashboard',
         name: 'Dashboard',
-        component: () => import('@/views/Dashboard'),
+        component: () => import('@/layouts/DashboardLayout'),
+        children: [
+          {
+            path: '',
+            name: 'Dashboard',
+            component: () => import('@/views/Dashboard'),
+          }
+        ]
       },
       {
         path: 'tournaments',
         name: 'Tournaments',
+        component: () => import('@/layouts/DefaultLayout'),
         children: [
           {
             path: '',
@@ -33,6 +40,7 @@ const routes = [
       {
         path: 'missions',
         name: 'Missions',
+        component: () => import('@/layouts/DefaultLayout'),
         children: [
           {
             path: '',
@@ -49,17 +57,33 @@ const routes = [
       {
         path: 'achievements',
         name: 'Achievements',
-        component: () => import('@/views/Achievements'),
+        component: () => import('@/layouts/DefaultLayout'),
+        children: [{
+          path: '',
+          name: 'Achievements',
+          component: () => import('@/views/Achievements')
+        }]
       },
       {
         path: 'awards',
         name: 'Awards',
-        component: () => import('@/views/Awards'),
+        component: () => import('@/layouts/DefaultLayout'),
+        children: [{
+          path: '',
+          name: 'Awards',
+          component: () => import('@/views/Awards'),
+        }]
       },
       {
         path: 'messages',
         name: 'Messages',
-        component: () => import('@/views/Messages'),
+        component: () => import('@/layouts/DefaultLayout'),
+        children: [{
+          path: '',
+          name: 'Messages',
+          component: () => import('@/views/Messages'),
+        }]
+
       },
     ]
   },
