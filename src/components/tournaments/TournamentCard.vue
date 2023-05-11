@@ -5,8 +5,17 @@
     </div>
     <div class="t-info">
       <h3 class="tournament-name">{{ cardItem.name }}</h3>
-      <TournamentDataRow :icon="expiresInIcon" :label="'expires in'" :value="cardItem.scheduledEndDate" />
-      <TournamentDataRow :icon="prizeIcon" :label="'prize'" :value="'5000'" />
+      <TournamentDataRow
+          :icon="expiresInIcon"
+          :label="'expires in'"
+          :value="cardItem.scheduledEndDate"
+          :is-date="true"
+      />
+      <TournamentDataRow
+          :icon="prizeIcon"
+          :label="'prize'"
+          :value="'5000'"
+      />
       <button class="see-more-btn">See more</button>
     </div>
   </div>
@@ -19,11 +28,11 @@ import expiresInIcon from '@/assets/icons/tournament/expires-in.png';
 
 const props = defineProps({
   card: Object
-})
+});
 
 const cardItem = props.card;
 import cardImage from '../../assets/images/tournaments/tournament.png';
-console.log('cardItem', cardItem);
+
 </script>
 
 <style lang="scss">

@@ -7,7 +7,7 @@
       {{ label }}
     </div>
     <div class="value">
-      {{ value }}
+      {{ isDate ? countdownResult : value }}
     </div>
   </div>
 </template>
@@ -16,8 +16,13 @@
 const props = defineProps({
   icon: String,
   label: String,
-  value: String
+  value: String,
+  isDate: Boolean
 })
+import { useCountdown } from '../../hooks/useCountdown';
+
+const countdownResult = useCountdown(props.value);
+
 </script>
 
 <style lang="scss">
