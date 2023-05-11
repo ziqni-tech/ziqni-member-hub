@@ -3,15 +3,9 @@
     <div id="nav-block">
       <TheSidebar @logOut="logOut" />
     </div>
-
     <div class="content">
-      <header>
-        Хедер
-
-      </header>
-
+      <TheHeader />
       <div id="main-block">
-        <!-- Основной блок -->
         <router-view></router-view>
       </div>
     </div>
@@ -24,6 +18,7 @@ import { ApiClientStomp } from '@ziqni-tech/member-api-client';
 import { useRouter } from 'vue-router';
 
 import TheSidebar from '../components/sidebar/TheSidebar';
+import TheHeader from '../components/TheHeader';
 
 const router = useRouter();
 
@@ -34,7 +29,7 @@ const logOut = async () => {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import 'src/assets/scss/_variables';
 
 .default-layout {
@@ -54,18 +49,6 @@ const logOut = async () => {
 
   .content {
     grid-area: main;
-    //padding: 20px;
-
-    header {
-      height: 68px;
-      width: 100%;
-      background-color: $dark-grey;
-      //background-color: lightgreen;
-      border-bottom: 1px solid $border-dark;
-      position: fixed;
-
-      /* Стили для хедера */
-    }
 
     #main-block {
       padding: 20px 34px 0 20px;
