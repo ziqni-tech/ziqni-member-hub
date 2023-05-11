@@ -2,6 +2,7 @@
   <div class="m-card">
     <div class="m-card-image">
       <img :src="missionImage" alt="">
+      <div class="expires-in">{{ countdownResult }}</div>
     </div>
     <div class="m-info">
       <h3 class="mission-name"> {{ missionItem.name }} </h3>
@@ -24,12 +25,16 @@
 </template>
 
 <script setup>
+import { useCountdown } from '../../hooks/useCountdown';
 import missionImage from '@/assets/images/missions/mission.png';
 
 const props = defineProps({
   mission: Object
 });
 const missionItem = props.mission;
+
+const countdownResult = useCountdown(missionItem.scheduling.endDate);
+
 </script>
 
 <style lang="scss">
@@ -44,6 +49,23 @@ const missionItem = props.mission;
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  .m-card-image {
+    position: relative;
+
+    .expires-in {
+      position: absolute;
+      top: 16px;
+      right: -10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: $border-radius-sm;
+      background-color: $purple;
+      padding: 8px 16px;
+      color: $main-text-color-white;
+    }
   }
 
   .m-info {
