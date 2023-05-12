@@ -3,8 +3,10 @@
     <div id="nav-block">
       <TheSidebar @logOut="logOut" />
     </div>
-    <div id="main-block">
-      <router-view/>
+    <div id="main-block" >
+      <div v-if="isClientConnected">
+        <router-view/>
+      </div>
     </div>
     <div id="user-profile-block">
       <UserProfile :user="currentMember" />
@@ -28,11 +30,13 @@ const isMobile = useMedia('(max-width: 1280px)');
 const currentMember = reactive({});
 const message = ref(null);
 
+const isClientConnected = computed(() => store.getters.getIsConnectedClient)
+
 const isDarkMode = computed(() => store.getters.getTheme);
 
 onMounted(async () => {
   await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
-
+  await store.dispatch('setIsConnectedClient', true)
   const memberRequest = MemberRequest.constructFromObject(
     {
       'includeFields': [],

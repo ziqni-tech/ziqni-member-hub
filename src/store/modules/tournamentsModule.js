@@ -50,10 +50,11 @@ const mutations = {
   SET_CURRENT_TOURNAMENT(state, payload) {
     state.currentTournament = payload;
   },
+  SET_CURRENT_TOURNAMENTS_TOTAL_RECORDS(state, payload) {
+    state.currentTournamentsTotalRecords = payload;
+  },
   SET_CURRENT_TOURNAMENTS(state, payload) {
-    const { data, meta } = payload;
-    state.currentTournamentsTotalRecords = meta.totalRecordsFound;
-    state.currentTournaments = [...state.currentTournaments, ...data];
+    state.currentTournaments = [...state.currentTournaments, ...payload];
     state.isLoading = false;
     state.isLoaded = true;
   },
@@ -85,6 +86,9 @@ const actions = {
   },
   setCurrentTournamentAction({ commit }, payload) {
     commit('SET_CURRENT_TOURNAMENT', payload);
+  },
+  setCurrentTournamentsTotalRecords({ commit }, payload) {
+    commit('SET_CURRENT_TOURNAMENTS_TOTAL_RECORDS', payload);
   },
   setCurrentTournamentsAction({ commit }, payload) {
     commit('SET_CURRENT_TOURNAMENTS', payload);

@@ -6,7 +6,9 @@
     <div class="content">
       <TheHeader />
       <div id="main-block">
-        <router-view></router-view>
+        <div v-if="isClientConnected">
+          <router-view/>
+        </div>
       </div>
     </div>
   </div>
@@ -19,8 +21,19 @@ import { useRouter } from 'vue-router';
 
 import TheSidebar from '../components/sidebar/TheSidebar';
 import TheHeader from '../components/TheHeader';
+import { computed, onMounted } from 'vue';
+import { useStore } from 'vuex';
 
 const router = useRouter();
+const store = useStore();
+
+const isClientConnected = computed(() => store.getters.getIsConnectedClient)
+
+
+onMounted(async () => {
+  await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
+  await store.dispatch('setIsConnectedClient', true)
+});
 
 const logOut = async () => {
   await ApiClientStomp.instance.disconnect();

@@ -4,7 +4,7 @@
       <h2 class="section-title">Current Tournaments</h2>
     </div>
     <Loader v-if="!isLoaded" :title="'Current Tournaments are loading'" />
-    <div class="cards-grid" v-else-if="currentCompetitions.length && isLoaded">
+    <div :class="isDashboard ? 'dashboard-cards-grid' : 'cards-grid'" v-else-if="currentCompetitions.length && isLoaded">
       <div v-for="c in currentCompetitions" class="card-wrapper">
         <Tournament :key="c.id" :card="c"/>
       </div>
@@ -19,11 +19,11 @@
 import { computed, ref, watch, watchEffect } from 'vue';
 
 import { useGetAwards } from '../../hooks/useGetAwards';
-import { useCompetitions } from '../../hooks/useCompetitions';
 import { rewardFormatter } from '../../utils/rewardFormatter';
 import Tournament from '../../components/tournaments/TournamentCard';
 import Loader from '../Loader';
 import { useStore } from 'vuex';
+import { ApiClientStomp, CompetitionRequest, CompetitionsApiWs } from '@ziqni-tech/member-api-client';
 
 const props = defineProps({
   isDashboard: {
@@ -32,48 +32,66 @@ const props = defineProps({
   }
 });
 
-const {
-  getCompetitionsHandler,
-  tournamentsResponse
-} = useCompetitions();
-
 const store = useStore();
 const isLoaded = ref(true);
+
 const currentCompetitions = computed(() => {
   return props.isDashboard
       ? store.getters.getCurrentTournaments.slice(0, 3)
       : store.getters.getCurrentTournaments;
 });
+
 const tournamentsTotalRecords = computed(() => store.getters.getCurrentTournamentsTotalRecords);
 
-const limit = ref(3);
+const limit = ref(20);
 const skip = ref(0);
 const statusCode = {
   moreThan: 15,
   lessThan: 35
-}
+};
 
 const { getAvailableAwards, awards } = useGetAwards();
 
-const tournamentRequestData = {
-  type: 'current',
-  statusCode,
-  limit: limit.value,
-  skip: skip.value,
-  ids: []
-}
+const competitionRequest = CompetitionRequest.constructFromObject({
+  competitionFilter: {
+    statusCode,
+    sortBy: [{
+      queryField: 'created',
+      order: 'Desc'
+    }],
+    limit: limit.value,
+    skip: skip.value,
+    ids: []
+  }
+}, null);
 
-if (!currentCompetitions.value.length) {
+if (!currentCompetitions.value.length) getCompetitionsRequest();
+
+
+const tourIds = computed(() => currentCompetitions.value.map((item) => item.id));
+
+async function getCompetitionsRequest() {
   isLoaded.value = false;
-  getCompetitionsHandler(tournamentRequestData);
-}
+  try {
+    const apiClientStomp = ApiClientStomp.instance;
+    const competitionsApiWsClient = await new CompetitionsApiWs(apiClientStomp);
 
-const tourIds = computed(() => currentCompetitions.value.map((item) => item.id))
+    await competitionsApiWsClient.getCompetitions(competitionRequest, (res) => {
+      console.warn('RES DATA', res.data);
+      store.dispatch('setCurrentTournamentsTotalRecords', res.meta.totalRecordsFound);
+      store.dispatch('setCurrentTournamentsAction', res.data);
+      isLoaded.value = true;
+    });
+  } catch (e) {
+    console.log('ERROR', e);
+  }
+
+}
 
 // watchEffect( () => {
 //   currentCompetitions.value.map( async (item) => {
-    // await getAvailableAwards([item.id]);
-  // })
+// await getAvailableAwards([item.id]);
+// })
 // })
 
 watch(tourIds, (value) => {
@@ -81,7 +99,7 @@ watch(tourIds, (value) => {
     getAvailableAwards(value);
     console.warn('IDS Current VALUE', value);
   }
-})
+});
 
 watchEffect(() => {
   if (awards.value) {
@@ -91,19 +109,15 @@ watchEffect(() => {
     //   return rewardFormatter(item);
     // })
   }
-})
-
-watch(tournamentsResponse, (currentValue, oldValue) => {
-  store.dispatch('setCurrentTournamentsAction', currentValue);
-  isLoaded.value = true;
 });
 
-const isShowMore = computed(() => currentCompetitions.value.length < tournamentsTotalRecords.value)
+const isShowMore = computed(() => currentCompetitions.value.length < tournamentsTotalRecords.value);
 
-const loadMore = async() => {
-  tournamentRequestData.skip = currentCompetitions.value.length;
-  await getCompetitionsHandler(tournamentRequestData);
-}
+// const loadMore = async () => {
+//   tournamentRequestData.skip = currentCompetitions.value.length;
+//   await getCompetitionsHandler(tournamentRequestData.value);
+// };
+
 </script>
 
 <style lang="scss">

@@ -5,8 +5,6 @@
 </template>
 
 <script setup>
-
-
 import CurrentTournamentsSection from '../components/tournaments/CurrentTournamentsSection';
 import InstantWinsSection from '../components/instant-wins/InstantWinsSection';
 import AchievementsSection from '../components/achievements/AchievementsSection';

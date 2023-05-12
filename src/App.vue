@@ -2,15 +2,8 @@
   <router-view />
 </template>
 
-<script>
-import AppLayout from './layouts/DashboardLayout';
+<script setup>
 
-export default {
-  name: 'App',
-  components: {
-    AppLayout,
-  }
-}
 </script>
 
 <style lang="scss">
