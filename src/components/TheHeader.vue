@@ -33,6 +33,7 @@ const member = computed(() => store.getters.getMember);
   background-color: $dark-grey;
   border-bottom: 1px solid $border-dark;
   position: fixed;
+  z-index: 5;
 
   display: flex;
   align-items: center;

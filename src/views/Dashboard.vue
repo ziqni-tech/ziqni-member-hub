@@ -1,6 +1,6 @@
 <template>
   <InstantWinsSection />
-  <AchievementsSection />
+  <AchievementsSection :is-dashboard="true" />
   <CurrentTournamentsSection :is-dashboard="true" />
 </template>
 

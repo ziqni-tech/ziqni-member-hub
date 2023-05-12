@@ -2,7 +2,6 @@
   <div class="section">
     <div class="section-header">
       <h2 class="section-title">Feature Missions</h2>
-      <ActionsBlock/>
     </div>
     <Loader v-if="isLoading" :title="'Featured Missions are loading'"/>
     <div class="cards-grid">
@@ -10,7 +9,7 @@
         <MissionCard :mission="mission"/>
       </div>
     </div>
-    <button class="m-btn b-btn__text" v-if="featureMissions.length && isShowMore && !isDashboard" @click="loadMore">
+    <button class="show-more-btn" v-if="featureMissions.length && isShowMore && !isDashboard" @click="loadMore">
       Show More
     </button>
   </div>
@@ -27,8 +26,7 @@ import {
 } from '@ziqni-tech/member-api-client';
 import { useStore } from 'vuex';
 
-import ActionsBlock from '../../shared/components/UI/actions-block/ActionsBlock';
-import MissionCard from './MissionCard';
+import MissionCard from './Mission';
 import Loader from '../Loader';
 
 const props = defineProps({
@@ -75,7 +73,7 @@ const getAchievementsRequest = async () => {
 
   await achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
     store.dispatch('setFeatureMissionsTotalRecords', res.meta.totalRecordsFound);
-    // store.dispatch('setFeatureMissionsAction', res);
+
     const ids = res.data.map(item => item.id);
     missions.value = res.data;
 

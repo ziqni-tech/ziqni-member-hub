@@ -1,7 +1,7 @@
 <template>
   <div class="avatar">
     <div class="image-wrapper">
-      <img :src="profileIcon" alt="">
+<!--      <img :src="profileIcon" alt="">-->
     </div>
     <div class="place-wrapper" :class="setPlaceWrapperBg">
       <div class="place" :class="setPlaceTextColor">
@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-import profileIcon from '../../assets/icons/profile.svg';
+// import profileIcon from '../../assets/icons/profile.svg';
 import { computed } from 'vue';
 
 const props = defineProps({ place: Number });
@@ -53,11 +53,12 @@ const setPlaceWrapperBg = computed(() => {
 </script>
 
 <style lang="scss">
+@import '../../assets/scss/utils/vars';
 .avatar {
   width: 36.5px;
   height: 36.5px;
-  border: 2px solid #F6876A;
-  background: #5D53C2;
+  border: 2px solid $btn-bg-orange;
+  background: $light-blue;
   border-radius: 50%;
   display: flex;
   align-items: center;

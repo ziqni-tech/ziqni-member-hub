@@ -30,7 +30,7 @@ const isLoaded = ref(true);
 const store = useStore();
 const featureCompetitions = computed(() => store.getters.getFeatureTournaments);
 const tournamentsTotalRecords = computed(() => store.getters.getFeatureTournamentsTotalRecords);
-const limit = ref(3);
+const limit = ref(4);
 const skip = ref(0);
 const statusCode = {
   moreThan: 5,

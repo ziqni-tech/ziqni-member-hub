@@ -2,7 +2,7 @@
   <div v-if="isLoaded" class="wrapper">
     <div class="header">
       <h1 class="title">{{ mission.name }}</h1>
-      <img class="share-icon" :src="shareIcon" alt=""/>
+<!--      <img class="share-icon" :src="shareIcon" alt=""/>-->
     </div>
     <MissionDetailsCard :mission="mission" @joinMission="joinMission" @leaveMission="leaveMission"/>
     <div class="graph-wrapper">
@@ -29,7 +29,7 @@
 import { onBeforeMount, ref, reactive, watch } from 'vue';
 import dagre from 'dagre/dist/dagre.min.js';
 
-import shareIcon from '../../assets/icons/share-icon.svg';
+// import shareIcon from '../../assets/icons/share-icon.svg';
 import MissionDetailsCard from '../../components/missions/MissionDetailsCard';
 
 import {

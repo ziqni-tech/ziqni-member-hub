@@ -51,7 +51,7 @@ const logOut = async () => {
     grid-area: main;
 
     #main-block {
-      padding: 20px 34px 0 20px;
+      padding: 100px 34px 0 20px;
       background-color: $dark-grey;
       overflow: auto;
       height: 100%;

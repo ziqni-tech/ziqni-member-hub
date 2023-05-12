@@ -12,12 +12,5 @@ const member = store.getters.getMember;
 </script>
 
 <style lang="scss">
-@import '../assets/scss/utils/vars';
-.loyality-charts {
-  padding-top: 75px;
 
-  @media screen and (max-width: $phoneWidth) {
-    padding-top: 40px;
-  }
-}
 </style>

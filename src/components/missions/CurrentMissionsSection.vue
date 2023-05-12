@@ -1,18 +1,17 @@
 <template>
   <div class="section">
-    <div class="section-header">
-      <h2 class="section-title">Current Missions</h2>
-      <ActionsBlock/>
-    </div>
+<!--    <div class="section-header">-->
+<!--      <h2 class="section-title">Current Missions</h2>-->
+<!--    </div>-->
     <Loader v-if="isLoading" :title="'Current Missions are loading'"/>
-    <div class="cards-grid">
+    <div :class="isDashboard ? 'dashboard-cards-grid' : 'cards-grid'">
       <div class="card-wrapper" v-for="mission in currentMissions">
-        <MissionCard :mission="mission"/>
+        <Mission :mission="mission"/>
       </div>
     </div>
-    <button class="m-btn b-btn__text" v-if="currentMissions.length && isShowMore && !isDashboard" @click="loadMore">
-      Show More
-    </button>
+<!--    <button class="show-more-btn" v-if="currentMissions.length && isShowMore && !isDashboard" @click="loadMore">-->
+<!--      Show More-->
+<!--    </button>-->
   </div>
 </template>
 
@@ -27,8 +26,7 @@ import {
 } from '@ziqni-tech/member-api-client';
 import { useStore } from 'vuex';
 
-import ActionsBlock from '../../shared/components/UI/actions-block/ActionsBlock';
-import MissionCard from './MissionCard';
+import Mission from './Mission';
 import Loader from '../Loader';
 
 const props = defineProps({
@@ -47,7 +45,7 @@ const currentMissions = computed(() => {
 });
 const totalRecords = computed(() => store.getters.getCurrentMissionsTotalRecords);
 
-const limit = ref(3);
+const limit = ref(20);
 const skip = ref(0);
 const isLoading = ref(false);
 const missions = ref([]);

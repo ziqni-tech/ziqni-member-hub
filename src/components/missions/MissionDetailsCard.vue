@@ -33,11 +33,9 @@
       </div>
       <CButton v-if="!cardItem.entrantStatus" class="m-btn register-btn" @click="register">
         <span class="b-btn__text">Join</span>
-        <img src="../../assets/icons/button_icon.svg" alt="">
       </CButton>
       <CButton v-if="cardItem.entrantStatus" class="m-btn register-btn" @click="openModal">
         <span class="b-btn__text">Leave</span>
-        <img src="../../assets/icons/button_icon.svg" alt="">
       </CButton>
     </div>
   </div>
@@ -58,8 +56,6 @@ import { CProgress, CProgressBar, CButton } from '@coreui/vue';
 import Countdown from '../Countdown';
 import Status from '../../shared/components/Status';
 import banner from '../../assets/images/world-cup.jpg';
-import peopleIcon from '../../assets/icons/People.png';
-import trophyIcon from '../../assets/icons/Trophy.png';
 import Modal from '../../shared/components/Modal'
 import { useStore } from 'vuex';
 

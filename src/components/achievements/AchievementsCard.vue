@@ -90,7 +90,8 @@
         .progress-bar {
           height: 100%;
           width: 50%;
-          background-color: $purple;
+          background: $purple-gradient;
+          border-radius: $border-radius-sm;
         }
       }
 

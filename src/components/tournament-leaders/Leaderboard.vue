@@ -15,7 +15,6 @@
 
 <script setup>
 import LeaderboardItem from './LeaderboardItem';
-import NotFoundItems from '../NotFoundItems';
 const props = defineProps({ leaderboard: Array });
 
 </script>

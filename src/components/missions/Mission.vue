@@ -62,7 +62,7 @@ const countdownResult = useCountdown(missionItem.scheduling.endDate);
       align-items: center;
       justify-content: center;
       border-radius: $border-radius-sm;
-      background-color: $purple;
+      background-color: $purple-light;
       padding: 8px 16px;
       color: $main-text-color-white;
     }
@@ -72,7 +72,8 @@ const countdownResult = useCountdown(missionItem.scheduling.endDate);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 10px 12px ;
+    justify-content: space-between;
+    padding: 14px 12px 10px;
 
     .mission-name {
       font-weight: 700;
@@ -95,7 +96,8 @@ const countdownResult = useCountdown(missionItem.scheduling.endDate);
         .progress-bar {
           height: 100%;
           width: 50%;
-          background-color: $purple;
+          background: $purple-gradient;
+          border-radius: $border-radius-sm;
         }
       }
 
@@ -139,6 +141,7 @@ const countdownResult = useCountdown(missionItem.scheduling.endDate);
 
       .go-button {
         border: 1px solid $purple;
+        background-color: $purple;
         color: $main-text-color-white;
       }
     }
