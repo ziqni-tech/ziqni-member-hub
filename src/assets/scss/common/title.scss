@@ -1,12 +1,19 @@
 .section-title {
   font-family: $mainFont;
-  font-style: normal;
   font-weight: 700;
-  font-size: 22px;
-  line-height: 33px;
+  font-size: 24px;
+  line-height: 29px;
   text-align: start;
+  color: $main-text-color-white;
 
   @media screen and (max-width: $phoneWidth) {
     padding-bottom: 7px;
   }
+}
+
+.section-description {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: $main-text-color-white;
 }

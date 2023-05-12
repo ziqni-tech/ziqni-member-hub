@@ -8,7 +8,7 @@
       </div>
       <div class="right-section">
         <div class="title">
-          Name of achievements
+          {{ achievement.name }}
         </div>
         <div class="achievements-progress">
           <div class="progress">
@@ -31,6 +31,10 @@
 </template>
 
 <script setup>
+
+const props = defineProps({
+  achievement: Object
+})
 
 </script>
 
@@ -75,6 +79,10 @@
       font-size: 14px;
       line-height: 17px;
       color: $main-text-color-white;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .achievements-progress {

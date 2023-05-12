@@ -8,6 +8,7 @@ import leaderboard from './modules/leaderboardModule';
 import currentMissions from './modules/missions/currentMissions';
 import featureMissions from './modules/missions/featureMissions';
 import theme from './modules/themeModule';
+import achievements from './modules/achievementsModule'
 
 const store = createStore(
   {
@@ -20,7 +21,8 @@ const store = createStore(
       leaderboard,
       currentMissions,
       featureMissions,
-      theme
+      theme,
+      achievements
     }
   });
 
