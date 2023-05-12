@@ -23,7 +23,8 @@
     <div class="bottom-section">
       <div class="btn prize">
         <img src="../../assets/icons/achievements/diamond.png" alt="">
-        1000</div>
+        1000
+      </div>
       <button class="btn go-button">go</button>
     </div>
   </div>
