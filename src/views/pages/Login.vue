@@ -73,14 +73,17 @@ if (isLoggedIn) {
 </script>
 
 <style lang="scss">
+@import 'src/assets/scss/_variables';
+
 .login-page {
   position: relative;
   width: 100vw;
   height: 100vh;
-  background: #FAFAFE;
+  background: $dark-grey;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: $body-text-color;
 
   .login-form {
     position: absolute;
@@ -91,6 +94,11 @@ if (isLoggedIn) {
       align-items: center;
       padding-bottom: 15px;
 
+      .form-control {
+        background-color: $light-grey;
+        color: $main-text-color-white;
+      }
+
       .form-label {
         margin-right: 10px;
       }
@@ -100,6 +108,8 @@ if (isLoggedIn) {
   .login-btn {
     margin-top: 25px;
     width: 100%;
+    background-color: $purple;
+    border-radius: $border-radius;
   }
 }
 </style>
