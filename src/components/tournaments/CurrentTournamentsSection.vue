@@ -77,7 +77,6 @@ async function getCompetitionsRequest() {
     const competitionsApiWsClient = await new CompetitionsApiWs(apiClientStomp);
 
     await competitionsApiWsClient.getCompetitions(competitionRequest, (res) => {
-      console.warn('RES DATA', res.data);
       store.dispatch('setCurrentTournamentsTotalRecords', res.meta.totalRecordsFound);
       store.dispatch('setCurrentTournamentsAction', res.data);
       isLoaded.value = true;
