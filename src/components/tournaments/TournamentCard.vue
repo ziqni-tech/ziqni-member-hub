@@ -16,11 +16,7 @@
           :label="'prize'"
           :value="'5000'"
       />
-      <router-link :to="{name: 'TournamentDetails', params: {
-          id: cardItem.id,
-        }}">
-        <button class="see-more-btn">See more</button>
-      </router-link>
+      <button class="see-more-btn" @click="goToTournamentsDetailsPage">See more</button>
     </div>
   </div>
 </template>
@@ -36,6 +32,18 @@ const props = defineProps({
 
 const cardItem = props.card;
 import cardImage from '../../assets/images/tournaments/tournament.png';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+const goToTournamentsDetailsPage = () => {
+  router.push({
+    name: 'TournamentDetails',
+    params: {
+      id: cardItem.id,
+    }
+  });
+};
 
 </script>
 
