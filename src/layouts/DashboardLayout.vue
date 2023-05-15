@@ -4,9 +4,7 @@
       <TheSidebar @logOut="logOut" />
     </div>
     <div id="main-block" >
-      <div v-if="isClientConnected">
-        <router-view/>
-      </div>
+      <Dashboard />
     </div>
     <div id="user-profile-block">
       <UserProfile :user="currentMember" />
@@ -22,16 +20,15 @@ import { useMedia } from '../hooks/useMedia';
 import { useRouter } from 'vue-router';
 import TheSidebar from '../components/sidebar/TheSidebar';
 import UserProfile from '../components/user-profile/UserProfile';
+import Dashboard from '../views/Dashboard';
+
+const router = useRouter()
 
 const store = useStore();
-const router = useRouter();
 const isReady = ref(false);
 const isMobile = useMedia('(max-width: 1280px)');
 const currentMember = reactive({});
 const message = ref(null);
-
-const isClientConnected = computed(() => store.getters.getIsConnectedClient)
-
 const isDarkMode = computed(() => store.getters.getTheme);
 
 onMounted(async () => {

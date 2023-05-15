@@ -1,14 +1,18 @@
 <template>
   <InstantWinsSection />
-  <AchievementsSection :is-dashboard="true" />
-  <CurrentTournamentsSection :is-dashboard="true" />
+  <AchievementsSection v-if="isClientConnected" :is-dashboard="true" />
+  <CurrentTournamentsSection v-if="isClientConnected" :is-dashboard="true" />
 </template>
 
 <script setup>
 import CurrentTournamentsSection from '../components/tournaments/CurrentTournamentsSection';
 import InstantWinsSection from '../components/instant-wins/InstantWinsSection';
 import AchievementsSection from '../components/achievements/AchievementsSection';
+import { computed } from 'vue';
+import { useStore } from 'vuex';
 
+const store = useStore();
+const isClientConnected = computed(() => store.getters.getIsConnectedClient)
 </script>
 
 <style lang="scss">
