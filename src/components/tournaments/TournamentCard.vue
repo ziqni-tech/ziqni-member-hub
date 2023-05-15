@@ -16,7 +16,11 @@
           :label="'prize'"
           :value="'5000'"
       />
-      <button class="see-more-btn">See more</button>
+      <router-link :to="{name: 'TournamentDetails', params: {
+          id: cardItem.id,
+        }}">
+        <button class="see-more-btn">See more</button>
+      </router-link>
     </div>
   </div>
 </template>

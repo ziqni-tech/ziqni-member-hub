@@ -1,13 +1,22 @@
 <template>
   <div id="app-header">
-    <div class="header-btns">
-      <button class="btn"><img :src="notificationIcon" alt=""></button>
-      <button class="btn"><img :src="sunIcon" alt=""></button>
+    <div
+        class="go-back"
+        @click="$router.go(-1)"
+        v-if="$router.currentRoute.value.params.id"
+    >
+      <img src="../assets/icons/back_arrow.png" alt="">
     </div>
-    <div class="user-profile">
-      <span class="user-name">{{ member.name }}</span>
-      <div class="user-image">
-        <img src="../assets/images/user/avatar.png" alt="">
+    <div class="user-actions">
+      <div class="header-btns">
+        <button class="btn"><img :src="notificationIcon" alt=""></button>
+        <button class="btn"><img :src="sunIcon" alt=""></button>
+      </div>
+      <div class="user-profile">
+        <span class="user-name">{{ member.name }}</span>
+        <div class="user-image">
+          <img src="../assets/images/user/avatar.png" alt="">
+        </div>
       </div>
     </div>
   </div>
@@ -37,49 +46,64 @@ const member = computed(() => store.getters.getMember);
 
   display: flex;
   align-items: center;
-  justify-content: flex-end;
 
-  .header-btns {
-    display: flex;
-    align-items: center;
-    margin-right: 30px;
+  .go-back {
+    margin-right: auto;
+    border-radius: $border-radius-sm;
+    border: 1px solid $border-dark;
+    margin-left: 10px;
+    padding: 7px 15px;
+    cursor: pointer;
 
-    .btn {
-      border-radius: $border-radius-sm;
-      border: 1px solid $border-dark;
-
-      &:nth-child(n + 2) {
-        margin-left: 10px;
-      }
-    }
   }
 
-  .user-profile {
+  .user-actions {
     display: flex;
-    align-items: center;
+    margin-left: auto;
 
-    .user-name {
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 17px;
-      color: $main-text-color-white;
-      margin-right: 10px;
-    }
-
-    .user-image {
-      width: 37px;
-      height: 37px;
-      border-radius: $border-radius-round;
+    .header-btns {
       display: flex;
       align-items: center;
-      justify-content: center;
+      margin-right: 30px;
 
-      & > img {
-        width: inherit;
-        height: inherit;
+      .btn {
+        border-radius: $border-radius-sm;
+        border: 1px solid $border-dark;
+
+        &:nth-child(n + 2) {
+          margin-left: 10px;
+        }
+      }
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+
+      .user-name {
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 17px;
+        color: $main-text-color-white;
+        margin-right: 10px;
+      }
+
+      .user-image {
+        width: 37px;
+        height: 37px;
+        border-radius: $border-radius-round;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        & > img {
+          width: inherit;
+          height: inherit;
+        }
       }
     }
   }
+
 }
 
 </style>
