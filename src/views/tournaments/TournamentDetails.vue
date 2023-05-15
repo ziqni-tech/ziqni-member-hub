@@ -5,17 +5,19 @@
       <h1 class="section-title">{{ currentTournament.name }}</h1>
 <!--      <img class="share-icon" src="../../assets/icons/share-icon.svg" alt="" />-->
     </div>
-    <TournamentDetailsCard
-        :tournament="currentTournament"
-        @joinTournament="joinTournament"
-        @leaveTournament="leaveTournament"
-    />
-    <div class="header" v-if="leaderboard">
-      <h2 class="section-title">Leaderboard</h2>
-<!--      <img class="share-icon" src="../../assets/icons/share-icon.svg" alt="" />-->
-    </div>
-    <div class="tables" v-if="leaderboardIsLoaded && leaderboardEntries">
-      <Leaderboard :leaderboard="leaderboardEntries" />
+    <div class="tournament-details">
+      <TournamentDetailsCard
+          :tournament="currentTournament"
+          @joinTournament="joinTournament"
+          @leaveTournament="leaveTournament"
+      />
+      <div class="header" v-if="leaderboard">
+        <h2 class="section-title">Leaderboard</h2>
+        <!--      <img class="share-icon" src="../../assets/icons/share-icon.svg" alt="" />-->
+      </div>
+      <div class="tables" v-if="leaderboardIsLoaded && leaderboardEntries">
+        <Leaderboard :leaderboard="leaderboardEntries" />
+      </div>
     </div>
   </div>
 
@@ -191,7 +193,7 @@ onUnmounted(() => unsubscribeEntityLeaderboard());
 </script>
 
 <style lang="scss" scoped>
-@import '../../assets/scss/utils/vars';
+@import '../../assets/scss/_variables';
 
 @media screen and (max-width: 1280px) {
   .tournament_card {
@@ -199,8 +201,13 @@ onUnmounted(() => unsubscribeEntityLeaderboard());
   }
 }
 
+.tournament-details {
+  display: flex;
+  justify-content: space-between;
+}
+
 .tournament_card {
-  max-width: 1030px;
+  width: 49%;
   height: 310px;
 }
 
@@ -224,5 +231,6 @@ onUnmounted(() => unsubscribeEntityLeaderboard());
 
 .tables {
   display: flex;
+  width: 49%;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-<div class="profile-info-item">
+<div class="info-item">
   <div class="item-icon">
     <img :src="icon" alt="" >
   </div>
@@ -18,9 +18,9 @@ const props = defineProps({
 </script>
 
 <style lang="scss">
-@import "src/assets/scss/_variables";
+@import "../../assets/scss/variables";
 
-.profile-info-item {
+.info-item {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -40,7 +40,7 @@ const props = defineProps({
     justify-content: center;
     position: absolute;
     top: -25px;
-    background-color: $light-grey;
+    background-color: $lighter-grey;
   }
 
   .info-title {
