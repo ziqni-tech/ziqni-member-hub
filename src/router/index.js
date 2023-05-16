@@ -35,6 +35,11 @@ const routes = [
             name: 'TournamentDetails',
             component: () => import('@/views/tournaments/TournamentDetails'),
           },
+          {
+            path: '/calendar',
+            name: 'Calendar',
+            component: () => import('@/views/tournaments/TornamentsCalendar'),
+          },
         ]
       },
       {

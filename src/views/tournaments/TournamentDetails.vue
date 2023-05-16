@@ -3,7 +3,7 @@
   <div v-else>
     <div class="header">
       <h1 class="section-title">{{ currentTournament.name }}</h1>
-      <div class="calendar-btn">
+      <div class="calendar-btn" @click="goToCalendar" title="Tournaments calendar">
         <img src="../../assets/icons/tournament/calendar.png" alt="">
       </div>
     </div>
@@ -24,11 +24,10 @@
 </template>
 
 <script setup>
-// import Leaderboard from '../../components/tournament-leaders/Leaderboard';
 import Leaderboard from '../../components/tournaments/LeaderboardTable.vue';
 import TournamentDetailsCard from '../../components/tournaments/TournamentDetailsCard';
 import { onUnmounted, ref, watchEffect, watch, onBeforeMount, computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useGetContests } from '../../hooks/useGetContests';
 import { useGetLeaderboard } from '../../hooks/useGetLeaderboard';
 import { useCompetitions } from '../../hooks/useCompetitions';
@@ -45,6 +44,8 @@ import {
 const { getCompetitionsHandler, tournamentsResponse } = useCompetitions();
 const { getEntityContests, contests } = useGetContests();
 const { getEntityLeaderboard, leaderboard } = useGetLeaderboard();
+
+const router = useRouter()
 
 const route = useRoute();
 const ids = [route.params.id];
@@ -190,6 +191,11 @@ const leaveTournament= async () => {
 }
 
 onUnmounted(() => unsubscribeEntityLeaderboard());
+
+const goToCalendar = () => {
+  console.warn('ROUTE', router);
+  router.push({name: 'Calendar'})
+}
 
 </script>
 

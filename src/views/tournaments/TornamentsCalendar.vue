@@ -1,6 +1,6 @@
 <template>
   <div class="text-center section">
-    <h2 class="section-title">Calendar</h2>
+    <h2 class="text-center">Calendar</h2>
     <calendar-view
       :items="competitionItems"
       :show-date="showDate"
@@ -22,11 +22,11 @@
 <script setup>
 import { computed, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { useCompetitions } from '../hooks/useCompetitions';
+import { useCompetitions } from '../../hooks/useCompetitions';
 
 import { CalendarView, CalendarViewHeader } from 'vue-simple-calendar';
-import '../../node_modules/vue-simple-calendar/dist/style.css';
-import '../../node_modules/vue-simple-calendar/dist/css/default.css';
+import '../../../node_modules/vue-simple-calendar/dist/style.css';
+import '../../../node_modules/vue-simple-calendar/dist/css/default.css';
 import { useStore } from 'vuex';
 
 const router = useRouter();
@@ -35,7 +35,8 @@ const displayPeriod = 'month';
 const { tournamentsResponse, getCompetitionsHandler } = useCompetitions();
 const store = useStore();
 
-const isDarMode = computed(() => store.getters.getTheme)
+// const isDarMode = computed(() => store.getters.getTheme)
+const isDarMode = true
 
 const statusCode = {
   moreThan: 15,

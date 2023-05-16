@@ -3,7 +3,7 @@
     <div
         class="go-back"
         @click="$router.go(-1)"
-        v-if="$router.currentRoute.value.params.id"
+        v-if="$router.currentRoute.value.params.id || $router.currentRoute.value.path === '/calendar'"
     >
       <img src="../assets/icons/back_arrow.png" alt="">
     </div>
