@@ -21,7 +21,7 @@ import { useStore } from 'vuex';
 import { computed } from 'vue';
 
 import sidebarNav from './sidebarNav';
-import SidebarNav from '@/components/sidebar/SidebarNav';
+import SidebarNav from '@/components/sidebar/SidebarNav.vue';
 import LogoutItem from '@/components/sidebar/LogoutItem';
 
 const router = useRouter();

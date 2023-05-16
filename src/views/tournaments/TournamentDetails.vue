@@ -3,19 +3,19 @@
   <div v-else>
     <div class="header">
       <h1 class="section-title">{{ currentTournament.name }}</h1>
-<!--      <img class="share-icon" src="../../assets/icons/share-icon.svg" alt="" />-->
+      <div class="calendar-btn">
+        <img src="../../assets/icons/tournament/calendar.png" alt="">
+      </div>
     </div>
     <div class="tournament-details">
-      <TournamentDetailsCard
-          :tournament="currentTournament"
-          @joinTournament="joinTournament"
-          @leaveTournament="leaveTournament"
-      />
-      <div class="header" v-if="leaderboard">
-        <h2 class="section-title">Leaderboard</h2>
-        <!--      <img class="share-icon" src="../../assets/icons/share-icon.svg" alt="" />-->
+      <div class="details">
+        <TournamentDetailsCard
+            :tournament="currentTournament"
+            @joinTournament="joinTournament"
+            @leaveTournament="leaveTournament"
+        />
       </div>
-      <div class="tables" v-if="leaderboardIsLoaded && leaderboardEntries">
+      <div class="leaderboard-table" v-if="leaderboardIsLoaded && leaderboardEntries">
         <Leaderboard :leaderboard="leaderboardEntries" />
       </div>
     </div>
@@ -201,36 +201,31 @@ onUnmounted(() => unsubscribeEntityLeaderboard());
   }
 }
 
-.tournament-details {
-  display: flex;
-  justify-content: space-between;
-}
-
-.tournament_card {
-  width: 49%;
-  height: 310px;
-}
-
-.banner {
-  width: 100%;
-}
-
 .header {
   display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
+  justify-content: space-between;
+  align-items: center;
   background: none;
   border: none;
 
-  .share-icon {
-    height: 30px;
-    width: 30px;
-    margin-left: 18px;
+  .calendar-btn {
+    cursor: pointer;
   }
 }
 
-.tables {
+.tournament-details {
   display: flex;
-  width: 49%;
+  justify-content: space-between;
+
+  .details {
+    width: 50%;
+    padding-right: 12px;
+  }
+
+  .leaderboard-table {
+    display: flex;
+    width: 50%;
+    padding-left: 12px;
+  }
 }
 </style>
