@@ -16,7 +16,7 @@
         />
       </div>
       <div class="leaderboard-table" v-if="leaderboardIsLoaded && leaderboardEntries">
-        <Leaderboard :leaderboard="leaderboardEntries" />
+        <Leaderboard :leaders="leaderboardEntries" />
       </div>
     </div>
   </div>
@@ -24,7 +24,8 @@
 </template>
 
 <script setup>
-import Leaderboard from '../../components/tournament-leaders/Leaderboard';
+// import Leaderboard from '../../components/tournament-leaders/Leaderboard';
+import Leaderboard from '../../components/tournaments/LeaderboardTable.vue';
 import TournamentDetailsCard from '../../components/tournaments/TournamentDetailsCard';
 import { onUnmounted, ref, watchEffect, watch, onBeforeMount, computed } from 'vue';
 import { useRoute } from 'vue-router';
