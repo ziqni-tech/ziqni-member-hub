@@ -7,14 +7,14 @@
       <Dashboard />
     </div>
     <div id="user-profile-block">
-      <UserProfile :user="currentMember" />
+      <UserProfile />
     </div>
   </div>
 </template>
 
 <script setup>
 import { ApiClientStomp, MemberRequest, MembersApiWs } from '@ziqni-tech/member-api-client';
-import { computed, onMounted, reactive, ref, watchEffect } from 'vue';
+import { computed, onMounted, reactive, ref, watch, watchEffect } from 'vue';
 import { useStore } from 'vuex';
 import { useMedia } from '../hooks/useMedia';
 import { useRouter } from 'vue-router';
@@ -30,26 +30,11 @@ const isMobile = useMedia('(max-width: 1280px)');
 const currentMember = reactive({});
 const message = ref(null);
 const isDarkMode = computed(() => store.getters.getTheme);
+const isClientConnected = computed(() => store.getters.getIsConnectedClient);
 
 onMounted(async () => {
   await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
   await store.dispatch('setIsConnectedClient', true)
-  const memberRequest = MemberRequest.constructFromObject(
-    {
-      'includeFields': [],
-      'includeCustomFields': [],
-      'includeMetaDataFields': []
-    },
-    null);
-
-  const memberApiWsClient = new MembersApiWs(ApiClientStomp.instance);
-
-  memberApiWsClient.getMember(memberRequest, async (data) => {
-    console.warn('MEMBER', data.data);
-    currentMember.value = await data.data;
-    await store.dispatch('setMemberAction', data.data);
-    isReady.value = true;
-  });
 
   ApiClientStomp.instance.sendSys('', {}, (data, headers) => {
     if (data.hasOwnProperty('leaderboardEntries')) {
@@ -59,6 +44,28 @@ onMounted(async () => {
       // store.dispatch('setNotificationAction', data);
     }
   });
+});
+
+const getMemberRequest = async () => {
+  const memberRequest = MemberRequest.constructFromObject(
+      {
+        'includeFields': [],
+        'includeCustomFields': [],
+        'includeMetaDataFields': []
+      },
+      null);
+
+  const memberApiWsClient = new MembersApiWs(ApiClientStomp.instance);
+
+  memberApiWsClient.getMember(memberRequest, async (data) => {
+    console.warn('MEMBER', data.data);
+    await store.dispatch('setMemberAction', data.data);
+    isReady.value = true;
+  });
+}
+
+watch(isClientConnected, (value) => {
+  if (value) getMemberRequest();
 });
 
 const logOut = async () => {

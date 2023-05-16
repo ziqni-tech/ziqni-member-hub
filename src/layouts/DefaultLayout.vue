@@ -7,7 +7,7 @@
       <TheHeader />
       <div id="main-block">
         <div v-if="isClientConnected">
-          <router-view/>
+          <router-view />
         </div>
       </div>
     </div>
@@ -16,24 +16,48 @@
 
 <script setup>
 
-import { ApiClientStomp } from '@ziqni-tech/member-api-client';
+import { ApiClientStomp, MemberRequest, MembersApiWs } from '@ziqni-tech/member-api-client';
 import { useRouter } from 'vue-router';
 
 import TheSidebar from '../components/sidebar/TheSidebar';
 import TheHeader from '../components/TheHeader';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, reactive, watch } from 'vue';
 import { useStore } from 'vuex';
 
 const router = useRouter();
 const store = useStore();
 
-const isClientConnected = computed(() => store.getters.getIsConnectedClient)
+const isClientConnected = computed(() => store.getters.getIsConnectedClient);
+const currentMember = reactive({});
 
 
 onMounted(async () => {
   await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
-  await store.dispatch('setIsConnectedClient', true)
+  await store.dispatch('setIsConnectedClient', true);
 });
+
+const getMemberRequest = async () => {
+  const memberRequest = MemberRequest.constructFromObject(
+      {
+        'includeFields': [],
+        'includeCustomFields': [],
+        'includeMetaDataFields': []
+      },
+      null);
+
+  const memberApiWsClient = new MembersApiWs(ApiClientStomp.instance);
+
+  memberApiWsClient.getMember(memberRequest, async (data) => {
+    console.warn('MEMBER', data.data);
+    currentMember.value = await data.data;
+    await store.dispatch('setMemberAction', data.data);
+  });
+};
+
+watch(isClientConnected, (value) => {
+  if (value) getMemberRequest();
+});
+
 
 const logOut = async () => {
   await ApiClientStomp.instance.disconnect();
