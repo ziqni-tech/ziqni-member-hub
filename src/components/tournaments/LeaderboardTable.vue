@@ -10,7 +10,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="(leader, index) in leaders" :key="index">
+      <tr v-for="(leader, index) in leaders" :key="index" :class="{ 'active': isCurrentUser(leader) }">
         <td class="rank" v-html="setPlace(leader.rank)"></td>
         <td>
         <span v-for="member in leader?.members">
@@ -28,7 +28,7 @@
 </template>
 
 <script setup>
-import { computed, watch } from 'vue';
+import { computed } from 'vue';
 import { useStore } from 'vuex';
 const store = useStore();
 
@@ -37,6 +37,10 @@ const props = defineProps({
 });
 
 const member = computed(() => store.getters.getMember);
+
+const isCurrentUser = (item) => {
+  return item.members.some(m => m.memberRefId === member.value.memberRefId);
+}
 
 const setPlace = computed(() => (place) => {
   switch (place) {
@@ -53,12 +57,7 @@ const setPlace = computed(() => (place) => {
       return `<span>${place}</span>`;
   }
 });
-console.warn('MEMBER', member.value);
-watch(member, (val) => {
-  if (val) {
-    console.warn('VALUE', val);
-  }
-})
+
 </script>
 
 <style lang="scss" scoped>
@@ -69,6 +68,10 @@ watch(member, (val) => {
   flex-direction: column;
   height: 100%;
   width: 100%;
+
+  table tbody tr {
+    border-radius: $border-radius !important;
+  }
 }
 
 table {
@@ -107,9 +110,17 @@ table {
       }
     }
 
+    tr.active {
+      background: #2F0426;
+      border: 1px solid #406A8C;
+      box-shadow: 0 2px 12px rgba(64, 106, 140, 0.5);
+      border-radius: 10px !important;
+    }
+
     td {
       vertical-align: middle;
       text-align: center;
+      padding: 8px 0;
     }
 
     .rank {
