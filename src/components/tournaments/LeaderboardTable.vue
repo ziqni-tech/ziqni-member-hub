@@ -15,7 +15,7 @@
         <td>
         <span v-for="member in leader?.members">
             <img class="avatar" src="../../assets/images/user/avatar.png" alt="">
-            {{ member.name }}
+            {{ memberName(member) }}
           </span>
         </td>
         <td>{{ leader.score }}</td>
@@ -40,6 +40,10 @@ const member = computed(() => store.getters.getMember);
 
 const isCurrentUser = (item) => {
   return item.members.some(m => m.memberRefId === member.value.memberRefId);
+}
+
+const memberName = (item) => {
+  return item.memberRefId === member.value.memberRefId ? 'You' : item.name;
 }
 
 const setPlace = computed(() => (place) => {
@@ -69,9 +73,7 @@ const setPlace = computed(() => (place) => {
   height: 100%;
   width: 100%;
 
-  table tbody tr {
-    border-radius: $border-radius !important;
-  }
+
 }
 
 table {
@@ -100,7 +102,6 @@ table {
     tr {
       display: table-row;
       height: auto;
-      border-radius: $border-radius;
       font-weight: 500;
       font-size: 12px;
       line-height: 16px;
@@ -108,13 +109,34 @@ table {
       &:nth-child(even) {
         background-color: $light-grey;
       }
+
+      td:first-child {
+        border-left-style: solid;
+        border-top-left-radius: $border-radius;
+        border-bottom-left-radius: $border-radius;
+      }
+      td:last-child {
+        border-right-style: solid;
+        border-bottom-right-radius: $border-radius;
+        border-top-right-radius: $border-radius;
+      }
     }
 
     tr.active {
-      background: #2F0426;
-      border: 1px solid #406A8C;
+      background: #1d042d;
       box-shadow: 0 2px 12px rgba(64, 106, 140, 0.5);
-      border-radius: 10px !important;
+
+
+      td:first-child {
+        border-top-left-radius: $border-radius;
+        border-bottom-left-radius: $border-radius;
+      }
+
+      td:last-child {
+        overflow: hidden;
+        border-bottom-right-radius: $border-radius;
+        border-top-right-radius: $border-radius;
+      }
     }
 
     td {
