@@ -6,11 +6,6 @@
       <Countdown
           v-if="tournament && tournament.scheduledEndDate"
           :date="tournament.scheduledEndDate"
-          :is-row="!isMobile"
-          :is-column="isMobile"
-          :is-detail-card="!isMobile"
-          :is-medium-size="isMobile"
-          @onFinish="finish()"
           class="countdown"
       />
     </div>
@@ -129,7 +124,7 @@ const closeModal = () => {
     .countdown {
       position: absolute;
       width: 50%;
-      bottom: 50px;
+      bottom: 25%;
       left: 50%;
       transform: translate(-50%);
 
