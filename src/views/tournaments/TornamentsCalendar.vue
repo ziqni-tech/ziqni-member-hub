@@ -89,14 +89,14 @@ const clickEvent = (val) => {
 </script>
 
 <style lang="scss">
-@import 'src/assets/scss/utils/vars';
+@import 'src/assets/scss/_variables';
 
 .cv-wrapper {
   height: 696px;
   width: 100%;
   max-height: 696px;
   min-height: 696px;
-  border-radius: 20px;
+  border-radius: $border-radius;
 
   .cv-header {
 
@@ -138,112 +138,129 @@ const clickEvent = (val) => {
 }
 
 .cv-wrapper.darkMode {
-  border: 1px solid $border-header-dark-mode;
-  color: white;
+  border: 1px solid $border-dark;
+  color: $body-text-color;
 
   .cv-header {
-    background-color: $primary-bg-light-DM !important;
+    background-color: $light-grey !important;
     border-radius: 20px 20px 0 0;
-    color: white;
+    color: $body-text-color;
 
     .periodLabel {
-      background-color: $primary-bg-light-DM !important;
+      background-color: $light-grey !important;
     }
 
     .cv-header-nav {
-      background-color: $primary-bg-light-DM !important;
+      background-color: $light-grey !important;
       .previousYear,
       .previousPeriod,
       .currentPeriod,
       .nextPeriod,
       .nextYear {
-        color: white;
-        background-color: $primary-bg-light-DM;
+        color: $body-text-color;
+        background-color: $light-grey;
       }
     }
   }
 
   .cv-header-days {
-    background-color: $primary-bg-light-DM !important;
+    background-color: $light-grey !important;
     .cv-header-day {
-      background-color: $primary-bg-light-DM !important;
+      background-color: $light-grey !important;
     }
   }
 
   .cv-weekdays {
     .cv-day {
-      background-color: $primary-bg-light-DM;
+      background-color: $light-grey;
     }
     .today {
-      background-color: $medium-blue !important;
-      border: 2px solid $border-header-dark-mode !important;
+      background-color: $today !important;
+      border: 2px solid $blue !important;
     }
     .outsideOfMonth {
-      background-color: $primary-bg-dark-DM !important;
+      background-color: $light-grey !important;
     }
   }
 }
-.cv-wrapper.lightMode {
-  border: 1px solid $border-header-light-mode;
-  color: black;
-
-  .cv-wrapper.period-month.periodCount-2 .cv-week,
-  .cv-wrapper.period-month.periodCount-3 .cv-week,
-  .cv-wrapper.period-year .cv-week {
-    min-height: 6rem;
-  }
-
-  .cv-header {
-    background-color: $primary-bg !important;
-
-    .cv-header-nav {
-      .previousYear,
-      .previousPeriod,
-      .currentPeriod,
-      .nextPeriod,
-      .nextYear {
-        color: black;
-        background-color: $primary-bg;
-      }
-    }
-  }
-
-  .cv-header-days {
-    .cv-header-day {
-      background-color: $primary-bg !important;
-    }
-  }
-
-  .cv-weekdays {
-    .cv-day {
-      background-color: $primary-bg !important;
-    }
-    .today {
-      background-color: $light-blue !important;
-      border: 2px solid $border-header-light-mode !important;
-    }
-    .outsideOfMonth {
-      background-color: $primary-bg-dark-LM  !important;
-    }
-  }
-}
+//.cv-wrapper.lightMode {
+//  border: 1px solid $border-header-light-mode;
+//  color: black;
+//
+//  .cv-wrapper.period-month.periodCount-2 .cv-week,
+//  .cv-wrapper.period-month.periodCount-3 .cv-week,
+//  .cv-wrapper.period-year .cv-week {
+//    min-height: 6rem;
+//  }
+//
+//  .cv-header {
+//    background-color: $primary-bg !important;
+//
+//    .cv-header-nav {
+//      .previousYear,
+//      .previousPeriod,
+//      .currentPeriod,
+//      .nextPeriod,
+//      .nextYear {
+//        color: black;
+//        background-color: $primary-bg;
+//      }
+//    }
+//  }
+//
+//  .cv-header-days {
+//    .cv-header-day {
+//      background-color: $primary-bg !important;
+//    }
+//  }
+//
+//  .cv-weekdays {
+//    .cv-day {
+//      background-color: $primary-bg !important;
+//    }
+//    .today {
+//      background-color: $light-blue !important;
+//      border: 2px solid $border-header-light-mode !important;
+//    }
+//    .outsideOfMonth {
+//      background-color: $primary-bg-dark-LM  !important;
+//    }
+//  }
+//}
 .theme-default .cv-item.continued::before, .theme-default .cv-item.toBeContinued::after {
-  color: $medium-blue;
+  color: $purple;
   margin: 0 3px;
+}
+
+.theme-default .cv-item.continued, .theme-default .cv-item.toBeContinued {
+  border-color: $border-dark;
+}
+
+.cv-header-days, .cv-header-day, .cv-weeks, .cv-week, .cv-day, .cv-item {
+  border-color: $dark-blue;
+}
+
+.cv-wrapper.darkMode .cv-header {
+  border-color: $dark-blue;
+}
+
+.cv-wrapper.darkMode .cv-header .cv-header-nav > button {
+  border-color: $dark-blue;
 }
 
 .competition {
   font-size: 0.85em !important;
   cursor: pointer !important;
+  color: $body-text-color;
 
   &-active {
-    background-color: $sts-green  !important;
+    background-color: $active-tournament  !important;
   }
   &-ready {
-    background-color: $sts-red-light !important;
+    background-color: $future-tournament !important;
   }
   &-finalised {
-    background-color: $sts-grey-light !important;
+    background-color: $finished-tournament !important;
   }
 }
 </style>
