@@ -12,10 +12,10 @@
         </div>
         <div class="achievements-progress">
           <div class="progress">
-            <div class="progress-bar"></div>
+            <div class="progress-bar" :style="{ width: achievement.percentageComplete + '%' }"></div>
           </div>
           <div class="progress-value">
-            5/20
+            {{ achievement.percentageComplete }}%
           </div>
         </div>
       </div>
@@ -25,17 +25,68 @@
         <img src="../../assets/icons/achievements/diamond.png" alt="">
         1000
       </div>
-      <button class="btn go-button">go</button>
+      <button
+        class="btn go-button"
+        :class="{'join-btn': !isEntrant}"
+        @click="isEntrant ? openModal() : join()"
+      >
+        {{ isEntrant ? 'Leave' : 'Join' }}
+      </button>
     </div>
   </div>
+  <Modal
+    :modalShow="leaveModal"
+    :messageGeneral="'Are you sure you want to leave this achievement?'"
+    :title="'Leave the achievement'"
+    :successBtnLabel="'Leave'"
+    @doFunction="leave"
+    @closeModal="closeModal"
+    v-on:toggle-modal="leaveModal = false"
+  />
 </template>
 
 <script setup>
+import { computed, ref, watch } from 'vue';
+import Modal from '@/shared/components/Modal.vue';
+import { useStore } from 'vuex';
 
 const props = defineProps({
-  achievement: Object
-})
+  achievement: { type: Object, required: true }
+});
 
+const store = useStore();
+
+const emit = defineEmits(['joinAchievement', 'leaveAchievement']);
+
+let leaveModal = ref(false);
+
+const achievement = props.achievement;
+const entrantStatus = ref('');
+
+const isEntrant = computed(() => entrantStatus.value === 'Entrant' || entrantStatus.value === 'Entering');
+
+watch(() => store.getters.getAchievements, (newValue) => {
+  const newArr = newValue.filter(item => item.id === achievement.id);
+  entrantStatus.value = newArr[0].entrantStatus;
+}, { immediate: true });
+
+const openModal = () => {
+  leaveModal.value = true;
+};
+
+const closeModal = () => {
+  leaveModal.value = false;
+};
+
+
+const join = () => {
+  emit('joinAchievement', { id: achievement.id, name: achievement.name });
+};
+
+const leave = () => {
+  emit('leaveAchievement', { id: achievement.id, name: achievement.name });
+  leaveModal.value = false;
+};
 </script>
 
 <style lang="scss">
@@ -55,7 +106,7 @@ const props = defineProps({
 
   .left-section {
     width: 20%;
-    
+
     .icon {
       width: 74px;
       height: 74px;
@@ -73,7 +124,7 @@ const props = defineProps({
     flex-direction: column;
     align-items: flex-start;
     padding: 10px 0 0 20px;
-    
+
     .title {
       font-weight: 700;
       font-size: 14px;
@@ -98,7 +149,6 @@ const props = defineProps({
 
         .progress-bar {
           height: 100%;
-          width: 50%;
           background: $purple-gradient;
           border-radius: $border-radius-sm;
         }
@@ -133,6 +183,10 @@ const props = defineProps({
       > img {
         margin-right: 5px;
       }
+    }
+
+    .join-btn {
+      background-color: $purple;
     }
 
     .prize {
