@@ -1,24 +1,28 @@
 <template>
   <div class="tournament-details-card">
     <div class="card-banner">
-      <span class="tournament-title">{{ tournament?.name }}</span>
-      <img :src="cardImage" alt="">
-      <Countdown
+      <div class="tournament-main-data">
+        <span class="tournament-title">{{ tournament?.name }}</span>
+        <Countdown
           v-if="tournament && tournament.scheduledEndDate"
           :date="tournament.scheduledEndDate"
           class="countdown"
-      />
+        />
+      </div>
+      <img :src="cardImage" alt="">
     </div>
     <div class="tournament-data-wrapper">
       <div class="tournament-info-grid">
-        <InfoItem :icon="prizeIcon" :title="'prize'" :data="'2000'" />
-        <InfoItem :icon="rtpIcon" :title="'RTP'" :data="'84%'" />
-        <InfoItem :icon="rateIcon" :title="'rate'" :data="'4.9'" />
+        <InfoItem :icon="prizeIcon" :title="'prize'" :data="'2000'"/>
+        <InfoItem :icon="rtpIcon" :title="'RTP'" :data="'84%'"/>
+        <InfoItem :icon="rateIcon" :title="'rate'" :data="'4.9'"/>
       </div>
 
       <div class="tournament-description">
         <h5 class="tournament-description_title">description</h5>
-        <p class="tournament-description_description">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.</p>
+        <p class="tournament-description_description">Amet minim mollit non deserunt ullamco est sit aliqua dolor do
+          amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud
+          amet.</p>
       </div>
 
       <CButton v-if="!isEntrant" class="m-btn register-btn" @click="join">
@@ -30,13 +34,13 @@
     </div>
   </div>
   <Modal
-      :modalShow="leaveModal"
-      :messageGeneral="'Are you sure you want to leave this tournament?'"
-      :title="'Leave the tournament'"
-      :successBtnLabel="'Leave'"
-      @doFunction="leave"
-      @closeModal="closeModal"
-      v-on:toggle-modal="leaveModal = false"
+    :modalShow="leaveModal"
+    :messageGeneral="'Are you sure you want to leave this tournament?'"
+    :title="'Leave the tournament'"
+    :successBtnLabel="'Leave'"
+    @doFunction="leave"
+    @closeModal="closeModal"
+    v-on:toggle-modal="leaveModal = false"
   />
 </template>
 
@@ -45,14 +49,14 @@ import { CButton } from '@coreui/vue';
 import { ref } from 'vue';
 
 import Countdown from '../Countdown';
-import { useMedia } from '../../hooks/useMedia';
+import { useMedia } from '@/hooks/useMedia';
 import Modal from '../../shared/components/Modal';
 import InfoItem from '../../shared/components/InfoItem';
 
 import cardImage from '../../assets/images/tournaments/tournament.png';
-import prizeIcon from '@/assets/icons/tournament/details/prize.png'
-import rtpIcon from '@/assets/icons/tournament/details/rtp.png'
-import rateIcon from '@/assets/icons/tournament/details/rate.png'
+import prizeIcon from '@/assets/icons/tournament/details/prize.png';
+import rtpIcon from '@/assets/icons/tournament/details/rtp.png';
+import rateIcon from '@/assets/icons/tournament/details/rate.png';
 
 const props = defineProps({ tournament: Object });
 const emit = defineEmits(['joinTournament', 'leaveTournament']);
@@ -104,6 +108,17 @@ const closeModal = () => {
     width: 100%;
     height: 35%;
 
+    .tournament-main-data {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
     > img {
       width: 100%;
       height: 100%;
@@ -111,26 +126,15 @@ const closeModal = () => {
     }
 
     .tournament-title {
-      position: absolute;
-      top: 30px;
-      left: 50%;
-      transform: translate(-50%);
       color: $main-text-color-white;
       font-weight: 700;
       font-size: 20px;
       line-height: 24px;
+      margin-bottom: 30px;
     }
 
     .countdown {
-      position: absolute;
       width: 50%;
-      bottom: 25%;
-      left: 50%;
-      transform: translate(-50%);
-
-      .space-between {
-        //justify-content: space-evenly;
-      }
 
       .title-medium {
         max-width: 100px;
@@ -177,7 +181,7 @@ const closeModal = () => {
       }
 
       &_description {
-        margin-top: 15px;
+        margin: 15px 0 20px;
         font-weight: 500;
         font-size: 12px;
         line-height: 16px;

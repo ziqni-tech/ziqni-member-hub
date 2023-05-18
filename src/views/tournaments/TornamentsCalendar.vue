@@ -1,6 +1,6 @@
 <template>
   <div class="text-center section">
-    <h2 class="text-center">Calendar</h2>
+    <h2 class="text-center calendar-title">Competitions calendar</h2>
     <calendar-view
       :items="competitionItems"
       :show-date="showDate"
@@ -91,6 +91,13 @@ const clickEvent = (val) => {
 <style lang="scss">
 @import 'src/assets/scss/_variables';
 
+.calendar-title {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  margin-bottom: 15px;
+}
+
 .cv-wrapper {
   height: 696px;
   width: 100%;
@@ -99,7 +106,6 @@ const clickEvent = (val) => {
   border-radius: $border-radius;
 
   .cv-header {
-
     border-radius: 20px 20px 0 0;
 
     .cv-header-nav {

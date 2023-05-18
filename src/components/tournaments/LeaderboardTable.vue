@@ -77,7 +77,7 @@ const setPlace = computed(() => (place) => {
   display: flex;
   flex-direction: column;
   height: 100%;
-  max-height: 540px;
+  max-height: 73%;
   width: 100%;
   overflow-y: auto;
 
@@ -91,7 +91,7 @@ const setPlace = computed(() => (place) => {
   position: sticky;
   top: 0;
   background-color: $light-grey;
-  z-index: 5;
+  z-index: 3;
 }
 
 table {

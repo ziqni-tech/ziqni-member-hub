@@ -28,9 +28,8 @@ import Leaderboard from '../../components/tournaments/LeaderboardTable.vue';
 import TournamentDetailsCard from '../../components/tournaments/TournamentDetailsCard';
 import { onUnmounted, ref, watchEffect, watch, onBeforeMount, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useGetContests } from '../../hooks/useGetContests';
-import { useGetLeaderboard } from '../../hooks/useGetLeaderboard';
-import { useCompetitions } from '../../hooks/useCompetitions';
+import { useGetContests } from '@/hooks/useGetContests';
+import { useCompetitions } from '@/hooks/useCompetitions';
 import { useStore } from 'vuex';
 import Loader from '../../components/Loader';
 import {
@@ -254,7 +253,6 @@ const goToCalendar = () => {
     display: flex;
     width: 50%;
     padding-left: 12px;
-    max-height: 540px;
   }
 }
 </style>
