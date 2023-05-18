@@ -22,7 +22,6 @@ const mutations = {
 
 const actions = {
   setAchievements({ commit }, payload) {
-    console.warn('SET ACH', payload);
     commit('SET_ACHIEVEMENTS', payload);
   },
   setAchievementsTotalRecords({ commit }, payload) {
