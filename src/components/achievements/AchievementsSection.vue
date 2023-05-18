@@ -5,6 +5,7 @@
         <h2 class="section-title">{{ sectionTitle }}</h2>
         <p v-if="!isDashboard" class="section-description">List of daily achievements that refresh every day.</p>
       </div>
+<span>{{ countdownResult }}</span>
     </div>
     <div :class="isDashboard ? 'achievements-dashboard-cards-grid' : 'achievements-cards-grid'">
       <div v-for="achievement in achievementsData">
@@ -35,6 +36,20 @@ const props = defineProps({
 
 const sectionTitle = props.isDashboard ? 'Achievements' : 'Daily achievements'
 const store = useStore();
+
+import { useCountdown } from '@/hooks/useCountdown';
+
+const getNextDayStart = () => {
+  const currentDate = new Date();
+  currentDate.setDate(currentDate.getDate() + 1);
+  currentDate.setHours(0, 0, 0, 0);
+
+  return currentDate;
+};
+
+const nextDayStart = getNextDayStart();
+
+const countdownResult = useCountdown(nextDayStart, true);
 
 const achievementsData = computed(() => {
   return props.isDashboard
@@ -128,6 +143,7 @@ if (!achievementsData.value.length) getAchievementsRequest();
   width: 100%;
   grid-gap: 15px;
 }
+
 .achievements-cards-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

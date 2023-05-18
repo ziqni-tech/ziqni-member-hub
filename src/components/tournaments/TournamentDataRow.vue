@@ -19,7 +19,7 @@ const props = defineProps({
   value: String,
   isDate: Boolean
 })
-import { useCountdown } from '../../hooks/useCountdown';
+import { useCountdown } from '@/hooks/useCountdown';
 
 const countdownResult = useCountdown(props.value);
 

@@ -16,7 +16,7 @@
 import { ApiClientStomp, MemberRequest, MembersApiWs } from '@ziqni-tech/member-api-client';
 import { computed, onMounted, ref, watch, watchEffect } from 'vue';
 import { useStore } from 'vuex';
-import { useMedia } from '../hooks/useMedia';
+import { useMedia } from '@/hooks/useMedia';
 import { useRouter } from 'vue-router';
 import TheSidebar from '../components/sidebar/TheSidebar';
 import UserProfile from '../components/user-profile/UserProfile';

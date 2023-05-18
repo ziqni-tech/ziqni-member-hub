@@ -1,6 +1,6 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 
-export const useCountdown = (targetDate) => {
+export const useCountdown = (targetDate, isWithoutDayAndSeconds) => {
   const targetTime = new Date(targetDate).getTime();
   const remainingTime = ref('');
 
@@ -17,7 +17,9 @@ export const useCountdown = (targetDate) => {
       const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
-      remainingTime.value = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      isWithoutDayAndSeconds
+        ? remainingTime.value = `${ hours }h ${ minutes }m`
+        : remainingTime.value = `${ days }d ${ hours }h ${ minutes }m ${ seconds }s`;
     }
   };
 
