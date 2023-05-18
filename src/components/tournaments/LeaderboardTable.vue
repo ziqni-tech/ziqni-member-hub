@@ -1,7 +1,7 @@
 <template>
   <div class="table-container">
     <table>
-      <thead>
+      <thead class="sticky-header">
       <tr>
         <th>rank</th>
         <th>name</th>
@@ -10,8 +10,14 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="(leader, index) in leaders" :key="index" :class="{ 'active': isCurrentUser(leader) }">
-        <td class="rank" v-html="setPlace(leader.rank)"></td>
+      <tr
+          v-for="(leader, index) in leaders"
+          :key="index"
+          :class="{ 'active': isCurrentUser(leader), 'sticky-row': index < 3 }"
+      >
+        <td class="rank" >
+          {{leader.rank}}
+        </td>
         <td>
         <span v-for="member in leader?.members">
             <img class="avatar" src="../../assets/images/user/avatar.png" alt="">
@@ -24,7 +30,6 @@
       </tbody>
     </table>
   </div>
-
 </template>
 
 <script setup>
@@ -68,12 +73,25 @@ const setPlace = computed(() => (place) => {
 @import '../../assets/scss/_variables';
 
 .table-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
+  max-height: 540px;
   width: 100%;
+  overflow-y: auto;
 
+  &::-webkit-scrollbar {
+    height: 5px;
+    width: 0;
+  }
+}
 
+.sticky-header {
+  position: sticky;
+  top: 0;
+  background-color: $light-grey;
+  z-index: 5;
 }
 
 table {
@@ -83,7 +101,7 @@ table {
   th {
     border: none;
     text-transform: capitalize;
-    text-align: center;
+    text-align: start;
     font-weight: 700;
     font-size: 14px;
     line-height: 17px;
@@ -99,6 +117,7 @@ table {
 
   tbody {
     height: auto;
+    overflow: hidden;
     tr {
       display: table-row;
       height: auto;
@@ -122,6 +141,11 @@ table {
       }
     }
 
+    //tr.sticky-row {
+    //  position: sticky;
+    //  top: 40px;
+    //}
+
     tr.active {
       background: #1d042d;
       box-shadow: 0 2px 12px rgba(64, 106, 140, 0.5);
@@ -141,7 +165,7 @@ table {
 
     td {
       vertical-align: middle;
-      text-align: center;
+      text-align: start;
       padding: 8px 0;
     }
 

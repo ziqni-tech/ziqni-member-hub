@@ -36,10 +36,10 @@ const expires = 36000;
 
 const generateUserToken = async () => {
   const memberTokenRequest = {
-    // member: memberRefId.value,
-    member: memberRefIdFirstSpace.value,
-    // apiKey: apiKey,
-    apiKey: apiKeyFirstSpace,
+    member: memberRefId.value,
+    // member: memberRefIdFirstSpace.value,
+    apiKey: apiKey,
+    // apiKey: apiKeyFirstSpace,
     isReferenceId: true,
     expires: expires,
     resource: 'ziqni-gapi'

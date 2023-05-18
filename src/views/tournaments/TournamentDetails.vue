@@ -43,7 +43,6 @@ import {
 
 const { getCompetitionsHandler, tournamentsResponse } = useCompetitions();
 const { getEntityContests, contests } = useGetContests();
-const { getEntityLeaderboard, leaderboard } = useGetLeaderboard();
 
 const router = useRouter()
 
@@ -60,7 +59,7 @@ const isLoaded = ref(false)
 const leaderboardIsLoaded = computed(() => store.getters.getLeaderboardIsLoaded);
 const leaderboardEntries = computed(() => store.getters.getLeaderboardEntries);
 const currentTournament = computed(() => store.getters.getCurrentTournament);
-console.warn('leaderboardEntries', leaderboardEntries);
+
 const tournamentRequestData = {
   statusCode,
   limit: 1,
@@ -81,6 +80,28 @@ watch(tournamentsResponse, (currentValue, oldValue) => {
   }
 })
 
+const getEntityLeaderboard = async (contestId) => {
+  const apiLeaderboardWsClient = new LeaderboardApiWs(ApiClientStomp.instance);
+  const leaderboardSubscriptionRequest = {
+    action: 'Subscribe',
+    entityId: contestId,
+    leaderboardFilter: {
+      ranksAboveToInclude: 10,
+      ranksBelowToInclude: 10,
+      topRanksToInclude: 10
+    }
+  };
+  await store.dispatch('leaderboardRequest');
+
+  await apiLeaderboardWsClient.subscribeToLeaderboard(leaderboardSubscriptionRequest, (res) => {
+    if (!res.errors.length) {
+      store.dispatch('setLeaderboardAction', res.data.leaderboardEntries)
+    } else {
+      store.dispatch('setLeaderboardErrorAction', res.errors)
+    }
+  });
+}
+
 watchEffect(() => {
   if (contests.value[0]) {
     const contestId = contests.value[0].id;
@@ -97,7 +118,7 @@ const unsubscribeEntityLeaderboard = async () => {
     leaderboardFilter: {
       ranksAboveToInclude: 10,
       ranksBelowToInclude: 10,
-      topRanksToInclude: 1
+      topRanksToInclude: 10
     }
   };
   await store.dispatch('leaderboardRequest');
@@ -233,6 +254,7 @@ const goToCalendar = () => {
     display: flex;
     width: 50%;
     padding-left: 12px;
+    max-height: 540px;
   }
 }
 </style>

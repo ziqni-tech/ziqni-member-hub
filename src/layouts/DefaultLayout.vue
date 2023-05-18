@@ -48,7 +48,6 @@ const getMemberRequest = async () => {
   const memberApiWsClient = new MembersApiWs(ApiClientStomp.instance);
 
   memberApiWsClient.getMember(memberRequest, async (data) => {
-    console.warn('MEMBER', data.data);
     currentMember.value = await data.data;
     await store.dispatch('setMemberAction', data.data);
   });
