@@ -79,21 +79,23 @@ const close = () => {
 </script>
 
 <style lang="scss">
-@import 'src/assets/scss/utils/vars';
-
+@import 'src/assets/scss/_variables';
+.modal-footer, .modal-header {
+  border-color: $border-dark;
+}
 .modal-content {
-  background-color: $primary-bg-dark-LM;
-  color: $primary-bg-light-DM;
+  background-color: $light-grey;
+  color: $body-text-color;
 
   .cancelBtn {
-    background-color: $primary-bg-light-LM;
-    color: $primary-bg-light-DM;
+    background-color: $light-grey;
+    color: $main-text-color-white;
     border: none;
   }
 
   .submitBtn {
-    background-color: $light-blue;
-    color: $primary-bg-light-DM;
+    background-color: $purple;
+    color: $main-text-color-white;
     border: none;
   }
 }
