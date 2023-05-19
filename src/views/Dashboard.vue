@@ -1,5 +1,5 @@
 <template>
-  <InstantWinsSection />
+  <InstantWinsSection :is-dashboard="true" />
   <AchievementsSection v-if="isClientConnected" :is-dashboard="true" />
   <CurrentTournamentsSection v-if="isClientConnected" :is-dashboard="true" />
 </template>

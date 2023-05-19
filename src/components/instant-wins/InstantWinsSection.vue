@@ -1,7 +1,7 @@
 <template>
   <div class="section">
-    <div class="section-header">
-      <h2 class="section-title">Instant wins</h2>
+    <div class="section-header" >
+      <h2 class="section-title" v-if="isDashboard">Instant wins</h2>
     </div>
     <div class="instant-cards-grid">
       <InstantWins :img="singleWheelImg" :title="singleWheelTitle" :description="description" />
@@ -18,6 +18,13 @@ import scratchcardsImg from '@/assets/images/instant-wins/scratchcards.png'
 const singleWheelTitle = 'The Single Wheel'
 const scratchcardsTitle = 'Scratchcards'
 const description = 'Short description about this instant wins'
+
+const props = defineProps({
+  isDashboard: {
+    type: Boolean,
+    default: false
+  }
+})
 
 
 </script>
