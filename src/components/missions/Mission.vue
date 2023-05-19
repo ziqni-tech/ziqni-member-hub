@@ -2,7 +2,7 @@
   <div class="m-card">
     <div class="m-card-image">
       <img :src="missionImage" alt="">
-      <div class="expires-in">{{ countdownResult }}</div>
+      <div class="expires-in">{{ date }}</div>
     </div>
     <div class="m-info">
       <h3 class="mission-name"> {{ missionItem.name }} </h3>
@@ -29,6 +29,7 @@
 import { useRouter } from 'vue-router';
 import { useCountdown } from '@/hooks/useCountdown';
 import missionImage from '@/assets/images/missions/mission.png';
+import { ref, watch } from 'vue';
 
 const props = defineProps({
   mission: Object
@@ -36,6 +37,15 @@ const props = defineProps({
 const missionItem = props.mission;
 
 const countdownResult = useCountdown(missionItem.scheduling.endDate);
+
+const date = ref('');
+
+watch(countdownResult, (value) => {
+  if (value) {
+    const { days, hours, minutes, seconds, expired } = value;
+    date.value = `${ days }d ${ hours }h ${ minutes }m ${ seconds }s`;
+  }
+}, { immediate: true });
 
 const router = useRouter();
 const goToMissionDetailsPage = () => {

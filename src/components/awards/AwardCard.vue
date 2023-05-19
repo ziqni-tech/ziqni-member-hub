@@ -1,6 +1,6 @@
 <template>
   <div class="award">
-    <span class="award__expires-in">Expires in {{ countdownResult }}</span>
+    <span class="award__expires-in">Expires in {{ date }}</span>
     <div class="award__icon">
       <img src="../../assets/icons/awards/bottle.png" alt="">
     </div>
@@ -16,9 +16,19 @@
 
 <script setup>
 
-import { useCountdown } from '../../hooks/useCountdown';
+import { useCountdown } from '@/hooks/useCountdown';
+import { ref, watch } from 'vue';
 
 const countdownResult = useCountdown();
+
+const date = ref('');
+
+watch(countdownResult, (value) => {
+  if (value) {
+    const { days, hours, minutes, seconds, expired } = value;
+    date.value = `${ days }d ${ hours }h ${ minutes }m ${ seconds }s`;
+  }
+}, { immediate: true });
 
 </script>
 

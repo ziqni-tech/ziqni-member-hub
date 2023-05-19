@@ -7,22 +7,31 @@
       {{ label }}
     </div>
     <div class="value">
-      {{ isDate ? countdownResult : value }}
+      {{ isDate ? date : value }}
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref, watch } from 'vue';
+
 const props = defineProps({
   icon: String,
   label: String,
   value: String,
   isDate: Boolean
-})
+});
 import { useCountdown } from '@/hooks/useCountdown';
 
 const countdownResult = useCountdown(props.value);
+const date = ref('');
 
+watch(countdownResult, (value) => {
+  if (value) {
+    const { days, hours, minutes, seconds, expired } = value;
+    date.value = `${ days }d ${ hours }h ${ minutes }m ${ seconds }s`;
+  }
+});
 </script>
 
 <style lang="scss">

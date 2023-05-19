@@ -5,18 +5,18 @@
         <h2 class="section-title">{{ sectionTitle }}</h2>
         <p v-if="!isDashboard" class="section-description">List of daily achievements that refresh every day.</p>
       </div>
-      <div class="until-the-next-day">
+      <div class="until-the-next-day" v-if="!isDashboard">
         <img :src="expiresInIcon" alt="">
-        {{ countdownResult }} left
+        {{ countdownResult.hours }}h {{ countdownResult.minutes }}m left
       </div>
     </div>
     <div :class="isDashboard ? 'achievements-dashboard-cards-grid' : 'achievements-cards-grid'">
       <div v-for="achievement in achievementsData" :key="achievement.id">
         <AchievementsCard
-          :key="achievement.id"
-          :achievement="achievement"
-          @joinAchievement="joinAchievement"
-          @leaveAchievement="leaveAchievement"
+            :key="achievement.id"
+            :achievement="achievement"
+            @joinAchievement="joinAchievement"
+            @leaveAchievement="leaveAchievement"
         />
       </div>
     </div>
@@ -66,12 +66,13 @@ const getNextDayStart = () => {
 
 const nextDayStart = getNextDayStart();
 
-const countdownResult = useCountdown(nextDayStart, true);
+const countdownResult = useCountdown(nextDayStart);
+
 
 watch(() => store.getters.getAchievements, (newValue) => {
   achievementsData.value = props.isDashboard
-    ? newValue.slice(0, 2)
-    : newValue;
+      ? newValue.slice(0, 2)
+      : newValue;
 }, { immediate: true });
 
 const totalRecords = computed(() => store.getters.getAchievementsTotal);
@@ -208,6 +209,28 @@ const leaveAchievement = async ({ id, name }) => {
   & > img {
     margin-right: 8px;
   }
+}
+
+.achievements-tabs {
+  width: 400px;
+  display: flex;
+  align-items: center;
+  background-color: $light-grey;
+  border-radius: $border-radius;
+  margin: 0 auto;
+}
+
+.nav-pills .nav-link {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $main-text-color-white;
+  cursor: pointer;
+}
+
+.nav-pills .nav-link.active {
+  background-color: $purple;
 }
 
 .achievements-dashboard-cards-grid {
