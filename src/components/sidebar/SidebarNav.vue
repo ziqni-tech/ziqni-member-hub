@@ -51,6 +51,7 @@ const props = defineProps({ navItems: Array });
     .icon {
       width: inherit;
       height: inherit;
+      fill: none;
     }
   }
 

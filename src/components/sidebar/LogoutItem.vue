@@ -36,6 +36,7 @@ const handleLogout = () => {
     .icon {
       width: inherit;
       height: inherit;
+      fill: none;
     }
   }
 
