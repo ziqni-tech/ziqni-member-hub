@@ -1,16 +1,15 @@
 <template>
   <div class="award">
-    <span class="award__expires-in">Expires in {{ date }}</span>
     <div class="award__icon">
       <img src="../../assets/icons/awards/bottle.png" alt="">
     </div>
-    <h3 class="award__name">Name of award</h3>
-    <h5 class="award__type">Type of reward</h5>
+    <h3 class="award__name">{{ award.name }}</h3>
+    <h5 class="award__type">{{ award.rewardType.key }}</h5>
     <div class="award__btn prize">
       <img src="../../assets/icons/achievements/diamond.png" alt="">
-      1000
+      {{ award.rewardValue }}
     </div>
-    <button class="award__btn claim-button">Claim</button>
+    <button class="award__btn claim-button" v-if="!award.claimed">Claim</button>
   </div>
 </template>
 
@@ -22,6 +21,13 @@ import { ref, watch } from 'vue';
 const countdownResult = useCountdown();
 
 const date = ref('');
+
+const props = defineProps({
+  award: {
+    type: Object,
+    required: true
+  }
+})
 
 watch(countdownResult, (value) => {
   if (value) {
