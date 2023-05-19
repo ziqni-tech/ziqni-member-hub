@@ -1,13 +1,31 @@
 <template>
   <div class="section">
+    <CNav variant="pills" layout="fill" class="achievements-tabs">
+      <CNavLink
+          :active="activeTabKey === 'daily'"
+          @click="() => updateActiveTab('daily')"
+      >
+        Daily
+      </CNavLink>
+      <CNavLink
+          :active="activeTabKey === 'weekly'"
+          @click="() => updateActiveTab('weekly')"
+      >
+        Weekly
+      </CNavLink>
+    </CNav>
     <div class="section-header">
       <div>
-        <h2 class="section-title">{{ sectionTitle }}</h2>
-        <p v-if="!isDashboard" class="section-description">List of daily achievements that refresh every day.</p>
+        <h2 class="section-title">
+          {{ isDashboard ? 'Achievements' : achievementsTitles[activeTabKey] }}
+        </h2>
+        <p v-if="!isDashboard" class="section-description">
+          {{ descriptions[activeTabKey] }}
+        </p>
       </div>
       <div class="until-the-next-day" v-if="!isDashboard">
         <img :src="expiresInIcon" alt="">
-        {{ countdownResult.hours }}h {{ countdownResult.minutes }}m left
+        {{ activeTabKey === 'daily' ? dailyTimeLeft : weeklyTimeLeft }} left
       </div>
     </div>
     <div :class="isDashboard ? 'achievements-dashboard-cards-grid' : 'achievements-cards-grid'">
@@ -34,6 +52,7 @@ import {
   OptInApiWs,
   OptInStatesRequest
 } from '@ziqni-tech/member-api-client';
+import { CNav, CNavLink } from '@coreui/vue';
 
 import { useCountdown } from '@/hooks/useCountdown';
 import AchievementsCard from './AchievementsCard';
@@ -53,8 +72,24 @@ const limit = ref(20);
 const skip = ref(0);
 const isLoading = ref(false);
 const achievements = ref([]);
+const activeTabKey = ref('daily');
 
-const sectionTitle = props.isDashboard ? 'Achievements' : 'Daily achievements';
+const descriptions = {
+  daily: 'List of daily achievements that refresh every day.',
+  weekly: 'List of weekly achievements that refresh every week.'
+};
+
+const achievementsTitles = {
+  daily: 'Daily achievements',
+  weekly: 'Weekly achievements'
+};
+
+const updateActiveTab = (val) => {
+  activeTabKey.value = val;
+};
+
+// daily
+const dailyTimeLeft = ref('');
 
 const getNextDayStart = () => {
   const currentDate = new Date();
@@ -65,8 +100,41 @@ const getNextDayStart = () => {
 };
 
 const nextDayStart = getNextDayStart();
+const dailyCountdownResult = useCountdown(nextDayStart);
 
-const countdownResult = useCountdown(nextDayStart);
+watch(dailyCountdownResult, value => {
+  if (value) {
+    const { hours, minutes } = dailyCountdownResult;
+    return dailyTimeLeft.value = `${ hours }h ${ minutes }m`;
+  }
+
+}, { immediate: true });
+
+// weekly
+const weeklyTimeLeft = ref('');
+
+const getNextWeekStart = () => {
+  const now = new Date();
+  const dayOfWeek = now.getDay();
+  const startOfWeek = new Date(now);
+  const daysToNextMonday = 8 - dayOfWeek;
+
+  startOfWeek.setDate(now.getDate() + daysToNextMonday);
+  startOfWeek.setHours(0, 0, 0, 0);
+
+  return startOfWeek;
+};
+
+const nextWeekStart = getNextWeekStart();
+const weeklyCountdownResult = useCountdown(nextWeekStart);
+
+watch(weeklyCountdownResult, value => {
+  if (value) {
+    const { days, hours, minutes } = weeklyCountdownResult;
+    weeklyTimeLeft.value = `${ days }d ${ hours }h ${ minutes }m`;
+  }
+
+}, { immediate: true });
 
 
 watch(() => store.getters.getAchievements, (newValue) => {
