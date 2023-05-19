@@ -9,7 +9,7 @@ export const useCountdown = (targetDate) => {
     seconds: 0,
     expired: ''
   });
-  console.warn('targetDate', targetDate);
+
   const updateCountdown = () => {
     const currentTime = new Date().getTime();
     const timeDifference = targetTime - currentTime;
@@ -36,7 +36,7 @@ export const useCountdown = (targetDate) => {
   onBeforeUnmount(() => {
     clearInterval(countdownInterval);
   });
-  console.warn('remainingTimeObj', remainingTimeObj);
+
   return remainingTimeObj;
 };
 

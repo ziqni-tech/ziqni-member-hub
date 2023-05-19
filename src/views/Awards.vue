@@ -1,27 +1,44 @@
 <template>
-  <div class="awards-cards-grid">
-    <div v-for="awards in 8">
-      <AwardCard />
-    </div>
-  </div>
+  <CNav variant="pills" layout="fill" class="achievements-tabs">
+    <CNavLink
+        :active="activeTabKey === 'available'"
+        @click="() => updateActiveTab('available')"
+    >
+      available
+    </CNavLink>
+    <CNavLink
+        :active="activeTabKey === 'claimed'"
+        @click="() => updateActiveTab('claimed')"
+    >
+      claimed
+    </CNavLink>
+    <CNavLink
+        :active="activeTabKey === 'instantWins'"
+        @click="() => updateActiveTab('instantWins')"
+    >
+      Instant wins
+    </CNavLink>
+  </CNav>
+  <AvailableAwardsSection v-if="activeTabKey === 'available'" />
+  <ClaimedAwardsSection v-if="activeTabKey === 'claimed'" />
+  <InstantWinsSection v-if="activeTabKey === 'instantWins'" />
 </template>
 
 <script setup>
-import AchievementsList from '../components/achievements/AchievementsList';
-import { useGetAchievements } from '../hooks/useGetAchievements';
-import AwardCard from '../components/awards/AwardCard';
+import { ref } from 'vue';
+import { CNav, CNavLink } from '@coreui/vue';
+import AvailableAwardsSection from '@/components/awards/AvailableAwardsSection.vue';
+import ClaimedAwardsSection from '@/components/awards/ClaimedAwardsSection.vue';
+import InstantWinsSection from '@/components/instant-wins/InstantWinsSection.vue';
 
-const { achievements, getAchievementsRequest } = useGetAchievements();
+const activeTabKey = ref('available')
 
-getAchievementsRequest();
+const updateActiveTab = (val) => {
+  activeTabKey.value = val;
+};
 
 </script>
 
 <style lang="scss" scoped>
-.awards-cards-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  width: 100%;
-  grid-gap: 15px;
-}
+
 </style>
