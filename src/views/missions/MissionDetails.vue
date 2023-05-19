@@ -1,9 +1,5 @@
 <template>
   <div v-if="isLoaded" class="wrapper">
-    <div class="header">
-      <h1 class="title">{{ mission.name }}</h1>
-<!--      <img class="share-icon" :src="shareIcon" alt=""/>-->
-    </div>
     <MissionDetailsCard :mission="mission" @joinMission="joinMission" @leaveMission="leaveMission"/>
     <div class="graph-wrapper">
       <v-network-graph
@@ -29,7 +25,6 @@
 import { onBeforeMount, ref, reactive, watch } from 'vue';
 import dagre from 'dagre/dist/dagre.min.js';
 
-// import shareIcon from '../../assets/icons/share-icon.svg';
 import MissionDetailsCard from '../../components/missions/MissionDetailsCard';
 
 import {
@@ -55,8 +50,8 @@ const configs = defineConfigs({
     // panEnabled: false
   },
   node: {
-    normal: { radius: nodeSize / 2, color: '#3da1d2' },
-    label: { direction: 'south', color: '#3da1d2' },
+    normal: { radius: nodeSize / 2, color: '#8749DC' },
+    label: { direction: 'south', color: '#FDFDFF' },
   },
   edge: {
     normal: {
@@ -64,7 +59,7 @@ const configs = defineConfigs({
       width: 3,
     },
     label: {
-      color: '#3da1d2'
+      color: '#7781A8'
     },
     margin: 4,
     marker: {
@@ -109,7 +104,7 @@ const getMissionRequest = async () => {
         },
       ],
       skip: 0,
-      limit: 20,
+      limit: 1,
       statusCode: {
         moreThan: 20,
         lessThan: 30
@@ -118,7 +113,7 @@ const getMissionRequest = async () => {
     },
   }, null);
 
-  await achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
+  achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
     mission.value = res.data[0];
     console.warn('MISSION', res.data[0]);
     isLoaded.value = true;
@@ -171,7 +166,7 @@ const getAchievementOrder = (nodes, edges) => {
       let color;
       switch (edge.graphEdgeType) {
         case 'MUST': {
-          color = '#1ECE30';
+          color = '#6FCF97';
           break;
         }
         case 'SHOULD': {
@@ -179,7 +174,7 @@ const getAchievementOrder = (nodes, edges) => {
           break;
         }
         case 'MUST-NOT': {
-          color = '#CE624B';
+          color = '#EB5757';
           break;
         }
       }
@@ -196,7 +191,7 @@ const getAchievementOrder = (nodes, edges) => {
     nodesResult[node.name] = { name: node.name };
   }
   const selectedNode = nodes.find(n => n.entityId === route.params.id).name;
-  selectedNodes.value.push(selectedNode);
+  // selectedNodes.value.push(selectedNode);
 
   return { edgesResult, nodesResult };
 };
@@ -317,7 +312,7 @@ const leaveMission = async () => {
 
 <style lang="scss">
 .graph-wrapper {
-  height: 700px;
+  height: 600px;
 
   .graph {
     width: 100%;
