@@ -4,15 +4,22 @@
       <AwardCard :award="award" />
     </div>
   </div>
+  <Pagination :current-page="currentPage" :total-pages="100" @pageChang="pageChang" />
 </template>
 
 <script setup>
 import { ApiClientStomp, AwardRequest, AwardsApiWs } from '@ziqni-tech/member-api-client';
 import AwardCard from '@/components/awards/AwardCard.vue';
 import { ref } from 'vue';
+import Pagination from '@/shared/components/Pagination.vue';
 
 const awards = ref([]);
 const isLoaded = ref(false);
+const currentPage = ref(1)
+
+const pageChang = (pageNumber) => {
+  currentPage.value = pageNumber
+}
 
 const availableAwardsRequest = AwardRequest.constructFromObject({
   awardFilter: {
