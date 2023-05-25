@@ -6,7 +6,7 @@
     <div class="instant-info">
       <h3 class="card-title">{{ title }}</h3>
       <span class="card-description">{{ description }}</span>
-      <button class="play-btn">Play</button>
+      <button class="play-btn" @click="play">Play</button>
     </div>
   </div>
 </template>
@@ -17,6 +17,11 @@ const props = defineProps({
   description: String,
   img: String
 });
+
+const emit = defineEmits(['play'])
+const play = () => {
+  emit('play')
+}
 </script>
 
 <style lang="scss">
