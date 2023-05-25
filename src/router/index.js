@@ -36,7 +36,7 @@ const routes = [
             component: () => import('@/views/tournaments/TournamentDetails'),
           },
           {
-            path: '/calendar',
+            path: '/tournaments/calendar',
             name: 'Calendar',
             component: () => import('@/views/tournaments/TornamentsCalendar'),
           },
@@ -73,11 +73,23 @@ const routes = [
         path: 'awards',
         name: 'Awards',
         component: () => import('@/layouts/DefaultLayout'),
-        children: [{
-          path: '',
-          name: 'Awards',
-          component: () => import('@/views/Awards'),
-        }]
+        children: [
+          {
+            path: '',
+            name: 'Awards',
+            component: () => import('@/views/awards/Awards'),
+          },
+          {
+            path: '/awards/single-wheel',
+            name: 'SingleWheel',
+            component: () => import('@/views/awards/SingleWheel')
+          },
+          {
+            path: '/awards/scratch-cards',
+            name: 'Scratchcards',
+            component: () => import('@/views/awards/Scratchcards')
+          }
+        ]
       },
       {
         path: 'messages',
