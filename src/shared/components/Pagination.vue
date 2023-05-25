@@ -34,11 +34,11 @@ const props = defineProps({
   currentPage: Number,
 });
 
-const emit = defineEmits(['pageChang']);
+const emit = defineEmits(['pageChange']);
 
 const pageNumbers = computed(() => {
   const { totalPages, currentPage } = props;
-  const maxVisiblePages = 7;
+  const maxVisiblePages = 5;
   const pageOffset = Math.floor(maxVisiblePages / 2);
   const pageNumbers = [];
 
@@ -76,19 +76,19 @@ const pageNumbers = computed(() => {
 
 function prevPage() {
   if (props.currentPage > 1) {
-    emit('pageChang', props.currentPage - 1);
+    emit('pageChange', props.currentPage - 1);
   }
 }
 
 function nextPage() {
   if (props.currentPage < props.totalPages) {
-    emit('pageChang', props.currentPage + 1);
+    emit('pageChange', props.currentPage + 1);
   }
 }
 
 function changePage(pageNumber) {
   if (pageNumber !== props.currentPage) {
-    emit('pageChang', pageNumber);
+    emit('pageChange', pageNumber);
   }
 }
 </script>
@@ -99,20 +99,22 @@ function changePage(pageNumber) {
 .table-pagination {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   width: 100%;
+  margin-top: auto;
+  padding-bottom: 15px;
 
   .page-item {
     margin: 0 3px;
     border: 1px solid #333333;
-    width: 30px;
-    height: 30px;
+    width: 55px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: $main-text-color-white;
     border-radius: $border-radius-sm;
     background-color: $light-grey;
-
   }
 
   .active {
