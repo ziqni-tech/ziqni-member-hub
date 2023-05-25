@@ -3,7 +3,7 @@
     <table>
       <thead class="sticky-header">
       <tr>
-        <th>rank</th>
+        <th class="rank">rank</th>
         <th>name</th>
         <th>Points</th>
         <th>Prize</th>
@@ -15,9 +15,7 @@
           :key="index"
           :class="{ 'active': isCurrentUser(leader), 'sticky-row': index < 3 }"
       >
-        <td class="rank" >
-          {{leader.rank}}
-        </td>
+        <td class="rank" v-html="setPlace(leader.rank)"></td>
         <td>
         <span v-for="member in leader?.members">
             <img class="avatar" src="../../assets/images/user/avatar.png" alt="">
@@ -108,6 +106,13 @@ table {
     padding-bottom: 15px;
   }
 
+  th.rank {
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .avatar {
     width: 24px;
     height: 24px;
@@ -118,6 +123,7 @@ table {
   tbody {
     height: auto;
     overflow: hidden;
+
     tr {
       display: table-row;
       height: auto;
@@ -170,6 +176,10 @@ table {
     }
 
     .rank {
+      width: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-weight: 700;
       font-size: 14px;
       line-height: 17px;
