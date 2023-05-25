@@ -3,7 +3,7 @@
     <div
         class="go-back"
         @click="$router.go(-1)"
-        v-if="$router.currentRoute.value.params.id || $router.currentRoute.value.path === '/calendar'"
+        v-if="isGoBackBtn"
     >
       <img src="../assets/icons/back_arrow.png" alt="">
     </div>
@@ -23,13 +23,22 @@
 </template>
 
 <script setup>
-import notificationIcon from '@/assets/icons/user-info/notification.png';
-import sunIcon from '@/assets/icons/user-info/sun.png';
 import { useStore } from 'vuex';
 import { computed } from 'vue';
+import { useRouter } from 'vue-router';
+
+import notificationIcon from '@/assets/icons/user-info/notification.png';
+import sunIcon from '@/assets/icons/user-info/sun.png';
 
 const store = useStore();
 const member = computed(() => store.getters.getMember);
+
+const router = useRouter();
+const isGoBackBtn = computed(() => {
+  const pathLength = router.currentRoute.value.path.split('/').length;
+
+  return !!(router.currentRoute.value.params.id || pathLength > 2);
+});
 
 </script>
 
