@@ -316,7 +316,7 @@ const createWheel = () => {
   createBorderCircle();
   // Add img
   if (props.imgParams) {
-    addImgOnCenter();
+    // addImgOnCenter();
   }
   // create arrow
   createArrow();

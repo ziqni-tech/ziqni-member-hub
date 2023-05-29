@@ -8,14 +8,28 @@
       @done="done"
   />
   <button class="spin-btn" @click="launchWheel">spin</button>
+  <AwardsModal
+      :modalShow="isShowModal"
+      :message="message"
+      :title="titleMessage"
+      :btnLabel="btnTitle"
+      @doFunction="isWinner ? claim() : closeModal()"
+      v-on:toggle-modal="isShowModal = false"
+  />
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import WheelOfFortune from '@/components/awards/WheelOfFortune.vue';
+import AwardsModal from '@/components/awards/AwardsModal.vue';
 
 const wheel = ref(null);
 const gift = ref(0);
+
+const titleMessage = ref('');
+const message = ref('');
+const btnTitle = ref('');
+const isWinner = ref(false);
 
 const data = ref([
   {
@@ -62,6 +76,8 @@ const data = ref([
   },
 ]);
 
+const isShowModal = ref(false);
+
 const launchWheel = () => {
   const randomIndex = Math.floor(Math.random() * data.value.length);
   gift.value = randomIndex + 1;
@@ -71,13 +87,36 @@ const launchWheel = () => {
   }, 100);
 };
 const done = (r) => {
-  alert(`Win ${ r.value }`);
+  if (r.value !== 'Next time') {
+    titleMessage.value = 'Congratulations!';
+    message.value = `You won ${ r.value }`;
+    btnTitle.value = 'Claim';
+    isWinner.value = true;
+  } else {
+    titleMessage.value = 'Didn\'t win this time!';
+    message.value = `Wishing you better luck in the future`;
+    btnTitle.value = 'Return';
+    isWinner.value = false;
+  }
+
+  isShowModal.value = true;
+};
+
+const claim = () => {
+  console.warn('CLAIM');
+  isShowModal.value = false;
+};
+
+const closeModal = () => {
+  console.warn('RETURN');
+  isShowModal.value = false;
 };
 
 </script>
 
 <style scoped lang="scss">
 @import '@/assets/scss/_variables';
+
 .page-title {
   font-weight: 700;
   font-size: 24px;
