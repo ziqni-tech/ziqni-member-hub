@@ -46,17 +46,6 @@ const doFunction = () => {
 .modal-footer, .modal-header {
   border: none;
 }
-.modal-footer .btn {
-  margin: auto;
-}
-.c-modal-dialog {
-  margin-left: 57%;
-}
-
-.modal-dialog-centered {
-  position: absolute;
-  left: 7%
-}
 
 .modal-content {
   background-color: $light-grey;
@@ -81,7 +70,7 @@ const doFunction = () => {
 
 
   .confirm-btn {
-    margin: auto;
+    margin: 20px auto;
     background-color: $purple;
     color: $main-text-color-white;
     border: none;
