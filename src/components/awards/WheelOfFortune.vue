@@ -144,33 +144,6 @@ const createVis = () => {
       .padAngle(0.01)
       .sort(null);
 };
-const imageSize = 100
-
-const addImage = () => {
-  const arc = d3.arc().innerRadius(0).outerRadius(rayon.value)
-  vis.value
-      .selectAll('.middleArcText')
-      .data(pie.value(props.modelValue))
-      .enter()
-      .append('svg:image')
-      .attr('class', 'item-image')
-      .attr('dy', (d) => {
-        return d.endAngle > (90 * Math.PI) / 180 ? -35 : 42;
-      })
-      .attr('x', (d) => {
-        const [x, y] = arc.centroid(d)
-        return x - imageSize / 2
-      })
-      .attr('y', (d) => {
-        const [x, y] = arc.centroid(d)
-        return y - imageSize / 2
-      })
-      .attr('width', imageSize)
-      .attr('height', imageSize)
-      .attr('xlink:href', (d) => {
-        return d.data.image
-      })
-}
 
 const createArc = () => {
   const arc = d3.arc().outerRadius(rayon.value).innerRadius(0);
@@ -238,6 +211,40 @@ const addText = () => {
       });
 };
 
+const imageSize = 100;
+
+const addImage = () => {
+  const arc = d3.arc().innerRadius(0).outerRadius(rayon.value)
+
+  vis.value
+      .selectAll('.middleArcText')
+      .data(pie.value(props.modelValue))
+      .enter()
+      .append('svg:image')
+      .attr('class', 'item-image')
+      .attr('transform', (d) => {
+        const [x,y] = arc.centroid(d)
+        const rotationAngle = d.endAngle > (90 * Math.PI) / 180 ? -35 : 42
+
+        return `rotate(${rotationAngle}, ${x}, ${y})`
+
+      })
+      .attr('x', (d) => {
+        const [x, y] = arc.centroid(d)
+        return x - imageSize / 2
+      })
+      .attr('y', (d) => {
+        const [x, y] = arc.centroid(d)
+        return y - imageSize / 2
+      })
+      .attr('width', imageSize)
+      .attr('height', imageSize)
+      .attr('xlink:href', (d) => {
+        return d.data.image
+      })
+
+}
+
 const createMiddleCircle = () => {
   container.value
       .append('circle')
@@ -260,7 +267,7 @@ const createBorderCircle = () => {
       .attr('stroke-width', '8')
       .attr('filter', 'url(#shadow)')
       .attr('stroke', '#8749DC') // main circle border color
-      .style('box-shadow', '0px 2px 17px rgba(64, 106, 140, 0.82)') // box-shadow ?
+      .attr('box-shadow', '0px 2px 17px rgba(64, 106, 140, 0.82)') // box-shadow ?
 };
 
 const addImgOnCenter = () => {
