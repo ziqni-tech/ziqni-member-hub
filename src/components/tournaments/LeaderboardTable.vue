@@ -17,10 +17,12 @@
       >
         <td class="rank" v-html="setPlace(leader.rank)"></td>
         <td>
-        <span v-for="member in leader?.members">
-            <img class="avatar" src="../../assets/images/user/avatar.png" alt="">
-            {{ memberName(member) }}
-          </span>
+          <div class="members">
+            <span v-for="member in leader?.members" class="member">
+              <img class="avatar" src="../../assets/images/user/avatar.png" alt="">
+              {{ memberName(member) }}
+            </span>
+          </div>
         </td>
         <td>{{ leader.score }}</td>
         <td>2000</td>
@@ -173,6 +175,16 @@ table {
       vertical-align: middle;
       text-align: start;
       padding: 8px 0;
+
+      .members {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        .member {
+          margin: 3px 0;
+        }
+      }
     }
 
     .rank {
