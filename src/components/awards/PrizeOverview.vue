@@ -6,10 +6,10 @@
       <div class="prize">
         <img :src="prize" alt="prize">
       </div>
-
       <span class="prize-name">{{ prizeName(idx) }} prize</span>
     </div>
   </div>
+  <button class="scratch-all-btn">Scratch all</button>
 </div>
 </template>
 
@@ -89,6 +89,23 @@ const prizeName = computed(() => (idx) => {
         text-transform: capitalize;
       }
     }
+  }
+
+  .scratch-all-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 57px;
+    background-color: $purple;
+    border-radius: $border-radius;
+    border: none;
+    margin-top: 50px;
+
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 17px;
+    color: $main-text-color-white;
   }
 }
 </style>
