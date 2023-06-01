@@ -1,10 +1,7 @@
 <template>
   <div class="page-content">
     <h1 class="page-title">Scratchcards</h1>
-    <div class="scratch-cards">
-      <Scratchcards :prizes="images" class="scratch-cards-block" />
-      <PrizeOverview :prizes="images" class="prize-overview-block" />
-    </div>
+    <Scratchcards :prizes="images" class="scratch-cards-block" />
   </div>
 </template>
 
@@ -45,20 +42,6 @@ const images = [
     line-height: 17px;
     color: $body-text-color;
     padding-top: 10px;
-  }
-
-  .scratch-cards {
-    display: flex;
-    margin-top: 50px;
-
-    .scratch-cards-block {
-      margin-right: 50px;
-    }
-
-    .prize-overview-block {
-      margin-left: 50px;
-    }
-
   }
 }
 </style>

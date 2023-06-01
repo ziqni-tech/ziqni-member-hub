@@ -1,23 +1,22 @@
 <template>
-  <div>
-    <div v-for="(row, rowIndex) in grid" :key="rowIndex" class="row">
-      <div v-for="(cell, colIndex) in row" :key="colIndex" class="cell" @click="scratchCell(rowIndex, colIndex)">
-<!--        <ScratchCardsItem :img="cell.image" />-->
-<!--        <div class="scratch-container">-->
-<!--          <img :src="cell.image" alt="Prize Image" class="image" />-->
-<!--        </div>-->
-<!--        <canvas class="scratch-card" width="80px" height="80px"></canvas>-->
-        <img v-if="cell.scratched" :src="cell.image" alt="Prize Image" class="image" />
-        <div v-else class="cover">?</div>
+  <div class="scratch-cards">
+    <div class="scratch-cards-block">
+      <div v-for="(row, rowIndex) in grid" :key="rowIndex" class="scratch-cards-row">
+        <div v-for="(cell, colIndex) in row" :key="colIndex" class="cell">
+          <ScratchCardsItem ref="scratchCardsItemRef" :img="cell.image" />
+        </div>
       </div>
+      <button @click="scratchAll" >clear</button>
+      <div v-if="hasPrize" class="prize">Congratulations! You won a prize!</div>
     </div>
-    <div v-if="hasPrize" class="prize">Congratulations! You won a prize!</div>
+    <PrizeOverview :prizes="prizes" class="prize-overview-block" />
   </div>
 </template>
 
 <script setup>
 import { ref, reactive, computed } from 'vue';
 import ScratchCardsItem from '@/components/awards/ScratchCardsItem.vue';
+import PrizeOverview from '@/components/awards/PrizeOverview.vue';
 
 const props = defineProps({
   prizes: Array
@@ -25,6 +24,8 @@ const props = defineProps({
 
 const grid = reactive(createGrid());
 const scratchedCells = ref(0);
+
+const scratchCardsItemRef = ref(null)
 
 const hasPrize = computed(() => scratchedCells.value > 2);
 
@@ -44,72 +45,46 @@ function getRandomImage() {
   return props.prizes[Math.floor(Math.random() * props.prizes.length)];
 }
 
-function scratchCell(rowIndex, colIndex) {
-  const cell = grid[rowIndex][colIndex];
-  if (!cell.scratched) {
-    cell.scratched = true;
-    scratchedCells.value++;
-  }
+const scratchAll = () => {
+  const scratchCardsItem = scratchCardsItemRef.value
+  console.warn('scratchCardsItemRef', scratchCardsItem);
+  scratchCardsItemRef.value.autoScratching();
 }
+
 </script>
 
 <style scoped lang="scss">
 @import '@/assets/scss/_variables';
-.row {
+.scratch-cards {
   display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
+  margin-top: 50px;
+
+  .scratch-cards-block {
+    margin-right: 50px;
+
+    .scratch-cards-row{
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 80px;
+      height: 80px;
+      margin: 0 10px;
+      border: 1px solid #406A8C;
+      box-shadow: 0 2px 12px rgba(64, 106, 140, 0.5);
+      border-radius: $border-radius;
+      overflow: hidden;
+    }
+  }
+
+  .prize-overview-block {
+    margin-left: 50px;
+  }
 }
 
-.cell {
-  position: relative;
-  width: 80px;
-  height: 80px;
-  margin: 0 10px;
-  border: 1px solid #406A8C;
-  box-shadow: 0 2px 12px rgba(64, 106, 140, 0.5);
-  border-radius: $border-radius;
-  overflow: hidden;
-}
-
-//.scratch-card {
-//  border: 1px solid red;
-//  position: absolute;
-//  top: 0;
-//  left: 0;
-//  width: 100%;
-//  height: 100%;
-//  -webkit-tap-highlight-color: transparent;
-//  -webkit-touch-callout: none;
-//  -webkit-user-select: none;
-//  user-select: none;
-//}
-
-.cover {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: $light-grey;
-  border-radius: $border-radius;
-  font-weight: 700;
-  font-size: 40px;
-  line-height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.prize {
-  margin-top: 10px;
-  font-weight: bold;
-  text-align: center;
-}
 </style>
