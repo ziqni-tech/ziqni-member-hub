@@ -14,9 +14,10 @@ import secondPrize from '@/assets/images/instant-wins/second_prize.png'
 import thirdPrize from '@/assets/images/instant-wins/third_prize.png'
 
 const images = [
-  firstPrize,
-  secondPrize,
-  thirdPrize
+  {prize: 'first prize', image: firstPrize},
+  {prize: 'second prize', image: secondPrize},
+  {prize: 'third prize', image: thirdPrize},
+
 ];
 
 </script>
