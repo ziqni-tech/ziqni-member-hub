@@ -1,6 +1,6 @@
 <template>
   <div class="section">
-    <CNav variant="pills" layout="fill" class="achievements-tabs">
+    <CNav variant="pills" layout="fill" class="achievements-tabs" v-if="!isDashboard">
       <CNavLink
           :active="activeTabKey === 'daily'"
           @click="() => updateActiveTab('daily')"
