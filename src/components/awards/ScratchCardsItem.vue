@@ -15,18 +15,28 @@
 </template>
 
 <script setup>
-import { onMounted, onUpdated, reactive, ref } from 'vue';
+import { computed, onMounted, onUpdated, reactive, ref, watch } from 'vue';
 import { useMouse } from '@vueuse/core';
+import { useStore } from 'vuex';
+
+import cursorImgSrc from '@/assets/images/instant-wins/coin.png'
 
 const props = defineProps({
-  img: String,
+  img: String
 });
+
+const emit = defineEmits(['scratched'])
+
+const store = useStore();
+
+const isAutoScratchAll = computed(() => store.getters.getIsScratchAll);
 
 const height = ref(80);
 const width = ref(80);
 const position = ref(1);
 const canvasRef = ref(null);
 const scratchText = ref('?');
+const isScratched = ref(false)
 
 const mouse = reactive(useMouse());
 
@@ -41,26 +51,28 @@ onUpdated(() => {
 const initCanvas = () => {
   const canvas = canvasRef.value;
   const ctx = canvas.getContext('2d',);
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = '#1A202C';
 
-  if (position.value === 1) {
-    ctx.fillRect(0, 0, height.value, width.value);
-    ctx.fillStyle = '#BEE9F3';
-    ctx.canvas.style.opacity = 1;
+  if (isAutoScratchAll.value !== true) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#1A202C';
 
-    // font size
-    const fontSize = 40;
-    ctx.font = `${ fontSize }px Syne`;
+    if (position.value === 1) {
+      ctx.fillRect(0, 0, height.value, width.value);
+      ctx.fillStyle = '#BEE9F3';
+      ctx.canvas.style.opacity = 1;
 
-    // text position
-    const textWidth = ctx.measureText(scratchText.value).width;
-    const textX = (width.value - textWidth) / 2;
-    const textY = (height.value + fontSize) / 2;
+      // font size
+      const fontSize = 40;
+      ctx.font = `${ fontSize }px Syne`;
 
-    ctx.fillText(scratchText.value, textX, textY);
+      // text position
+      const textWidth = ctx.measureText(scratchText.value).width;
+      const textX = (width.value - textWidth) / 2;
+      const textY = (height.value + fontSize) / 2;
+
+      ctx.fillText(scratchText.value, textX, textY);
+    }
   }
-
 };
 
 const autoScratching = () => {
@@ -68,7 +80,6 @@ const autoScratching = () => {
   const ctx = canvas.getContext('2d',);
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
 };
 
 const scratching = () => {
@@ -120,6 +131,7 @@ const getFilledPercentage = (ctx) => {
   if (n >= pixels.length * 0.7) {
     ctx.globalCompositeOperation = 'destination-over';
     fadeOut(ctx);
+    isScratched.value = true
   }
 };
 
@@ -133,6 +145,13 @@ const fadeOut = (ctx) => {
     }
   }, 50);
 };
+
+const setCursorImage = () => {
+  if (!isScratched.value) {
+    const canvas = canvasRef.value;
+    canvas.style.cursor = `url(${cursorImgSrc}), auto`
+  }
+}
 
 let isDraw = false;
 const canvasDraw = () => {
@@ -156,10 +175,14 @@ const touchMove = (e) => {
   }
 };
 
-// setTimeout(() => {
-//   console.log('autoScratching');
-//   autoScratching()
-// }, 10000);
+watch(isAutoScratchAll, (value) => {
+  if (value) autoScratching();
+});
+
+watch(isScratched, (value) => {
+  if (value) emit('scratched')
+})
+
 
 </script>
 
