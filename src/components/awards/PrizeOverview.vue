@@ -9,16 +9,23 @@
       <span class="prize-name">{{ prizeName(idx) }} prize</span>
     </div>
   </div>
-  <button class="scratch-all-btn">Scratch all</button>
+  <button class="scratch-all-btn" @click="scratchAllCards">Scratch all</button>
 </div>
 </template>
 
 <script setup>
 import { computed } from 'vue';
+import { useStore } from 'vuex';
 
 const props = defineProps({
   prizes: Array
 })
+
+const store = useStore()
+
+const scratchAllCards = () => {
+  store.dispatch('setIsScratchAllCards', true)
+}
 
 const prizeName = computed(() => (idx) => {
   switch (idx) {
