@@ -1,5 +1,5 @@
 <template>
-  <div class="table-pagination">
+  <div class="table-pagination" v-if="totalPages > 1">
     <button
         class="page-item"
         @click="prevPage"
