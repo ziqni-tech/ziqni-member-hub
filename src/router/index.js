@@ -54,9 +54,14 @@ const routes = [
           },
           {
             path: ':id',
-            name: 'MissionDetails',
-            component: () => import('@/views/missions/MissionDetails'),
+            name: 'MissionsMap',
+            component: () => import('@/views/missions/MissionsMapView'),
           },
+          // {
+          //   path: ':id',
+          //   name: 'MissionDetails',
+          //   component: () => import('@/views/missions/MissionDetails'),
+          // },
         ]
       },
       {

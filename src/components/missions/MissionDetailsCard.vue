@@ -88,8 +88,8 @@ const closeModal = () => {
     justify-content: center;
 
     & > img {
-      width: 150px;
-      height: 150px;
+      //width: 150px;
+      //height: 150px;
     }
   }
 

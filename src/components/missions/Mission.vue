@@ -19,7 +19,7 @@
           <img src="../../assets/icons/achievements/diamond.png" alt="">
           1000
         </div>
-        <button class="btn go-button" @click="goToMissionDetailsPage">go</button>
+        <button class="btn go-button" @click="goToMissionsMapPage">go</button>
       </div>
     </div>
   </div>
@@ -48,9 +48,9 @@ watch(countdownResult, (value) => {
 }, { immediate: true });
 
 const router = useRouter();
-const goToMissionDetailsPage = () => {
+const goToMissionsMapPage = () => {
   router.push({
-    name: 'MissionDetails',
+    name: 'MissionsMap',
     params: {
       id: missionItem.id,
     }
