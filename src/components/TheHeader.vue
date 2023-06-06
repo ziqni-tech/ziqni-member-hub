@@ -10,7 +10,7 @@
     <div class="user-actions">
       <div class="header-btns">
         <button class="btn"><img :src="notificationIcon" alt=""></button>
-        <button class="btn"><img :src="sunIcon" alt=""></button>
+        <ToggleTheme class="btn" />
       </div>
       <div class="user-profile">
         <span class="user-name">{{ member.name }}</span>
@@ -29,6 +29,7 @@ import { useRouter } from 'vue-router';
 
 import notificationIcon from '@/assets/icons/user-info/notification.png';
 import sunIcon from '@/assets/icons/user-info/sun.png';
+import ToggleTheme from '@/shared/components/ToggleTheme.vue';
 
 const store = useStore();
 const member = computed(() => store.getters.getMember);

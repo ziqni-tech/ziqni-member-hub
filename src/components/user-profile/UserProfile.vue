@@ -3,7 +3,7 @@
     <div class="background-block" :style="{ 'background-image': `url(${require('@/assets/images/user/cover.png')})` }">
       <div class="buttons">
         <button class="btn"><img :src="notificationIcon" alt=""></button>
-        <button class="btn"><img :src="sunIcon" alt=""></button>
+        <ToggleTheme class="btn" />
       </div>
     </div>
     <div class="user-info">
@@ -52,6 +52,7 @@ import sunIcon from '@/assets/icons/user-info/sun.png';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 import ProfileInfoCircleProgress from './ProfileInfoCircleProgress';
+import ToggleTheme from '@/shared/components/ToggleTheme.vue';
 
 const store = useStore();
 
