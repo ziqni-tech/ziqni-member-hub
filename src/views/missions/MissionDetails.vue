@@ -1,22 +1,22 @@
 <template>
   <div v-if="isLoaded" class="wrapper">
-    <MissionDetailsCard :mission="mission" @joinMission="joinMission" @leaveMission="leaveMission"/>
-    <div class="graph-wrapper">
-      <v-network-graph
-          ref="graph"
-          v-if="result"
-          v-model:selected-nodes="selectedNodes"
-          :nodes="result.nodesResult"
-          :edges="result.edgesResult"
-          :configs="configs"
-          class="m-graph"
-          :layouts="layouts"
-      >
-        <template #edge-label="{ edge, ...slotProps }">
-          <v-edge-label :text="edge.label" align="center" vertical-align="above" v-bind="slotProps"/>
-        </template>
-      </v-network-graph>
-    </div>
+    <MissionDetailsCard :mission="mission" />
+<!--    <div class="graph-wrapper">-->
+<!--      <v-network-graph-->
+<!--          ref="graph"-->
+<!--          v-if="result"-->
+<!--          v-model:selected-nodes="selectedNodes"-->
+<!--          :nodes="result.nodesResult"-->
+<!--          :edges="result.edgesResult"-->
+<!--          :configs="configs"-->
+<!--          class="m-graph"-->
+<!--          :layouts="layouts"-->
+<!--      >-->
+<!--        <template #edge-label="{ edge, ...slotProps }">-->
+<!--          <v-edge-label :text="edge.label" align="center" vertical-align="above" v-bind="slotProps"/>-->
+<!--        </template>-->
+<!--      </v-network-graph>-->
+<!--    </div>-->
   </div>
   <Loader v-else/>
 </template>
@@ -109,7 +109,7 @@ const getMissionRequest = async () => {
         moreThan: 20,
         lessThan: 30
       },
-      constraints: ['hasNoDependancies']
+      constraints: []
     },
   }, null);
 
@@ -137,140 +137,142 @@ const getOptInStatus = async () => {
   }, null);
 
   await optInApiWsClient.optInStates(optInStateRequest, (res) => {
-    if (res.data.length) {
-      const status = res.data[0].status;
-      const percentage = res.data[0].percentageComplete;
-
-      mission.value.entrantStatus = status ? status : '';
-      mission.value.percentageComplete = percentage ? percentage : 0;
-    } else {
-      mission.value.percentageComplete = 0;
-      mission.value.entrantStatus = '';
-    }
+    console.warn('optIn', res)
+    // if (res.data.length) {
+    //   console.warn('optIn', res)
+    //   const status = res.data[0].status;
+    //   const percentage = res.data[0]?.percentageComplete;
+    //
+    //   mission.value.entrantStatus = status ? status : '';
+    //   mission.value.percentageComplete = percentage ? percentage : 0;
+    // } else {
+    //   mission.value.percentageComplete = 0;
+    //   mission.value.entrantStatus = '';
+    // }
     store.dispatch('setCurrentMissionAction', mission.value);
   });
 };
 
 onBeforeMount(() => {
-  getMissionGraphData();
+  // getMissionGraphData();
   getMissionRequest();
   getOptInStatus();
 });
 
-const getAchievementOrder = (nodes, edges) => {
-  const edgesResult = {};
-  const nodesResult = {};
+// const getAchievementOrder = (nodes, edges) => {
+//   const edgesResult = {};
+//   const nodesResult = {};
+//
+//   for (const edge of edges) {
+//     if (edge.headEntityId !== null) {
+//       let color;
+//       switch (edge.graphEdgeType) {
+//         case 'MUST': {
+//           color = '#6FCF97';
+//           break;
+//         }
+//         case 'SHOULD': {
+//           color = 'rgb(238, 187, 0)';
+//           break;
+//         }
+//         case 'MUST-NOT': {
+//           color = '#EB5757';
+//           break;
+//         }
+//       }
+//       edgesResult['edge' + edge.ordering] = {
+//         source: nodes.find(n => n.entityId === edge.headEntityId).name,
+//         target: nodes.find(n => n.entityId === edge.tailEntityId).name,
+//         label: edge.graphEdgeType,
+//         color: color
+//       };
+//     }
+//   }
+//
+//   for (const node of nodes) {
+//     nodesResult[node.name] = { name: node.name };
+//   }
+//   const selectedNode = nodes.find(n => n.entityId === route.params.id).name;
+//   // selectedNodes.value.push(selectedNode);
+//
+//   return { edgesResult, nodesResult };
+// };
 
-  for (const edge of edges) {
-    if (edge.headEntityId !== null) {
-      let color;
-      switch (edge.graphEdgeType) {
-        case 'MUST': {
-          color = '#6FCF97';
-          break;
-        }
-        case 'SHOULD': {
-          color = 'rgb(238, 187, 0)';
-          break;
-        }
-        case 'MUST-NOT': {
-          color = '#EB5757';
-          break;
-        }
-      }
-      edgesResult['edge' + edge.ordering] = {
-        source: nodes.find(n => n.entityId === edge.headEntityId).name,
-        target: nodes.find(n => n.entityId === edge.tailEntityId).name,
-        label: edge.graphEdgeType,
-        color: color
-      };
-    }
-  }
-
-  for (const node of nodes) {
-    nodesResult[node.name] = { name: node.name };
-  }
-  const selectedNode = nodes.find(n => n.entityId === route.params.id).name;
-  // selectedNodes.value.push(selectedNode);
-
-  return { edgesResult, nodesResult };
-};
-
-const getMissionGraphData = async () => {
-  const graphsApiWsClient = new GraphsApiWs(ApiClientStomp.instance);
-  const entityGraphRequest = EntityGraphRequest.constructFromObject({
-    ids: [route.params.id],
-    constraints: [],
-    languageKey: '',
-    includes: [],
-    entityType: 'Achievement'
-  }, null);
-
-  await graphsApiWsClient.getGraph(entityGraphRequest, (res) => {
-    const nodes = res.data.nodes;
-    const edges = res.data.graphs[0].edges;
-
-    result.value = getAchievementOrder(nodes, edges);
-  });
-};
-const layout = (direction) => {
-  if (Object.keys(result.value.nodesResult).length <= 1
-      || Object.keys(result.value.edgesResult).length === 0
-  ) {
-    isGraphLoaded.value = true;
-    return;
-  }
-
-  const g = new dagre.graphlib.Graph();
-
-  g.setGraph({
-    rankdir: direction,
-    nodesep: nodeSize * 2,
-    edgesep: nodeSize,
-    ranksep: nodeSize * 2,
-  });
-
-  g.setDefaultEdgeLabel(() => ({}));
-
-  Object.entries(result.value.nodesResult).forEach(([nodeId, node]) => {
-    g.setNode(nodeId, { label: node.name, width: nodeSize, height: nodeSize });
-  });
-
-  Object.values(result.value.edgesResult).forEach(edge => {
-    g.setEdge(edge.source, edge.target);
-  });
-
-  dagre.layout(g);
-
-  const box = {};
-
-  g.nodes().forEach((nodeId) => {
-    const x = g.node(nodeId).x;
-    const y = g.node(nodeId).y;
-    layouts.nodes[nodeId] = { x, y };
-
-    box.top = box.top ? Math.min(box.top, y) : y;
-    box.bottom = box.bottom ? Math.max(box.bottom, y) : y;
-    box.left = box.left ? Math.min(box.left, x) : x;
-    box.right = box.right ? Math.max(box.right, x) : x;
-  });
-
-  const graphMargin = nodeSize * 2;
-  const viewBox = {
-    top: (box.top ?? 0) - graphMargin,
-    bottom: (box.bottom ?? 0) + graphMargin,
-    left: (box.left ?? 0) - graphMargin,
-    right: (box.right ?? 0) + graphMargin,
-  };
-  graph.value?.setViewBox(viewBox);
-  isGraphLoaded.value = true;
-};
-
-watch(result, (currentValue, oldValue) => {
-  if (currentValue || oldValue) {
-    layout('LR');
-  }
-});
+// const getMissionGraphData = async () => {
+//   const graphsApiWsClient = new GraphsApiWs(ApiClientStomp.instance);
+//   const entityGraphRequest = EntityGraphRequest.constructFromObject({
+//     ids: [route.params.id],
+//     constraints: [],
+//     languageKey: '',
+//     includes: [],
+//     entityType: 'Achievement'
+//   }, null);
+//
+//   await graphsApiWsClient.getGraph(entityGraphRequest, (res) => {
+//     const nodes = res.data.nodes;
+//     const edges = res.data.graphs[0].edges;
+//
+//     result.value = getAchievementOrder(nodes, edges);
+//   });
+// };
+// const layout = (direction) => {
+//   if (Object.keys(result.value.nodesResult).length <= 1
+//       || Object.keys(result.value.edgesResult).length === 0
+//   ) {
+//     isGraphLoaded.value = true;
+//     return;
+//   }
+//
+//   const g = new dagre.graphlib.Graph();
+//
+//   g.setGraph({
+//     rankdir: direction,
+//     nodesep: nodeSize * 2,
+//     edgesep: nodeSize,
+//     ranksep: nodeSize * 2,
+//   });
+//
+//   g.setDefaultEdgeLabel(() => ({}));
+//
+//   Object.entries(result.value.nodesResult).forEach(([nodeId, node]) => {
+//     g.setNode(nodeId, { label: node.name, width: nodeSize, height: nodeSize });
+//   });
+//
+//   Object.values(result.value.edgesResult).forEach(edge => {
+//     g.setEdge(edge.source, edge.target);
+//   });
+//
+//   dagre.layout(g);
+//
+//   const box = {};
+//
+//   g.nodes().forEach((nodeId) => {
+//     const x = g.node(nodeId).x;
+//     const y = g.node(nodeId).y;
+//     layouts.nodes[nodeId] = { x, y };
+//
+//     box.top = box.top ? Math.min(box.top, y) : y;
+//     box.bottom = box.bottom ? Math.max(box.bottom, y) : y;
+//     box.left = box.left ? Math.min(box.left, x) : x;
+//     box.right = box.right ? Math.max(box.right, x) : x;
+//   });
+//
+//   const graphMargin = nodeSize * 2;
+//   const viewBox = {
+//     top: (box.top ?? 0) - graphMargin,
+//     bottom: (box.bottom ?? 0) + graphMargin,
+//     left: (box.left ?? 0) - graphMargin,
+//     right: (box.right ?? 0) + graphMargin,
+//   };
+//   graph.value?.setViewBox(viewBox);
+//   isGraphLoaded.value = true;
+// };
+//
+// watch(result, (currentValue, oldValue) => {
+//   if (currentValue || oldValue) {
+//     layout('LR');
+//   }
+// });
 
 const joinMission = async () => {
   const optInApiWsClient = new OptInApiWs(ApiClientStomp.instance);

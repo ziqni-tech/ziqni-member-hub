@@ -7,13 +7,10 @@
       <h2 class="mission-data__title">{{ cardItem?.name }}</h2>
 
       <div class="mission-data__description">
-        <span class="description_title">Description </span>
-        <span class="description_text">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.</span>
+        <span class="description_title" v-if="mission.description">Description </span>
+        <span class="description_text">{{ mission.description }}</span>
       </div>
-      <CButton v-if="!cardItem.entrantStatus" class="m-btn register-btn" @click="register">
-        <span class="b-btn__text">Join</span>
-      </CButton>
-      <CButton v-if="cardItem.entrantStatus" class="m-btn register-btn" @click="openModal">
+      <CButton  class="m-btn register-btn" @click="readMore">
         <span class="b-btn__text">read more</span>
       </CButton>
     </div>
@@ -45,6 +42,10 @@ const cardItem = computed(() => store.getters.getCurrentMission);
 const emit = defineEmits(['joinMission', 'leaveMission']);
 
 let leaveModal = ref(false);
+
+const readMore = () => {
+  console.warn('Read More')
+}
 
 const finish = () => {
   console.log('finish');
@@ -132,6 +133,7 @@ const closeModal = () => {
 
   .register-btn {
     align-self: flex-start;
+    margin-top: auto;
     margin-bottom: 10px;
   }
 }
