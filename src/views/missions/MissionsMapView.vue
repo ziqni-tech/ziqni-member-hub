@@ -17,7 +17,6 @@
         </clipPath>
       </defs>
       <template #override-node="{ nodeId, scale, config, ...slotProps }" >
-        <div>{{ result.nodesResult[nodeId] }}</div>
         <!-- circle for filling background -->
         <circle
             class="face-circle"
@@ -35,7 +34,7 @@
             :y="-config.radius * scale"
             :width="config.radius * scale * 2"
             :height="config.radius * scale * 2"
-            :xlink:href="`${nodes[nodeId].icon}`"
+            :xlink:href="`${images[nodeId]}`"
             clip-path="url(#faceCircle)"
         />
         <!-- circle for drawing stroke -->
@@ -55,6 +54,10 @@
 <script setup>
 
 import { onBeforeMount, ref, reactive, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+
+import { defineConfigs } from 'v-network-graph';
 import dagre from 'dagre/dist/dagre.min.js';
 
 import {
@@ -64,13 +67,14 @@ import {
   EntityGraphRequest,
   GraphsApiWs,
 } from '@ziqni-tech/member-api-client';
-import { defineConfigs } from 'v-network-graph';
-import { useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
-
-import missionImage from '../../assets/images/missions/mission-details.png';
 
 const nodeSize = 90;
+
+const images = {
+  with_icon: 'https://first-space.cdn.ziqni.com/Icons/ball-1.png',
+  'with_i_2': 'https://first-space.cdn.ziqni.com/Icons/ball-2.png',
+  'with_i-3': 'https://first-space.cdn.ziqni.com/Icons/ball-3.png',
+}
 
 const router = useRouter();
 const goToMissionPage = (nodeId) => {
@@ -102,27 +106,40 @@ const configs = defineConfigs({
     // panEnabled: false
   },
   node: {
-    normal: {radius: nodeSize / 2, color: '#8749DC'},
-    label: {direction: 'south', color: '#FDFDFF'},
+    normal: {
+      radius: nodeSize / 2,
+      color: '#8749DC'
+    },
+    label: {
+      direction: 'south',
+      color: '#FDFDFF'
+    },
   },
   edge: {
     normal: {
-      color: edge => edge.color,
+      // color: edge => edge.color,
+      color: '#8749DC',
       width: 3,
-      dasharray: edge => ('4'),
+      dasharray: 8,
+      linecap: 'round'
     },
     label: {
-      color: '#7781A8'
-    },
-    type: 'curve',
-    margin: 4,
-    marker: {
-      target: {
-        type: 'arrow',
-        width: 4,
-        height: 4,
+      fontFamily: undefined,
+      fontSize: 14,
+      lineHeight: 17,
+      color: '#7781A8',
+      padding: 10,
+      background: {
+        // visible: false,
+        color: "#8749DC",
+        padding: {
+          vertical: 10,
+          horizontal: 10,
+        },
+        borderRadius: nodeSize / 2,
       },
     },
+    type: 'curve',
   },
 });
 
