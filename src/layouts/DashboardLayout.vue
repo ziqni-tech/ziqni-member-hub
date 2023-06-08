@@ -1,5 +1,5 @@
 <template>
-  <div id="app-layout">
+  <div id="app-layout" v-if="!isMobile">
     <div id="nav-block">
       <TheSidebar @logOut="logOut" />
     </div>
@@ -10,23 +10,36 @@
       <UserProfile />
     </div>
   </div>
+  <div v-if="isMobile" id="mobile-layout">
+    <div class="mobile-header">
+      <button class="btn"><img src="@/assets/icons/user-info/notification.png" alt=""></button>
+      <span class="page-name">{{ router.currentRoute.value.name }}</span>
+      <ToggleTheme class="btn"/>
+    </div>
+    <div id="main-block">
+      <Dashboard/>
+    </div>
+    <MobileNav />
+  </div>
 </template>
 
 <script setup>
 import { ApiClientStomp, MemberRequest, MembersApiWs } from '@ziqni-tech/member-api-client';
 import { computed, onMounted, ref, watch, watchEffect } from 'vue';
 import { useStore } from 'vuex';
-import { useMedia } from '@/hooks/useMedia';
 import { useRouter } from 'vue-router';
 import TheSidebar from '../components/sidebar/TheSidebar';
 import UserProfile from '../components/user-profile/UserProfile';
 import Dashboard from '../views/Dashboard';
+import useMobileDevice from '@/hooks/useMobileDevice';
+import ToggleTheme from '@/shared/components/ToggleTheme';
+import MobileNav from '@/components/sidebar/MobileNav.vue';
 
-const router = useRouter()
+const router = useRouter();
 
 const store = useStore();
 const isReady = ref(false);
-const isMobile = useMedia('(max-width: 1280px)');
+const { isMobile } = useMobileDevice();
 const message = ref(null);
 const isDarkMode = computed(() => store.getters.getTheme);
 const isClientConnected = computed(() => store.getters.getIsConnectedClient);
@@ -51,7 +64,7 @@ const getMemberRequest = async () => {
     await store.dispatch('setMemberAction', data.data);
     isReady.value = true;
   });
-}
+};
 
 watch(isClientConnected, (value) => {
   if (value) getMemberRequest();
@@ -65,7 +78,7 @@ const logOut = async () => {
 
 watchEffect(() => {
   // if (message.value) console.warn('MESSAGE', message.value);
-})
+});
 </script>
 
 <style lang="scss">

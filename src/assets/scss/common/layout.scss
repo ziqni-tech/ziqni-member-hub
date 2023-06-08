@@ -1,0 +1,33 @@
+#mobile-layout {
+  display: flex;
+  flex-direction: column;
+  background-color: $dark-grey;
+
+  .mobile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+
+    .page-name {
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 19px;
+      color: $main-text-color-white;
+    }
+
+    .btn {
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid rgba(230, 230, 230, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      > img {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+}

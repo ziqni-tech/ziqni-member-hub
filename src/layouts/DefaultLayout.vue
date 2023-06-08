@@ -1,5 +1,5 @@
 <template>
-  <div class="default-layout">
+  <div class="default-layout" v-if="!isMobile">
     <div id="nav-block">
       <TheSidebar @logOut="logOut" />
     </div>
@@ -12,6 +12,19 @@
       </div>
     </div>
   </div>
+  <div v-if="isMobile" id="mobile-layout">
+    <div class="mobile-header">
+      <button class="btn"><img src="@/assets/icons/user-info/notification.png" alt=""></button>
+      <span class="page-name">{{ router.currentRoute.value.name }}</span>
+      <ToggleTheme class="btn"/>
+    </div>
+    <div id="main-block">
+      <div v-if="isClientConnected">
+        <router-view />
+      </div>
+    </div>
+    <MobileNav />
+  </div>
 </template>
 
 <script setup>
@@ -23,12 +36,17 @@ import TheSidebar from '../components/sidebar/TheSidebar';
 import TheHeader from '../components/TheHeader';
 import { computed, onMounted, reactive, watch } from 'vue';
 import { useStore } from 'vuex';
+import MobileNav from '@/components/sidebar/MobileNav';
+import ToggleTheme from '@/shared/components/ToggleTheme';
+import useMobileDevice from '@/hooks/useMobileDevice';
 
 const router = useRouter();
 const store = useStore();
 
 const isClientConnected = computed(() => store.getters.getIsConnectedClient);
 const currentMember = reactive({});
+
+const { isMobile } = useMobileDevice();
 
 
 onMounted(async () => {
