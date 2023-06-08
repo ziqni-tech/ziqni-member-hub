@@ -49,6 +49,10 @@ watch(countdownResult, (value) => {
   background-color: $light-grey;
   border-radius: $border-radius;
 
+  @media screen and (max-width: $tableWidth) {
+    padding: 10px 20px;
+  }
+
   &__expires-in {
     font-weight: 500;
     font-size: 12px;

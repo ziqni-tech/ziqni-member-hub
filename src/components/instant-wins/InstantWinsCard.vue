@@ -1,7 +1,8 @@
 <template>
   <div class="instant-wins-card">
+    <h3 class="mobile-card-title">{{ title }}</h3>
     <div class="instant-img-wrapper">
-      <div class="instant-img" :style="{ 'background-image': `url(${img})` }"></div>
+      <img class="instant-img" :src="img" alt="" />
     </div>
     <div class="instant-info">
       <h3 class="card-title">{{ title }}</h3>
@@ -25,7 +26,7 @@ const play = () => {
 </script>
 
 <style lang="scss">
-@import '../../assets/scss/_variables';
+@import '@/assets/scss/_variables';
 
 .instant-wins-card {
   display: flex;
@@ -36,6 +37,10 @@ const play = () => {
   width: 100%;
   height: auto;
   aspect-ratio: 3 / 1;
+
+  .mobile-card-title {
+    display: none;
+  }
 
   .instant-img-wrapper {
     width: 44%;
@@ -53,7 +58,6 @@ const play = () => {
       background-repeat: no-repeat;
     }
   }
-
 
   .instant-info {
     display: flex;
@@ -94,6 +98,84 @@ const play = () => {
 
       margin-top: auto;
       max-width: 124px;
+    }
+  }
+}
+
+@media screen and (max-width: $tableWidth) {
+  .instant-wins-card {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: $border-radius;
+    background-color: $light-grey;
+
+    width: 100%;
+
+    .mobile-card-title {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      padding-bottom: 15px;
+      font-weight: 700;
+      font-size: 12px;
+      line-height: 14px;
+      color: $main-text-color-white;
+    }
+
+    .instant-img-wrapper {
+      width: 100%;
+      height: 0;
+      background-color: $dark-grey;
+      border-radius: $border-radius;
+      padding-bottom: 75%;
+      position: relative;
+      overflow: hidden;
+
+      .instant-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    }
+
+
+    .instant-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      padding: 0;
+
+      .card-title {
+        display: none;
+      }
+
+      .card-description {
+        display: none;
+      }
+
+      .play-btn {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        padding: 6px;
+
+        background: $purple;
+        border-radius: $border-radius;
+        border: 1px solid $border-dark;
+
+        font-weight: 700;
+        font-size: 12px;
+        line-height: 14px;
+        color: $main-text-color-white;
+
+        margin-top: auto;
+      }
     }
   }
 }

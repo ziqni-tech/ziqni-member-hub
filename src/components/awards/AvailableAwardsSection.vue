@@ -66,11 +66,18 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
+@import "@/assets/scss/_variables";
+
 .awards-cards-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   width: 100%;
   grid-gap: 15px;
   margin: 30px 0;
+
+  @media screen and (max-width: $tableWidth) {
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 8px;
+  }
 }
 </style>
