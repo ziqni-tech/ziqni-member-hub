@@ -1,17 +1,11 @@
 <template>
   <div class="section">
-<!--    <div class="section-header">-->
-<!--      <h2 class="section-title">Current Missions</h2>-->
-<!--    </div>-->
     <Loader v-if="isLoading" :title="'Current Missions are loading'"/>
     <div :class="isDashboard ? 'dashboard-cards-grid' : 'cards-grid'">
       <div class="card-wrapper" v-for="mission in currentMissions">
         <Mission :mission="mission"/>
       </div>
     </div>
-<!--    <button class="show-more-btn" v-if="currentMissions.length && isShowMore && !isDashboard" @click="loadMore">-->
-<!--      Show More-->
-<!--    </button>-->
   </div>
 </template>
 

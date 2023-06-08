@@ -306,6 +306,10 @@ const leaveAchievement = async ({ id, name }) => {
   grid-template-columns: repeat(2, 1fr);
   width: 100%;
   grid-gap: 15px;
+
+  @media screen and (max-width: $tableWidth) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 
 .achievements-cards-grid {
@@ -313,5 +317,9 @@ const leaveAchievement = async ({ id, name }) => {
   grid-template-columns: repeat(3, 1fr);
   width: 100%;
   grid-gap: 15px;
+
+  @media screen and (max-width: $tableWidth) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 </style>
