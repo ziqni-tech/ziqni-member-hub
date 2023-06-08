@@ -63,8 +63,6 @@ const goToMissionsMapPage = () => {
 @import '../../assets/scss/_variables';
 
 .m-card {
-  display: grid;
-  grid-template-rows: 65% 35%;
   background-color: $light-grey;
 
   .m-card-image > img {
@@ -87,6 +85,13 @@ const goToMissionsMapPage = () => {
       background-color: $purple-light;
       padding: 8px 16px;
       color: $main-text-color-white;
+
+      @media screen and (max-width: $tableWidth) {
+        right: 0;
+        font-weight: 500;
+        font-size: 10px;
+        line-height: 12px;
+      }
     }
   }
 
@@ -102,10 +107,17 @@ const goToMissionsMapPage = () => {
       font-size: 14px;
       line-height: 17px;
       color: $main-text-color-white;
+
+      @media screen and (max-width: $tableWidth) {
+        font-weight: 700;
+        font-size: 12px;
+        line-height: 14px;
+      }
     }
 
     .mission-progress {
       display: flex;
+      align-items: center;
       margin-top: 10px;
       width: 100%;
 
@@ -129,6 +141,12 @@ const goToMissionsMapPage = () => {
         font-size: 12px;
         line-height: 16px;
         color: $main-text-color-white;
+
+        @media screen and (max-width: $tableWidth) {
+          font-weight: 500;
+          font-size: 10px;
+          line-height: 12px;
+        }
       }
     }
 
@@ -137,6 +155,11 @@ const goToMissionsMapPage = () => {
       justify-content: space-between;
       margin-top: 10px;
       width: 100%;
+
+      @media screen and (max-width: $tableWidth) {
+        justify-content: center;
+        flex-wrap: wrap;
+      }
 
       .btn {
         width: 108px;
@@ -151,6 +174,18 @@ const goToMissionsMapPage = () => {
 
         > img {
           margin-right: 5px;
+        }
+
+        @media screen and (max-width: $tableWidth) {
+          width: 100%;
+
+          font-weight: 700;
+          font-size: 12px;
+          line-height: 14px;
+
+          &:last-child {
+            margin-top: 5px;
+          }
         }
       }
 
