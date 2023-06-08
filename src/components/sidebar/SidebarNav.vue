@@ -18,7 +18,7 @@ const props = defineProps({ navItems: Array });
 
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import 'src/assets/scss/_variables';
 
 .nav-item {

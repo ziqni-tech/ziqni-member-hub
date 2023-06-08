@@ -53,7 +53,7 @@ const isActive = (path) => {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 15px 0;
+    padding: 15px;
 
     .icon-wrapper {
       flex-grow: 1;
