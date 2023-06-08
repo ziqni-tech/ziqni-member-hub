@@ -16,8 +16,8 @@
       <span class="page-name">{{ router.currentRoute.value.name }}</span>
       <ToggleTheme class="btn"/>
     </div>
-    <div id="main-block">
-      <Dashboard/>
+    <div id="mobile-layout-main-block">
+      <Dashboard />
     </div>
     <MobileNav />
   </div>

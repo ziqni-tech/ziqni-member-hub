@@ -18,7 +18,7 @@
       <span class="page-name">{{ router.currentRoute.value.name }}</span>
       <ToggleTheme class="btn"/>
     </div>
-    <div id="main-block">
+    <div id="mobile-layout-main-block">
       <div v-if="isClientConnected">
         <router-view />
       </div>
