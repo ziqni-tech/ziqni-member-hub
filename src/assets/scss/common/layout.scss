@@ -29,8 +29,24 @@
       justify-content: center;
 
       > img {
-        width: 16px;
-        height: 16px;
+        width: 14px;
+        height: 14px;
+      }
+    }
+
+    .go-back-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 5px;
+      border: 1px solid rgba(230, 230, 230, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+
+      > img {
+        width: 6px;
+        height: 14px;
       }
     }
   }

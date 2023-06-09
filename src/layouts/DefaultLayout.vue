@@ -14,7 +14,16 @@
   </div>
   <div v-if="isMobile" id="mobile-layout">
     <div class="mobile-header">
-      <button class="btn"><img src="@/assets/icons/user-info/notification.png" alt=""></button>
+      <button
+          class="go-back-btn"
+          @click="$router.go(-1)"
+          v-if="isGoBackBtn"
+      >
+        <img src="../assets/icons/back_arrow.png" alt="">
+      </button>
+      <button v-if="!isGoBackBtn" class="btn">
+        <img src="@/assets/icons/user-info/notification.png" alt="">
+      </button>
       <span class="page-name">{{ router.currentRoute.value.name }}</span>
       <ToggleTheme class="btn"/>
     </div>
@@ -47,6 +56,12 @@ const isClientConnected = computed(() => store.getters.getIsConnectedClient);
 const currentMember = reactive({});
 
 const { isMobile } = useMobileDevice();
+
+const isGoBackBtn = computed(() => {
+  const pathLength = router.currentRoute.value.path.split('/').length;
+
+  return !!(router.currentRoute.value.params.id || pathLength > 2);
+});
 
 
 onMounted(async () => {
