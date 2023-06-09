@@ -35,7 +35,7 @@ watch(countdownResult, (value) => {
 </script>
 
 <style lang="scss">
-@import '../../assets/scss/_variables';
+@import '@/assets/scss/_variables';
 
 .data-row {
   width: 100%;
@@ -61,6 +61,35 @@ watch(countdownResult, (value) => {
   .value {
     text-align: right;
     color: $main-text-color-white;
+  }
+}
+
+@media screen and (max-width: $tableWidth) {
+  .data-row {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 12px;
+    margin: 5px 0;
+
+    .label {
+      display: flex;
+      align-items: center;
+      text-transform: capitalize;
+      color: $body-text-color;
+
+      .icon {
+        margin-right: 5px;
+      }
+    }
+
+    .value {
+      text-align: right;
+      color: $main-text-color-white;
+    }
   }
 }
 

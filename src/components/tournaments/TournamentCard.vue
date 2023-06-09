@@ -73,8 +73,6 @@ const goToTournamentsDetailsPage = () => {
       line-height: 17px;
 
       color: $main-text-color-white;
-
-      margin-bottom: 10px;
     }
 
     .t-data {
@@ -103,7 +101,56 @@ const goToTournamentsDetailsPage = () => {
       color: $main-text-color-white;
     }
   }
+}
+
+@media screen and (max-width: $tableWidth) {
+  .t-card {
+    .t-card-image > img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .t-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 8px 8px 13px;
+
+      .tournament-name {
+        font-weight: 700;
+        font-size: 12px;
+        line-height: 14px;
+
+        color: $main-text-color-white;
+      }
+
+      .t-data {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, minmax(0, 1fr));
+      }
 
 
+      .see-more-btn {
+        width: 100%;
+        margin-top: auto;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 5px;
+
+        background: $purple;
+        border-radius: $border-radius;
+        border: 1px solid $border-dark;
+
+        font-weight: 700;
+        font-size: 12px;
+        line-height: 14px;
+        color: $main-text-color-white;
+      }
+    }
+  }
 }
 </style>

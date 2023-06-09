@@ -255,4 +255,21 @@ const goToCalendar = () => {
     padding-left: 12px;
   }
 }
+
+@media screen and (max-width: $tableWidth) {
+  .tournament-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .details {
+      width: 100%;
+    }
+
+    .leaderboard-table {
+      display: flex;
+      width: 100%;
+    }
+  }
+}
 </style>
