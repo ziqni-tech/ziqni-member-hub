@@ -57,4 +57,44 @@ const props = defineProps({
     color: $main-text-color-white;
   }
 }
+
+@media screen and (max-width: $tableWidth) {
+  .info-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    border: 1px solid $border-dark;
+    border-radius: 10px;
+    padding: 33px 15px 10px;
+    background-color: $dark-grey;
+
+    .item-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid $border-dark;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: -20px;
+      background-color: $lighter-grey;
+    }
+
+    .info-title {
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 14px;
+      color: $body-text-color;
+    }
+
+    .info-data {
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 17px;
+      color: $main-text-color-white;
+    }
+  }
+}
 </style>
