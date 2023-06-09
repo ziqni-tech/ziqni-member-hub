@@ -43,8 +43,8 @@ const rayon = ref(0);
 const rotation = ref(0);
 const { isMobile } = useMobileDevice();
 const style = ref({
-  width: 600,
-  height: 600,
+  width: 500,
+  height: 500,
   boxShadow: '0px 2px 17px rgba(64, 106, 140, 0.82)'
 });
 const margin = ref(20);
@@ -61,7 +61,7 @@ const wheelStyle = computed(() => {
 const wheelSize = computed(() => {
   const screenWidth = window.innerWidth;
   const width = Math.min(screenWidth, style.value.width) - margin.value;
-  const height = Math.min(screenWidth, style.value.width) + 120;
+  const height = Math.min(screenWidth, style.value.width) + 20;
   return {
     width,
     height,
@@ -294,7 +294,7 @@ const createArrow = () => {
         .append('g')
         .append('path')
         .attr('d', `M29.5015 34.8917C27.9007 36.9951 24.7362 36.9951 23.1354 34.8917L1.8143 6.87643C-0.18977 4.24313 1.68818 0.453968 4.99734 0.453968L47.6395 0.453968C50.9487 0.453968 52.8266 4.24313 50.8225 6.87642L29.5015 34.8917Z`)
-        .attr('transform', `translate(-26, -${(wheelSize.value.height / 2) - 50})`)
+        .attr('transform', `translate(-26, -${(wheelSize.value.height / 2)})`)
         .attr('stroke', '#FFD400')
         .attr('fill', '#FFD400')
         .attr('filter', 'url(#shadow)')
@@ -382,6 +382,14 @@ onMounted(() => {
   /*width: 100%;*/
   /*height: auto;*/
   margin: auto;
+}
+
+@media screen and (max-width: $tableWidth) {
+  .wheel {
+    /*width: 100%;*/
+    height: 400px;
+    margin: auto;
+  }
 }
 
 .wheel textPath {

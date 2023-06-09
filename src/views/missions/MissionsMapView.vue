@@ -7,7 +7,7 @@
         :nodes="result.nodesResult"
         :edges="result.edgesResult"
         :configs="configs"
-        class="m-graph"
+        class="graph"
         :layouts="layouts"
         :event-handlers="eventHandlers"
     >
@@ -34,7 +34,7 @@
             :y="-config.radius * scale"
             :width="config.radius * scale * 2"
             :height="config.radius * scale * 2"
-            :xlink:href="`${images[nodeId]}`"
+            :xlink:href="`${images['with_icon']}`"
             clip-path="url(#faceCircle)"
         />
         <!-- circle for drawing stroke -->
@@ -53,7 +53,7 @@
 
 <script setup>
 
-import { onBeforeMount, ref, reactive, watch } from 'vue';
+import { onBeforeMount, ref, reactive, watch, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -67,8 +67,11 @@ import {
   EntityGraphRequest,
   GraphsApiWs,
 } from '@ziqni-tech/member-api-client';
+import useMobileDevice from '@/hooks/useMobileDevice';
 
-const nodeSize = 90;
+const { isMobile } = useMobileDevice();
+
+const nodeSize = computed(() => isMobile.value ? 50 : 90)
 
 const images = {
   with_icon: 'https://first-space.cdn.ziqni.com/Icons/ball-1.png',
@@ -100,48 +103,50 @@ const eventHandlers = {
   },
 }
 
-const configs = defineConfigs({
-  view: {
-    zoomEnabled: false,
-    // panEnabled: false
-  },
-  node: {
-    normal: {
-      radius: nodeSize / 2,
-      color: '#8749DC'
+const configs = computed(() => {
+  return defineConfigs({
+    view: {
+      zoomEnabled: false,
+      // panEnabled: false
     },
-    label: {
-      direction: 'south',
-      color: '#FDFDFF'
-    },
-  },
-  edge: {
-    normal: {
-      // color: edge => edge.color,
-      color: '#8749DC',
-      width: 3,
-      dasharray: 8,
-      linecap: 'round'
-    },
-    label: {
-      fontFamily: undefined,
-      fontSize: 14,
-      lineHeight: 17,
-      color: '#7781A8',
-      padding: 10,
-      background: {
-        // visible: false,
-        color: "#8749DC",
-        padding: {
-          vertical: 10,
-          horizontal: 10,
-        },
-        borderRadius: nodeSize / 2,
+    node: {
+      normal: {
+        radius: nodeSize.value / 2,
+        color: '#8749DC'
+      },
+      label: {
+        direction: 'south',
+        color: '#FDFDFF'
       },
     },
-    type: 'curve',
-  },
-});
+    edge: {
+      normal: {
+        // color: edge => edge.color,
+        color: '#8749DC',
+        width: 3,
+        dasharray: 8,
+        linecap: 'round'
+      },
+      label: {
+        fontFamily: undefined,
+        fontSize: 14,
+        lineHeight: 17,
+        color: '#7781A8',
+        padding: 10,
+        background: {
+          // visible: false,
+          color: "#8749DC",
+          padding: {
+            vertical: 10,
+            horizontal: 10,
+          },
+          borderRadius: nodeSize.value / 2,
+        },
+      },
+      type: 'curve',
+    },
+  });
+})
 
 const graph = ref(null);
 
@@ -267,15 +272,15 @@ const layout = (direction) => {
 
   g.setGraph({
     rankdir: direction,
-    nodesep: nodeSize * 2,
-    edgesep: nodeSize,
-    ranksep: nodeSize * 2,
+    nodesep: nodeSize.value * 2,
+    edgesep: nodeSize.value,
+    ranksep: nodeSize.value * 2,
   });
 
   g.setDefaultEdgeLabel(() => ({}));
 
   Object.entries(result.value.nodesResult).forEach(([nodeId, node]) => {
-    g.setNode(nodeId, {label: node.name, width: nodeSize, height: nodeSize});
+    g.setNode(nodeId, {label: node.name, width: nodeSize.value, height: nodeSize.value});
   });
 
   Object.values(result.value.edgesResult).forEach(edge => {
@@ -297,7 +302,7 @@ const layout = (direction) => {
     box.right = box.right ? Math.max(box.right, x) : x;
   });
 
-  const graphMargin = nodeSize * 2;
+  const graphMargin = nodeSize.value * 2;
   const viewBox = {
     top: (box.top ?? 0) - graphMargin,
     bottom: (box.bottom ?? 0) + graphMargin,
@@ -318,7 +323,6 @@ watch(result, (currentValue, oldValue) => {
 
 <style scoped lang="scss">
 .graph-wrapper {
-  height: 600px;
 
   .graph {
     width: 100%;

@@ -132,15 +132,8 @@ const closeModal = () => {
   color: $body-text-color;
 }
 
-.pointer {
-  position: absolute;
-  top: -20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 3;
-}
-
 .spin-btn {
+  margin-top: 20px;
   padding: 10px 57px;
 
   font-weight: 700;
@@ -152,6 +145,38 @@ const closeModal = () => {
   border-radius: $border-radius;
   cursor: pointer;
   background-color: $purple;
+}
+
+@media screen and (max-width: $tableWidth) {
+  .page-title {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+    color: $main-text-color-white;
+    margin-top: 30px;
+  }
+
+  .page-description {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    color: $body-text-color;
+  }
+
+  .spin-btn {
+    margin-top: 10px;
+    padding: 10px 57px;
+
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 17px;
+    color: $main-text-color-white;
+
+    border: none;
+    border-radius: $border-radius;
+    cursor: pointer;
+    background-color: $purple;
+  }
 }
 
 </style>

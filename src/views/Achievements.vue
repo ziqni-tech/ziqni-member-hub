@@ -1,5 +1,7 @@
 <template>
-  <AchievementsSection />
+  <div class="page-content">
+    <AchievementsSection />
+  </div>
 </template>
 
 <script setup>

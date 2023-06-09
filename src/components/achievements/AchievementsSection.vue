@@ -28,21 +28,30 @@
         {{ activeTabKey === 'daily' ? dailyTimeLeft : weeklyTimeLeft }} left
       </div>
     </div>
-    <div :class="isDashboard ? 'achievements-dashboard-cards-grid' : 'achievements-cards-grid'">
-      <div v-for="achievement in achievementsData" :key="achievement.id">
-        <AchievementsCard
-            :key="achievement.id"
-            :achievement="achievement"
-            @joinAchievement="joinAchievement"
-            @leaveAchievement="leaveAchievement"
-        />
+    <div class="content-wrapper">
+      <div :class="isDashboard ? 'achievements-dashboard-cards-grid' : 'achievements-cards-grid'">
+        <div v-for="achievement in achievementsData" :key="achievement.id">
+          <AchievementsCard
+              :key="achievement.id"
+              :achievement="achievement"
+              @joinAchievement="joinAchievement"
+              @leaveAchievement="leaveAchievement"
+          />
+        </div>
       </div>
+      <Pagination
+          v-if="!isDashboard"
+          :current-page="currentPage"
+          :total-pages="totalPages"
+          @pageChange="pageChange"
+      />
     </div>
+
   </div>
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import {
   AchievementRequest,
@@ -57,6 +66,7 @@ import { CNav, CNavLink } from '@coreui/vue';
 import { useCountdown } from '@/hooks/useCountdown';
 import AchievementsCard from './AchievementsCard';
 import expiresInIcon from '@/assets/icons/tournament/expires-in.png';
+import Pagination from '@/shared/components/Pagination.vue';
 
 const store = useStore();
 
@@ -68,11 +78,15 @@ const props = defineProps({
 });
 
 const achievementsData = ref([]);
-const limit = ref(20);
-const skip = ref(0);
+const limit = ref(computed(() => props.isDashboard ? 2 : 9));
 const isLoading = ref(false);
 const achievements = ref([]);
 const activeTabKey = ref('daily');
+
+const currentPage = ref(1);
+const totalRecords = ref(0);
+const totalPages = computed(() => Math.ceil(totalRecords.value / limit.value));
+const skip = computed(() => (currentPage.value - 1) * limit.value);
 
 const descriptions = {
   daily: 'List of daily achievements that refresh every day.',
@@ -136,46 +150,39 @@ watch(weeklyCountdownResult, value => {
 
 }, { immediate: true });
 
-
-watch(() => store.getters.getAchievements, (newValue) => {
-  achievementsData.value = props.isDashboard
-      ? newValue.slice(0, 2)
-      : newValue;
-}, { immediate: true });
-
-const totalRecords = computed(() => store.getters.getAchievementsTotal);
-
-const achievementsRequest = AchievementRequest.constructFromObject({
-  achievementFilter: {
-    productTagsFilter: [],
-    ids: [],
-    status: [],
-    sortBy: [
-      {
-        queryField: 'created',
-        order: 'Desc'
-      },
-    ],
-    skip: skip.value,
-    limit: limit.value,
-    statusCode: {
-      moreThan: 20,
-      lessThan: 30
-    },
-    constraints: []
-  },
-}, null);
-
 const getAchievementsRequest = async () => {
   isLoading.value = true;
   const achievementsApiWsClient = new AchievementsApiWs(ApiClientStomp.instance);
 
+  const achievementsRequest = AchievementRequest.constructFromObject({
+    achievementFilter: {
+      productTagsFilter: [],
+      ids: [],
+      status: [],
+      sortBy: [
+        {
+          queryField: 'created',
+          order: 'Desc'
+        },
+      ],
+      skip: skip.value,
+      limit: limit.value,
+      statusCode: {
+        moreThan: 20,
+        lessThan: 30
+      },
+      constraints: []
+    },
+  }, null);
+
   achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
-    store.dispatch('setAchievementsTotalRecords', res.meta.totalRecordsFound);
+    totalRecords.value = res.meta.totalRecordsFound
+    // store.dispatch('setAchievementsTotalRecords', res.meta.totalRecordsFound);
 
     const ids = res.data.map(item => item.id);
 
     achievements.value = res.data;
+    console.warn('achievements', res.data);
 
     getOptInStatus(ids);
     isLoading.value = false;
@@ -211,11 +218,12 @@ const getOptInStatus = async (ids) => {
         achievement.entrantStatus = '';
       }
     }
+    achievementsData.value = achievements.value
     store.dispatch('setAchievements', achievements.value);
   });
 };
 
-if (!achievementsData.value.length) getAchievementsRequest();
+// if (!achievementsData.value.length) getAchievementsRequest();
 
 const joinAchievement = async ({ id, name }) => {
   const optInApiWsClient = new OptInApiWs(ApiClientStomp.instance);
@@ -259,6 +267,15 @@ const leaveAchievement = async ({ id, name }) => {
   });
 };
 
+const pageChange = async (pageNumber) => {
+  currentPage.value = pageNumber;
+  await getAchievementsRequest();
+};
+
+onMounted(() => {
+  getAchievementsRequest();
+})
+
 </script>
 
 <style lang="scss">
@@ -277,6 +294,14 @@ const leaveAchievement = async ({ id, name }) => {
   & > img {
     margin-right: 8px;
   }
+
+  @media screen and (max-width: $tableWidth) {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+
+    padding: 8px;
+  }
 }
 
 .achievements-tabs {
@@ -286,6 +311,11 @@ const leaveAchievement = async ({ id, name }) => {
   background-color: $light-grey;
   border-radius: $border-radius;
   margin: 0 auto;
+
+  @media screen and (max-width: $tableWidth) {
+    width: 225px;
+    margin-bottom: 20px;
+  }
 }
 
 .nav-pills .nav-link {
@@ -295,6 +325,12 @@ const leaveAchievement = async ({ id, name }) => {
   justify-content: center;
   color: $main-text-color-white;
   cursor: pointer;
+
+  @media screen and (max-width: $tableWidth) {
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 12px;
+  }
 }
 
 .nav-pills .nav-link.active {
@@ -309,6 +345,7 @@ const leaveAchievement = async ({ id, name }) => {
 
   @media screen and (max-width: $tableWidth) {
     grid-template-columns: repeat(1, 1fr);
+    height: 100%;
   }
 }
 
@@ -316,7 +353,9 @@ const leaveAchievement = async ({ id, name }) => {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   width: 100%;
+  height: 100%;
   grid-gap: 15px;
+  margin-bottom: 30px;
 
   @media screen and (max-width: $tableWidth) {
     grid-template-columns: repeat(1, 1fr);
