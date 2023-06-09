@@ -264,11 +264,14 @@ const goToCalendar = () => {
 
     .details {
       width: 100%;
+      padding-right: 0;
     }
 
     .leaderboard-table {
       display: flex;
       width: 100%;
+      margin-top: 20px;
+      padding-left: 0;
     }
   }
 }

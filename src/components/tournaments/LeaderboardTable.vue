@@ -149,11 +149,6 @@ table {
       }
     }
 
-    //tr.sticky-row {
-    //  position: sticky;
-    //  top: 40px;
-    //}
-
     tr.active {
       background: #1d042d;
       box-shadow: 0 2px 12px rgba(64, 106, 140, 0.5);
