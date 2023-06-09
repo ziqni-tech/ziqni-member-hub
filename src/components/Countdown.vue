@@ -162,4 +162,52 @@ export default {
     }
   }
 }
+
+@media screen and (max-width: $tableWidth) {
+  .countdown {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    color: $main-text-color-white;
+
+    .indicator {
+      display: flex;
+
+      .indicator-block {
+        display: flex;
+        flex-direction: column;
+        margin-right: 16px;
+
+        &_digits {
+          display: flex;
+          font-weight: 700;
+          font-size: 20px;
+          line-height: 24px;
+
+          &__digit {
+            width: 24px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid $purple-light;
+            border-radius: $border-radius-sm;
+
+            &:first-child {
+              margin-right: 5px;
+            }
+          }
+        }
+
+        &_text {
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 14px;
+          margin-top: 5px;
+        }
+      }
+    }
+  }
+}
 </style>
