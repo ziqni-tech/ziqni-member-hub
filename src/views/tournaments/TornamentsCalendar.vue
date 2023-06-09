@@ -20,9 +20,9 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { useCompetitions } from '../../hooks/useCompetitions';
+import { useCompetitions } from '@/hooks/useCompetitions';
 
 import { CalendarView, CalendarViewHeader } from 'vue-simple-calendar';
 import '../../../node_modules/vue-simple-calendar/dist/style.css';
@@ -140,6 +140,65 @@ const clickEvent = (val) => {
   .cv-wrapper.period-month.periodCount-3 .cv-week,
   .cv-wrapper.period-year .cv-week {
     min-height: 6rem;
+  }
+}
+
+@media screen and (max-width: $tableWidth) {
+  .calendar-title {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 17px;
+    margin-bottom: 15px;
+    color: $main-text-color-white;
+  }
+
+  .cv-wrapper {
+    height: 400px;
+    width: 100%;
+    max-height: 500px;
+    min-height: 500px;
+    border-radius: $border-radius;
+
+    .cv-header {
+      border-radius: 20px 20px 0 0;
+
+      .periodLabel {
+        display: none;
+      }
+
+      .cv-header-nav {
+        .previousYear,
+        .previousPeriod,
+        .currentPeriod,
+        .nextPeriod,
+        .nextYear {
+          border-radius: 10px;
+          margin-right: 3px;
+        }
+      }
+    }
+
+    .cv-weeks {
+      border-radius: 0 0 20px 20px;
+    }
+    .calendar-controls {
+      margin-right: 1rem;
+      min-width: 10rem;
+      max-width: 10rem;
+    }
+    .calendar-parent {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      overflow-x: hidden;
+      overflow-y: hidden;
+      max-height: 50vh;
+    }
+    .cv-wrapper.period-month.periodCount-2 .cv-week,
+    .cv-wrapper.period-month.periodCount-3 .cv-week,
+    .cv-wrapper.period-year .cv-week {
+      min-height: 3rem;
+    }
   }
 }
 
@@ -269,4 +328,23 @@ const clickEvent = (val) => {
     background-color: $finished-tournament !important;
   }
 }
+
+@media screen and (max-width: $tableWidth) {
+  .competition {
+    font-size: 0.55em !important;
+    cursor: pointer !important;
+    color: $body-text-color;
+
+    &-active {
+      background-color: $active-tournament  !important;
+    }
+    &-ready {
+      background-color: $future-tournament !important;
+    }
+    &-finalised {
+      background-color: $finished-tournament !important;
+    }
+  }
+}
+
 </style>
