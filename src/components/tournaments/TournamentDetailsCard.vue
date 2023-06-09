@@ -195,10 +195,118 @@ const closeModal = () => {
       margin-top: auto;
     }
   }
-
 }
 
-//@media screen and (max-width: $smDesktopWidth) {
+@media screen and (max-width: $tableWidth) {
+  .tournament-details-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
 
-//}
+    width: 100%;
+    background-color: $light-grey;
+    border-radius: $border-radius;
+    overflow: hidden;
+    font-style: normal;
+
+    .card-banner {
+      position: relative;
+      border-radius: $border-radius $border-radius 0 0;
+
+      width: 100%;
+      height: 35%;
+
+      .tournament-main-data {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .tournament-title {
+        color: $main-text-color-white;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 17px;
+        margin-bottom: 14px;
+      }
+
+      .countdown {
+        width: 50%;
+
+        .title-medium {
+          max-width: 100px;
+          padding-bottom: 10px;
+          margin-right: 65px;
+        }
+      }
+    }
+
+    .register-btn {
+      border-radius: $border-radius;
+      width: 35%;
+      padding: 10px 0;
+      margin-top: auto;
+    }
+
+    .tournament-data-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      padding: 20px 44px;
+
+      .tournament-info-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        width: 100%;
+        grid-gap: 15px;
+        padding: 20px 0;
+        margin-top: 25px;
+      }
+
+      .tournament-description {
+        display: flex;
+        flex-direction: column;
+        color: $main-text-color-white;
+        text-align: start;
+
+        &_title {
+          font-weight: 700;
+          font-size: 12px;
+          line-height: 14px;
+        }
+
+        &_description {
+          margin: 10px 0 20px;
+          font-weight: 500;
+          font-size: 10px;
+          line-height: 12px;
+        }
+      }
+
+      .register-btn {
+        border-radius: $border-radius;
+        width: 35%;
+        padding: 10px 0;
+        margin-top: auto;
+
+        font-weight: 700;
+        font-size: 12px;
+        line-height: 14px;
+      }
+    }
+  }
+}
 </style>
