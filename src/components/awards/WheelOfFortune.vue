@@ -9,6 +9,7 @@
 <script setup>
 import * as d3 from 'd3';
 import { computed, ref, onMounted } from 'vue';
+import useMobileDevice from '@/hooks/useMobileDevice';
 
 const props = defineProps({
   animDuration: {
@@ -40,6 +41,7 @@ const container = ref();
 const pie = ref(null);
 const rayon = ref(0);
 const rotation = ref(0);
+const { isMobile } = useMobileDevice();
 const style = ref({
   width: 600,
   height: 600,
@@ -217,6 +219,9 @@ const imageSize = 100;
 const addImage = () => {
   const arc = d3.arc().innerRadius(0).outerRadius(rayon.value)
 
+  const xy = isMobile.value ? imageSize / 4 : imageSize / 2;
+  const wh = isMobile.value ? imageSize / 2 : imageSize ;
+
   vis.value
       .selectAll('.middleArcText')
       .data(pie.value(props.modelValue))
@@ -232,14 +237,14 @@ const addImage = () => {
       })
       .attr('x', (d) => {
         const [x, y] = arc.centroid(d)
-        return x - imageSize / 2
+        return x - xy
       })
       .attr('y', (d) => {
         const [x, y] = arc.centroid(d)
-        return y - imageSize / 2
+        return y - xy
       })
-      .attr('width', imageSize)
-      .attr('height', imageSize)
+      .attr('width', wh)
+      .attr('height', wh)
       .style('borderRadius', imageSize / 2)
       .attr('xlink:href', (d) => {
         return d.data.image
@@ -289,7 +294,7 @@ const createArrow = () => {
         .append('g')
         .append('path')
         .attr('d', `M29.5015 34.8917C27.9007 36.9951 24.7362 36.9951 23.1354 34.8917L1.8143 6.87643C-0.18977 4.24313 1.68818 0.453968 4.99734 0.453968L47.6395 0.453968C50.9487 0.453968 52.8266 4.24313 50.8225 6.87642L29.5015 34.8917Z`)
-        .attr('transform', 'translate(-26, -310)')
+        .attr('transform', `translate(-26, -${(wheelSize.value.height / 2) - 50})`)
         .attr('stroke', '#FFD400')
         .attr('fill', '#FFD400')
         .attr('filter', 'url(#shadow)')
