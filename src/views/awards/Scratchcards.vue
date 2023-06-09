@@ -45,4 +45,29 @@ const images = [
     padding-top: 10px;
   }
 }
+
+@media screen and (max-width: $tableWidth) {
+  .page-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .page-title {
+      display: none;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 19px;
+      color: $main-text-color-white;
+      margin-top: 20px;
+    }
+
+    .page-description {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 17px;
+      color: $body-text-color;
+      padding-top: 10px;
+    }
+  }
+}
 </style>

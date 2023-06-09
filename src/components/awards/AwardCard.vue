@@ -49,17 +49,6 @@ watch(countdownResult, (value) => {
   background-color: $light-grey;
   border-radius: $border-radius;
 
-  @media screen and (max-width: $tableWidth) {
-    padding: 10px 20px;
-  }
-
-  &__expires-in {
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 16px;
-    color: $body-text-color;
-  }
-
   &__icon {
     width: 136px;
     height: 136px;
@@ -123,6 +112,87 @@ watch(countdownResult, (value) => {
     font-weight: 700;
     font-size: 14px;
     line-height: 17px;
+  }
+}
+
+@media screen and (max-width: $tableWidth) {
+  .award {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: $light-grey;
+    border-radius: $border-radius;
+
+    &__icon {
+      width: 136px;
+      height: 136px;
+      border-radius: $border-radius-round;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+
+      & > img {
+        width: inherit;
+        height: inherit;
+      }
+    }
+
+    &__name {
+      font-weight: 700;
+      font-size: 12px;
+      line-height: 14px;
+      color: $main-text-color-white;
+      margin: 5px 0;
+    }
+
+    &__type {
+      max-width: 100px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 14px;
+      color: $body-text-color;
+      margin-bottom: 10px;
+    }
+
+    &__btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: $border-radius;
+
+      > img {
+        margin-right: 5px;
+      }
+    }
+
+    .prize {
+      color: $main-text-color-white;
+      background-color: $dark-grey;
+      cursor: default;
+      border: none;
+      padding: 5px;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 19px;
+      margin-bottom: 10px;
+    }
+
+    .claim-button {
+      width: 100%;
+      border: 1px solid $purple;
+      background-color: $purple;
+      color: $main-text-color-white;
+      padding: 6px;
+      font-weight: 700;
+      font-size: 12px;
+      line-height: 14px;
+    }
   }
 }
 </style>

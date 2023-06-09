@@ -157,6 +157,7 @@ const createArc = () => {
       .attr('d', arc)
       .attr('stroke', '#8749DC') // items borders
       .attr('stroke-width', '3')
+      .attr('overflow', 'none')
       .attr('fill', (d, i) => {
         return d.data.bgColor;
       })
@@ -239,6 +240,7 @@ const addImage = () => {
       })
       .attr('width', imageSize)
       .attr('height', imageSize)
+      .style('borderRadius', imageSize / 2)
       .attr('xlink:href', (d) => {
         return d.data.image
       })

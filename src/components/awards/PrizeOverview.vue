@@ -115,4 +115,78 @@ const prizeName = computed(() => (idx) => {
     color: $main-text-color-white;
   }
 }
+@media screen and (max-width: $tableWidth) {
+  .prize-overview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .prizes-title {
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 17px;
+      color: $main-text-color-white;
+    }
+
+    .prizes {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 30px;
+
+      .prize-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .prize {
+          position: relative;
+          overflow: hidden;
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          background: radial-gradient(50% 50% at 50% 50%, #38ACCF 0%, rgba(56, 172, 207, 0) 100%);
+          margin: 0 16px;
+
+          & > img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+
+        .prize-name {
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 14px;
+          color: $body-text-color;
+          margin-top: 10px;
+          text-transform: capitalize;
+        }
+      }
+    }
+
+    .scratch-all-btn {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 57px;
+      background-color: $purple;
+      border-radius: $border-radius;
+      border: none;
+      margin-top: 50px;
+
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 17px;
+      color: $main-text-color-white;
+    }
+  }
+}
 </style>

@@ -151,4 +151,41 @@ const closeModal = () => {
   }
 }
 
+@media screen and (max-width: $tableWidth) {
+  .scratch-cards {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+
+    .scratch-cards-block {
+      margin-right: 0;
+
+      .scratch-cards-row {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 15px;
+      }
+
+      .cell {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        margin: 0 10px;
+        border: 1px solid #406A8C;
+        box-shadow: 0 2px 12px rgba(64, 106, 140, 0.5);
+        border-radius: $border-radius;
+        overflow: hidden;
+      }
+    }
+
+    .prize-overview-block {
+      margin-top: 20px;
+      margin-left: 0;
+    }
+  }
+}
+
 </style>

@@ -74,10 +74,16 @@ onMounted(() => {
   width: 100%;
   grid-gap: 15px;
   margin: 30px 0;
+}
 
-  @media screen and (max-width: $tableWidth) {
+@media screen and (max-width: $tableWidth) {
+  .awards-cards-grid {
+    display: grid;
     grid-template-columns: repeat(2, 1fr);
+    width: 100%;
     grid-gap: 8px;
+
+    margin-top: 10px;
   }
 }
 </style>

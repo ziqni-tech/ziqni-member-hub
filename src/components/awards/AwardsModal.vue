@@ -82,4 +82,41 @@ const doFunction = () => {
     border-radius: $border-radius;
   }
 }
+@media screen and (max-width: $tableWidth) {
+  .modal-content {
+    background-color: $light-grey;
+    color: $body-text-color;
+
+    .award-modal-title {
+      margin: auto;
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 17px;
+      color: $main-text-color-white;
+      padding-top: 20px;
+    }
+
+    .award-description {
+      font-weight: 700;
+      font-size: 12px;
+      line-height: 14px;
+      color: $body-text-color;
+      padding-top: 10px;
+    }
+
+
+    .confirm-btn {
+      margin: 20px auto;
+      background-color: $purple;
+      color: $main-text-color-white;
+      border: none;
+
+      font-weight: 700;
+      font-size: 12px;
+      line-height: 14px;
+      padding: 10px 57px;
+      border-radius: $border-radius;
+    }
+  }
+}
 </style>
