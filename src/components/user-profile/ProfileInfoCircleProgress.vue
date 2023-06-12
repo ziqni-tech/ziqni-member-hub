@@ -26,7 +26,7 @@ const props = defineProps({
   isPercents: Boolean
 })
 
-const diameter = 100;
+const diameter = 90;
 const strokeWidth = 5;
 const strokeLinecap = 'round';
 const innerStrokeColor = '#141E28';

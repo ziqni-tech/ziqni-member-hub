@@ -1,9 +1,11 @@
 <template>
-  <div id="user-profile">
+  <div id="user-profile-mobile" :class="{ open: isProfileInfo }">
     <div class="background-block" :style="{ 'background-image': `url(${require('@/assets/images/user/cover.png')})` }">
       <div class="buttons">
-        <button class="btn"><img :src="notificationIcon" alt=""></button>
         <ToggleTheme class="btn" />
+        <button class="btn" v-if="isMobile" @click="closeProfileInfo">
+          <img src="@/assets/icons/user-info/close.png" alt="">
+        </button>
       </div>
     </div>
     <div class="user-info">
@@ -43,17 +45,41 @@
         />
       </div>
     </div>
+    <div class="border-block"></div>
+    <button
+        class="logout-mobile-btn"
+        @click="logOut"
+    >
+      logout
+    </button>
   </div>
 </template>
 
 <script setup>
-import notificationIcon from '@/assets/icons/user-info/notification.png';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 import ProfileInfoCircleProgress from './ProfileInfoCircleProgress';
 import ToggleTheme from '@/shared/components/ToggleTheme.vue';
+import useMobileDevice from '@/hooks/useMobileDevice';
 
 const store = useStore();
+const { isMobile } = useMobileDevice();
+const emit = defineEmits(['closeProfileInfo', 'logOut'])
+
+const props = defineProps({
+  isProfileInfo: {
+    type: Boolean,
+    default: false
+  }
+})
+
+const closeProfileInfo = () => {
+  emit('closeProfileInfo')
+}
+
+const logOut = () => {
+  emit('logOut')
+}
 
 const member = computed(() => store.getters.getMember);
 
@@ -62,11 +88,16 @@ const member = computed(() => store.getters.getMember);
 <style lang="scss">
 @import "src/assets/scss/_variables";
 
-#user-profile {
+#user-profile-mobile {
   display: flex;
   flex-direction: column;
+  background-color: $light-grey;
+  position: fixed;
+  top: 0;
+  right: -100%;
   width: 100%;
-  height: inherit;
+  height: 100%;
+  transition: right 0.3s ease-in-out;
 
   .background-block {
     display: flex;
@@ -159,7 +190,34 @@ const member = computed(() => store.getters.getMember);
       grid-template-rows: repeat(2, minmax(0, 1fr));
       gap: 41px 16px;
       margin-top: 50px;
+      margin-bottom: 20px;
     }
   }
+
+  .border-block {
+    height: 0;
+    width: 90%;
+    margin: auto;
+    border-bottom: 1px solid $border-dark;
+  }
+
+  .logout-mobile-btn {
+    width: 320px;
+    margin: 0 auto 20px;
+    padding: 10px;
+    border-radius: $border-radius;
+    border: 1px solid $purple;
+    background: none;
+
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 14px;
+
+    color: $main-text-color-white;
+  }
+}
+
+#user-profile-mobile.open {
+  right: 0;
 }
 </style>

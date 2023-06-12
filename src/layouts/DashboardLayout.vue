@@ -10,17 +10,23 @@
       <UserProfile />
     </div>
   </div>
-  <div v-if="isMobile" id="mobile-layout">
+  <div v-if="isMobile && !isProfileInfo" id="mobile-layout">
     <div class="mobile-header">
       <button class="btn"><img src="@/assets/icons/user-info/notification.png" alt=""></button>
       <span class="page-name">{{ router.currentRoute.value.name }}</span>
-      <ToggleTheme class="btn"/>
+      <button class="btn" @click="openProfileInfo"><img src="@/assets/icons/user-info/user.png" alt=""></button>
     </div>
     <div id="mobile-layout-main-block">
       <Dashboard />
     </div>
     <MobileNav />
   </div>
+  <UserProfileMobile
+      @closeProfileInfo="closeProfileInfo"
+      @logOut="logOut"
+      :class="{ open: isProfileInfo }"
+      :isProfileInfo="isProfileInfo"
+  />
 </template>
 
 <script setup>
@@ -28,12 +34,12 @@ import { ApiClientStomp, MemberRequest, MembersApiWs } from '@ziqni-tech/member-
 import { computed, onMounted, ref, watch, watchEffect } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import TheSidebar from '../components/sidebar/TheSidebar';
-import UserProfile from '../components/user-profile/UserProfile';
-import Dashboard from '../views/Dashboard';
+import TheSidebar from '@/components/sidebar/TheSidebar';
+import UserProfile from '@/components/user-profile/UserProfile';
+import Dashboard from '@/views/Dashboard';
 import useMobileDevice from '@/hooks/useMobileDevice';
-import ToggleTheme from '@/shared/components/ToggleTheme';
 import MobileNav from '@/components/sidebar/MobileNav.vue';
+import UserProfileMobile from '@/components/user-profile/UserProfileMobile.vue';
 
 const router = useRouter();
 
@@ -43,10 +49,19 @@ const { isMobile } = useMobileDevice();
 const message = ref(null);
 const isDarkMode = computed(() => store.getters.getTheme);
 const isClientConnected = computed(() => store.getters.getIsConnectedClient);
+const isProfileInfo = ref(false);
+
+const openProfileInfo = () => {
+  isProfileInfo.value = true;
+}
+
+const closeProfileInfo = () => {
+  isProfileInfo.value = false;
+}
 
 onMounted(async () => {
   await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
-  await store.dispatch('setIsConnectedClient', true)
+  await store.dispatch('setIsConnectedClient', true);
 });
 
 const getMemberRequest = async () => {
@@ -131,6 +146,19 @@ html, body {
     overflow: auto;
     width: 20%;
   }
+}
+
+.user-profile {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 100%;
+  height: 100%;
+  transition: right 0.3s ease-in-out;
+}
+
+.user-profile.open {
+  right: 0;
 }
 
 .app-spinner {
