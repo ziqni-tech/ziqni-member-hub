@@ -5,7 +5,7 @@
   >
     <router-link :to="item.to" class="nav-item">
       <div class="nav-item__icon-wrapper">
-        <component class="icon" :is="item.icon"/>
+        <component class="icon" :is="item.icon" :strokeColor="getIconStrokeColor(item)"/>
       </div>
       <span class="nav-item__title">{{ item.name }}</span>
     </router-link>
@@ -14,7 +14,17 @@
 
 <script setup>
 import { CNavItem } from '@coreui/vue';
+import { useRoute } from 'vue-router';
 const props = defineProps({ navItems: Array });
+
+const route = useRoute();
+const getIconStrokeColor = (item) => {
+  if (route.path === item.to) {
+    return '#8749DC';
+  } else {
+    return '#8B96BE';
+  }
+};
 
 </script>
 
@@ -63,7 +73,7 @@ const props = defineProps({ navItems: Array });
   }
 
   > .router-link-active {
-    background-color: $purple;
+    //background-color: $purple;
     color: $main-text-color-white;
   }
 }
