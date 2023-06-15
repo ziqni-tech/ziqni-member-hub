@@ -7,7 +7,6 @@
 
 <script setup>
 import Scratchcards from '@/components/awards/ScratchCards'
-import PrizeOverview from '@/components/awards/PrizeOverview.vue';
 
 import firstPrize from '@/assets/images/instant-wins/first_prize.png'
 import secondPrize from '@/assets/images/instant-wins/second_prize.png'
