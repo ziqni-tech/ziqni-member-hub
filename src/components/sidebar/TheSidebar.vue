@@ -4,9 +4,14 @@
       <div class="logo-wrapper">
         <img
             class="logo"
-            :src="require(`../../assets/icons/logo-dark.svg`)"
+            src="https://a.storyblok.com/f/157554/x/d874de8b74/sign-easter.svg"
             alt="logo"
         />
+        <img
+            class="logo-name"
+            src="https://a.storyblok.com/f/157554/x/ab3b3516a2/blazzio-logo-text.svg"
+            alt=""
+        >
       </div>
     </div>
     <SidebarNav :nav-items="sidebarNav" />
@@ -58,8 +63,18 @@ const logOut = () => emit('logOut');
     padding: 24px 0 50px;
 
     .logo-wrapper {
-      width: 100px;
-      height: 20px;
+      display: flex;
+      align-items: center;
+
+      .logo {
+        height: 28px;
+        width: 28px;
+        margin-right: 15px;
+      }
+
+      .logo-name {
+        height: 20px;
+      }
     }
   }
 
