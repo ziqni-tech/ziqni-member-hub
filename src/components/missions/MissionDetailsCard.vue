@@ -2,7 +2,11 @@
   <div v-if="isLoaded" class="mission-details-card">
     <div class="card-header">
       <button class="card-header_btn" @click="goBack">&lt;</button>
-      <button class="card-header_btn" @click="goToInfo">i</button>
+      <button v-if="isReadMore" class="card-header_btn" @click="goToInfo">i</button>
+      <div v-if="!isInfo && !isReadMore" class="prize">
+        <img src="@/assets/icons/achievements/diamond.png" alt="">
+        <div class="prize-value">1000</div>
+      </div>
     </div>
     <div class="mission-details-data">
       <div class="mission-details-card__img">
@@ -378,6 +382,31 @@ const closeModal = () => {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    .prize {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: $border-radius;
+      background: $dark-grey;
+      padding: 15px 40px;
+
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 17px;
+      color: $main-text-color-white;
+      vertical-align: middle;
+
+      .prize-value {
+        padding-top: 3px;
+      }
+
+      > img {
+        height: 10px;
+        width: 12px;
+        margin-right: 7px;
+      }
+    }
 
     &_btn {
       width: 30px;
