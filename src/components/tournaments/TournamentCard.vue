@@ -91,7 +91,7 @@ const goToTournamentsDetailsPage = () => {
       align-items: center;
       padding: 10px 57px;
 
-      background: $purple;
+      background: $btn-gradient-color;
       border-radius: $border-radius;
       border: 1px solid $border-dark;
 

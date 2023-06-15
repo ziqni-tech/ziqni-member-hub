@@ -106,7 +106,7 @@ watch(countdownResult, (value) => {
 
   .claim-button {
     border: 1px solid $purple;
-    background-color: $purple;
+    background: $btn-gradient-color;
     color: $main-text-color-white;
     padding: 10px 57px;
     font-weight: 700;
@@ -186,7 +186,7 @@ watch(countdownResult, (value) => {
     .claim-button {
       width: 100%;
       border: 1px solid $purple;
-      background-color: $purple;
+      background: $btn-gradient-color;
       color: $main-text-color-white;
       padding: 6px;
       font-weight: 700;

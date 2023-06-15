@@ -82,7 +82,7 @@ const goToMissionsMapPage = () => {
       align-items: center;
       justify-content: center;
       border-radius: $border-radius-sm;
-      background-color: $purple-light;
+      background: $btn-gradient-color;
       padding: 8px 16px;
       color: $main-text-color-white;
 
@@ -198,7 +198,7 @@ const goToMissionsMapPage = () => {
 
       .go-button {
         border: 1px solid $purple;
-        background-color: $purple;
+        background: $btn-gradient-color;
         color: $main-text-color-white;
       }
     }

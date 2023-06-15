@@ -107,7 +107,7 @@ const doFunction = () => {
 
     .confirm-btn {
       margin: 20px auto;
-      background-color: $purple;
+      background: $btn-gradient-color;
       color: $main-text-color-white;
       border: none;
 

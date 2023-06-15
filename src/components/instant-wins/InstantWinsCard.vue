@@ -32,7 +32,7 @@ const play = () => {
   display: flex;
   padding: 10px;
   border-radius: $border-radius;
-  background-color: $light-grey;
+  background-color: $card-bg-color;
 
   width: 100%;
   height: auto;
@@ -87,7 +87,7 @@ const play = () => {
       align-items: center;
       padding: 10px 57px;
 
-      background: $purple;
+      background: $btn-gradient-color;
       border-radius: $border-radius;
       border: 1px solid $border-dark;
 
@@ -165,7 +165,7 @@ const play = () => {
         align-items: center;
         padding: 6px;
 
-        background: $purple;
+        background: $btn-gradient-color;
         border-radius: $border-radius;
         border: 1px solid $border-dark;
 

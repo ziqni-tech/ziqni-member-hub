@@ -104,7 +104,7 @@ const prizeName = computed(() => (idx) => {
     justify-content: center;
     align-items: center;
     padding: 10px 57px;
-    background-color: $purple;
+    background: $btn-gradient-color;
     border-radius: $border-radius;
     border: none;
     margin-top: 50px;

@@ -186,7 +186,7 @@ const leave = () => {
     }
 
     .join-btn {
-      background-color: $purple;
+      background: $btn-gradient-color;
     }
 
     .prize {

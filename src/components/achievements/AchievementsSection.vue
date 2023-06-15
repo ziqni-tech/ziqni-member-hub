@@ -334,7 +334,7 @@ onMounted(() => {
 }
 
 .nav-pills .nav-link.active {
-  background-color: $purple;
+  background: $btn-gradient-color;
 }
 
 .achievements-dashboard-cards-grid {
