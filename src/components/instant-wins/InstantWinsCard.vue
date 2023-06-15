@@ -102,7 +102,7 @@ const play = () => {
   }
 }
 
-@media screen and (max-width: $tableWidth) {
+@media screen and (max-width: 1024px) {
   .instant-wins-card {
     display: flex;
     flex-direction: column;
