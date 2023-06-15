@@ -63,7 +63,7 @@ const achievementsRequest = AchievementRequest.constructFromObject({
       moreThan: 20,
       lessThan: 30
     },
-    constraints: ['hasNoDependancies']
+    constraints: ['mission']
   },
 }, null);
 
