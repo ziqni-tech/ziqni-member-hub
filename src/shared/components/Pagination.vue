@@ -118,7 +118,7 @@ function changePage(pageNumber) {
   }
 
   .active {
-    background-color: $purple;
+    background: $btn-gradient-color;
   }
 
   button[disabled] {
