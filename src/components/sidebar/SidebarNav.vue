@@ -19,7 +19,7 @@ const props = defineProps({ navItems: Array });
 
 const route = useRoute();
 const getIconStrokeColor = (item) => {
-  if (route.path === item.to) {
+  if (route.path.startsWith(item.to)) {
     return '#8749DC';
   } else {
     return '#8B96BE';

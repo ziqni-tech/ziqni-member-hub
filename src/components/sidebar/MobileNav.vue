@@ -6,7 +6,7 @@
     >
       <router-link :to="item.to" class="mob-nav-item">
         <div class="icon-wrapper">
-          <component class="icon" :is="item.icon"/>
+          <component class="icon" :is="item.icon" :strokeColor="getIconStrokeColor(item)" />
         </div>
         <span v-if="isActive(item.to)" class="item-name">{{ item.name }}</span>
       </router-link>
@@ -20,10 +20,18 @@ import { CNavItem } from '@coreui/vue';
 import sidebarNav from './sidebarNav';
 import { useRoute } from 'vue-router';
 
-const route = useRoute()
+const route = useRoute();
+
+const getIconStrokeColor = (item) => {
+  if (route.path.startsWith(item.to)) {
+    return '#8749DC';
+  } else {
+    return '#8B96BE';
+  }
+};
 
 const isActive = (path) => {
-  return route.path === path
+  return route.path.startsWith(path)
 }
 
 </script>
@@ -41,7 +49,7 @@ const isActive = (path) => {
     display: flex;
 
     > .router-link-active {
-      background-color: $purple;
+      background: radial-gradient(84.48% 157.68% at 50.5% 101.43%, rgba(127, 33, 255, 0.2) 0%, rgba(19, 22, 33, 0) 69.27%);
       color: $main-text-color-white;
       border-radius: 8px;
     }
