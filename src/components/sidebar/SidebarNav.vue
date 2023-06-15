@@ -73,8 +73,18 @@ const getIconStrokeColor = (item) => {
   }
 
   > .router-link-active {
-    //background-color: $purple;
     color: $main-text-color-white;
+
+    &:before {
+      left: -20px;
+      content: "";
+      position: absolute;
+      width: 56px;
+      height: 95px;
+      background-image: radial-gradient(84.48% 157.68% at 50.5% 101.43%, rgb(127, 33, 255) 0%, rgba(41, 24, 79, 0) 66.15%, rgba(19, 22, 33, 0) 100%);
+      opacity: 0.2;
+      transform: rotate(90deg);
+    }
   }
 }
 </style>
