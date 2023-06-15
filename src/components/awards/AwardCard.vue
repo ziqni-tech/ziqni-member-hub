@@ -73,11 +73,15 @@ watch(countdownResult, (value) => {
   }
 
   &__type {
+    max-width: 170px;
     font-weight: 400;
     font-size: 14px;
     line-height: 17px;
     color: $body-text-color;
     margin-bottom: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &__btn {
