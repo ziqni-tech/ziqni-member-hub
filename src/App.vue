@@ -18,6 +18,6 @@
   color: $sidebar-text-color;
   width: 100%;
   height: 100vh;
-  background: $light-grey;
+  background: $dark-grey;
 }
 </style>
