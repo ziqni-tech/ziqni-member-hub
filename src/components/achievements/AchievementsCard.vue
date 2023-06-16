@@ -1,9 +1,9 @@
 <template>
-  <div class="achievements-card">
+  <div class="achievements-card" @click="goToAchievementDetails">
     <div class="top-section">
       <div class="left-section">
         <div class="icon">
-          <img src="../../assets/icons/achievements/book.png" alt="">
+          <img :src="defaultIcon" alt="">
         </div>
       </div>
       <div class="right-section">
@@ -28,7 +28,7 @@
       <button
         class="btn go-button"
         :class="{'join-btn': !isEntrant}"
-        @click="isEntrant ? openModal() : join()"
+        @click.stop="isEntrant ? openModal() : join()"
       >
         {{ isEntrant ? 'Leave' : 'Join' }}
       </button>
@@ -46,9 +46,14 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue';
-import Modal from '@/shared/components/Modal.vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useStore } from 'vuex';
+
+import Modal from '@/shared/components/Modal.vue';
+import defaultIcon from '@/assets/icons/achievements/book.png'
+import { ApiClientStomp, FilesApiWs } from '@ziqni-tech/member-api-client';
+import router from '@/router';
+
 
 const props = defineProps({
   achievement: { type: Object, required: true }
@@ -63,7 +68,26 @@ let leaveModal = ref(false);
 const achievement = props.achievement;
 const entrantStatus = ref('');
 
+const achievementIcon = ref(null)
+
 const isEntrant = computed(() => entrantStatus.value === 'Entrant' || entrantStatus.value === 'Entering');
+const getIconRequest = async () => {
+  const fileApiWsClient = new FilesApiWs(ApiClientStomp.instance);
+
+  const fileRequest = {
+    ids: [achievement.icon],
+    limit: 1,
+    skip: 0
+  };
+
+  await fileApiWsClient.getFiles(fileRequest, (res) => {
+    achievementIcon.value = res.data;
+    console.warn('achievementIcon', res.data);
+  });
+};
+
+onMounted(() => getIconRequest())
+
 
 watch(() => store.getters.getAchievements, (newValue) => {
   const newArr = newValue.filter(item => item.id === achievement.id);
@@ -87,6 +111,16 @@ const leave = () => {
   emit('leaveAchievement', { id: achievement.id, name: achievement.name });
   leaveModal.value = false;
 };
+
+const goToAchievementDetails = () => {
+
+  router.push({
+    name: 'AchievementDetails',
+    params: {
+      id: achievement.id,
+    }
+  })
+}
 </script>
 
 <style lang="scss">
@@ -97,6 +131,8 @@ const leave = () => {
   background-color: $light-grey;
   border-radius: $border-radius;
   padding: 10px 16px 14px;
+
+  cursor: pointer;
 
   .top-section {
     display: flex;

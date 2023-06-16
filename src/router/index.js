@@ -68,11 +68,18 @@ const routes = [
         path: 'achievements',
         name: 'Achievements',
         component: () => import('@/layouts/DefaultLayout'),
-        children: [{
-          path: '',
-          name: 'Achievements',
-          component: () => import('@/views/Achievements')
-        }]
+        children: [
+          {
+            path: '',
+            name: 'Achievements',
+            component: () => import('@/views/achievements/Achievements')
+          },
+          {
+            path: 'details/:id',
+            name: 'AchievementDetails',
+            component: () => import('@/views/achievements/AchievementDetails'),
+          },
+        ]
       },
       {
         path: 'awards',

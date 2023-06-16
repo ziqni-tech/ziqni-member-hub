@@ -1,7 +1,9 @@
 <template>
   <div v-if="isLoaded" class="mission-details-card">
     <div class="card-header">
-      <button class="card-header_btn" @click="goBack">&lt;</button>
+      <button class="card-header_btn" @click="goBack">
+        <img src="@/assets/icons/back_arrow.png" alt="">
+      </button>
       <button v-if="isReadMore" class="card-header_btn" @click="goToInfo">i</button>
       <div v-if="!isInfo && !isReadMore" class="prize">
         <img src="@/assets/icons/achievements/diamond.png" alt="">

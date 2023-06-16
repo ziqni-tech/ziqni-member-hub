@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import AchievementsSection from '../components/achievements/AchievementsSection';
+import AchievementsSection from '@/components/achievements/AchievementsSection.vue';
 
 </script>
 
