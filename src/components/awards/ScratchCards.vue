@@ -132,7 +132,9 @@ function initCanvas() {
         ctx.clip();
 
         ctx.fillStyle = '#BEE9F3';
-        ctx.font = '40px Syne';
+        ctx.font = '40px AvertaStd-Regular';
+        ctx.strokeStyle = '#8749DC';
+        ctx.stroke();
 
         // Исправляем координаты текста
         const textWidth = ctx.measureText(scratchText.value).width;
@@ -293,8 +295,15 @@ const closeModal = () => {
   isShowModal.value = false;
 };
 
+const clearCanvas = () => {
+  const canvas = canvasRef.value;
+  const context = canvas.getContext('2d');
+  context.clearRect(0, 0, canvas.width, canvas.height);
+};
+
 watch(isAutoScratchAll, (value) => {
   if (value) {
+    clearCanvas()
     const prizes = props.prizes;
     const randomIndex = Math.floor(Math.random() * prizes.length);
     const prize = prizes[randomIndex];
@@ -337,7 +346,6 @@ const done = (prize) => {
   }
 
   .scratch-cards-block {
-    margin-right: 50px;
 
     .scratch-cards-row {
       display: flex;
@@ -352,7 +360,7 @@ const done = (prize) => {
       width: 80px;
       height: 80px;
       margin: 0 10px;
-      border: 1px solid #406A8C;
+      border: 1px solid #8749DC;
       box-shadow: 0 2px 12px rgba(64, 106, 140, 0.5);
       border-radius: $border-radius;
       overflow: hidden;
@@ -362,5 +370,10 @@ const done = (prize) => {
 
 .scratch-cards-row {
   display: flex;
+}
+@media screen and (max-width: $tableWidth) {
+  .scratch-cards {
+    margin-top: 20px;
+  }
 }
 </style>
