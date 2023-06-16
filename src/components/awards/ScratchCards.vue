@@ -231,16 +231,23 @@ function canvasMouseUp() {
 function canvasTouchStart(e) {
   e.preventDefault();
   isDrawing = true;
-  const { offsetX, offsetY } = getOffsetXY(e.touches[0]);
+  const { clientX, clientY } = e.touches[0];
+  const rect = canvasRef.value.getBoundingClientRect();
+  const offsetX = clientX - rect.left;
+  const offsetY = clientY - rect.top;
   ctx.beginPath();
   ctx.moveTo(offsetX, offsetY);
 }
 
 function canvasTouchMove(e) {
   if (!isDrawing) return;
-  const { offsetX, offsetY } = getOffsetXY(e.touches[0]);
+  const { clientX, clientY } = e.touches[0];
+  const rect = canvasRef.value.getBoundingClientRect();
+  const offsetX = clientX - rect.left;
+  const offsetY = clientY - rect.top;
   ctx.lineTo(offsetX, offsetY);
   ctx.stroke();
+  scratching();
 }
 
 function canvasTouchEnd() {
