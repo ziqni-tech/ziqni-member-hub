@@ -2,11 +2,11 @@
 <div class="prize-overview">
   <h3 class="prizes-title">Uncover your prize by scratching away!</h3>
   <div class="prizes">
-    <div class="prize-wrapper" v-for="(prize, idx) in prizes">
+    <div class="prize-wrapper" v-for="(prize) in prizes">
       <div class="prize">
-        <img :src="prize" alt="prize">
+        <img :src="prize.image" alt="prize">
       </div>
-      <span class="prize-name">{{ prizeName(idx) }} prize</span>
+      <span class="prize-name">{{ prize.prize }} prize</span>
     </div>
   </div>
   <button class="scratch-all-btn" @click="scratchAllCards">Scratch all</button>
@@ -14,7 +14,6 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
 import { useStore } from 'vuex';
 
 const props = defineProps({
@@ -26,17 +25,6 @@ const store = useStore()
 const scratchAllCards = () => {
   store.dispatch('setIsScratchAllCards', true)
 }
-
-const prizeName = computed(() => (idx) => {
-  switch (idx) {
-    case 0:
-      return 'first';
-    case 1:
-      return 'second';
-    case 2:
-      return 'third';
-  }
-})
 
 </script>
 
@@ -180,7 +168,7 @@ const prizeName = computed(() => (idx) => {
       background-color: $purple;
       border-radius: $border-radius;
       border: none;
-      margin-top: 50px;
+      margin-top: 30px;
 
       font-weight: 700;
       font-size: 14px;
