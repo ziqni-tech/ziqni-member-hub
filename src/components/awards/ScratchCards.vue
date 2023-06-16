@@ -160,26 +160,23 @@ const fadeOut = (ctx) => {
 };
 
 const getFilledPercentage = (ctx) => {
-  let imgData;
-  if (position.value === 1) {
-    imgData = ctx.getImageData(0, 0, height.value, width.value);
-  }
-  if (position.value === 2) {
-    imgData = ctx.getImageData(150, 0, height.value, width.value);
-  }
-
+  let imgData = ctx.getImageData(0, 0, width.value, height.value);
   let pixels = imgData.data;
-  let n = 0;
-  for (let i = 0; i < pixels.length; i += 100) {
-    if (pixels[i + 3] < 128) {
-      n += 100;
+  let totalPixels = pixels.length / 4;
+  let transparentPixels = 0;
+
+  for (let i = 3; i < pixels.length; i += 4) {
+    if (pixels[i] < 128) {
+      transparentPixels++;
     }
   }
 
-  if (n >= pixels.length * 0.7) {
+  let filledPercentage = (transparentPixels / totalPixels) * 100;
+
+  if (filledPercentage >= 90) {
     ctx.globalCompositeOperation = 'destination-over';
     fadeOut(ctx);
-    store.dispatch('setIsScratchAllCards', true)
+    store.dispatch('setIsScratchAllCards', true);
   }
 };
 
