@@ -26,7 +26,7 @@
         1000
       </div>
       <button
-        class="btn go-button"
+        class="btn leave-button"
         :class="{'join-btn': !isEntrant}"
         @click.stop="isEntrant ? openModal() : join()"
       >
@@ -221,6 +221,10 @@ const goToAchievementDetails = () => {
       > img {
         margin-right: 5px;
       }
+    }
+
+    .leave-button {
+      background: $btn-grey;
     }
 
     .join-btn {

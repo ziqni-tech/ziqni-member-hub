@@ -1,5 +1,10 @@
 <template>
-  <AchievementDetailsCard :achievement="achievement" />
+  <AchievementDetailsCard
+      v-if="isLoaded"
+      :achievement="achievement"
+      @joinAchievement="joinAchievement"
+      @leaveAchievement="leaveAchievement"
+  />
 </template>
 
 <script setup>
@@ -11,10 +16,12 @@ import {
   AchievementRequest,
   AchievementsApiWs,
   ApiClientStomp,
+  ManageOptinRequest,
   OptInApiWs,
   OptInStatesRequest
 } from '@ziqni-tech/member-api-client';
 import AchievementDetailsCard from '@/components/achievements/AchievementDetailsCard.vue';
+import { useStore } from 'vuex';
 
 const router = useRouter()
 
@@ -23,12 +30,12 @@ const ids = [route.params.id];
 const isLoaded = ref(false);
 const achievements = ref([]);
 const achievement = ref({});
+const store = useStore();
 
 onMounted(() => {
   getAchievementsRequest()
 })
 const getAchievementsRequest = async () => {
-  console.warn('getAchievementsRequest');
   const achievementsApiWsClient = new AchievementsApiWs(ApiClientStomp.instance);
 
   const achievementsRequest = AchievementRequest.constructFromObject({
@@ -70,7 +77,7 @@ const getOptInStatus = async (ids) => {
       entityTypes: ['Achievement'],
       ids: ids,
       statusCodes: {
-        gt: 0,
+        gt: -5,
         lt: 40
       },
       skip: 0,
@@ -93,6 +100,48 @@ const getOptInStatus = async (ids) => {
     }
     achievement.value = achievements.value[0];
     isLoaded.value = true;
+  });
+};
+
+const joinAchievement = async ({ id, name }) => {
+  const optInApiWsClient = new OptInApiWs(ApiClientStomp.instance);
+
+  const optInRequest = ManageOptinRequest.constructFromObject({
+    entityId: id,
+    entityType: 'Achievement',
+    action: 'join'
+  }, null);
+
+  await optInApiWsClient.manageOptin(optInRequest, (res) => {
+    if (res.data) {
+      const message = `You successfully joined the ${ name } tournament`;
+      store.dispatch('setAlertMessage', message);
+
+      setTimeout(async () => {
+        await getAchievementsRequest();
+      }, 5000);
+    }
+  });
+};
+
+const leaveAchievement = async ({ id, name }) => {
+  const optInApiWsClient = new OptInApiWs(ApiClientStomp.instance);
+
+  const optInRequest = ManageOptinRequest.constructFromObject({
+    entityId: id,
+    entityType: 'Achievement',
+    action: 'leave'
+  }, null);
+
+  await optInApiWsClient.manageOptin(optInRequest, (res) => {
+    if (res.data) {
+      const message = `You successfully leaved the ${ name } tournament`;
+      store.dispatch('setAlertMessage', message);
+
+      setTimeout(async () => {
+        await getAchievementsRequest();
+      }, 5000);
+    }
   });
 };
 

@@ -197,7 +197,7 @@ const getOptInStatus = async (ids) => {
       entityTypes: ['Achievement'],
       ids: ids,
       statusCodes: {
-        gt: 0,
+        gt: -5,
         lt: 40
       },
       skip: 0,

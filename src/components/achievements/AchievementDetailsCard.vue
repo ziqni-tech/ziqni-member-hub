@@ -19,7 +19,7 @@
     </div>
     <div class="description">
       <span class="description-title">Description</span>
-      <span class="description-value" >
+      <span class="description-value">
         {{ achievement.description ? achievement.description : testDescription }}
       </span>
     </div>
@@ -28,23 +28,92 @@
         <img src="@/assets/icons/achievements/diamond.png" alt="">
         1000
       </div>
-      <button class="action-btn">Leave</button>
+      <button
+          v-if="!isCompleted"
+          class="action-btn"
+          @click="handleButtonClick"
+          :disabled="isLoading"
+          :class="{ 'disabled-btn': isLoading }"
+      >
+        <CSpinner v-if="isLoading" grow size="sm"/>
+        <span v-else>{{ isEntrant ? 'Leave' : 'Join' }}</span>
+      </button>
+      <button
+          v-else
+          class="action-btn"
+          :disabled="true"
+      >
+        <span>Completed</span>
+      </button>
     </div>
   </div>
+  <Modal
+      :modalShow="leaveModal"
+      :messageGeneral="'Are you sure you want to leave this achievement?'"
+      :title="'Leave the achievement'"
+      :successBtnLabel="'Leave'"
+      @doFunction="leave"
+      @closeModal="closeModal"
+      v-on:toggle-modal="leaveModal = false"
+  />
 </template>
 
 <script setup>
 
-import defaultIcon from '@/assets/icons/achievements/book.png'
-import { ref } from 'vue';
+import defaultIcon from '@/assets/icons/achievements/book.png';
+import { ref, toRef, watch } from 'vue';
+import Modal from '@/shared/components/Modal.vue';
+import { CSpinner } from '@coreui/vue';
 
 const props = defineProps({
   achievement: Object
-})
+});
 
-const testDescription = ref('Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.')
+const emit = defineEmits(['joinAchievement', 'leaveAchievement']);
 
-console.warn('PROS', props.achievement);
+const achievement = toRef(props, 'achievement');
+const isEntrant = ref(achievement.value.entrantStatus === 'Entrant' || achievement.value.entrantStatus === 'Entering');
+const isCompleted = ref(achievement.value.entrantStatus === 'Completed');
+const isLoading = ref(false);
+
+watch(achievement, (newVal) => {
+  isEntrant.value = newVal.entrantStatus === 'Entrant' || newVal.entrantStatus === 'Entering';
+  isLoading.value = false;
+});
+
+const testDescription = ref('Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.');
+const leaveModal = ref(false);
+const closeModal = () => {
+  leaveModal.value = false;
+};
+
+const join = () => {
+  emit('joinAchievement', {id: achievement.value.id, name: achievement.value.name});
+};
+
+const leave = () => {
+  emit('leaveAchievement', {id: achievement.value.id, name: achievement.value.name});
+  leaveModal.value = false;
+};
+
+const handleButtonClick = async () => {
+  if (isLoading.value) {
+    return;
+  }
+
+  isLoading.value = true;
+
+  try {
+    if (isEntrant.value) {
+      await leave();
+    } else {
+      await join();
+    }
+  } catch (e) {
+    console.log('click btn error', e);
+  }
+};
+
 </script>
 
 <style lang="scss" scoped>
@@ -106,7 +175,7 @@ console.warn('PROS', props.achievement);
       width: 100%;
 
       .progress {
-        width: 90%;
+        width: 100%;
         height: 4px;
         background-color: $dark-blue;
         margin: 10px 0;
@@ -164,12 +233,18 @@ console.warn('PROS', props.achievement);
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 10px 57px;
+      width: 150px;
+      padding: 10px;
 
       background: $purple-gradient;
       border-radius: 10px;
       border: 1px solid $purple;
       color: $text-color-white;
+    }
+
+    .disabled-btn {
+      background: $btn-grey;
+      border: 1px solid $btn-grey;
     }
 
     .prize-btn {

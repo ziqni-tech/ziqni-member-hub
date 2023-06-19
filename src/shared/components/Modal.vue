@@ -83,6 +83,9 @@ const close = () => {
 .modal-footer, .modal-header {
   border-color: $border-dark;
 }
+.modal-title {
+  color: $text-color-white;
+}
 .modal-content {
   background-color: $light-grey;
   color: $body-text-color;
