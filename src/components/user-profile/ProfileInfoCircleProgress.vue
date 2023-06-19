@@ -40,7 +40,7 @@ const innerStrokeColor = '#141E28';
   font-weight: 700;
   font-size: 20px;
   line-height: 24px;
-  color: $main-text-color-white;
+  color: $text-color-white;
 }
 
 .progress-title {

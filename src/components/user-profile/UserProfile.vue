@@ -146,7 +146,7 @@ const member = computed(() => store.getters.getMember);
       border-radius: 5px;
       text-transform: uppercase;
       background: $purple;
-      color: $main-text-color-white;
+      color: $text-color-white;
       padding: 0 10px;
       font-weight: 700;
       font-size: 10px;

@@ -165,7 +165,7 @@ const goToAchievementDetails = () => {
       font-weight: 700;
       font-size: 14px;
       line-height: 17px;
-      color: $main-text-color-white;
+      color: $text-color-white;
 
       white-space: nowrap;
       overflow: hidden;
@@ -195,7 +195,7 @@ const goToAchievementDetails = () => {
         font-weight: 500;
         font-size: 12px;
         line-height: 16px;
-        color: $main-text-color-white;
+        color: $text-color-white;
       }
     }
   }
@@ -216,6 +216,8 @@ const goToAchievementDetails = () => {
       font-size: 14px;
       line-height: 17px;
 
+      color: $text-color-white;
+
       > img {
         margin-right: 5px;
       }
@@ -234,7 +236,7 @@ const goToAchievementDetails = () => {
 
     .go-button {
       border: 1px solid $purple;
-      color: $main-text-color-white;
+      color: $text-color-white;
     }
   }
 

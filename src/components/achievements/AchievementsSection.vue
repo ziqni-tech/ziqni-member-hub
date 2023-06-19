@@ -289,7 +289,7 @@ onMounted(() => {
   font-weight: 500;
   font-size: 14px;
   line-height: 17px;
-  color: $main-text-color-white;
+  color: $text-color-white;
 
   & > img {
     margin-right: 8px;
@@ -323,7 +323,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: $main-text-color-white;
+  color: $text-color-white;
   cursor: pointer;
 
   @media screen and (max-width: $tableWidth) {

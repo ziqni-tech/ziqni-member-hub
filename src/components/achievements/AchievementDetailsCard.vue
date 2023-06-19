@@ -65,7 +65,7 @@ console.warn('PROS', props.achievement);
     font-weight: 700;
     font-size: 20px;
     line-height: 24px;
-    color: $main-text-color-white;
+    color: $text-color-white;
 
     white-space: nowrap;
     overflow: hidden;
@@ -97,7 +97,7 @@ console.warn('PROS', props.achievement);
       font-weight: 700;
       font-size: 14px;
       line-height: 17px;
-      color: $main-text-color-white;
+      color: $text-color-white;
       padding-top: 20px;
     }
 
@@ -123,7 +123,7 @@ console.warn('PROS', props.achievement);
         font-weight: 500;
         font-size: 12px;
         line-height: 16px;
-        color: $main-text-color-white;
+        color: $text-color-white;
       }
     }
   }
@@ -138,7 +138,7 @@ console.warn('PROS', props.achievement);
       font-weight: 700;
       font-size: 14px;
       line-height: 17px;
-      color: $main-text-color-white;
+      color: $text-color-white;
       padding-top: 20px;
     }
 
@@ -148,7 +148,7 @@ console.warn('PROS', props.achievement);
       font-weight: 500;
       font-size: 12px;
       line-height: 16px;
-      color: $main-text-color-white;
+      color: $text-color-white;
       padding-top: 14px;
     }
   }
@@ -169,7 +169,7 @@ console.warn('PROS', props.achievement);
       background: $purple-gradient;
       border-radius: 10px;
       border: 1px solid $purple;
-      color: $main-text-color-white;
+      color: $text-color-white;
     }
 
     .prize-btn {
@@ -181,7 +181,7 @@ console.warn('PROS', props.achievement);
       background: $dark-grey;
       border-radius: 10px;
       border: 1px solid $dark-grey;
-      color: $main-text-color-white;
+      color: $text-color-white;
 
       > img {
         margin-right: 10px;

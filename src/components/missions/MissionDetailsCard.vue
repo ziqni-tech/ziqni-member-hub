@@ -396,7 +396,7 @@ const closeModal = () => {
       font-weight: 700;
       font-size: 14px;
       line-height: 17px;
-      color: $main-text-color-white;
+      color: $text-color-white;
       vertical-align: middle;
 
       .prize-value {
@@ -416,7 +416,7 @@ const closeModal = () => {
       border-radius: $border-radius-sm;
       background: none;
       border: 1px solid $dark-blue;
-      color: $main-text-color-white;
+      color: $text-color-white;
     }
   }
 
@@ -446,7 +446,7 @@ const closeModal = () => {
         font-weight: 700;
         font-size: 24px;
         line-height: 36px;
-        color: $main-text-color-white;
+        color: $text-color-white;
         text-align: start;
       }
 
@@ -460,7 +460,7 @@ const closeModal = () => {
         font-weight: 500;
         font-size: 14px;
         line-height: 17px;
-        color: $main-text-color-white;
+        color: $text-color-white;
         text-align: left;
         margin-top: 21px;
 
@@ -470,7 +470,7 @@ const closeModal = () => {
       }
 
       &__description {
-        color: $main-text-color-white;
+        color: $text-color-white;
         display: flex;
         flex-direction: column;
         align-items: flex-start;

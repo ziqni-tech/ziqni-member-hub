@@ -56,7 +56,7 @@ const doFunction = () => {
     font-weight: 700;
     font-size: 20px;
     line-height: 24px;
-    color: $main-text-color-white;
+    color: $text-color-white;
     padding-top: 30px;
   }
 
@@ -72,7 +72,7 @@ const doFunction = () => {
   .confirm-btn {
     margin: 20px auto;
     background-color: $purple;
-    color: $main-text-color-white;
+    color: $text-color-white;
     border: none;
 
     font-weight: 700;
@@ -92,7 +92,7 @@ const doFunction = () => {
       font-weight: 700;
       font-size: 14px;
       line-height: 17px;
-      color: $main-text-color-white;
+      color: $text-color-white;
       padding-top: 20px;
     }
 
@@ -108,7 +108,7 @@ const doFunction = () => {
     .confirm-btn {
       margin: 20px auto;
       background: $btn-gradient-color;
-      color: $main-text-color-white;
+      color: $text-color-white;
       border: none;
 
       font-weight: 700;

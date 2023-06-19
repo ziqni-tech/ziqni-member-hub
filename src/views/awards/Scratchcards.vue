@@ -40,7 +40,7 @@ const { isMobile } = useMobileDevice();
     font-weight: 700;
     font-size: 24px;
     line-height: 29px;
-    color: $main-text-color-white;
+    color: $text-color-white;
     margin-top: 50px;
   }
 
@@ -76,7 +76,7 @@ const { isMobile } = useMobileDevice();
       font-weight: 700;
       font-size: 16px;
       line-height: 19px;
-      color: $main-text-color-white;
+      color: $text-color-white;
       margin-top: 20px;
     }
 

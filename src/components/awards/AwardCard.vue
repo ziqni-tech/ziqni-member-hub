@@ -68,7 +68,7 @@ watch(countdownResult, (value) => {
     font-weight: 700;
     font-size: 14px;
     line-height: 17px;
-    color: $main-text-color-white;
+    color: $text-color-white;
     margin: 5px 0;
   }
 
@@ -97,7 +97,7 @@ watch(countdownResult, (value) => {
   }
 
   .prize {
-    color: $main-text-color-white;
+    color: $text-color-white;
     background-color: $dark-grey;
     cursor: default;
     border: none;
@@ -111,7 +111,7 @@ watch(countdownResult, (value) => {
   .claim-button {
     border: 1px solid $purple;
     background: $btn-gradient-color;
-    color: $main-text-color-white;
+    color: $text-color-white;
     padding: 10px 57px;
     font-weight: 700;
     font-size: 14px;
@@ -147,7 +147,7 @@ watch(countdownResult, (value) => {
       font-weight: 700;
       font-size: 12px;
       line-height: 14px;
-      color: $main-text-color-white;
+      color: $text-color-white;
       margin: 5px 0;
     }
 
@@ -176,7 +176,7 @@ watch(countdownResult, (value) => {
     }
 
     .prize {
-      color: $main-text-color-white;
+      color: $text-color-white;
       background-color: $dark-grey;
       cursor: default;
       border: none;
@@ -191,7 +191,7 @@ watch(countdownResult, (value) => {
       width: 100%;
       border: 1px solid $purple;
       background: $btn-gradient-color;
-      color: $main-text-color-white;
+      color: $text-color-white;
       padding: 6px;
       font-weight: 700;
       font-size: 12px;

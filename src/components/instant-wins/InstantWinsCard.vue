@@ -70,7 +70,7 @@ const play = () => {
       font-weight: 700;
       font-size: 14px;
       line-height: 17px;
-      color: $main-text-color-white;
+      color: $text-color-white;
     }
 
     .card-description {
@@ -94,7 +94,7 @@ const play = () => {
       font-weight: 700;
       font-size: 14px;
       line-height: 17px;
-      color: $main-text-color-white;
+      color: $text-color-white;
 
       margin-top: auto;
       max-width: 124px;
@@ -120,7 +120,7 @@ const play = () => {
       font-weight: 700;
       font-size: 12px;
       line-height: 14px;
-      color: $main-text-color-white;
+      color: $text-color-white;
     }
 
     .instant-img-wrapper {
@@ -172,7 +172,7 @@ const play = () => {
         font-weight: 700;
         font-size: 12px;
         line-height: 14px;
-        color: $main-text-color-white;
+        color: $text-color-white;
 
         margin-top: auto;
       }

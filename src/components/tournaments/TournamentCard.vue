@@ -72,7 +72,7 @@ const goToTournamentsDetailsPage = () => {
       font-size: 14px;
       line-height: 17px;
 
-      color: $main-text-color-white;
+      color: $text-color-white;
     }
 
     .t-data {
@@ -98,7 +98,7 @@ const goToTournamentsDetailsPage = () => {
       font-weight: 700;
       font-size: 14px;
       line-height: 17px;
-      color: $main-text-color-white;
+      color: $text-color-white;
     }
   }
 }
@@ -122,7 +122,7 @@ const goToTournamentsDetailsPage = () => {
         font-size: 12px;
         line-height: 14px;
 
-        color: $main-text-color-white;
+        color: $text-color-white;
       }
 
       .t-data {
@@ -148,7 +148,7 @@ const goToTournamentsDetailsPage = () => {
         font-weight: 700;
         font-size: 12px;
         line-height: 14px;
-        color: $main-text-color-white;
+        color: $text-color-white;
       }
     }
   }

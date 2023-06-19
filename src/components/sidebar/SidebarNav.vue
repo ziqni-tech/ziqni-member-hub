@@ -46,7 +46,7 @@ const getIconStrokeColor = (item) => {
   }
 
   & a:hover {
-    color: $main-text-color-white;
+    color: $text-color-white;
   }
 
   &__icon-wrapper {
@@ -73,7 +73,7 @@ const getIconStrokeColor = (item) => {
   }
 
   > .router-link-active {
-    color: $main-text-color-white;
+    color: $text-color-white;
 
     &:before {
       left: -20px;

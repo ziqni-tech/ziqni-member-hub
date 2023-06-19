@@ -60,7 +60,7 @@ watch(countdownResult, (value) => {
 
   .value {
     text-align: right;
-    color: $main-text-color-white;
+    color: $text-color-white;
   }
 }
 
@@ -88,7 +88,7 @@ watch(countdownResult, (value) => {
 
     .value {
       text-align: right;
-      color: $main-text-color-white;
+      color: $text-color-white;
     }
   }
 }

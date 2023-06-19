@@ -122,7 +122,7 @@ export default {
   align-items: center;
   justify-content: center;
   width: 100%;
-  color: $main-text-color-white;
+  color: $text-color-white;
 
   .indicator {
     display: flex;
@@ -169,7 +169,7 @@ export default {
     align-items: center;
     justify-content: center;
     width: 100%;
-    color: $main-text-color-white;
+    color: $text-color-white;
 
     .indicator {
       display: flex;

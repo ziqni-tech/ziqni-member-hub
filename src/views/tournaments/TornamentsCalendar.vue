@@ -149,7 +149,7 @@ const clickEvent = (val) => {
     font-size: 14px;
     line-height: 17px;
     margin-bottom: 15px;
-    color: $main-text-color-white;
+    color: $text-color-white;
   }
 
   .cv-wrapper {

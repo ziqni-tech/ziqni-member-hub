@@ -50,7 +50,7 @@ const isActive = (path) => {
 
     > .router-link-active {
       background: radial-gradient(84.48% 157.68% at 50.5% 101.43%, rgba(127, 33, 255, 0.2) 0%, rgba(19, 22, 33, 0) 69.27%);
-      color: $main-text-color-white;
+      color: $text-color-white;
       border-radius: 8px;
     }
   }
@@ -83,7 +83,7 @@ const isActive = (path) => {
       font-weight: 500;
       font-size: 9px;
       line-height: 11px;
-      color: $main-text-color-white;
+      color: $text-color-white;
       margin-top: 8px;
     }
   }

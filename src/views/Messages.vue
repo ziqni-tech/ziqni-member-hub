@@ -80,7 +80,7 @@ const formattedTime = (dateString) => {
 
   margin-bottom: 5px;
   background-color: $light-grey;
-  color: $main-text-color-white;
+  color: $text-color-white;
 
   .avatar {
     display: flex;
@@ -113,7 +113,7 @@ const formattedTime = (dateString) => {
       font-weight: 400;
       font-size: 12px;
       line-height: 146.5%;
-      color: $main-text-color-white;
+      color: $text-color-white;
     }
   }
 
@@ -139,7 +139,7 @@ const formattedTime = (dateString) => {
 
     margin-bottom: 5px;
     background-color: $light-grey;
-    color: $main-text-color-white;
+    color: $text-color-white;
 
     .avatar {
       display: flex;
@@ -177,7 +177,7 @@ const formattedTime = (dateString) => {
         font-weight: 400;
         font-size: 12px;
         line-height: 146.5%;
-        color: $main-text-color-white;
+        color: $text-color-white;
       }
     }
 

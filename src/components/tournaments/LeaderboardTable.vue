@@ -96,7 +96,7 @@ const setPlace = computed(() => (place) => {
 
 table {
   width: 100%;
-  color: $main-text-color-white;
+  color: $text-color-white;
 
   th {
     border: none;

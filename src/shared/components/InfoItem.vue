@@ -54,7 +54,7 @@ const props = defineProps({
     font-weight: 700;
     font-size: 20px;
     line-height: 24px;
-    color: $main-text-color-white;
+    color: $text-color-white;
   }
 }
 
@@ -93,7 +93,7 @@ const props = defineProps({
       font-weight: 700;
       font-size: 14px;
       line-height: 17px;
-      color: $main-text-color-white;
+      color: $text-color-white;
     }
   }
 }

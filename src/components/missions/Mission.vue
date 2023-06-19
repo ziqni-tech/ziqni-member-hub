@@ -84,7 +84,7 @@ const goToMissionsMapPage = () => {
       border-radius: $border-radius-sm;
       background: $btn-gradient-color;
       padding: 8px 16px;
-      color: $main-text-color-white;
+      color: $text-color-white;
 
       @media screen and (max-width: $tableWidth) {
         right: 0;
@@ -106,7 +106,7 @@ const goToMissionsMapPage = () => {
       font-weight: 700;
       font-size: 14px;
       line-height: 17px;
-      color: $main-text-color-white;
+      color: $text-color-white;
 
       @media screen and (max-width: $tableWidth) {
         font-weight: 700;
@@ -140,7 +140,7 @@ const goToMissionsMapPage = () => {
         font-weight: 500;
         font-size: 12px;
         line-height: 16px;
-        color: $main-text-color-white;
+        color: $text-color-white;
 
         @media screen and (max-width: $tableWidth) {
           font-weight: 500;
@@ -199,7 +199,7 @@ const goToMissionsMapPage = () => {
       .go-button {
         border: 1px solid $purple;
         background: $btn-gradient-color;
-        color: $main-text-color-white;
+        color: $text-color-white;
       }
     }
   }

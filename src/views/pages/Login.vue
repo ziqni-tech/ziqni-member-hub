@@ -96,7 +96,7 @@ if (isLoggedIn) {
 
       .form-control {
         background-color: $light-grey;
-        color: $main-text-color-white;
+        color: $text-color-white;
       }
 
       .form-label {

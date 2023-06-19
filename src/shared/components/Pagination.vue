@@ -112,7 +112,7 @@ function changePage(pageNumber) {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: $main-text-color-white;
+    color: $text-color-white;
     border-radius: $border-radius-sm;
     background-color: $light-grey;
   }

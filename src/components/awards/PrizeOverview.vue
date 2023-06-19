@@ -40,7 +40,7 @@ const scratchAllCards = () => {
     font-weight: 700;
     font-size: 14px;
     line-height: 17px;
-    color: $main-text-color-white;
+    color: $text-color-white;
   }
 
   .prizes {
@@ -100,7 +100,7 @@ const scratchAllCards = () => {
     font-weight: 700;
     font-size: 14px;
     line-height: 17px;
-    color: $main-text-color-white;
+    color: $text-color-white;
   }
 }
 @media screen and (max-width: $tableWidth) {
@@ -113,7 +113,7 @@ const scratchAllCards = () => {
       font-weight: 700;
       font-size: 14px;
       line-height: 17px;
-      color: $main-text-color-white;
+      color: $text-color-white;
     }
 
     .prizes {
@@ -173,7 +173,7 @@ const scratchAllCards = () => {
       font-weight: 700;
       font-size: 14px;
       line-height: 17px;
-      color: $main-text-color-white;
+      color: $text-color-white;
     }
   }
 }

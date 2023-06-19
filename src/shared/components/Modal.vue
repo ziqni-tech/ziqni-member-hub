@@ -88,14 +88,14 @@ const close = () => {
   color: $body-text-color;
 
   .cancelBtn {
-    background-color: $light-grey;
-    color: $main-text-color-white;
+    background-color: $btn-grey;
+    color: $text-color-white;
     border: none;
   }
 
   .submitBtn {
     background-color: $purple;
-    color: $main-text-color-white;
+    color: $text-color-white;
     border: none;
   }
 }

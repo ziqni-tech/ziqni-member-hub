@@ -126,7 +126,7 @@ const closeModal = () => {
     }
 
     .tournament-title {
-      color: $main-text-color-white;
+      color: $text-color-white;
       font-weight: 700;
       font-size: 20px;
       line-height: 24px;
@@ -171,7 +171,7 @@ const closeModal = () => {
     .tournament-description {
       display: flex;
       flex-direction: column;
-      color: $main-text-color-white;
+      color: $text-color-white;
       text-align: start;
 
       &_title {
@@ -234,7 +234,7 @@ const closeModal = () => {
       }
 
       .tournament-title {
-        color: $main-text-color-white;
+        color: $text-color-white;
         font-weight: 700;
         font-size: 14px;
         line-height: 17px;
@@ -279,7 +279,7 @@ const closeModal = () => {
       .tournament-description {
         display: flex;
         flex-direction: column;
-        color: $main-text-color-white;
+        color: $text-color-white;
         text-align: start;
 
         &_title {

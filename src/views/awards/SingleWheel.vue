@@ -121,7 +121,7 @@ const closeModal = () => {
   font-weight: 700;
   font-size: 24px;
   line-height: 29px;
-  color: $main-text-color-white;
+  color: $text-color-white;
   margin-top: 50px;
 }
 
@@ -139,7 +139,7 @@ const closeModal = () => {
   font-weight: 700;
   font-size: 14px;
   line-height: 17px;
-  color: $main-text-color-white;
+  color: $text-color-white;
 
   border: none;
   border-radius: $border-radius;
@@ -152,7 +152,7 @@ const closeModal = () => {
     font-weight: 700;
     font-size: 16px;
     line-height: 19px;
-    color: $main-text-color-white;
+    color: $text-color-white;
     margin-top: 30px;
   }
 
@@ -170,7 +170,7 @@ const closeModal = () => {
     font-weight: 700;
     font-size: 14px;
     line-height: 17px;
-    color: $main-text-color-white;
+    color: $text-color-white;
 
     border: none;
     border-radius: $border-radius;
