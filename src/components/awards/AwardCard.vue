@@ -1,12 +1,12 @@
 <template>
-  <div class="award">
+  <div class="award" @click="goToAwardDetails">
     <div class="award__icon">
-      <img src="../../assets/icons/awards/bottle.png" alt="">
+      <img src="@/assets/icons/awards/bottle.png" alt="">
     </div>
     <h3 class="award__name">{{ award.name }}</h3>
     <h5 class="award__type">{{ award.rewardType.key }}</h5>
     <div class="award__btn prize">
-      <img src="../../assets/icons/achievements/diamond.png" alt="">
+      <img src="@/assets/icons/achievements/diamond.png" alt="">
       {{ award.rewardValue }}
     </div>
     <button class="award__btn claim-button" v-if="!award.claimed">Claim</button>
@@ -17,6 +17,7 @@
 
 import { useCountdown } from '@/hooks/useCountdown';
 import { ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
 
 const countdownResult = useCountdown();
 
@@ -28,6 +29,19 @@ const props = defineProps({
     required: true
   }
 })
+
+const router = useRouter()
+
+const award = props.award;
+
+const goToAwardDetails = () => {
+  router.push({
+    name: 'AwardDetails',
+    params: {
+      id: award.id,
+    }
+  })
+}
 
 watch(countdownResult, (value) => {
   if (value) {

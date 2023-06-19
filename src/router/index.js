@@ -92,6 +92,11 @@ const routes = [
             component: () => import('@/views/awards/Awards'),
           },
           {
+            path: 'details/:id',
+            name: 'AwardDetails',
+            component: () => import('@/views/awards/AwardDetails'),
+          },
+          {
             path: '/awards/single-wheel',
             name: 'SingleWheel',
             component: () => import('@/views/awards/SingleWheel')
