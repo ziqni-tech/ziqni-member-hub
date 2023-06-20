@@ -1,7 +1,7 @@
 <template>
   <div class="award" @click="goToAwardDetails">
     <div class="award__icon">
-      <img src="@/assets/icons/awards/bottle.png" alt="">
+      <img :src="awardIcon" alt="">
     </div>
     <h3 class="award__name">{{ award.name }}</h3>
     <h5 class="award__type">{{ award.rewardType.key }}</h5>
@@ -16,8 +16,10 @@
 <script setup>
 
 import { useCountdown } from '@/hooks/useCountdown';
-import { ref, watch } from 'vue';
+import {onMounted, ref, watch} from 'vue';
 import { useRouter } from 'vue-router';
+import { ApiClientStomp, FilesApiWs, RewardsApiWs } from '@ziqni-tech/member-api-client';
+import defaultAwardIcon from '@/assets/icons/awards/book.png';
 
 const countdownResult = useCountdown();
 
@@ -33,6 +35,43 @@ const props = defineProps({
 const router = useRouter()
 
 const award = props.award;
+
+const awardIcon = ref(null);
+
+onMounted(() => {
+  getAwardIcon()
+})
+
+const getAwardIcon = async () => {
+  const rewardsApiWsClient = new RewardsApiWs(ApiClientStomp.instance);
+  const rewardRequest = {
+    languageKey: '',
+    entityFilter: [{
+      entityType: 'Reward',
+      entityIds: [award.rewardId]
+    }],
+    currencyKey: '',
+    skip: 0,
+    limit: 1
+  };
+  await rewardsApiWsClient.getRewards(rewardRequest, (res) => {
+    if (res.data && res.data.length && res.data[0].icon) {
+      const fileApiWsClient = new FilesApiWs(ApiClientStomp.instance);
+
+      const fileRequest = {
+        ids: [res.data[0].icon],
+        limit: 1,
+        skip: 0
+      };
+
+      fileApiWsClient.getFiles(fileRequest, (res) => {
+        awardIcon.value = res.data[0].uri;
+      });
+    } else {
+      awardIcon.value = defaultAwardIcon;
+    }
+  });
+}
 
 const goToAwardDetails = () => {
   router.push({
@@ -66,15 +105,32 @@ watch(countdownResult, (value) => {
   &__icon {
     width: 136px;
     height: 136px;
-    border-radius: $border-radius-round;
+    padding: 23px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+
+      background: radial-gradient(50% 50% at 50% 50%, #38ACCF 0%, rgba(56, 172, 207, 0) 100%);
+      opacity: 0.5;
+      filter: blur(37.5px);
+    }
 
     & > img {
-      width: inherit;
-      height: inherit;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
     }
   }
 
@@ -152,8 +208,9 @@ watch(countdownResult, (value) => {
       overflow: hidden;
 
       & > img {
-        width: inherit;
-        height: inherit;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
     }
 

@@ -7,7 +7,7 @@
       <Dashboard />
     </div>
     <div id="user-profile-block">
-      <UserProfile />
+      <UserProfile v-if="isClientConnected"/>
     </div>
   </div>
   <div v-if="isMobile && !isProfileInfo" id="mobile-layout">

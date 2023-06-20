@@ -35,8 +35,9 @@ export default {
     border-radius: 8px;
 
     & > img {
-      width: inherit;
-      height: inherit;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   }
 

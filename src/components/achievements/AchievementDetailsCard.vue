@@ -150,6 +150,7 @@ const handleButtonClick = async () => {
     > img {
       width: inherit;
       height: inherit;
+      object-fit: cover;
     }
   }
 
@@ -262,6 +263,7 @@ const handleButtonClick = async () => {
         margin-right: 10px;
         width: 20px;
         height: 20px;
+        object-fit: cover;
       }
     }
   }

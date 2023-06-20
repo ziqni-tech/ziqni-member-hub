@@ -162,6 +162,7 @@ const goToAchievementDetails = () => {
     padding: 10px 0 0 20px;
 
     .title {
+      font-family: $semi-bold;
       font-weight: 700;
       font-size: 14px;
       line-height: 17px;
@@ -212,6 +213,7 @@ const goToAchievementDetails = () => {
       justify-content: center;
       border-radius: $border-radius;
 
+      font-family: $semi-bold;
       font-weight: 700;
       font-size: 14px;
       line-height: 17px;

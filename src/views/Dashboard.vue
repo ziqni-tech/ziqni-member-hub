@@ -12,7 +12,8 @@ import { computed } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
-const isClientConnected = computed(() => store.getters.getIsConnectedClient)
+const isClientConnected = computed(() => store.getters.getIsConnectedClient);
+
 </script>
 
 <style lang="scss">

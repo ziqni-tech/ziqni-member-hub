@@ -40,6 +40,7 @@ export default {
     & > img {
       width: 90%;
       height: 90%;
+      object-fit: cover;
     }
   }
 
