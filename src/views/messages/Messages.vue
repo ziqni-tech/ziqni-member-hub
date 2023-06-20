@@ -1,8 +1,8 @@
 <template>
   <CListGroup v-for="message in messages" v-if="isLoaded">
-    <CListGroupItem class="list-group-item">
+    <CListGroupItem class="list-group-item" @click="goToMessageDetails(message)">
       <div class="avatar">
-        <img src="../assets/icons/messages/message-avatar.png" alt="">
+        <img src="../../assets/icons/messages/message-avatar.png" alt="">
       </div>
       <div class="message-body">
         <span class="message-body__type" >{{ message.messageType }}</span>
@@ -21,15 +21,31 @@
 <script setup>
 import { ApiClientStomp, MessagesApiWs } from '@ziqni-tech/member-api-client';
 import { CListGroup, CListGroupItem } from '@coreui/vue';
-import { computed, ref } from 'vue';
+import {computed, onMounted, ref} from 'vue';
 import { useStore } from 'vuex';
-import Loader from '../components/Loader';
+import Loader from '../../components/Loader.vue';
+import {useRouter} from "vue-router";
 
 const store = useStore();
 const messages = ref([]);
 const isDarkMode = computed(() => store.getters.getTheme);
+const router = useRouter();
 
 const isLoaded = ref(false)
+
+onMounted(() => {
+  getMessagesRequest();
+})
+
+const goToMessageDetails = (message) => {
+  console.warn('Message click', message)
+  router.push({
+    name: 'MessageDetails',
+    params: {
+      id: message.id,
+    }
+  })
+}
 
 const getMessagesRequest = async () => {
   const messagesApiWsClient = new MessagesApiWs(ApiClientStomp.instance);
@@ -43,10 +59,10 @@ const getMessagesRequest = async () => {
 
   await messagesApiWsClient.getMessages(messageRequest, (res) => {
     messages.value = res.data;
+    console.warn('MESSAGES', res.data)
     isLoaded.value = true;
   });
 }
-getMessagesRequest()
 
 const formattedDate = (dateString) => {
   console.log(dateString);
@@ -68,7 +84,7 @@ const formattedTime = (dateString) => {
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/scss/_variables';
+@import '../../assets/scss/variables';
 
 .loader{
   margin-top: 20%;
