@@ -182,7 +182,6 @@ const getAchievementsRequest = async () => {
     const ids = res.data.map(item => item.id);
 
     achievements.value = res.data;
-    console.warn('achievements', res.data);
 
     getOptInStatus(ids);
     isLoading.value = false;
