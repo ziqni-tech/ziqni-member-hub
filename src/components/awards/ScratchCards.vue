@@ -175,7 +175,7 @@ const getFilledPercentage = (ctx) => {
 
   let filledPercentage = (transparentPixels / totalPixels) * 100;
 
-  if (filledPercentage >= 90) {
+  if (filledPercentage >= 80) {
     ctx.globalCompositeOperation = 'destination-over';
     fadeOut(ctx);
     store.dispatch('setIsScratchAllCards', true);
@@ -216,7 +216,6 @@ function canvasMouseDown(e) {
   const { offsetX, offsetY } = getOffsetXY(e);
   ctx.beginPath();
   ctx.moveTo(offsetX, offsetY);
-  scratching();
 }
 
 function canvasMouseMove(e) {
@@ -224,6 +223,7 @@ function canvasMouseMove(e) {
   const { offsetX, offsetY } = getOffsetXY(e);
   ctx.lineTo(offsetX, offsetY);
   ctx.stroke();
+  scratching();
 }
 
 function canvasMouseUp() {
