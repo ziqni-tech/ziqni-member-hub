@@ -3,9 +3,9 @@
   <div v-else>
     <div class="header">
       <h1 class="section-title">{{ currentTournament.name }}</h1>
-      <div class="calendar-btn" @click="goToCalendar" title="Tournaments calendar">
-        <img src="../../assets/icons/tournament/calendar.png" alt="">
-      </div>
+<!--      <div class="calendar-btn" @click="goToCalendar" title="Tournaments calendar">-->
+<!--        <img src="../../assets/icons/tournament/calendar.png" alt="">-->
+<!--      </div>-->
     </div>
     <div class="tournament-details">
       <div class="details">
@@ -213,7 +213,6 @@ const leaveTournament= async () => {
 onUnmounted(() => unsubscribeEntityLeaderboard());
 
 const goToCalendar = () => {
-  console.warn('ROUTE', router);
   router.push({name: 'Calendar'})
 }
 

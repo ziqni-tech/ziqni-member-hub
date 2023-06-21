@@ -1,7 +1,10 @@
 <template>
   <div class="section">
-    <div class="section-header">
+    <div class="tournaments-section-header">
       <h2 class="section-title">Current Tournaments</h2>
+      <div class="calendar-btn" @click="goToCalendar" title="Tournaments calendar">
+        <img src="@/assets/icons/tournament/calendar.png" alt="">
+      </div>
     </div>
     <Loader v-if="!isLoaded" :title="'Current Tournaments are loading'" />
     <div :class="isDashboard ? 'dashboard-cards-grid' : 'cards-grid'" v-else-if="currentCompetitions.length && isLoaded">
@@ -18,12 +21,12 @@
 <script setup>
 import { computed, ref, watch, watchEffect } from 'vue';
 
-import { useGetAwards } from '../../hooks/useGetAwards';
-import { rewardFormatter } from '../../utils/rewardFormatter';
-import Tournament from '../../components/tournaments/TournamentCard';
+import { useGetAwards } from '@/hooks/useGetAwards';
+import Tournament from '@/components/tournaments/TournamentCard';
 import Loader from '../Loader';
 import { useStore } from 'vuex';
 import { ApiClientStomp, CompetitionRequest, CompetitionsApiWs } from '@ziqni-tech/member-api-client';
+import { useRouter } from 'vue-router';
 
 const props = defineProps({
   isDashboard: {
@@ -34,6 +37,7 @@ const props = defineProps({
 
 const store = useStore();
 const isLoaded = ref(true);
+const router = useRouter();
 
 const currentCompetitions = computed(() => {
   return props.isDashboard
@@ -117,8 +121,21 @@ const isShowMore = computed(() => currentCompetitions.value.length < tournaments
 //   await getCompetitionsHandler(tournamentRequestData.value);
 // };
 
+const goToCalendar = () => {
+  router.push({name: 'Calendar'})
+}
+
 </script>
 
 <style lang="scss">
+.tournaments-section-header {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
 
+  .calendar-btn {
+    cursor: pointer;
+    margin: 8px 0 10px;
+  }
+}
 </style>
