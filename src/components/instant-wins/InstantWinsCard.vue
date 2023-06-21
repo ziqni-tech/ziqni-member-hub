@@ -54,8 +54,7 @@ const play = () => {
     .instant-img {
       width: 100%;
       height: 100%;
-      background-size: auto 100%;
-      background-repeat: no-repeat;
+      object-fit: contain;
     }
   }
 

@@ -23,7 +23,7 @@
 <script setup>
 import InstantWins from './InstantWinsCard';
 import singleWheelImg from '@/assets/images/instant-wins/single-wheel.png'
-import scratchcardsImg from '@/assets/images/instant-wins/scratchcards.png'
+import scratchcardsImg from '@/assets/images/instant-wins/scratchcard.png'
 import { useRouter } from 'vue-router';
 
 const singleWheelTitle = 'The Single Wheel'
