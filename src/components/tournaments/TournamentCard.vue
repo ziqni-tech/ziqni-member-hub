@@ -7,7 +7,7 @@
       <h3 class="tournament-name">{{ cardItem.name }}</h3>
       <TournamentDataRow
           :icon="expiresInIcon"
-          :label="'expires in'"
+          :label="'Ends'"
           :value="cardItem.scheduledEndDate"
           :is-date="true"
       />
