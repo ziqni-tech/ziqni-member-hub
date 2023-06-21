@@ -5,7 +5,7 @@
         <img src="@/assets/icons/messages/message-avatar.png" alt="">
       </div>
       <div class="message-body">
-        <span class="message-body__type" >{{ message.messageType }}</span>
+        <span class="message-body__type" >{{ message.subject }}</span>
         <span class="message-body__body">{{ message.body }}</span>
       </div>
       <div class="created">
@@ -97,6 +97,7 @@ const formattedTime = (dateString) => {
   margin-bottom: 5px;
   background-color: $light-grey;
   color: $text-color-white;
+  cursor: pointer;
 
   .avatar {
     display: flex;

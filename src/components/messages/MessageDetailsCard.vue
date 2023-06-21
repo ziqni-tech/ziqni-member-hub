@@ -6,7 +6,7 @@
         <div class="avatar">
           <img src="@/assets/icons/messages/message-avatar.png" alt="">
         </div>
-        <div class="name">sender-name</div>
+        <div class="name">{{ message.subject }}</div>
       </div>
       <div class="created">
         <span class="date">{{ formattedDate(message.created) }}</span>
