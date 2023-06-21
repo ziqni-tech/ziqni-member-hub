@@ -1,14 +1,14 @@
 <template>
-  Award Details
+  <AwardDetailsCard v-if="isLoaded" :award="award" @claimAward="claimAward" />
 </template>
 
 <script setup>
 
-
 import { onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
-import { ApiClientStomp, AwardRequest, AwardsApiWs, } from '@ziqni-tech/member-api-client';
+import { ApiClientStomp, AwardRequest, AwardsApiWs, ClaimAwardRequest } from '@ziqni-tech/member-api-client';
+import AwardDetailsCard from "@/components/awards/AwardDetailsCard.vue";
 
 const router = useRouter()
 
@@ -46,12 +46,25 @@ const getAwardsRequest = async () => {
 
   awardsApiWsClient.getAwards(awardRequest, (res) => {
     award.value = res.data[0];
-    console.warn('AWARD', res);
     isLoaded.value = true;
   });
-
 };
 
+const claimAward = async () => {
+  const awardsApiWsClient = new AwardsApiWs(ApiClientStomp.instance);
+
+  const claimAwardRequest = ClaimAwardRequest.constructFromObject({
+    awardIds: [award.value.id]
+  });
+
+  awardsApiWsClient.claimAwards(claimAwardRequest, (res) => {
+    if (res.data && res.data.length) {
+      setTimeout(async () => {
+        await getAwardsRequest();
+      }, 5000);
+    }
+  });
+};
 
 </script>
 
