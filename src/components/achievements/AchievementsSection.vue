@@ -2,6 +2,12 @@
   <div class="section">
     <CNav variant="pills" layout="fill" class="achievements-tabs" v-if="!isDashboard">
       <CNavLink
+          :active="activeTabKey === 'all'"
+          @click="() => updateActiveTab('all')"
+      >
+        All
+      </CNavLink>
+      <CNavLink
           :active="activeTabKey === 'daily'"
           @click="() => updateActiveTab('daily')"
       >
@@ -12,6 +18,12 @@
           @click="() => updateActiveTab('weekly')"
       >
         Weekly
+      </CNavLink>
+      <CNavLink
+          :active="activeTabKey === 'monthly'"
+          @click="() => updateActiveTab('monthly')"
+      >
+        Monthly
       </CNavLink>
     </CNav>
     <div class="section-header">
@@ -81,7 +93,7 @@ const achievementsData = ref([]);
 const limit = ref(computed(() => props.isDashboard ? 2 : 9));
 const isLoading = ref(false);
 const achievements = ref([]);
-const activeTabKey = ref('daily');
+const activeTabKey = ref('all');
 
 const currentPage = ref(1);
 const totalRecords = ref(0);
@@ -90,12 +102,16 @@ const skip = computed(() => (currentPage.value - 1) * limit.value);
 
 const descriptions = {
   daily: 'List of daily achievements that refresh every day.',
-  weekly: 'List of weekly achievements that refresh every week.'
+  weekly: 'List of weekly achievements that refresh every week.',
+  all: 'List of all once and repeatedly achievements.',
+  monthly: 'List of monthly achievements that refresh every month.',
 };
 
 const achievementsTitles = {
   daily: 'Daily achievements',
-  weekly: 'Weekly achievements'
+  weekly: 'Weekly achievements',
+  all: 'All achievements',
+  monthly: 'Monthly achievements',
 };
 
 const updateActiveTab = (val) => {
