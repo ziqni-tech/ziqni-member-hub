@@ -2,7 +2,7 @@
   <CListGroup v-for="message in messages" v-if="isLoaded">
     <CListGroupItem class="list-group-item" @click="goToMessageDetails(message)">
       <div class="avatar">
-        <img src="../../assets/icons/messages/message-avatar.png" alt="">
+        <img src="@/assets/icons/messages/message-avatar.png" alt="">
       </div>
       <div class="message-body">
         <span class="message-body__type" >{{ message.messageType }}</span>
