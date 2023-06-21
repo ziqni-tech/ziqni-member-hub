@@ -4,7 +4,12 @@
       {{ award.name }}
     </div>
     <div class="icon">
-      <img :src="awardIcon" alt="">
+      <img :src="awardIcon" alt="" v-if="isLoadedIcon">
+      <CSpinner v-else grow size="sm" />
+    </div>
+    <div class="prize">
+      <span v-if="award.rewardType.uomSymbol">{{ award.rewardType.uomSymbol }}</span>
+      {{ award.rewardValue }}
     </div>
     <div class="description">
       <span class="description-title">Description</span>
@@ -13,11 +18,6 @@
       </span>
     </div>
     <div class="bottom-section">
-      <div class="prize-btn">
-        <span v-if="award.rewardType.uomSymbol">{{ award.rewardType.uomSymbol }}</span>
-        <img v-else src="@/assets/icons/achievements/diamond.png" alt="">
-        {{ award.rewardValue }}
-      </div>
       <button
           v-if="award.status !== 'Claimed'"
           class="action-btn"
@@ -27,13 +27,6 @@
       >
         <CSpinner v-if="isLoading" grow size="sm"/>
         <span v-else>Claim</span>
-      </button>
-      <button
-          v-else
-          class="action-btn disabled-btn"
-          :disabled="true"
-      >
-        <span>Claimed</span>
       </button>
     </div>
   </div>
@@ -55,15 +48,23 @@ const award = toRef(props, 'award');
 
 const testDescription = ref('Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.');
 
-const awardIcon = ref(null);
+const icon = ref(null);
+const awardIcon = ref(defaultAwardIcon);
 const isLoading = ref(false);
+const isLoadedIcon = ref(false);
 
 onMounted(() => {
   getAwardIcon();
 });
 
-watch(award, (newVal) => {
-  isLoading.value = false;
+watch(award, (value) => {
+  if (value) isLoading.value = false;
+});
+
+watch(icon, (value) => {
+  if (value) {
+    awardIcon.value = value;
+  }
 });
 
 const getAwardIcon = async () => {
@@ -72,7 +73,7 @@ const getAwardIcon = async () => {
     languageKey: '',
     entityFilter: [{
       entityType: 'Reward',
-      entityIds: [award.rewardId]
+      entityIds: [award.value.rewardId]
     }],
     currencyKey: '',
     skip: 0,
@@ -89,10 +90,9 @@ const getAwardIcon = async () => {
       };
 
       fileApiWsClient.getFiles(fileRequest, (res) => {
-        awardIcon.value = res.data[0].uri;
+        icon.value = res.data[0].uri;
+        isLoadedIcon.value = true;
       });
-    } else {
-      awardIcon.value = defaultAwardIcon;
     }
   });
 };
@@ -143,6 +143,9 @@ const handleButtonClick = async () => {
   }
 
   .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100px;
     height: 100px;
     padding-top: 20px;
@@ -151,6 +154,20 @@ const handleButtonClick = async () => {
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+  }
+
+  .prize {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $text-color-white;
+    margin-top: 10px;
+
+    > img {
+      margin-right: 10px;
+      width: 20px;
+      height: 20px;
     }
   }
 
@@ -182,13 +199,9 @@ const handleButtonClick = async () => {
   .bottom-section {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     width: 100%;
     margin-top: 30px;
-
-    &.centered {
-      justify-content: center;
-    }
 
     .disabled-btn {
       background: $btn-grey;
@@ -211,24 +224,6 @@ const handleButtonClick = async () => {
     .disabled-btn {
       background: $btn-grey;
       border: 1px solid $btn-grey;
-    }
-
-    .prize-btn {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 10px 57px;
-
-      background: $dark-grey;
-      border-radius: 10px;
-      border: 1px solid $dark-grey;
-      color: $text-color-white;
-
-      > img {
-        margin-right: 10px;
-        width: 20px;
-        height: 20px;
-      }
     }
   }
 

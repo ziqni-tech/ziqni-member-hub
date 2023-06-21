@@ -7,7 +7,12 @@
 import { onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
-import { ApiClientStomp, AwardRequest, AwardsApiWs, ClaimAwardRequest } from '@ziqni-tech/member-api-client';
+import {
+  ApiClientStomp,
+  AwardRequest,
+  AwardsApiWs,
+  ClaimAwardRequest,
+} from '@ziqni-tech/member-api-client';
 import AwardDetailsCard from "@/components/awards/AwardDetailsCard.vue";
 
 const router = useRouter()
@@ -41,8 +46,6 @@ const getAwardsRequest = async () => {
     },
     currencyKey: ''
   });
-
-  console.warn('awardRequest', awardRequest);
 
   awardsApiWsClient.getAwards(awardRequest, (res) => {
     award.value = res.data[0];

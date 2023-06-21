@@ -1,12 +1,12 @@
 <template>
   <div class="award" @click="goToAwardDetails">
     <div class="award__icon">
-      <img :src="awardIcon" alt="">
+      <img :src="defaultAwardIcon" alt="">
     </div>
     <h3 class="award__name">{{ award.name }}</h3>
     <h5 class="award__type">{{ award.rewardType.key }}</h5>
     <div class="award__btn prize">
-      <img src="@/assets/icons/achievements/diamond.png" alt="">
+      <img :src="rewardIcon" alt="">
       {{ award.rewardValue }}
     </div>
     <button
@@ -27,13 +27,12 @@ import { onMounted, ref, toRef, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import {
   ApiClientStomp,
-  AwardsApiWs,
-  ClaimAwardRequest,
   FilesApiWs,
   RewardsApiWs
 } from '@ziqni-tech/member-api-client';
 import defaultAwardIcon from '@/assets/icons/awards/book.png';
 import { CSpinner } from '@coreui/vue';
+import diamondIcon from '@/assets/icons/achievements/diamond.png';
 
 const countdownResult = useCountdown();
 
@@ -52,8 +51,17 @@ const router = useRouter()
 
 const award = toRef(props, 'award');
 
-const awardIcon = ref(null);
+const awardIcon = ref(defaultAwardIcon);
+const icon = ref(null);
+const rewardIcon = ref(diamondIcon)
 const isLoading = ref(false);
+
+watch(icon, (value) => {
+  if (value) {
+    rewardIcon.value = value;
+    awardIcon.value = value;
+  }
+})
 
 onMounted(() => {
   getAwardIcon()
@@ -65,7 +73,7 @@ const getAwardIcon = async () => {
     languageKey: '',
     entityFilter: [{
       entityType: 'Reward',
-      entityIds: [award.rewardId]
+      entityIds: [award.value.rewardId]
     }],
     currencyKey: '',
     skip: 0,
@@ -82,10 +90,8 @@ const getAwardIcon = async () => {
       };
 
       fileApiWsClient.getFiles(fileRequest, (res) => {
-        awardIcon.value = res.data[0].uri;
+        icon.value = res.data[0].uri;
       });
-    } else {
-      awardIcon.value = defaultAwardIcon;
     }
   });
 }
@@ -94,7 +100,7 @@ const goToAwardDetails = () => {
   router.push({
     name: 'AwardDetails',
     params: {
-      id: award.id,
+      id: award.value.id,
     }
   })
 }
@@ -214,6 +220,11 @@ watch(countdownResult, (value) => {
     font-size: 24px;
     line-height: 29px;
     margin-bottom: 10px;
+
+    > img {
+      width: 16px;
+      height: 16px;
+    }
   }
 
   .claim-button {
