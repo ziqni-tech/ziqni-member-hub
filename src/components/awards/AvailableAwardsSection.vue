@@ -2,7 +2,7 @@
   <div class="content-wrapper">
     <div class="awards-cards-grid" v-if="isLoaded">
       <div v-for="award in awards">
-        <AwardCard :award="award"/>
+        <AwardCard :award="award" @claimAward="claimAward" />
       </div>
     </div>
     <Pagination
@@ -15,7 +15,7 @@
 
 <script setup>
 import { computed, onMounted, ref } from 'vue';
-import { ApiClientStomp, AwardRequest, AwardsApiWs } from '@ziqni-tech/member-api-client';
+import { ApiClientStomp, AwardRequest, AwardsApiWs, ClaimAwardRequest } from '@ziqni-tech/member-api-client';
 
 import AwardCard from '@/components/awards/AwardCard.vue';
 import Pagination from '@/shared/components/Pagination.vue';
@@ -63,6 +63,22 @@ const pageChange = async (pageNumber) => {
 onMounted(() => {
   getAwardsRequest();
 })
+
+const claimAward = async (id) => {
+  const awardsApiWsClient = new AwardsApiWs(ApiClientStomp.instance);
+
+  const claimAwardRequest = ClaimAwardRequest.constructFromObject({
+    awardIds: [id]
+  });
+
+  awardsApiWsClient.claimAwards(claimAwardRequest, (res) => {
+    if (res.data && res.data.length) {
+      setTimeout(async () => {
+        await getAwardsRequest();
+      }, 5000);
+    }
+  });
+};
 </script>
 
 <style scoped lang="scss">

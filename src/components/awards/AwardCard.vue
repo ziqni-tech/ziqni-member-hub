@@ -9,17 +9,31 @@
       <img src="@/assets/icons/achievements/diamond.png" alt="">
       {{ award.rewardValue }}
     </div>
-    <button class="award__btn claim-button" v-if="!award.claimed">Claim</button>
+    <button
+        class="award__btn claim-button"
+        v-if="award.status !== 'Claimed'"
+        @click.stop="handleButtonClick"
+    >
+      <CSpinner v-if="isLoading" grow size="sm"/>
+      <span v-else>Claim</span>
+    </button>
   </div>
 </template>
 
 <script setup>
 
 import { useCountdown } from '@/hooks/useCountdown';
-import {onMounted, ref, watch} from 'vue';
+import { onMounted, ref, toRef, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { ApiClientStomp, FilesApiWs, RewardsApiWs } from '@ziqni-tech/member-api-client';
+import {
+  ApiClientStomp,
+  AwardsApiWs,
+  ClaimAwardRequest,
+  FilesApiWs,
+  RewardsApiWs
+} from '@ziqni-tech/member-api-client';
 import defaultAwardIcon from '@/assets/icons/awards/book.png';
+import { CSpinner } from '@coreui/vue';
 
 const countdownResult = useCountdown();
 
@@ -32,11 +46,14 @@ const props = defineProps({
   }
 })
 
+const emit = defineEmits(['claimAward'])
+
 const router = useRouter()
 
-const award = props.award;
+const award = toRef(props, 'award');
 
 const awardIcon = ref(null);
+const isLoading = ref(false);
 
 onMounted(() => {
   getAwardIcon()
@@ -81,6 +98,27 @@ const goToAwardDetails = () => {
     }
   })
 }
+const claimAward = async () => {
+  emit('claimAward', award.value.id)
+};
+
+const handleButtonClick = async () => {
+  if (isLoading.value) {
+    return;
+  }
+
+  isLoading.value = true;
+
+  try {
+    await claimAward()
+  } catch (e) {
+    console.log('click btn error', e);
+  }
+};
+
+watch(award, (value) => {
+  if (value) isLoading.value = false;
+});
 
 watch(countdownResult, (value) => {
   if (value) {
