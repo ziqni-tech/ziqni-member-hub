@@ -20,8 +20,8 @@
         <ProfileInfoCircleProgress
             :color="'#BEE9F3'"
             :title="'Total game'"
-            :completed-steps="2000"
-            :total-steps="6000"
+            :completed-steps="totalGames"
+            :total-steps="100"
         />
         <ProfileInfoCircleProgress
             :color="'#8749DC'"
@@ -32,14 +32,14 @@
         <ProfileInfoCircleProgress
             :color="'#6FCF97'"
             :title="'win'"
-            :completed-steps="85"
+            :completed-steps="winPercentage"
             :total-steps="100"
             :is-percents="true"
         />
         <ProfileInfoCircleProgress
             :color="'#EB5757'"
             :title="'lose'"
-            :completed-steps="15"
+            :completed-steps="lossPercentage"
             :total-steps="100"
             :is-percents="true"
         />
@@ -56,11 +56,18 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import ProfileInfoCircleProgress from './ProfileInfoCircleProgress';
 import ToggleTheme from '@/shared/components/ToggleTheme.vue';
 import useMobileDevice from '@/hooks/useMobileDevice';
+import {
+  AchievementRequest,
+  AchievementsApiWs,
+  ApiClientStomp,
+  OptInApiWs,
+  OptInStatesRequest
+} from "@ziqni-tech/member-api-client";
 
 const store = useStore();
 const { isMobile } = useMobileDevice();
@@ -82,6 +89,93 @@ const logOut = () => {
 }
 
 const member = computed(() => store.getters.getMember);
+
+const totalGames = ref(0);
+const wins = ref(0);
+const losses = ref(0);
+
+const winPercentage = computed(() => {
+  if (totalGames.value === 0) {
+    return 0;
+  }
+  const percentage = (wins.value / totalGames.value) * 100;
+  return Math.round(percentage);
+});
+
+const lossPercentage = computed(() => {
+  if (totalGames.value === 0) {
+    return 0;
+  }
+  const percentage = (losses.value / totalGames.value) * 100;
+  return Math.round(percentage);
+});
+
+onMounted(() => {
+  getAchievementsRequest();
+})
+
+
+const getAchievementsRequest = async () => {
+  const achievementsApiWsClient = new AchievementsApiWs(ApiClientStomp.instance);
+
+  const achievementsRequest = AchievementRequest.constructFromObject({
+    achievementFilter: {
+      productTagsFilter: [],
+      ids: [],
+      tags: ['dashboard'],
+      status: [],
+      sortBy: [
+        {
+          queryField: 'created',
+          order: 'Desc'
+        },
+      ],
+      skip: 0,
+      limit: 20,
+      statusCode: {
+        moreThan: 0,
+        lessThan: 40
+      },
+      constraints: []
+    },
+  }, null);
+
+  achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
+    // totalGames.value = res.meta.totalRecordsFound;
+    const ids = res.data.map(item => item.id);
+    getOptInStatus(ids);
+  });
+};
+
+const getOptInStatus = async (ids) => {
+  const optInApiWsClient = new OptInApiWs(ApiClientStomp.instance);
+
+  const optInStateRequest = OptInStatesRequest.constructFromObject({
+    optinStatesFilter: {
+      entityTypes: ['Achievement'],
+      ids,
+      statusCodes: {
+        gt: -5,
+        lt: 40
+      },
+      skip: 0,
+      limit: 10
+    }
+  }, null);
+
+  await optInApiWsClient.optInStates(optInStateRequest, res => {
+    if (res.data && res.data.length) {
+      totalGames.value = res.data.length;
+      res.data.forEach((item) => {
+        if (item.percentageComplete === 100) {
+          wins.value++;
+        } else {
+          losses.value++;
+        }
+      });
+    }
+  });
+};
 
 </script>
 

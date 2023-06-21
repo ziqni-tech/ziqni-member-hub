@@ -71,15 +71,16 @@ const winPercentage = computed(() => {
   if (totalGames.value === 0) {
     return 0;
   }
-  return (wins.value / totalGames.value) * 100;
+  const percentage = (wins.value / totalGames.value) * 100;
+  return Math.round(percentage);
 });
-
 
 const lossPercentage = computed(() => {
   if (totalGames.value === 0) {
     return 0;
   }
-  return (losses.value / totalGames.value) * 100;
+  const percentage = (losses.value / totalGames.value) * 100;
+  return Math.round(percentage);
 });
 
 onMounted(() => {
@@ -113,7 +114,7 @@ const getAchievementsRequest = async () => {
   }, null);
 
   achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
-    totalGames.value = res.meta.totalRecordsFound;
+    // totalGames.value = res.meta.totalRecordsFound;
     const ids = res.data.map(item => item.id);
     getOptInStatus(ids);
   });
@@ -137,6 +138,7 @@ const getOptInStatus = async (ids) => {
 
   await optInApiWsClient.optInStates(optInStateRequest, res => {
     if (res.data && res.data.length) {
+      totalGames.value = res.data.length;
       res.data.forEach((item) => {
         if (item.percentageComplete === 100) {
           wins.value++;
