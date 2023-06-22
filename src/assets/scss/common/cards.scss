@@ -17,6 +17,7 @@
   grid-template-columns: repeat(3, 1fr);
   width: 100%;
   grid-gap: 15px;
+  margin-top: 25px;
 
   @media screen and (max-width: $smDesktopWidth) {
     grid-template-columns: repeat(2, 1fr);

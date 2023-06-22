@@ -25,8 +25,8 @@
     </div>
     <div class="bottom-section">
       <div class="prize-btn">
-        <img src="@/assets/icons/achievements/diamond.png" alt="">
-        1000
+        <img :src="achievement.icon" alt="">
+        {{ achievement.rewardValue }}
       </div>
       <button
           v-if="!isCompleted"
@@ -261,12 +261,163 @@ const handleButtonClick = async () => {
 
       > img {
         margin-right: 10px;
-        width: 20px;
-        height: 20px;
+        max-width: 40px;
+        height: 30px;
         object-fit: cover;
       }
     }
   }
+}
+@media screen and (max-width: 500px) {
+  .achievements-details-card {
+    max-width: 840px;
+    background-color: $light-grey;
+    border-radius: $border-radius;
+    padding: 10px 25px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
 
+
+    .title {
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 24px;
+      color: $text-color-white;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-top: 30px;
+    }
+
+    .icon {
+      width: 100px;
+      height: 100px;
+      padding-top: 20px;
+
+      > img {
+        width: inherit;
+        height: inherit;
+        object-fit: cover;
+      }
+    }
+
+    .achievements-progress-wrapper {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      margin-top: 50px;
+      text-align: start;
+
+      .progress-title {
+        text-align: start;
+        width: 100%;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 17px;
+        color: $text-color-white;
+        padding-top: 20px;
+      }
+
+      .achievements-progress {
+        display: flex;
+        width: 100%;
+
+        .progress {
+          width: 100%;
+          height: 4px;
+          background-color: $dark-blue;
+          margin: 10px 0;
+
+          .progress-bar {
+            height: 100%;
+            background: $purple-gradient;
+            border-radius: $border-radius-sm;
+          }
+        }
+
+        .progress-value {
+          margin-left: 5px;
+          font-weight: 500;
+          font-size: 12px;
+          line-height: 16px;
+          color: $text-color-white;
+        }
+      }
+    }
+
+    .description {
+      display: flex;
+      flex-direction: column;
+
+      .description-title {
+        text-align: start;
+        width: 100%;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 17px;
+        color: $text-color-white;
+        padding-top: 20px;
+      }
+
+      .description-value {
+        text-align: start;
+        width: 100%;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 16px;
+        color: $text-color-white;
+        padding-top: 14px;
+      }
+    }
+
+    .bottom-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin-top: 20px;
+
+      .action-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 150px;
+        padding: 10px;
+
+        background: $purple-gradient;
+        border-radius: 10px;
+        border: 1px solid $purple;
+        color: $text-color-white;
+      }
+
+      .disabled-btn {
+        background: $btn-grey;
+        border: 1px solid $btn-grey;
+      }
+
+      .prize-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 20px;
+        margin-right: 10px;
+
+        background: $dark-grey;
+        border-radius: 10px;
+        border: 1px solid $dark-grey;
+        color: $text-color-white;
+
+        > img {
+          margin-right: 10px;
+          max-width: 40px;
+          height: 30px;
+          object-fit: cover;
+        }
+      }
+    }
+  }
 }
 </style>

@@ -9,16 +9,18 @@
 
 <script setup>
 
-
 import { useRoute, useRouter } from 'vue-router';
 import { onMounted, ref } from 'vue';
 import {
   AchievementRequest,
   AchievementsApiWs,
   ApiClientStomp,
+  EntityRequest,
+  FilesApiWs,
   ManageOptinRequest,
   OptInApiWs,
-  OptInStatesRequest
+  OptInStatesRequest,
+  RewardsApiWs
 } from '@ziqni-tech/member-api-client';
 import AchievementDetailsCard from '@/components/achievements/AchievementDetailsCard.vue';
 import { useStore } from 'vuex';
@@ -60,16 +62,14 @@ const getAchievementsRequest = async () => {
   }, null);
 
   achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
-    const ids = res.data.map(item => item.id);
-
     achievements.value = res.data;
-    console.warn('achievements', res.data);
-
-    getOptInStatus(ids);
+    getOptInStatus();
+    getEntityRewards()
+    isLoaded.value = true;
   });
 };
 
-const getOptInStatus = async (ids) => {
+const getOptInStatus = async () => {
   const optInApiWsClient = new OptInApiWs(ApiClientStomp.instance);
 
   const optInStateRequest = OptInStatesRequest.constructFromObject({
@@ -99,9 +99,62 @@ const getOptInStatus = async (ids) => {
       }
     }
     achievement.value = achievements.value[0];
-    isLoaded.value = true;
   });
 };
+
+const getEntityRewards = async () => {
+  const rewardsApiWsClient = await new RewardsApiWs(ApiClientStomp.instance);
+
+  const rewardRequest = EntityRequest.constructFromObject({
+    entityFilter: [
+      {
+        entityType: 'Achievement',
+        entityIds: ids
+      },
+    ],
+    skip: 0,
+    limit: 20
+  }, null);
+
+  await rewardsApiWsClient.getRewards(rewardRequest, async (res) => {
+    for (const achievement of achievements.value) {
+      if (res.data.length) {
+        let maxReward = null;
+        for (const reward of res.data) {
+          if (reward.entityId === achievement.id) {
+            if (!maxReward || reward.rewardValue > maxReward.rewardValue) {
+              maxReward = reward;
+            }
+          }
+        }
+        if (maxReward) {
+          achievement.rewardValue = maxReward.rewardValue;
+          achievement.rewardType = maxReward.rewardType.key;
+          if (maxReward.icon) {
+            achievement.icon = await getRewardIcon(maxReward.icon);
+          }
+        }
+      }
+    }
+    achievement.value = achievements.value[0];
+  });
+}
+
+const getRewardIcon = async (id) => {
+  const fileApiWsClient = new FilesApiWs(ApiClientStomp.instance);
+
+  const fileRequest = {
+    ids: [id],
+    limit: 1,
+    skip: 0
+  };
+
+  return new Promise((resolve) => {
+    fileApiWsClient.getFiles(fileRequest, (res) => {
+      resolve(res.data[0].uri);
+    });
+  });
+}
 
 const joinAchievement = async ({ id, name }) => {
   const optInApiWsClient = new OptInApiWs(ApiClientStomp.instance);

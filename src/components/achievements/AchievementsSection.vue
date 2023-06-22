@@ -69,9 +69,12 @@ import {
   AchievementRequest,
   AchievementsApiWs,
   ApiClientStomp,
+  EntityRequest,
+  FilesApiWs,
   ManageOptinRequest,
   OptInApiWs,
-  OptInStatesRequest
+  OptInStatesRequest,
+  RewardsApiWs
 } from '@ziqni-tech/member-api-client';
 import { CNav, CNavLink } from '@coreui/vue';
 
@@ -193,13 +196,13 @@ const getAchievementsRequest = async () => {
 
   achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
     totalRecords.value = res.meta.totalRecordsFound
-    // store.dispatch('setAchievementsTotalRecords', res.meta.totalRecordsFound);
 
     const ids = res.data.map(item => item.id);
 
     achievements.value = res.data;
 
     getOptInStatus(ids);
+    getEntityRewards(ids);
     isLoading.value = false;
   });
 };
@@ -233,12 +236,63 @@ const getOptInStatus = async (ids) => {
         achievement.entrantStatus = '';
       }
     }
-    achievementsData.value = achievements.value
+    achievementsData.value = achievements.value;
     store.dispatch('setAchievements', achievements.value);
   });
 };
 
-// if (!achievementsData.value.length) getAchievementsRequest();
+const getEntityRewards = async (ids) => {
+  const rewardsApiWsClient = await new RewardsApiWs(ApiClientStomp.instance);
+
+  const rewardRequest = EntityRequest.constructFromObject({
+    entityFilter: [
+      {
+        entityType: 'Achievement',
+        entityIds: ids
+      },
+    ],
+    skip: 0,
+    limit: 20
+  }, null);
+
+  await rewardsApiWsClient.getRewards(rewardRequest, async (res) => {
+    for (const achievement of achievements.value) {
+      if (res.data.length) {
+        let maxReward = null;
+        for (const reward of res.data) {
+          if (reward.entityId === achievement.id) {
+            if (!maxReward || reward.rewardValue > maxReward.rewardValue) {
+              maxReward = reward;
+            }
+          }
+        }
+        if (maxReward) {
+          achievement.rewardValue = maxReward.rewardValue;
+          achievement.rewardType = maxReward.rewardType.key;
+          if (maxReward.icon) {
+            achievement.icon = await getRewardIcon(maxReward.icon);
+          }
+        }
+      }
+    }
+  });
+}
+
+const getRewardIcon = async (id) => {
+  const fileApiWsClient = new FilesApiWs(ApiClientStomp.instance);
+
+  const fileRequest = {
+    ids: [id],
+    limit: 1,
+    skip: 0
+  };
+
+  return new Promise((resolve) => {
+    fileApiWsClient.getFiles(fileRequest, (res) => {
+      resolve(res.data[0].uri);
+    });
+  });
+}
 
 const joinAchievement = async ({ id, name }) => {
   const optInApiWsClient = new OptInApiWs(ApiClientStomp.instance);

@@ -22,8 +22,8 @@
     </div>
     <div class="bottom-section">
       <div class="btn prize">
-        <img src="../../assets/icons/achievements/diamond.png" alt="">
-        1000
+        <img :src="achievement.icon" alt="">
+        {{ achievement.rewardValue }}
       </div>
       <button
         class="btn leave-button"
@@ -51,7 +51,6 @@ import { useStore } from 'vuex';
 
 import Modal from '@/shared/components/Modal.vue';
 import defaultIcon from '@/assets/icons/achievements/book.png'
-import { ApiClientStomp, FilesApiWs } from '@ziqni-tech/member-api-client';
 import router from '@/router';
 
 
@@ -68,26 +67,7 @@ let leaveModal = ref(false);
 const achievement = props.achievement;
 const entrantStatus = ref('');
 
-const achievementIcon = ref(null)
-
 const isEntrant = computed(() => entrantStatus.value === 'Entrant' || entrantStatus.value === 'Entering');
-const getIconRequest = async () => {
-  const fileApiWsClient = new FilesApiWs(ApiClientStomp.instance);
-
-  const fileRequest = {
-    ids: [achievement.icon],
-    limit: 1,
-    skip: 0
-  };
-
-  await fileApiWsClient.getFiles(fileRequest, (res) => {
-    achievementIcon.value = res.data;
-    console.warn('achievementIcon', res.data);
-  });
-};
-
-onMounted(() => getIconRequest())
-
 
 watch(() => store.getters.getAchievements, (newValue) => {
   const newArr = newValue.filter(item => item.id === achievement.id);
@@ -124,7 +104,7 @@ const goToAchievementDetails = () => {
 </script>
 
 <style lang="scss">
-@import '../../assets/scss/_variables';
+@import '@/assets/scss/_variables';
 
 .achievements-card {
   width: 100%;
@@ -238,6 +218,11 @@ const goToAchievementDetails = () => {
       background-color: $dark-grey;
       cursor: default;
       border: none;
+
+      > img {
+        max-width: 36px;
+        height: 18px;
+      }
     }
 
     .go-button {
