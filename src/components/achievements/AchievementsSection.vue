@@ -412,7 +412,7 @@ onMounted(() => {
   width: 100%;
   grid-gap: 15px;
 
-  @media screen and (max-width: $tableWidth) {
+  @media screen and (max-width: 915px) {
     grid-template-columns: repeat(1, 1fr);
     height: 100%;
   }
