@@ -22,6 +22,7 @@
     <MobileNav />
   </div>
   <UserProfileMobile
+      v-if="isClientConnected"
       @closeProfileInfo="closeProfileInfo"
       @logOut="logOut"
       :class="{ open: isProfileInfo }"
