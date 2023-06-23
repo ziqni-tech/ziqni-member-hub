@@ -1,7 +1,7 @@
 <template>
   <div class="award" @click="goToAwardDetails">
     <div class="award__icon">
-      <img :src="defaultAwardIcon" alt="">
+      <img :src="awardIcon" alt="">
     </div>
     <h3 class="award__name">{{ award.name }}</h3>
     <h5 class="award__type">{{ award.rewardType.key }}</h5>
