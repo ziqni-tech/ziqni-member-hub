@@ -81,7 +81,75 @@ const logOut = () => emit('logOut');
 
   .logout {
     margin-top: auto;
-    padding: 16px;
+    padding: 16px 16px 25px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  #sidebar {
+
+    .brand {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px 0 50px;
+
+      .logo-wrapper {
+        display: flex;
+        align-items: center;
+
+        .logo {
+          height: 24px;
+          width: 24px;
+          margin-right: 10px;
+        }
+
+        .logo-name {
+          height: 18px;
+        }
+      }
+    }
+
+
+    .logout {
+      margin-top: auto;
+      padding: 16px;
+    }
+  }
+}
+
+@media screen and (max-width: 890px) {
+  #sidebar {
+
+    .brand {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px 0 50px;
+
+      .logo-wrapper {
+        display: flex;
+        align-items: center;
+
+        .logo {
+          height: 20px;
+          width: 20px;
+          margin-right: 8px;
+        }
+
+        .logo-name {
+          height: 15px;
+        }
+      }
+    }
+
+
+    .logout {
+      margin-top: auto;
+      padding: 16px;
+    }
   }
 }
 </style>

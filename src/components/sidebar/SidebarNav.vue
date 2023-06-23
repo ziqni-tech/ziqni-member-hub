@@ -66,7 +66,6 @@ const getIconStrokeColor = (item) => {
   }
 
   &__title {
-    font-style: normal;
     font-weight: 500;
     font-size: 14px;
     line-height: 17px;
@@ -84,6 +83,26 @@ const getIconStrokeColor = (item) => {
       background-image: radial-gradient(84.48% 157.68% at 50.5% 101.43%, rgb(127, 33, 255) 0%, rgba(41, 24, 79, 0) 66.15%, rgba(19, 22, 33, 0) 100%);
       opacity: 0.2;
       transform: rotate(90deg);
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .nav-item {
+    padding: 11px 8px;
+
+    &__icon-wrapper {
+      margin-right: 8px;
+    }
+  }
+}
+
+@media screen and (max-width: 980px) {
+  .nav-item {
+    padding: 10px 5px;
+
+    &__icon-wrapper {
+      margin-right: 5px;
     }
   }
 }
