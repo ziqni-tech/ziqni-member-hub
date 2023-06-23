@@ -101,7 +101,7 @@ const play = () => {
   }
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1280px) {
   .instant-wins-card {
     display: flex;
     flex-direction: column;
@@ -124,7 +124,6 @@ const play = () => {
 
     .instant-img-wrapper {
       width: 100%;
-      height: 0;
       background-color: $dark-grey;
       border-radius: $border-radius;
       padding-bottom: 75%;
@@ -134,13 +133,13 @@ const play = () => {
       .instant-img {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: contain;
         position: absolute;
-        top: 0;
-        left: 0;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
       }
     }
-
 
     .instant-info {
       display: flex;

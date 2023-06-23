@@ -1,7 +1,7 @@
 <template>
   <div class="section">
     <Loader v-if="isLoading" :title="'Current Missions are loading'"/>
-    <div :class="isDashboard ? 'dashboard-cards-grid' : 'cards-grid'">
+    <div :class="isDashboard ? 'dashboard-cards-grid' : 'missions-cards-grid'">
       <div class="card-wrapper" v-for="mission in currentMissions">
         <Mission :mission="mission"/>
       </div>
@@ -135,6 +135,20 @@ const loadMore = async () => {
 
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
+@import "@/assets/scss/_variables";
 
+.missions-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 100%;
+  grid-gap: 15px;
+
+  @media screen and (max-width: 1240px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media screen and (max-width: 935px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 </style>
