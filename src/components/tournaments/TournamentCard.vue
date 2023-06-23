@@ -14,7 +14,7 @@
       <TournamentDataRow
           :icon="prizeIcon"
           :label="'prize'"
-          :value="'5000'"
+          :value="cardItem.rewardValue"
       />
       <button class="see-more-btn" @click="goToTournamentsDetailsPage">See more</button>
     </div>
@@ -22,6 +22,8 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router';
+import cardImage from '@/assets/images/tournaments/tournament.png';
 import TournamentDataRow from './TournamentDataRow';
 import prizeIcon from '@/assets/icons/tournament/prize.png';
 import expiresInIcon from '@/assets/icons/tournament/expires-in.png';
@@ -31,8 +33,6 @@ const props = defineProps({
 });
 
 const cardItem = props.card;
-import cardImage from '../../assets/images/tournaments/tournament.png';
-import { useRouter } from 'vue-router';
 
 const router = useRouter();
 

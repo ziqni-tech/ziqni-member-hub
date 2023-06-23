@@ -2,7 +2,7 @@
   <div class="tournament-details-card">
     <div class="card-banner">
       <div class="tournament-main-data">
-        <span class="tournament-title">{{ tournament?.name }}</span>
+        <span class="tournament-title">{{ tournament.name }}</span>
         <Countdown
           v-if="tournament && tournament.scheduledEndDate"
           :date="tournament.scheduledEndDate"
@@ -13,7 +13,7 @@
     </div>
     <div class="tournament-data-wrapper">
       <div class="tournament-info-grid">
-        <InfoItem :icon="prizeIcon" :title="'prize'" :data="'2000'"/>
+        <InfoItem :icon="prizeIcon" :title="'prize'" :data="tournament.rewardValue"/>
         <InfoItem :icon="rtpIcon" :title="'RTP'" :data="'84%'"/>
         <InfoItem :icon="rateIcon" :title="'rate'" :data="'4.9'"/>
       </div>
@@ -24,13 +24,15 @@
           amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud
           amet.</p>
       </div>
-
-      <CButton v-if="!isEntrant" class="m-btn register-btn" @click="join">
-        <span class="b-btn__text">Join</span>
-      </CButton>
-      <CButton v-else class="m-btn register-btn" @click="openModal">
-        <span class="b-btn__text">Leave</span>
-      </CButton>
+      <button
+          class="m-btn register-btn"
+          @click="handleButtonClick"
+          :disabled="isLoading"
+          :class="{ 'disabled-btn': isLoading }"
+      >
+        <CSpinner v-if="isLoading" grow size="sm"/>
+        <span v-else>{{ isEntrant ? 'Leave' : 'Join' }}</span>
+      </button>
     </div>
   </div>
   <Modal
@@ -45,11 +47,10 @@
 </template>
 
 <script setup>
-import { CButton } from '@coreui/vue';
-import { ref } from 'vue';
+import { CSpinner } from '@coreui/vue';
+import { ref, toRef, watch } from 'vue';
 
 import Countdown from '../Countdown';
-import { useMedia } from '@/hooks/useMedia';
 import Modal from '../../shared/components/Modal';
 import InfoItem from '../../shared/components/InfoItem';
 
@@ -60,10 +61,19 @@ import rateIcon from '@/assets/icons/tournament/details/rate.png';
 
 const props = defineProps({ tournament: Object });
 const emit = defineEmits(['joinTournament', 'leaveTournament']);
-const end = new Date('2023-01-01T00:00:00');
-const isMobile = useMedia('(max-width: 480px)');
-let leaveModal = ref(false);
-const isEntrant = props.tournament.entrantStatus === 'Entrant' || props.tournament.entrantStatus === 'Entering';
+
+const tournament = toRef(props, 'tournament');
+
+console.warn('tournament', tournament.value);
+
+const leaveModal = ref(false);
+const isEntrant = ref(tournament.value.entrantStatus === 'Entrant' || tournament.value.entrantStatus === 'Entering');
+const isLoading = ref(false);
+
+watch(tournament, (newVal) => {
+  isEntrant.value = newVal.entrantStatus === 'Entrant' || newVal.entrantStatus === 'Entering';
+  isLoading.value = false;
+});
 
 const finish = () => {
   console.log('finish');
@@ -78,17 +88,31 @@ const leave = () => {
   leaveModal.value = false;
 };
 
-const openModal = () => {
-  leaveModal.value = true;
-};
-
 const closeModal = () => {
   leaveModal.value = false;
+};
+
+const handleButtonClick = async () => {
+  if (isLoading.value) {
+    return;
+  }
+
+  isLoading.value = true;
+
+  try {
+    if (isEntrant.value) {
+      await leave();
+    } else {
+      await join();
+    }
+  } catch (e) {
+    console.log('click btn error', e);
+  }
 };
 </script>
 
 <style lang="scss">
-@import '../../assets/scss/_variables';
+@import '@/assets/scss/_variables';
 
 .tournament-details-card {
   position: relative;

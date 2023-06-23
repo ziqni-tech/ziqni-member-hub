@@ -10,13 +10,14 @@
     <div class="tournament-details">
       <div class="details">
         <TournamentDetailsCard
+            v-if="isLoaded"
             :tournament="currentTournament"
             @joinTournament="joinTournament"
             @leaveTournament="leaveTournament"
         />
       </div>
-      <div class="leaderboard-table" v-if="leaderboardIsLoaded && leaderboardEntries">
-        <Leaderboard :leaders="leaderboardEntries" />
+      <div class="leaderboard-table" v-if="leaderboardEntries">
+        <Leaderboard v-if="contest" :leaders="leaderboardEntries" :prize="contest.rewardValue"/>
       </div>
     </div>
   </div>
@@ -26,22 +27,17 @@
 <script setup>
 import Leaderboard from '../../components/tournaments/LeaderboardTable.vue';
 import TournamentDetailsCard from '../../components/tournaments/TournamentDetailsCard';
-import { onUnmounted, ref, watchEffect, watch, onBeforeMount, computed } from 'vue';
+import { onUnmounted, ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useGetContests } from '@/hooks/useGetContests';
-import { useCompetitions } from '@/hooks/useCompetitions';
 import { useStore } from 'vuex';
 import Loader from '../../components/Loader';
 import {
-  ApiClientStomp,
+  ApiClientStomp, CompetitionRequest, CompetitionsApiWs, ContestRequest, ContestsApiWs, EntityRequest, FilesApiWs,
   LeaderboardApiWs,
   ManageOptinRequest,
   OptInApiWs,
-  OptInStatesRequest
+  OptInStatesRequest, RewardsApiWs
 } from '@ziqni-tech/member-api-client';
-
-const { getCompetitionsHandler, tournamentsResponse } = useCompetitions();
-const { getEntityContests, contests } = useGetContests();
 
 const router = useRouter()
 
@@ -53,11 +49,12 @@ const statusCode = {
 };
 
 const store = useStore();
-const tournamentItem = ref(null);
+const contests = ref(null);
+const contest = ref(null);
 const isLoaded = ref(false)
-const leaderboardIsLoaded = computed(() => store.getters.getLeaderboardIsLoaded);
-const leaderboardEntries = computed(() => store.getters.getLeaderboardEntries);
-const currentTournament = computed(() => store.getters.getCurrentTournament);
+const leaderboardEntries = ref(null);
+const tournaments = ref(null)
+const currentTournament = ref(null);
 
 const tournamentRequestData = {
   statusCode,
@@ -65,19 +62,133 @@ const tournamentRequestData = {
   skip: 0,
   ids
 };
-onBeforeMount(() => {
-  getCompetitionsHandler(tournamentRequestData);
-  getOptInStatus()
-});
 
-watch(tournamentsResponse, (currentValue, oldValue) => {
-  if (currentValue) {
-    isLoaded.value = true;
-    tournamentItem.value = currentValue.data[0];
-    const competitionId = currentValue.data[0]?.id;
-    getEntityContests(competitionId);
-  }
+onMounted(async () => {
+  await getCompetition()
+  await getEntityContests()
 })
+
+const getCompetition = async () => {
+  const competitionsApiWsClient = new CompetitionsApiWs(ApiClientStomp.instance);
+  const { statusCode, limit, skip, ids } = tournamentRequestData;
+
+  const competitionRequest = CompetitionRequest.constructFromObject({
+    competitionFilter: {
+      statusCode,
+      sortBy: [{
+        queryField: 'created',
+        order: 'Desc'
+      }],
+      limit,
+      skip,
+      ids
+    }
+  }, null);
+
+  await competitionsApiWsClient.getCompetitions(competitionRequest, async (res) => {
+    const competitions = res.data;
+    console.warn('RES DATA', competitions);
+    const competitionsIds = competitions.map(item => item.id);
+
+    const rewards = await getEntityRewards('Competition', competitionsIds);
+
+    for (const competition of competitions) {
+      if (rewards.length) {
+        let maxReward = null;
+        for (const reward of rewards) {
+          if (reward.entityId === competition.id) {
+            if (!maxReward || reward.rewardValue > maxReward.rewardValue) {
+              maxReward = reward;
+            }
+          }
+        }
+        if (maxReward) {
+          competition.rewardValue = maxReward.rewardValue;
+          competition.rewardType = maxReward.rewardType.key;
+        }
+      } else {
+        competition.rewardValue = null;
+        competition.rewardType = '';
+      }
+    }
+
+    tournaments.value = competitions;
+
+    await getOptInStatus();
+
+    isLoaded.value = true;
+  });
+}
+
+const getEntityContests = async () => {
+  const contestApiWsClient = new ContestsApiWs(ApiClientStomp.instance);
+  const contestRequest = ContestRequest.constructFromObject({
+    contestFilter: {
+      productIds: [],
+      tags: [],
+      startDate: null,
+      endDate: null,
+      ids: [],
+      competitionIds: ids,
+      constraints: [],
+      statusCode: {
+        moreThan: 10,
+        lessThan: 100
+      },
+    }
+  }, null);
+
+  await contestApiWsClient.getContests(contestRequest, async (res) => {
+    if (res.data && res.data.length) {
+      const contests = res.data;
+      const contestIds = contests.map(item => item.id);
+
+      const rewards = await getEntityRewards('Contest', contestIds)
+
+      for (const contest of contests) {
+        if (res.data.length) {
+          let maxReward = null;
+          for (const reward of rewards) {
+            if (reward.entityId === contest.id) {
+              if (!maxReward || reward.rewardValue > maxReward.rewardValue) {
+                maxReward = reward;
+              }
+            }
+          }
+          if (maxReward) {
+            contest.rewardValue = maxReward.rewardValue;
+            contest.rewardType = maxReward.rewardType.key;
+            // if (maxReward.icon) {
+            //   contest.icon = await getRewardIcon(maxReward.icon);
+            // }
+          }
+        }
+      }
+      contest.value = contests[0];
+
+      await getEntityLeaderboard(contest.value.id);
+    } else {
+      console.warn('This competition has no contests');
+    }
+
+  })
+}
+
+const getRewardIcon = async (id) => {
+  const fileApiWsClient = new FilesApiWs(ApiClientStomp.instance);
+
+  const fileRequest = {
+    ids: [id],
+    limit: 1,
+    skip: 0
+  };
+
+  return new Promise((resolve) => {
+    fileApiWsClient.getFiles(fileRequest, (res) => {
+      resolve(res.data[0].uri);
+    });
+  });
+}
 
 const getEntityLeaderboard = async (contestId) => {
   const apiLeaderboardWsClient = new LeaderboardApiWs(ApiClientStomp.instance);
@@ -93,38 +204,30 @@ const getEntityLeaderboard = async (contestId) => {
   await store.dispatch('leaderboardRequest');
 
   await apiLeaderboardWsClient.subscribeToLeaderboard(leaderboardSubscriptionRequest, (res) => {
-    if (!res.errors.length) {
-      store.dispatch('setLeaderboardAction', res.data.leaderboardEntries)
-    } else {
-      store.dispatch('setLeaderboardErrorAction', res.errors)
-    }
+    leaderboardEntries.value = res.data.leaderboardEntries
   });
 }
 
-watchEffect(() => {
-  if (contests.value[0]) {
-    const contestId = contests.value[0].id;
-    getEntityLeaderboard(contestId);
-  }
-});
-
 const unsubscribeEntityLeaderboard = async () => {
-  const contestId = contests.value[0]?.id;
-  const apiLeaderboardWsClient = new LeaderboardApiWs(ApiClientStomp.instance);
-  const leaderboardSubscriptionRequest = {
-    action: 'Unsubscribe',
-    entityId: contestId,
-    leaderboardFilter: {
-      ranksAboveToInclude: 10,
-      ranksBelowToInclude: 10,
-      topRanksToInclude: 10
-    }
-  };
-  await store.dispatch('leaderboardRequest');
+  if (contest.value) {
+    const contestId = contest.value.id;
 
-  await apiLeaderboardWsClient.subscribeToLeaderboard(leaderboardSubscriptionRequest, (res) => {
-    console.log('Unsubscribe EntityLeaderboard', res);
-  });
+    const apiLeaderboardWsClient = new LeaderboardApiWs(ApiClientStomp.instance);
+    const leaderboardSubscriptionRequest = {
+      action: 'Unsubscribe',
+      entityId: contestId,
+      leaderboardFilter: {
+        ranksAboveToInclude: 10,
+        ranksBelowToInclude: 10,
+        topRanksToInclude: 10
+      }
+    };
+    await store.dispatch('leaderboardRequest');
+
+    await apiLeaderboardWsClient.subscribeToLeaderboard(leaderboardSubscriptionRequest, (res) => {
+      console.log('Unsubscribe EntityLeaderboard', res);
+    });
+  }
 };
 
 const getOptInStatus = async () => {
@@ -144,21 +247,43 @@ const getOptInStatus = async () => {
   }, null);
 
   await optInApiWsClient.optInStates(optInStateRequest, res => {
-    console.warn('OPT-IN RES', res);
-    if (res.data.length) {
-      const status = res.data[0].status;
-      const percentage = res.data[0].percentageComplete;
+    for (const tournament of tournaments.value) {
+      if (res.data.length) {
+        const status = res.data.find(item => item.entityId === tournament.id)?.status;
+        const percentage = res.data.find(item => item.entityId === tournament.id)?.percentageComplete;
 
-      tournamentItem.value.entrantStatus = status ? status : '';
-      tournamentItem.value.percentageComplete = percentage ? percentage : 0;
-    } else {
-      tournamentItem.value.percentageComplete = 0;
-      tournamentItem.value.entrantStatus = '';
+        tournament.entrantStatus = status ? status : '';
+        tournament.percentageComplete = percentage ? percentage : 0;
+      } else {
+        tournament.percentageComplete = 0;
+        tournament.entrantStatus = '';
+      }
     }
-
-    store.dispatch('setCurrentTournamentAction', tournamentItem.value);
+    currentTournament.value = tournaments.value[0];
   });
 };
+
+const getEntityRewards = async (entityType, ids) => {
+  const rewardsApiWsClient = await new RewardsApiWs(ApiClientStomp.instance);
+
+  const rewardRequest = EntityRequest.constructFromObject({
+    entityFilter: [
+      {
+        entityType: entityType,
+        entityIds: ids
+      },
+    ],
+    skip: 0,
+    limit: 20,
+    languageKey: ''
+  }, null);
+
+  return new Promise((resolve) => {
+    rewardsApiWsClient.getRewards(rewardRequest, async (res) => {
+      resolve(res.data);
+    });
+  });
+}
 
 const joinTournament = async () => {
   const optInApiWsClient = new OptInApiWs(ApiClientStomp.instance);
@@ -170,17 +295,13 @@ const joinTournament = async () => {
   }, null);
 
   await optInApiWsClient.manageOptin(optInRequest, (res) => {
-    console.warn('JOIN RES', res.data);
     if (res.data) {
-      const message = `You successfully joined the ${tournamentItem.value.name} tournament`;
+      const message = `You successfully joined the ${currentTournament.value.name} tournament`;
       store.dispatch('setAlertMessage', message);
 
-      const status = res.data[0].status;
-      const percentage = res.data[0].percentageComplete;
-      tournamentItem.value.entrantStatus = status;
-      tournamentItem.value.percentageComplete = percentage ? percentage : 0;
-
-      store.dispatch('setCurrentTournamentAction', tournamentItem.value);
+      setTimeout(async () => {
+        await getCompetition();
+      }, 5000);
     }
   })
 }
@@ -195,17 +316,13 @@ const leaveTournament= async () => {
   }, null);
 
   await optInApiWsClient.manageOptin(optInRequest, (res) => {
-    console.warn('LEAVE RES', res.data);
     if (res.data) {
-      const message = `You successfully leaved the ${tournamentItem.value.name} tournament`;
+      const message = `You successfully leaved the ${currentTournament.value.name} tournament`;
       store.dispatch('setAlertMessage', message);
 
-      const status = res.data[0].status;
-      const percentage = res.data[0].percentageComplete;
-      tournamentItem.value.entrantStatus = status;
-      tournamentItem.value.percentageComplete = percentage ? percentage : 0;
-
-      store.dispatch('setCurrentTournamentAction', tournamentItem.value);
+      setTimeout(async () => {
+        await getCompetition();
+      }, 5000);
     }
   })
 }
@@ -219,7 +336,7 @@ const goToCalendar = () => {
 </script>
 
 <style lang="scss" scoped>
-@import '../../assets/scss/_variables';
+@import '@/assets/scss/_variables';
 
 @media screen and (max-width: 1280px) {
   .tournament_card {

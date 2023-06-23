@@ -25,7 +25,7 @@
           </div>
         </td>
         <td>{{ leader.score }}</td>
-        <td>2000</td>
+        <td>{{ prize }}</td>
       </tr>
       </tbody>
     </table>
@@ -38,7 +38,8 @@ import { useStore } from 'vuex';
 const store = useStore();
 
 const props = defineProps({
-  leaders: Array
+  leaders: Array,
+  prize: Number
 });
 
 const member = computed(() => store.getters.getMember);

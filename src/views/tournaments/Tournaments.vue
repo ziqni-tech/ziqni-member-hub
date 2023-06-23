@@ -1,6 +1,6 @@
 <template>
   <CurrentTournamentsSection />
-  <FeatureTournamentsSection />
+<!--  <FeatureTournamentsSection />-->
 </template>
 
 <script>
