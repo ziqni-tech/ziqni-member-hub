@@ -16,8 +16,8 @@
       </div>
       <div class="bottom-section">
         <div class="btn prize">
-          <img src="../../assets/icons/achievements/diamond.png" alt="">
-          1000
+          <img :src="mission.icon" alt="">
+          {{ mission.rewardValue }}
         </div>
         <button class="btn go-button" @click="goToMissionsMapPage">go</button>
       </div>
@@ -60,7 +60,7 @@ const goToMissionsMapPage = () => {
 </script>
 
 <style lang="scss">
-@import '../../assets/scss/_variables';
+@import '@/assets/scss/_variables';
 
 .m-card {
   background-color: $light-grey;

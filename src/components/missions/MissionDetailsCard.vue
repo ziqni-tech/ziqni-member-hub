@@ -5,13 +5,16 @@
         <img src="@/assets/icons/back_arrow.png" alt="">
       </button>
       <button v-if="isReadMore" class="card-header_btn" @click="goToInfo">i</button>
-      <div v-if="!isInfo && !isReadMore" class="prize">
-        <img src="@/assets/icons/achievements/diamond.png" alt="">
-        <div class="prize-value">1000</div>
+      <div v-if="!isInfo && !isReadMore && !isMobile" class="prize">
+        <img v-if="mission.rewardIcon" :src="mission.rewardIcon" alt="">
+        <div class="prize-value">{{ mission.rewardValue }}</div>
       </div>
     </div>
+    <div class="mobile-mission-icon" v-if="isMobile">
+      <img src="https://first-space.cdn.ziqni.com/Icons/ball-2.png" alt="">
+    </div>
     <div class="mission-details-data">
-      <div class="mission-details-card__img">
+      <div class="mission-details-card__img" v-if="!isMobile">
         <img :src="banner" alt="">
       </div>
       <div v-if="mission" class="mission-data">
@@ -21,16 +24,29 @@
           <span class="description_text">{{ mission.description }}</span>
         </div>
         <div class="prize_data" v-if="isReadMore">
-          prize: <img src="@/assets/icons/tournament/prize.png" alt=""> {{ prize }}
+          prize: <img src="@/assets/icons/tournament/prize.png" alt=""> {{ mission.rewardValue }}
         </div>
         <div class="mission-data__description" v-if="isInfo">
           <span class="description_title">Terms & Conditions</span>
           <span class="description_text">{{ mission.termsAndConditions }}</span>
         </div>
-        <CButton v-if="!isReadMore && !isInfo" class="m-btn register-btn" @click="readMore">
+        <CButton v-if="!isReadMore && !isInfo && !isMobile" class="m-btn register-btn" @click="readMore">
           <span class="b-btn__text">read more</span>
         </CButton>
       </div>
+    </div>
+    <div
+        v-if="!isInfo && !isReadMore && isMobile"
+        class="bottom-section"
+        :class="{'space-between': !isInfo && !isReadMore && isMobile}"
+    >
+      <div class="prize">
+        <img v-if="mission.rewardIcon" :src="mission.rewardIcon" alt="">
+        <div class="prize-value">{{ mission.rewardValue }}</div>
+      </div>
+      <CButton v-if="!isReadMore && !isInfo" class="m-btn register-btn" @click="readMore">
+        <span class="b-btn__text">read more</span>
+      </CButton>
     </div>
   </div>
   <v-network-graph
@@ -52,14 +68,14 @@
 <script setup>
 import { ref, onBeforeMount, watch, reactive } from 'vue';
 import { CButton } from '@coreui/vue';
-import banner from '../../assets/images/missions/mission-details.png';
+import banner from '@/assets/images/missions/mission-details.png';
 import { useStore } from 'vuex';
 import {
   AchievementRequest,
   AchievementsApiWs,
   ApiClientStomp,
-  EntityGraphRequest,
-  GraphsApiWs, OptInApiWs, OptInStatesRequest,
+  EntityGraphRequest, EntityRequest, FilesApiWs,
+  GraphsApiWs, OptInApiWs, OptInStatesRequest, RewardsApiWs,
 } from '@ziqni-tech/member-api-client';
 
 import { defineConfigs } from 'v-network-graph';
@@ -67,17 +83,11 @@ import dagre from 'dagre/dist/dagre.min.js';
 import { useRoute, useRouter } from "vue-router";
 import useMobileDevice from "@/hooks/useMobileDevice";
 
-const { isMobile } = useMobileDevice()
+const { isMobile } = useMobileDevice();
 
-watch(isMobile, (value) => {
-  if (value) {
-    console.warn('MOBILE')
-  }
-})
 const emit = defineEmits(['joinMission', 'leaveMission']);
 
 const store = useStore();
-const prize = 10000
 
 const isReadMore = ref(false)
 const isInfo = ref(false)
@@ -123,6 +133,7 @@ const result = ref(null);
 
 let leaveModal = ref(false);
 
+const missions = ref(null);
 const mission = ref(null);
 const isLoaded = ref(false);
 
@@ -151,17 +162,71 @@ const getMissionRequest = async () => {
   }, null);
 
   achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
-    mission.value = res.data[0];
-    console.warn('MISSION', res.data[0]);
-    isLoaded.value = true;
+    missions.value = res.data;
+    getEntityRewards();
   });
 };
+
+const getEntityRewards = async () => {
+  const rewardsApiWsClient = await new RewardsApiWs(ApiClientStomp.instance);
+
+  const rewardRequest = EntityRequest.constructFromObject({
+    entityFilter: [
+      {
+        entityType: 'Achievement',
+        entityIds: [route.params.id]
+      },
+    ],
+    skip: 0,
+    limit: 20
+  }, null);
+
+  await rewardsApiWsClient.getRewards(rewardRequest, async (res) => {
+    for (const mission of missions.value) {
+      if (res.data.length) {
+        let maxReward = null;
+        for (const reward of res.data) {
+          if (reward.entityId === mission.id) {
+            if (!maxReward || reward.rewardValue > maxReward.rewardValue) {
+              maxReward = reward;
+            }
+          }
+        }
+        if (maxReward) {
+          mission.rewardValue = maxReward.rewardValue;
+          mission.rewardType = maxReward.rewardType.key;
+          if (maxReward.icon) {
+            mission.rewardIcon = await getRewardIcon(maxReward.icon);
+          }
+        }
+      }
+    }
+    mission.value = missions.value[0];
+    isLoaded.value = true;
+  });
+}
 
 onBeforeMount(() => {
   getMissionGraphData();
   getMissionRequest();
   // getOptInStatus()
 });
+
+const getRewardIcon = async (id) => {
+  const fileApiWsClient = new FilesApiWs(ApiClientStomp.instance);
+
+  const fileRequest = {
+    ids: [id],
+    limit: 1,
+    skip: 0
+  };
+
+  return new Promise((resolve) => {
+    fileApiWsClient.getFiles(fileRequest, (res) => {
+      resolve(res.data[0].uri);
+    });
+  });
+}
 
 const getAchievementOrder = (nodes, edges) => {
   const edgesResult = {};
@@ -358,7 +423,7 @@ const closeModal = () => {
 
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 @import '@/assets/scss/_variables';
 
 .graph {
@@ -497,106 +562,137 @@ const closeModal = () => {
       align-self: flex-start;
       margin-top: auto;
       margin-bottom: 10px;
+      padding: 10px 55px;
     }
+  }
+
+  .bottom-section {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    margin-top: auto;
   }
 }
 
-//@media screen and (max-width: $smDesktopWidth) {
-//  .mission-details-card {
-//    flex-wrap: wrap;
-//    width: 100%;
-//
-//    &__banner {
-//      position: relative;
-//      width: 100%;
-//      border-radius: 30px 30px 0 0;
-//      object-fit: cover;
-//
-//      & > img {
-//        width: 100%;
-//        height: 100%;
-//      }
-//
-//      .status {
-//        position: absolute;
-//        top: 5px;
-//        left: 5px;
-//      }
-//    }
-//
-//    .mission-data {
-//      width: 100%;
-//      padding: 5px 10px;
-//
-//      &__title {
-//        font-weight: 600;
-//        font-size: 18px;
-//        line-height: 36px;
-//        color: #FFFBFF;
-//        text-align: start;
-//      }
-//
-//      &__fund {
-//        display: flex;
-//        align-items: flex-start;
-//        font-weight: 500;
-//        font-size: 15px;
-//        text-align: center;
-//        color: #FFFFFF;
-//
-//        &__data {
-//          & > img {
-//            height: 50px;
-//          }
-//          &:last-child {
-//            margin-left: 5px;
-//          }
-//        }
-//      }
-//
-//      &__countadown {
-//        max-width: 400px;
-//        margin-top: 12px;
-//      }
-//
-//      &__progress {
-//        margin-top: 10px;
-//      }
-//
-//      &__terms-and-conditions {
-//        display: flex;
-//        flex-direction: column;
-//        margin-top: 15px;
-//        padding-bottom: 10px;
-//
-//        &__title {
-//          font-weight: 600;
-//          font-size: 14px;
-//          line-height: 21px;
-//          color: #FFCC00;
-//          text-align: start;
-//        }
-//
-//        &__text {
-//          font-weight: 500;
-//          font-size: 8px;
-//          line-height: 14px;
-//          color: #FFFFFF;
-//          text-align: start;
-//        }
-//      }
-//    }
-//    .progress {
-//      width: 100%;
-//      background: linear-gradient(180deg, #EDDFF3 0%, #E8EAEC 100%);
-//      border-radius: 24px;
-//
-//      .progress-bar {
-//        background: linear-gradient(180deg, #1ECE30 0%, #188A2A 100%);
-//        box-shadow: inset 0 2.29752px 4.59504px rgba(255, 255, 255, 0.25), inset 0px -2.29752px 4.59504px rgba(0, 0, 0, 0.25);
-//        border-radius: 4px;
-//      }
-//    }
-//  }
-//}
+@media screen and (max-width: $tableWidth) {
+  .mission-details-card {
+
+    .mobile-mission-icon {
+
+      > img {
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
+      }
+    }
+    .prize {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: $border-radius;
+      background: $dark-grey;
+      padding: 5px 10px;
+      min-height: 25px;
+
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 17px;
+      color: $text-color-white;
+
+
+      .prize-value {
+        padding-top: 3px;
+      }
+
+      > img {
+        height: 10px;
+        width: 12px;
+        margin-right: 7px;
+      }
+    }
+
+    .mission-details-data {
+      width: 100%;
+      display: flex;
+
+      &__img {
+        width: 25%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .mission-data {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 20px 0;
+
+        &__title {
+          font-weight: 700;
+          font-size: 24px;
+          line-height: 36px;
+          color: $text-color-white;
+          text-align: start;
+        }
+
+        .prize_data {
+          width: 100%;
+
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 17px;
+          color: $text-color-white;
+          text-align: left;
+          margin-top: 21px;
+
+          & > img {
+            padding: 0 5px 0 15px;
+          }
+        }
+
+        &__description {
+          width: 100%;
+          color: $text-color-white;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+
+          .description_title {
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 17px;
+            margin: 15px 0;
+          }
+
+          .description_text {
+            height: 100%;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 146.5%;
+            text-align: start;
+            margin-bottom: 20px;
+          }
+        }
+      }
+
+    }
+
+    .bottom-section {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      &.space-between {
+        justify-content: space-between;
+      }
+
+      .register-btn {
+        padding: 5px 46px;
+      }
+    }
+  }
+}
 </style>

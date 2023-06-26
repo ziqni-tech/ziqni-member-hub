@@ -14,9 +14,9 @@ import { computed, ref } from 'vue';
 import {
   AchievementRequest,
   AchievementsApiWs,
-  ApiClientStomp,
+  ApiClientStomp, EntityRequest, FilesApiWs,
   OptInApiWs,
-  OptInStatesRequest
+  OptInStatesRequest, RewardsApiWs
 } from '@ziqni-tech/member-api-client';
 import { useStore } from 'vuex';
 
@@ -69,13 +69,14 @@ const getAchievementsRequest = async () => {
   isLoading.value = true;
   const achievementsApiWsClient = new AchievementsApiWs(ApiClientStomp.instance);
 
-  await achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
+  await achievementsApiWsClient.getAchievements(achievementsRequest, async (res) => {
     store.dispatch('setCurrentMissionsTotalRecords', res.meta.totalRecordsFound);
 
     const ids = res.data.map(item => item.id);
     missions.value = res.data;
 
-    getOptInStatus(ids);
+    await getOptInStatus(ids);
+    await getEntityRewards(ids);
     isLoading.value = false;
   });
 };
@@ -112,6 +113,60 @@ const getOptInStatus = async (ids) => {
     store.dispatch('setCurrentMissionsAction', missions.value);
   });
 };
+
+const getEntityRewards = async (ids) => {
+  const rewardsApiWsClient = await new RewardsApiWs(ApiClientStomp.instance);
+
+  const rewardRequest = EntityRequest.constructFromObject({
+    entityFilter: [
+      {
+        entityType: 'Achievement',
+        entityIds: ids
+      },
+    ],
+    skip: 0,
+    limit: 20
+  }, null);
+
+  await rewardsApiWsClient.getRewards(rewardRequest, async (res) => {
+    for (const mission of missions.value) {
+      if (res.data.length) {
+        let maxReward = null;
+        for (const reward of res.data) {
+          if (reward.entityId === mission.id) {
+            if (!maxReward || reward.rewardValue > maxReward.rewardValue) {
+              maxReward = reward;
+            }
+          }
+        }
+        if (maxReward) {
+          mission.rewardValue = maxReward.rewardValue;
+          mission.rewardType = maxReward.rewardType.key;
+          if (maxReward.icon) {
+            mission.icon = await getRewardIcon(maxReward.icon);
+          }
+        }
+      }
+    }
+  });
+}
+
+const getRewardIcon = async (id) => {
+  const fileApiWsClient = new FilesApiWs(ApiClientStomp.instance);
+
+  const fileRequest = {
+    ids: [id],
+    limit: 1,
+    skip: 0
+  };
+
+  return new Promise((resolve) => {
+    fileApiWsClient.getFiles(fileRequest, (res) => {
+      console.warn('ICON RES', res);
+      resolve(res.data[0].uri);
+    });
+  });
+}
 
 if (!currentMissions.value.length) getAchievementsRequest();
 

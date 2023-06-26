@@ -34,7 +34,7 @@
             :y="-config.radius * scale"
             :width="config.radius * scale * 2"
             :height="config.radius * scale * 2"
-            :xlink:href="`${images['with_icon']}`"
+            :xlink:href="`${images[nodeId]}`"
             clip-path="url(#faceCircle)"
         />
         <!-- circle for drawing stroke -->
@@ -46,6 +46,23 @@
             :stroke-width="1 * scale"
             v-bind="slotProps"
         />
+        <!-- stars for mission completion -->
+        <g v-if="missionCompleted[nodeId]" class="mission-stars" :transform="getStarTransform()">
+          <text
+              v-for="index in totalMissions"
+              :key="index"
+              class="star"
+              :x="getStarX(index, config.radius * scale)"
+              :y="getStarY(index, config.radius * scale)"
+              font-family="Material Icons"
+              text-anchor="middle"
+              dominant-baseline="central"
+              :font-size="starSize"
+              fill="#D7A321"
+          >
+            &#x2605
+          </text>
+        </g>
       </template>
     </v-network-graph>
   </div>
@@ -53,7 +70,7 @@
 
 <script setup>
 
-import { onBeforeMount, ref, reactive, watch, computed } from 'vue';
+import { computed, onBeforeMount, reactive, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -66,17 +83,57 @@ import {
   ApiClientStomp,
   EntityGraphRequest,
   GraphsApiWs,
+  OptInApiWs,
+  OptInStatesRequest,
 } from '@ziqni-tech/member-api-client';
 import useMobileDevice from '@/hooks/useMobileDevice';
 
 const { isMobile } = useMobileDevice();
 
-const nodeSize = computed(() => isMobile.value ? 50 : 90)
+const nodeSize = computed(() => isMobile.value ? 50 : 90);
+const starSize = computed(() => isMobile.value ? 16 : 25);
+const images = ref(null)
+// const images = {
+//   with_icon: 'https://first-space.cdn.ziqni.com/Icons/ball-1.png',
+//   'with_i_2': 'https://first-space.cdn.ziqni.com/Icons/ball-2.png',
+//   'with_i-3': 'https://first-space.cdn.ziqni.com/Icons/ball-3.png',
+// }
 
-const images = {
-  with_icon: 'https://first-space.cdn.ziqni.com/Icons/ball-1.png',
-  'with_i_2': 'https://first-space.cdn.ziqni.com/Icons/ball-2.png',
-  'with_i-3': 'https://first-space.cdn.ziqni.com/Icons/ball-3.png',
+const missionCompleted = {
+  'Mission SK': true,
+  'Stage 1': true,
+  'Stage 1_2': true,
+  node3: false,
+}
+
+const totalMissions = 3;
+
+const getStarAngle = () => {
+  return 180;
+}
+
+
+const getStarTransform = () => {
+  const angle = getStarAngle();
+  return `rotate(${angle})`;
+}
+
+const getStarX = (index, radius) => {
+  if (index === 2) {
+    return 0;
+  } else if (index === 1) {
+    return -radius + (radius / 2) - 3;
+  } else {
+    return radius - (radius / 2) + 3;
+  }
+}
+
+const getStarY = (index, radius) => {
+  if (index === 2) {
+    return radius + 10;
+  } else {
+    return radius + 5
+  }
 }
 
 const router = useRouter();
@@ -191,7 +248,6 @@ const getMissionRequest = async () => {
 
   achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
     mission.value = res.data[0];
-    console.warn('MISSION', res.data[0]);
     isLoaded.value = true;
   });
 };
@@ -255,11 +311,58 @@ const getMissionGraphData = async () => {
     res.data.nodes.forEach(node => node.icon = 'https://first-space.cdn.ziqni.com/Icons/kisspng-cat-kitten-free-cat-vector-material-5ae776513daf78.0982279715251185452527.png')
 
     const nodes = res.data.nodes;
+
+    const icons = {};
+    for (const node of nodes) {
+      const key = node.name;
+      icons[key] = node.icon;
+    }
+    console.warn('ICONS', icons);
+    images.value = icons;
+
     const edges = res.data.graphs[0].edges;
-    console.warn('GraphData', nodes)
+    console.warn('NODES', res.data);
+    const ids = nodes.map(item => item.entityId);
+    getOptInStatus(ids);
     result.value = getAchievementOrder(nodes, edges);
   });
 };
+
+const getOptInStatus = async (ids) => {
+  const optInApiWsClient = new OptInApiWs(ApiClientStomp.instance);
+
+  const optInStateRequest = OptInStatesRequest.constructFromObject({
+    optinStatesFilter: {
+      entityTypes: ['Achievement'],
+      ids: ids,
+      statusCodes: {
+        gt: -5,
+        lt: 40
+      },
+      skip: 0,
+      limit: 10
+    }
+  }, null);
+
+  await optInApiWsClient.optInStates(optInStateRequest, res => {
+    console.warn('OPT RES', res);
+    // for (const achievement of achievements.value) {
+    //   if (res.data.length) {
+    //     const status = res.data.find(item => item.entityId === achievement.id)?.status;
+    //     const percentage = res.data.find(item => item.entityId === achievement.id)?.percentageComplete;
+    //
+    //     achievement.entrantStatus = status ? status : '';
+    //     achievement.percentageComplete = percentage ? percentage : 0;
+    //   } else {
+    //     achievement.percentageComplete = 0;
+    //     achievement.entrantStatus = '';
+    //   }
+    // }
+    // achievementsData.value = achievements.value;
+    // store.dispatch('setAchievements', achievements.value);
+  });
+};
+
 const layout = (direction) => {
   if (Object.keys(result.value.nodesResult).length <= 1
       || Object.keys(result.value.edgesResult).length === 0
@@ -314,6 +417,7 @@ const layout = (direction) => {
 };
 
 watch(result, (currentValue, oldValue) => {
+  console.warn('RESULT', result);
   if (currentValue || oldValue) {
     layout('LR');
   }
@@ -322,22 +426,40 @@ watch(result, (currentValue, oldValue) => {
 </script>
 
 <style scoped lang="scss">
-.graph-wrapper {
+@import "@/assets/scss/_variables";
+.mission-map-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: $body-text-white;
+  margin: 25px auto;
+}
+.graph {
+  width: 100%;
+  height: 800px;
+}
 
+
+.face-circle,
+.face-picture {
+  transition: all 0.1s linear;
+}
+
+// suppress image events so that mouse events are received
+// by the background circle.
+.face-picture {
+  pointer-events: none;
+}
+
+@media screen and (max-width: 380px) {
   .graph {
-    width: 100%;
-    min-height: 500px;
+    height: 500px;
   }
 
-  .face-circle,
-  .face-picture {
-    transition: all 0.1s linear;
-  }
-
-  // suppress image events so that mouse events are received
-  // by the background circle.
-  .face-picture {
-    pointer-events: none;
+  .mission-map-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: $body-text-white;
+    margin: 15px auto;
   }
 }
 </style>
