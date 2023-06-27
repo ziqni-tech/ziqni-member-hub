@@ -47,9 +47,9 @@
             v-bind="slotProps"
         />
         <!-- stars for mission completion -->
-        <g v-if="missionCompleted[nodeId]" class="mission-stars" :transform="getStarTransform()">
+        <g v-if="missionCompleted && missionCompleted[nodeId]" class="mission-stars" :transform="getStarTransform()">
           <text
-              v-for="index in totalMissions"
+              v-for="index in totalStars"
               :key="index"
               class="star"
               :x="getStarX(index, config.radius * scale)"
@@ -99,14 +99,9 @@ const images = ref(null)
 //   'with_i-3': 'https://first-space.cdn.ziqni.com/Icons/ball-3.png',
 // }
 
-const missionCompleted = {
-  'Mission SK': true,
-  'Stage 1': true,
-  'Stage 1_2': true,
-  node3: false,
-}
+const missionCompleted = ref(null);
 
-const totalMissions = 3;
+const totalStars = 3;
 
 const getStarAngle = () => {
   return 180;
@@ -307,8 +302,7 @@ const getMissionGraphData = async () => {
   }, null);
 
   await graphsApiWsClient.getGraph(entityGraphRequest, (res) => {
-    // res.data.nodes.forEach(node => node.icon = 'https://first-space.cdn.ziqni.com/Icons/kisspng-cat-kitten-free-cat-vector-material-5ae776513daf78.0982279715251185452527.png')
-    res.data.nodes.forEach(node => node.icon = 'https://first-space.cdn.ziqni.com/Icons/kisspng-cat-kitten-free-cat-vector-material-5ae776513daf78.0982279715251185452527.png')
+    res.data.nodes.forEach(node => node.icon = 'https://first-space.cdn.ziqni.com/Icons/ball-2.png')
 
     const nodes = res.data.nodes;
 
@@ -317,18 +311,17 @@ const getMissionGraphData = async () => {
       const key = node.name;
       icons[key] = node.icon;
     }
-    console.warn('ICONS', icons);
+
     images.value = icons;
 
     const edges = res.data.graphs[0].edges;
-    console.warn('NODES', res.data);
     const ids = nodes.map(item => item.entityId);
-    getOptInStatus(ids);
+    getOptInStatus(ids, nodes);
     result.value = getAchievementOrder(nodes, edges);
   });
 };
 
-const getOptInStatus = async (ids) => {
+const getOptInStatus = async (ids, nodes) => {
   const optInApiWsClient = new OptInApiWs(ApiClientStomp.instance);
 
   const optInStateRequest = OptInStatesRequest.constructFromObject({
@@ -345,21 +338,16 @@ const getOptInStatus = async (ids) => {
   }, null);
 
   await optInApiWsClient.optInStates(optInStateRequest, res => {
-    console.warn('OPT RES', res);
-    // for (const achievement of achievements.value) {
-    //   if (res.data.length) {
-    //     const status = res.data.find(item => item.entityId === achievement.id)?.status;
-    //     const percentage = res.data.find(item => item.entityId === achievement.id)?.percentageComplete;
-    //
-    //     achievement.entrantStatus = status ? status : '';
-    //     achievement.percentageComplete = percentage ? percentage : 0;
-    //   } else {
-    //     achievement.percentageComplete = 0;
-    //     achievement.entrantStatus = '';
-    //   }
-    // }
-    // achievementsData.value = achievements.value;
-    // store.dispatch('setAchievements', achievements.value);
+    const missionCompletedStatus = {};
+    const statuses = res.data;
+
+    for (const node of nodes) {
+      const key = node.name;
+      const matchingStatus = statuses.find(status => status.entityId === node.entityId);
+      const percentageComplete = matchingStatus ? matchingStatus.percentageComplete : null;
+      missionCompletedStatus[key] = percentageComplete === 0; // TODO change to 100
+    }
+    missionCompleted.value = missionCompletedStatus;
   });
 };
 
@@ -417,7 +405,6 @@ const layout = (direction) => {
 };
 
 watch(result, (currentValue, oldValue) => {
-  console.warn('RESULT', result);
   if (currentValue || oldValue) {
     layout('LR');
   }
