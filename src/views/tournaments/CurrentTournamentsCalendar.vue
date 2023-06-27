@@ -1,8 +1,9 @@
 <template>
   <div class="text-center section">
-    <h2 class="text-center calendar-title">Competitions calendar</h2>
+    <h2 class="text-center calendar-title">Current competitions calendar</h2>
     <calendar-view
-      :items="competitionItems"
+      v-if="isLoaded"
+      :items="competitions"
       :show-date="showDate"
       :time-format-options="{ hour: 'numeric', minute: '2-digit' }"
       class="theme-default holiday-us-traditional"
@@ -20,62 +21,86 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useCompetitions } from '@/hooks/useCompetitions';
 
 import { CalendarView, CalendarViewHeader } from 'vue-simple-calendar';
 import '../../../node_modules/vue-simple-calendar/dist/style.css';
 import '../../../node_modules/vue-simple-calendar/dist/css/default.css';
 import { useStore } from 'vuex';
+import { ApiClientStomp, CompetitionRequest, CompetitionsApiWs } from '@ziqni-tech/member-api-client';
 
 const router = useRouter();
 const showDate = ref(new Date());
 const displayPeriod = 'month';
-const { tournamentsResponse, getCompetitionsHandler } = useCompetitions();
+
 const store = useStore();
 
 // const isDarMode = computed(() => store.getters.getTheme)
 const isDarMode = true
 
 const statusCode = {
-  moreThan: 15,
-  lessThan: 35
+  moreThan: 20,
+  lessThan: 30
 }
 const limit = 20
+
+const competitions = ref(null)
+const isLoaded = ref(false)
 
 const setShowDate = (d) => {
   showDate.value = d;
 }
-
-getCompetitionsHandler({ statusCode, limit, skip: 0, ids: [] });
-
-const competitionItems = ref([]);
-
-watch(tournamentsResponse, (value) => {
-  const competitions = value.data;
-  competitionItems.value = competitions.map(item => {
-    let itemClass = '';
-    switch (item.status) {
-      case 'Active':
-        itemClass = 'competition-active';
-        break;
-      case 'Ready':
-        itemClass = 'competition-ready';
-        break;
-      case 'Finalised':
-        itemClass = 'competition-finalised';
-        break;
-    }
-    return {
-      id: item.id,
-      title: item.name,
-      startDate: new Date(item.scheduledStartDate),
-      endDate: new Date(item.scheduledEndDate),
-      classes: ['competition', itemClass],
-    }
-  })
+onMounted(() => {
+  getCompetitionsRequest()
 })
+const getCompetitionsRequest = async () => {
+  const competitionRequest = CompetitionRequest.constructFromObject({
+    competitionFilter: {
+      statusCode,
+      sortBy: [{
+        queryField: 'created',
+        order: 'Desc'
+      }],
+      limit: 20,
+      skip: 0,
+      ids: []
+    }
+  }, null);
+
+  try {
+    const apiClientStomp = ApiClientStomp.instance;
+    const competitionsApiWsClient = await new CompetitionsApiWs(apiClientStomp);
+
+    await competitionsApiWsClient.getCompetitions(competitionRequest, async (res) => {
+      console.warn('CUR COMP RES', res);
+      competitions.value = res.data.map(item => {
+        let itemClass = '';
+        switch (item.status) {
+          case 'Active':
+            itemClass = 'competition-active';
+            break;
+          case 'Ready':
+            itemClass = 'competition-ready';
+            break;
+          case 'Finalised':
+            itemClass = 'competition-finalised';
+            break;
+        }
+        return {
+          id: item.id,
+          title: item.name,
+          startDate: new Date(item.scheduledStartDate),
+          endDate: new Date(item.scheduledEndDate),
+          classes: ['competition', itemClass],
+        }
+      });
+      isLoaded.value = true;
+    });
+  } catch (e) {
+    console.log('ERROR', e);
+  }
+}
 
 const clickEvent = (val) => {
   router.push({
