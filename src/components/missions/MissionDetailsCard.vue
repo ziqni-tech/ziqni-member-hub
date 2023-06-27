@@ -15,7 +15,7 @@
     </div>
     <div class="mission-details-data">
       <div class="mission-details-card__img" v-if="!isMobile">
-        <img :src="banner" alt="">
+        <img src="https://first-space.cdn.ziqni.com/Icons/ball-2.png" alt="">
       </div>
       <div v-if="mission" class="mission-data">
         <h2 class="mission-data__title">{{ mission.name }}</h2>
@@ -66,9 +66,9 @@
 </template>
 
 <script setup>
+// TODO - https://first-space.cdn.ziqni.com/Icons/ball-2.png change to mission.iconLink
 import { ref, onBeforeMount, watch, reactive } from 'vue';
 import { CButton } from '@coreui/vue';
-import banner from '@/assets/images/missions/mission-details.png';
 import { useStore } from 'vuex';
 import {
   AchievementRequest,
@@ -378,8 +378,6 @@ watch(result, (currentValue, oldValue) => {
 
 const readMore = () => {
   isReadMore.value = true
-  // isInfo.value = false
-  console.warn('Read More')
 }
 
 const router = useRouter()
