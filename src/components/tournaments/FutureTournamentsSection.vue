@@ -2,7 +2,7 @@
   <div class="section">
     <div class="tournaments-section-header-wrapper">
       <div class="tournaments-section-header">
-        <h2 class="section-title">Current Tournaments</h2>
+        <h2 class="section-title">Future Tournaments</h2>
         <div
             v-if="isSeeAll"
             class="see-all-btn"
@@ -10,12 +10,11 @@
           see all
         </div>
       </div>
-
       <div v-if="!isDashboard" class="calendar-btn" @click="goToCalendar" title="Tournaments calendar">
         <img src="@/assets/icons/tournament/calendar.png" alt="">
       </div>
     </div>
-    <Loader v-if="!isLoaded" :title="'Current Tournaments are loading'" />
+    <Loader v-if="!isLoaded" :title="'Future Tournaments are loading'" />
     <div :class="isDashboard ? 'dashboard-cards-grid' : 'cards-grid'" v-else-if="competitions.length && isLoaded">
       <div v-for="c in competitions" class="card-wrapper">
         <Tournament :key="c.id" :card="c"/>
@@ -55,12 +54,11 @@ const limit = ref(computed(() => props.isDashboard ? 3 : 4));
 const isLoading = ref(false);
 const competitions = ref([]);
 
-const currentPage = ref(1);
 const totalRecords = ref(0);
 
 const statusCode = {
-  moreThan: 20,
-  lessThan: 30
+  moreThan: 5,
+  lessThan: 25
 };
 
 onMounted(() => {
@@ -89,6 +87,7 @@ const getCompetitionsRequest = async () => {
 
     await competitionsApiWsClient.getCompetitions(competitionRequest, async (res) => {
       const competitionsData = res.data;
+
       totalRecords.value = res.meta.totalRecordsFound
 
       const compIds = competitionsData.map(item => item.id);
@@ -147,12 +146,12 @@ const getEntityRewards = async (ids) => {
 const isSeeAll = computed(() => competitions.value.length < totalRecords.value);
 
 const goToCalendar = () => {
-  router.push({name: 'CurrentTournamentsCalendar'})
+  router.push({name: 'FutureTournamentsCalendar'})
 }
 
 const seeAll = async () => {
   isLoaded.value = false;
-  competitions.value = []; // Resetting the current competition data
+  competitions.value = [];
 
   try {
     const apiClientStomp = ApiClientStomp.instance;
@@ -169,7 +168,7 @@ const seeAll = async () => {
             queryField: 'created',
             order: 'Desc'
           }],
-          limit: 20,
+          limit: 20, // Ограничиваем лимит до максимального значения 20
           skip: totalFetched,
           ids: []
         }
@@ -207,7 +206,7 @@ const seeAll = async () => {
       totalFetched += competitionsData.length;
 
       if (totalFetched >= response.meta.totalRecordsFound || totalFetched >= limit.value) {
-        moreDataAvailable = false; // Terminate the loop if limits are reached
+        moreDataAvailable = false;
       }
     }
 
@@ -216,12 +215,6 @@ const seeAll = async () => {
     console.log('ERROR', e);
   }
 }
-
-const pageChange = async (pageNumber) => {
-  currentPage.value = pageNumber;
-  await getCompetitionsRequest();
-};
-
 </script>
 
 <style scoped lang="scss">

@@ -1,19 +1,12 @@
 <template>
   <CurrentTournamentsSection />
-<!--  <FeatureTournamentsSection />-->
+  <FutureTournamentsSection />
 </template>
 
-<script>
+<script setup>
 import CurrentTournamentsSection from '../../components/tournaments/CurrentTournamentsSection';
-import FeatureTournamentsSection from '../../components/tournaments/FeatureTournamentsSection';
+import FutureTournamentsSection from '../../components/tournaments/FutureTournamentsSection';
 
-export default {
-  name: 'Tournaments',
-  components: {
-    FeatureTournamentsSection,
-    CurrentTournamentsSection,
-  },
-}
 </script>
 
 <style lang="scss">
