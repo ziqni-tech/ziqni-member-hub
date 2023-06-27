@@ -134,9 +134,8 @@ export default {
 
       &_digits {
         display: flex;
-        font-weight: 700;
+        font-family: $semi-bold;
         font-size: 24px;
-        line-height: 29px;
 
         &__digit {
           width: 33px;
@@ -154,9 +153,8 @@ export default {
       }
 
       &_text {
-        font-weight: 500;
-        font-size: 12px;
-        line-height: 14px;
+        font-family: $mainFont;
+        font-size: 16px;
         margin-top: 5px;
       }
     }

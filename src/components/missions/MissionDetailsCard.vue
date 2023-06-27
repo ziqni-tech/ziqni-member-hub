@@ -106,7 +106,12 @@ const configs = defineConfigs({
   },
   node: {
     normal: {radius: nodeSize / 2, color: '#8749DC'},
-    label: {direction: 'south', color: '#FDFDFF'},
+    label: {
+      direction: 'south',
+      color: '#FDFDFF',
+      fontFamily: 'AvertaStd-Semibold',
+      fontSize: 16
+    },
   },
   edge: {
     normal: {
@@ -115,7 +120,9 @@ const configs = defineConfigs({
       dasharray: 8,
     },
     label: {
-      color: '#7781A8'
+      color: '#7781A8',
+      fontFamily: 'AvertaStd-Semibold',
+      fontSize: 12
     },
     margin: 4,
     marker: {
@@ -456,13 +463,13 @@ const closeModal = () => {
       background: $dark-grey;
       padding: 15px 40px;
 
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 17px;
+      font-family: $semi-bold;
+      font-size: 16px;
       color: $text-color-white;
       vertical-align: middle;
 
       .prize-value {
+        font-family: $semi-bold;
         padding-top: 3px;
       }
 
@@ -504,11 +511,10 @@ const closeModal = () => {
       display: flex;
       flex-direction: column;
       padding: 20px 0 0 30px;
+      font-family: $semi-bold;
 
       &__title {
-        font-weight: 700;
-        font-size: 24px;
-        line-height: 36px;
+        font-size: 37px;
         color: $text-color-white;
         text-align: start;
       }
@@ -519,10 +525,7 @@ const closeModal = () => {
 
       .prize_data {
         width: 100%;
-
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 17px;
+        font-size: 16px;
         color: $text-color-white;
         text-align: left;
         margin-top: 21px;
@@ -539,17 +542,13 @@ const closeModal = () => {
         align-items: flex-start;
 
         .description_title {
-          font-weight: 500;
-          font-size: 14px;
-          line-height: 17px;
+          font-size: 16px;
           margin: 15px 0;
         }
 
         .description_text {
           height: 100%;
-          font-weight: 400;
           font-size: 12px;
-          line-height: 146.5%;
           text-align: start;
           margin-bottom: 20px;
         }
@@ -593,13 +592,12 @@ const closeModal = () => {
       padding: 5px 10px;
       min-height: 25px;
 
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 17px;
+      font-size: 16px;
       color: $text-color-white;
 
 
       .prize-value {
+        font-family: $semi-bold;
         padding-top: 3px;
       }
 
@@ -628,9 +626,7 @@ const closeModal = () => {
         padding: 20px 0;
 
         &__title {
-          font-weight: 700;
-          font-size: 24px;
-          line-height: 36px;
+          font-size: 28px;
           color: $text-color-white;
           text-align: start;
         }
@@ -638,9 +634,7 @@ const closeModal = () => {
         .prize_data {
           width: 100%;
 
-          font-weight: 500;
-          font-size: 14px;
-          line-height: 17px;
+          font-size: 16px;
           color: $text-color-white;
           text-align: left;
           margin-top: 21px;
@@ -658,9 +652,7 @@ const closeModal = () => {
           align-items: flex-start;
 
           .description_title {
-            font-weight: 500;
-            font-size: 14px;
-            line-height: 17px;
+            font-size: 16px;
             margin: 15px 0;
           }
 

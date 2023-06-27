@@ -85,12 +85,12 @@ const goToMissionsMapPage = () => {
       background: $btn-gradient-color;
       padding: 8px 16px;
       color: $text-color-white;
+      font-family: $semi-bold;
+      font-size: 16px;
 
       @media screen and (max-width: $tableWidth) {
         right: 0;
-        font-weight: 500;
-        font-size: 10px;
-        line-height: 12px;
+        font-size: 12px;
       }
     }
   }
@@ -101,17 +101,14 @@ const goToMissionsMapPage = () => {
     align-items: flex-start;
     justify-content: space-between;
     padding: 14px 12px 10px;
+    font-family: $semi-bold;
 
     .mission-name {
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 17px;
+      font-size: 16px;
       color: $text-color-white;
 
       @media screen and (max-width: $tableWidth) {
-        font-weight: 700;
-        font-size: 12px;
-        line-height: 14px;
+        font-size: 16px;
       }
     }
 
@@ -137,15 +134,13 @@ const goToMissionsMapPage = () => {
 
       .progress-value {
         margin-left: 5px;
-        font-weight: 500;
         font-size: 12px;
-        line-height: 16px;
         color: $text-color-white;
 
         @media screen and (max-width: $tableWidth) {
-          font-weight: 500;
-          font-size: 10px;
-          line-height: 12px;
+          //font-weight: 500;
+          //font-size: 10px;
+          //line-height: 12px;
         }
       }
     }
@@ -168,9 +163,7 @@ const goToMissionsMapPage = () => {
         justify-content: center;
         border-radius: $border-radius;
 
-        font-weight: 700;
-        font-size: 14px;
-        line-height: 17px;
+        font-size: 16px;
 
         > img {
           margin-right: 5px;
@@ -179,9 +172,7 @@ const goToMissionsMapPage = () => {
         @media screen and (max-width: $tableWidth) {
           width: 100%;
 
-          font-weight: 700;
-          font-size: 12px;
-          line-height: 14px;
+          font-size: 16px;
 
           &:last-child {
             margin-top: 5px;

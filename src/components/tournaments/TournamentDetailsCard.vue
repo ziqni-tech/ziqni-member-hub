@@ -123,7 +123,7 @@ const handleButtonClick = async () => {
   background-color: $light-grey;
   border-radius: $border-radius;
   overflow: hidden;
-  font-style: normal;
+  font-family: $semi-bold;
 
   .card-banner {
     position: relative;
@@ -151,9 +151,7 @@ const handleButtonClick = async () => {
 
     .tournament-title {
       color: $text-color-white;
-      font-weight: 700;
-      font-size: 20px;
-      line-height: 24px;
+      font-size: 37px;
       margin-bottom: 30px;
     }
 
@@ -199,9 +197,7 @@ const handleButtonClick = async () => {
       text-align: start;
 
       &_title {
-        font-weight: 700;
-        font-size: 14px;
-        line-height: 17px;
+        font-size: 16px;
       }
 
       &_description {
@@ -259,9 +255,7 @@ const handleButtonClick = async () => {
 
       .tournament-title {
         color: $text-color-white;
-        font-weight: 700;
-        font-size: 14px;
-        line-height: 17px;
+        font-size: 28px;
         margin-bottom: 14px;
       }
 

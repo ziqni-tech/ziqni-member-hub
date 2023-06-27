@@ -42,9 +42,8 @@ watch(countdownResult, (value) => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-weight: 500;
+  font-family: $bold;
   font-size: 12px;
-  line-height: 16px;
   margin-top: 10px;
 
   .label {
@@ -55,6 +54,9 @@ watch(countdownResult, (value) => {
 
     .icon {
       margin-right: 5px;
+      > img {
+        margin-bottom: 10px;
+      }
     }
   }
 

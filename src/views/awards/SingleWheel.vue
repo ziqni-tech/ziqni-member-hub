@@ -118,17 +118,15 @@ const closeModal = () => {
 @import '@/assets/scss/_variables';
 
 .page-title {
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 29px;
+  font-family: $semi-bold;
+  font-size: 37px;
   color: $text-color-white;
   margin-top: 50px;
 }
 
 .page-description {
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 17px;
+  font-family: $semi-bold;
+  font-size: 16px;
   color: $body-text-color;
 }
 
@@ -136,9 +134,8 @@ const closeModal = () => {
   margin-top: 20px;
   padding: 10px 57px;
 
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 17px;
+  font-family: $semi-bold;
+  font-size: 16px;
   color: $text-color-white;
 
   border: none;
@@ -149,9 +146,7 @@ const closeModal = () => {
 
 @media screen and (max-width: $tableWidth) {
   .page-title {
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 19px;
+    font-size: 28px;
     color: $text-color-white;
     margin-top: 30px;
   }

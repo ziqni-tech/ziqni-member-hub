@@ -168,7 +168,9 @@ const configs = computed(() => {
       },
       label: {
         direction: 'south',
-        color: '#FDFDFF'
+        color: '#FDFDFF',
+        fontFamily: 'AvertaStd-Semibold',
+        fontSize: 16
       },
     },
     edge: {
@@ -180,8 +182,8 @@ const configs = computed(() => {
         linecap: 'round'
       },
       label: {
-        fontFamily: undefined,
-        fontSize: 14,
+        fontFamily: 'AvertaStd-Semibold',
+        fontSize: 16,
         lineHeight: 17,
         color: '#7781A8',
         padding: 10,
@@ -237,7 +239,7 @@ const getMissionRequest = async () => {
         moreThan: 20,
         lessThan: 30
       },
-      constraints: ['hasNoDependancies']
+      constraints: ['mission']
     },
   }, null);
 
@@ -410,6 +412,29 @@ watch(result, (currentValue, oldValue) => {
   }
 });
 
+const getNodeStyles = (nodeId) => {
+  const percentageComplete = missionCompleted && missionCompleted.value ? missionCompleted.value[nodeId] : null;
+
+  if (percentageComplete === 100) {
+    return {
+      opacity: 0.5,
+      background: 'radial-gradient(50% 50.00% at 50% 50.00%, #38ACCF 0%, rgba(56, 172, 207, 0.00) 100%)',
+      filter: 'blur(37.5px)'
+    };
+  } else if (percentageComplete > 0 && percentageComplete < 100) {
+    return {
+      opacity: 0.5,
+      background: 'radial-gradient(50% 50.00% at 50% 50.00%, #EE3EC9 0%, rgba(238, 62, 201, 0.00) 100%)',
+      filter: 'blur(37.5px)'
+    };
+  } else {
+    return {
+      background: 'radial-gradient(50% 50.00% at 50% 50.00%, #223241 0%, rgba(34, 50, 65, 0.00) 100%)',
+      filter: 'blur(37.5px)'
+    };
+  }
+};
+
 </script>
 
 <style scoped lang="scss">
@@ -448,5 +473,22 @@ watch(result, (currentValue, oldValue) => {
     color: $body-text-white;
     margin: 15px auto;
   }
+}
+
+.custom-node {
+  opacity: 0.5;
+  background: radial-gradient(50% 50.00% at 50% 50.00%, #38ACCF 0%, rgba(56, 172, 207, 0.00) 100%);
+  filter: blur(37.5px);
+}
+
+.custom-node-in-progress {
+  opacity: 0.5;
+  background: radial-gradient(50% 50.00% at 50% 50.00%, #EE3EC9 0%, rgba(238, 62, 201, 0.00) 100%);
+  filter: blur(37.5px);
+}
+
+.custom-node-closed {
+  background: radial-gradient(50% 50.00% at 50% 50.00%, #223241 0%, rgba(34, 50, 65, 0.00) 100%);
+  filter: blur(37.5px);
 }
 </style>

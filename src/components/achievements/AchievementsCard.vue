@@ -143,9 +143,7 @@ const goToAchievementDetails = () => {
 
     .title {
       font-family: $semi-bold;
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 17px;
+      font-size: 16px;
       color: $text-color-white;
 
       white-space: nowrap;
@@ -193,10 +191,9 @@ const goToAchievementDetails = () => {
       justify-content: center;
       border-radius: $border-radius;
 
+      font-size: 16px;
       font-family: $semi-bold;
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 17px;
+      color: $text-color-white;
 
       color: $text-color-white;
 

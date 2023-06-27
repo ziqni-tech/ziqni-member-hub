@@ -41,17 +41,15 @@ const { isMobile } = useMobileDevice();
   user-select: none;
 
   .page-title {
-    font-weight: 700;
-    font-size: 24px;
-    line-height: 29px;
+    font-family: $mainFont;
+    font-size: 37px;
     color: $text-color-white;
     margin-top: 50px;
   }
 
   .page-description {
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 17px;
+    font-family: $semi-bold;
+    font-size: 16px;
     color: $body-text-color;
     padding-top: 10px;
   }
@@ -77,11 +75,16 @@ const { isMobile } = useMobileDevice();
     justify-content: center;
     .page-title {
       display: none;
-      font-weight: 700;
-      font-size: 16px;
-      line-height: 19px;
+      font-size: 28px;
       color: $text-color-white;
       margin-top: 20px;
+    }
+
+    .page-description {
+      font-family: $semi-bold;
+      font-size: 14px;
+      color: $body-text-color;
+      padding-top: 10px;
     }
 
     .cards-wrapper {

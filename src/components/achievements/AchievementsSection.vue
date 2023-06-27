@@ -355,9 +355,8 @@ onMounted(() => {
   border-radius: $border-radius;
   padding: 12px 30px;
 
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 17px;
+  font-family: $semi-bold;
+  font-size: 16px;
   color: $text-color-white;
 
   & > img {

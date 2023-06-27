@@ -120,6 +120,7 @@ const handleButtonClick = async () => {
 @import '@/assets/scss/_variables';
 
 .award-details-card {
+  font-family: $semi-bold;
   max-width: 840px;
   background-color: $light-grey;
   border-radius: $border-radius;
@@ -131,9 +132,7 @@ const handleButtonClick = async () => {
 
 
   .title {
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 24px;
+    font-size: 27px;
     color: $text-color-white;
 
     white-space: nowrap;
@@ -178,9 +177,7 @@ const handleButtonClick = async () => {
     .description-title {
       text-align: start;
       width: 100%;
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 17px;
+      font-size: 16px;
       color: $text-color-white;
       padding-top: 20px;
     }
@@ -188,9 +185,7 @@ const handleButtonClick = async () => {
     .description-value {
       text-align: start;
       width: 100%;
-      font-weight: 500;
       font-size: 12px;
-      line-height: 16px;
       color: $text-color-white;
       padding-top: 14px;
     }

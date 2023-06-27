@@ -103,6 +103,8 @@ function changePage(pageNumber) {
   width: 100%;
   margin-top: auto;
   padding-bottom: 15px;
+  font-family: $semi-bold;
+  font-size: 16px;
 
   .page-item {
     margin: 0 3px;

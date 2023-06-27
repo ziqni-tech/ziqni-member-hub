@@ -118,18 +118,15 @@ const formattedTime = (dateString) => {
     flex-direction: column;
     align-items: flex-start;
     margin-left: 10px;
+    font-family: $semi-bold;
 
     &__type {
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 17px;
+      font-size: 16px;
       color: $body-text-color;
     }
 
     &__body {
-      font-weight: 400;
       font-size: 12px;
-      line-height: 146.5%;
       color: $text-color-white;
     }
   }
@@ -138,9 +135,8 @@ const formattedTime = (dateString) => {
     display: flex;
     flex-direction: column;
     margin-left: auto;
-    font-weight: 500;
+    font-family: $semi-bold;
     font-size: 12px;
-    line-height: 16px;
     color: $body-text-color;
 
     .date {
@@ -179,9 +175,9 @@ const formattedTime = (dateString) => {
       margin-left: 10px;
 
       &__type {
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 17px;
+        //font-weight: 500;
+        //font-size: 14px;
+        //line-height: 17px;
         color: $body-text-color;
       }
 
@@ -191,17 +187,17 @@ const formattedTime = (dateString) => {
         overflow: hidden;
         text-overflow: ellipsis;
 
-        font-weight: 400;
-        font-size: 12px;
-        line-height: 146.5%;
+        //font-weight: 400;
+        //font-size: 12px;
+        //line-height: 146.5%;
         color: $text-color-white;
       }
     }
 
     .created {
-      font-weight: 500;
-      font-size: 10px;
-      line-height: 12px;
+      //font-weight: 500;
+      //font-size: 12px;
+      //line-height: 12px;
     }
   }
 }

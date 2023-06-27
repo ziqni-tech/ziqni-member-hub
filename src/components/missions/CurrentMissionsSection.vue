@@ -162,7 +162,6 @@ const getRewardIcon = async (id) => {
 
   return new Promise((resolve) => {
     fileApiWsClient.getFiles(fileRequest, (res) => {
-      console.warn('ICON RES', res);
       resolve(res.data[0].uri);
     });
   });

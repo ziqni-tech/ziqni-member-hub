@@ -80,9 +80,8 @@ watch(() => window.innerWidth, updateDiameter);
 @import "src/assets/scss/_variables";
 
 .progress-value {
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 24px;
+  font-family: $semi-bold;
+  font-size: 24px;
   color: $text-color-white;
 }
 
@@ -96,25 +95,21 @@ watch(() => window.innerWidth, updateDiameter);
 
 @media screen and (max-width: 1200px) {
   .progress-value {
-    font-size: 12px;
-    line-height: 14px;
+    font-size: 16px;
   }
 
   .progress-title {
     font-size: 10px;
-    line-height: 12px;
   }
 }
 
 @media screen and (max-width: 890px) {
   .progress-value {
-    font-size: 10px;
-    line-height: 12px;
+    font-size: 12px;
   }
 
   .progress-title {
     font-size: 8px;
-    line-height: 10px;
   }
 }
 </style>

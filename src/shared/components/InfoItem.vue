@@ -18,7 +18,7 @@ const props = defineProps({
 </script>
 
 <style lang="scss">
-@import "../../assets/scss/variables";
+@import "@/assets/scss/_variables";
 
 .info-item {
   display: flex;
@@ -29,6 +29,7 @@ const props = defineProps({
   border-radius: 10px;
   padding: 33px 15px 10px;
   background-color: $dark-grey;
+  font-family: $semi-bold;
 
   .item-icon {
     width: 50px;
@@ -44,16 +45,12 @@ const props = defineProps({
   }
 
   .info-title {
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 17px;
+    font-size: 16px;
     color: $body-text-color;
   }
 
   .info-data {
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 24px;
+    font-size: 24px;
     color: $text-color-white;
   }
 }

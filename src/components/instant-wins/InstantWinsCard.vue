@@ -37,6 +37,7 @@ const play = () => {
   width: 100%;
   height: auto;
   aspect-ratio: 3 / 1;
+  font-family: $semi-bold;
 
   .mobile-card-title {
     display: none;
@@ -66,16 +67,12 @@ const play = () => {
     padding: 6px 16px 0;
 
     .card-title {
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 17px;
+      font-size: 16px;
       color: $text-color-white;
     }
 
     .card-description {
-      font-weight: 400;
       font-size: 12px;
-      line-height: 146.5%;
       color: $body-text-color;
       margin-top: 10px;
     }
@@ -90,9 +87,8 @@ const play = () => {
       border-radius: $border-radius;
       border: 1px solid $border-dark;
 
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 17px;
+      font-size: 16px;
+      font-family: $semi-bold;
       color: $text-color-white;
 
       margin-top: auto;
@@ -116,9 +112,7 @@ const play = () => {
       width: 100%;
       justify-content: center;
       padding-bottom: 15px;
-      font-weight: 700;
-      font-size: 12px;
-      line-height: 14px;
+      font-size: 16px;
       color: $text-color-white;
     }
 

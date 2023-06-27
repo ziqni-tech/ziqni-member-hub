@@ -239,9 +239,9 @@ const pageChange = async (pageNumber) => {
     justify-content: space-between;
 
     .see-all-btn {
-      font-size: 12px;
-      font-weight: 700;
-      color: $body-text-white;
+      font-size: 16px;
+      font-family: $semi-bold;
+      color: $text-color-white;
       cursor: pointer;
     }
   }

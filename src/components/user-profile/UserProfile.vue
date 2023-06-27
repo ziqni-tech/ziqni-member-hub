@@ -159,6 +159,7 @@ const getOptInStatus = async (ids) => {
   flex-direction: column;
   width: 100%;
   height: inherit;
+  font-family: $semi-bold;
 
   .background-block {
     display: flex;
@@ -227,9 +228,7 @@ const getOptInStatus = async (ids) => {
 
     .user-name {
       font-style: normal;
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 17px;
+      font-size: 16px;
       color: $sidebar-text-color;
     }
 
@@ -240,9 +239,7 @@ const getOptInStatus = async (ids) => {
       background: $purple;
       color: $text-color-white;
       padding: 0 10px;
-      font-weight: 700;
-      font-size: 10px;
-      line-height: 12px;
+      font-size: 12px;
     }
 
     .info-block {

@@ -42,10 +42,8 @@ const handleLogout = () => {
   }
 
   &__title {
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 17px;
+    font-family: $semi-bold;
+    font-size: 16px;
   }
 
   &:hover {

@@ -32,7 +32,7 @@ const getIconStrokeColor = (item) => {
 @import 'src/assets/scss/_variables';
 
 .nav-item {
-  font-family: $mainFont;
+  font-family: $semi-bold;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -66,9 +66,7 @@ const getIconStrokeColor = (item) => {
   }
 
   &__title {
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 17px;
+    font-size: 16px;
   }
 
   > .router-link-active {

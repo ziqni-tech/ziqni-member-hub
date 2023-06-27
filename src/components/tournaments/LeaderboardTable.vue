@@ -18,10 +18,10 @@
         <td class="rank" v-html="setPlace(leader.rank)"></td>
         <td>
           <div class="members">
-            <span v-for="member in leader?.members" class="member">
-              <img class="avatar" src="../../assets/images/user/avatar.png" alt="">
-              {{ memberName(member) }}
-            </span>
+            <div v-for="member in leader?.members" class="member">
+              <img class="avatar" src="@/assets/images/user/avatar.png" alt="">
+              <span class="member-name">{{ memberName(member) }}</span>
+            </div>
           </div>
         </td>
         <td>{{ leader.score }}</td>
@@ -71,7 +71,7 @@ const setPlace = computed(() => (place) => {
 </script>
 
 <style lang="scss" scoped>
-@import '../../assets/scss/_variables';
+@import '@/assets/scss/_variables';
 
 .table-container {
   position: relative;
@@ -81,6 +81,7 @@ const setPlace = computed(() => (place) => {
   max-height: 73%;
   width: 100%;
   overflow-y: auto;
+  font-family: $semi-bold;
 
   &::-webkit-scrollbar {
     height: 5px;
@@ -179,6 +180,16 @@ table {
 
         .member {
           margin: 3px 0;
+          display: flex;
+          align-items: center;
+          flex-wrap: nowrap;
+
+          .member-name {
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
         }
       }
     }

@@ -179,18 +179,16 @@ watch(countdownResult, (value) => {
   }
 
   &__name {
-    font-weight: 700;
-    font-size: 14px;
-    line-height: 17px;
+    font-family: $semi-bold;
+    font-size: 16px;
     color: $text-color-white;
     margin: 5px 0;
   }
 
   &__type {
     max-width: 170px;
-    font-weight: 400;
+    font-family: $semi-bold;
     font-size: 14px;
-    line-height: 17px;
     color: $body-text-color;
     margin-bottom: 10px;
     white-space: nowrap;
@@ -204,6 +202,7 @@ watch(countdownResult, (value) => {
     align-items: center;
     justify-content: center;
     border-radius: $border-radius;
+    font-family: $semi-bold;
 
     > img {
       margin-right: 5px;
@@ -216,9 +215,7 @@ watch(countdownResult, (value) => {
     cursor: default;
     border: none;
     padding: 5px;
-    font-weight: 500;
     font-size: 24px;
-    line-height: 29px;
     margin-bottom: 10px;
 
     > img {
@@ -232,9 +229,7 @@ watch(countdownResult, (value) => {
     background: $btn-gradient-color;
     color: $text-color-white;
     padding: 10px 57px;
-    font-weight: 700;
-    font-size: 14px;
-    line-height: 17px;
+    font-size: 16px;
   }
 }
 

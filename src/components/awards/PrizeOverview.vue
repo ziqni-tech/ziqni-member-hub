@@ -37,9 +37,8 @@ const scratchAllCards = () => {
   align-items: center;
 
   .prizes-title {
-    font-weight: 700;
-    font-size: 14px;
-    line-height: 17px;
+    font-family: $semi-bold;
+    font-size: 16px;
     color: $text-color-white;
   }
 
@@ -76,9 +75,8 @@ const scratchAllCards = () => {
       }
 
       .prize-name {
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 17px;
+        font-family: $semi-bold;
+        font-size: 12px;
         color: $body-text-color;
         margin-top: 15px;
         text-transform: capitalize;
@@ -97,9 +95,8 @@ const scratchAllCards = () => {
     border: none;
     margin-top: 50px;
 
-    font-weight: 700;
-    font-size: 14px;
-    line-height: 17px;
+    font-family: $semi-bold;
+    font-size: 16px;
     color: $text-color-white;
   }
 }
@@ -110,9 +107,7 @@ const scratchAllCards = () => {
     align-items: center;
 
     .prizes-title {
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 17px;
+      font-size: 16px;
       color: $text-color-white;
     }
 
@@ -149,9 +144,7 @@ const scratchAllCards = () => {
         }
 
         .prize-name {
-          font-weight: 400;
           font-size: 12px;
-          line-height: 14px;
           color: $body-text-color;
           margin-top: 10px;
           text-transform: capitalize;
