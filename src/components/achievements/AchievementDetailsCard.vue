@@ -80,6 +80,9 @@ const achievementIconLink = computed(() => {
       ? achievement.value.iconLink
       : defaultIcon
 })
+const isEntrant = computed(() => {
+  return achievement.value.entrantStatus === 'Entrant' || achievement.value.entrantStatus === 'Entering'
+})
 
 const testDescription = ref('Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.');
 const leaveModal = ref(false);
