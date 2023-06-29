@@ -25,7 +25,7 @@
     </div>
     <div class="bottom-section">
       <div class="prize-btn">
-        <img :src="achievement.icon" alt="">
+        <img :src="rewardIcon" alt="">
         {{ achievement.rewardValue }}
       </div>
       <button
@@ -64,6 +64,7 @@ import defaultIcon from '@/assets/icons/achievements/book.png';
 import { computed, ref, toRef } from 'vue';
 import Modal from '@/shared/components/Modal.vue';
 import { CSpinner } from '@coreui/vue';
+import diamondIcon from '@/assets/icons/achievements/diamond.png';
 
 const props = defineProps({
   achievement: Object
@@ -82,6 +83,12 @@ const achievementIconLink = computed(() => {
 })
 const isEntrant = computed(() => {
   return achievement.value.entrantStatus === 'Entrant' || achievement.value.entrantStatus === 'Entering'
+})
+
+const rewardIcon = computed(() => {
+  return props.achievement && props.achievement.rewardIconLink
+      ? props.achievement.rewardIconLink
+      : diamondIcon
 })
 
 const testDescription = ref('Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.');
