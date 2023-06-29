@@ -12,6 +12,8 @@ import {
   AwardRequest,
   AwardsApiWs,
   ClaimAwardRequest,
+  EntityRequest,
+  RewardsApiWs,
 } from '@ziqni-tech/member-api-client';
 import AwardDetailsCard from "@/components/awards/AwardDetailsCard.vue";
 
@@ -20,7 +22,8 @@ const router = useRouter()
 const route = useRoute();
 const ids = [route.params.id];
 const isLoaded = ref(false);
-const award = ref({});
+const awards = ref(null);
+const award = ref(null);
 const store = useStore();
 
 onMounted(() => {
@@ -47,11 +50,47 @@ const getAwardsRequest = async () => {
     currencyKey: ''
   });
 
-  awardsApiWsClient.getAwards(awardRequest, (res) => {
-    award.value = res.data[0];
-    isLoaded.value = true;
+  awardsApiWsClient.getAwards(awardRequest, async (res) => {
+    awards.value = res.data;
+    const rewardIds = res.data.map(item => item.rewardId);
+    await getEntityRewards(rewardIds)
   });
 };
+
+const getEntityRewards = async (ids) => {
+  const rewardsApiWsClient = await new RewardsApiWs(ApiClientStomp.instance);
+
+  const rewardRequest = EntityRequest.constructFromObject({
+    entityFilter: [
+      {
+        entityType: 'Reward',
+        entityIds: ids
+      },
+    ],
+    skip: 0,
+    limit: 20
+  }, null);
+
+  await rewardsApiWsClient.getRewards(rewardRequest, async (res) => {
+    for (const award of awards.value) {
+      if (res.data.length) {
+        let maxReward = null;
+        for (const reward of res.data) {
+          if (reward.entityId === award.entityId) {
+            if (!maxReward || reward.rewardValue > maxReward.rewardValue) {
+              maxReward = reward;
+            }
+          }
+        }
+        if (maxReward) {
+          award.rewardIconLink = maxReward.iconLink;
+        }
+      }
+    }
+    award.value = awards.value[0];
+    isLoaded.value = true;
+  });
+}
 
 const claimAward = async () => {
   const awardsApiWsClient = new AwardsApiWs(ApiClientStomp.instance);

@@ -15,7 +15,14 @@
 
 <script setup>
 import { computed, onMounted, ref } from 'vue';
-import { ApiClientStomp, AwardRequest, AwardsApiWs, ClaimAwardRequest } from '@ziqni-tech/member-api-client';
+import {
+  ApiClientStomp,
+  AwardRequest,
+  AwardsApiWs,
+  ClaimAwardRequest,
+  EntityRequest,
+  RewardsApiWs
+} from '@ziqni-tech/member-api-client';
 
 import AwardCard from '@/components/awards/AwardCard.vue';
 import Pagination from '@/shared/components/Pagination.vue';
@@ -48,13 +55,47 @@ const getAwardsRequest = async () => {
     currencyKey: ''
   });
 
-  awardsApiWsClient.getAwards(availableAwardsRequest, (res) => {
+  awardsApiWsClient.getAwards(availableAwardsRequest, async (res) => {
     awards.value = res.data;
     totalRecords.value = res.meta.totalRecordsFound;
+    const rewardIds = res.data.map(item => item.rewardId);
+    await getEntityRewards(rewardIds);
     isLoaded.value = true;
   });
 };
 
+const getEntityRewards = async (ids) => {
+  const rewardsApiWsClient = await new RewardsApiWs(ApiClientStomp.instance);
+
+  const rewardRequest = EntityRequest.constructFromObject({
+    entityFilter: [
+      {
+        entityType: 'Reward',
+        entityIds: ids
+      },
+    ],
+    skip: 0,
+    limit: limit.value
+  }, null);
+
+  await rewardsApiWsClient.getRewards(rewardRequest, async (res) => {
+    for (const award of awards.value) {
+      if (res.data.length) {
+        let maxReward = null;
+        for (const reward of res.data) {
+          if (reward.entityId === award.entityId) {
+            if (!maxReward || reward.rewardValue > maxReward.rewardValue) {
+              maxReward = reward;
+            }
+          }
+        }
+        if (maxReward) {
+          award.rewardIconLink = maxReward.iconLink;
+        }
+      }
+    }
+  });
+}
 const pageChange = async (pageNumber) => {
   currentPage.value = pageNumber;
   await getAwardsRequest();

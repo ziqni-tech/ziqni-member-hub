@@ -4,8 +4,7 @@
       {{ award.name }}
     </div>
     <div class="icon">
-      <img :src="awardIcon" alt="" v-if="isLoadedIcon">
-      <CSpinner v-else grow size="sm" />
+      <img :src="awardIcon" alt="" >
     </div>
     <div class="prize">
       <span v-if="award.rewardType.uomSymbol">{{ award.rewardType.uomSymbol }}</span>
@@ -33,8 +32,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, toRef, watch } from 'vue';
-import { ApiClientStomp, FilesApiWs, RewardsApiWs } from '@ziqni-tech/member-api-client';
+import { computed, ref, toRef, watch } from 'vue';
 import { CSpinner } from '@coreui/vue';
 import defaultAwardIcon from '@/assets/icons/awards/book.png';
 
@@ -49,53 +47,17 @@ const award = toRef(props, 'award');
 const testDescription = ref('Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.');
 
 const icon = ref(null);
-const awardIcon = ref(defaultAwardIcon);
-const isLoading = ref(false);
-const isLoadedIcon = ref(false);
+const awardIcon = computed(() => {
+  return props.award.rewardIconLink
+      ? props.award.rewardIconLink
+      : defaultAwardIcon
+})
 
-onMounted(() => {
-  getAwardIcon();
-});
+const isLoading = ref(false);
 
 watch(award, (value) => {
   if (value) isLoading.value = false;
 });
-
-watch(icon, (value) => {
-  if (value) {
-    awardIcon.value = value;
-  }
-});
-
-const getAwardIcon = async () => {
-  const rewardsApiWsClient = new RewardsApiWs(ApiClientStomp.instance);
-  const rewardRequest = {
-    languageKey: '',
-    entityFilter: [{
-      entityType: 'Reward',
-      entityIds: [award.value.rewardId]
-    }],
-    currencyKey: '',
-    skip: 0,
-    limit: 1
-  };
-  await rewardsApiWsClient.getRewards(rewardRequest, (res) => {
-    if (res.data && res.data.length && res.data[0].icon) {
-      const fileApiWsClient = new FilesApiWs(ApiClientStomp.instance);
-
-      const fileRequest = {
-        ids: [res.data[0].icon],
-        limit: 1,
-        skip: 0
-      };
-
-      fileApiWsClient.getFiles(fileRequest, (res) => {
-        icon.value = res.data[0].uri;
-        isLoadedIcon.value = true;
-      });
-    }
-  });
-};
 
 const claimAward = () => {
   emit('claimAward');
