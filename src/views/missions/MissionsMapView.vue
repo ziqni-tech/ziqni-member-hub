@@ -58,7 +58,7 @@
               text-anchor="middle"
               dominant-baseline="central"
               :font-size="starSize"
-              fill="#D7A321"
+              :fill="getStarFill(index, missionCompleted[nodeId]?.percentageComplete)"
           >
             &#x2605
           </text>
@@ -112,9 +112,9 @@ const getStarX = (index, radius) => {
   if (index === 2) {
     return 0;
   } else if (index === 1) {
-    return -radius + (radius / 2) - 3;
-  } else {
     return radius - (radius / 2) + 3;
+  } else {
+    return -radius + (radius / 2) - 3;
   }
 }
 
@@ -213,6 +213,18 @@ const store = useStore();
 const layouts = reactive({
   nodes: {},
 });
+
+const getStarFill = (index, percentageComplete) => {
+  if (percentageComplete >= 1 && percentageComplete <= 33 && index === 1) {
+    return "#D7A321";
+  } else if (percentageComplete >= 34 && percentageComplete <= 77 && index === 2) {
+    return "#D7A321";
+  } else if (percentageComplete === 100 && index === 3) {
+    return "#D7A321";
+  } else {
+    return "#223241";
+  }
+}
 
 const getMissionRequest = async () => {
   const achievementsApiWsClient = new AchievementsApiWs(ApiClientStomp.instance);
@@ -316,7 +328,7 @@ const getMissionGraphData = async () => {
 
     const edges = res.data.graphs[0].edges;
     const ids = nodes.map(item => item.entityId);
-    getOptInStatus(ids, nodes);
+    await getOptInStatus(ids, nodes);
     result.value = getAchievementOrder(nodes, edges);
   });
 };
@@ -376,7 +388,10 @@ const getOptInStatus = async (ids, nodes) => {
       const key = node.name;
       const matchingStatus = statuses.find(status => status.entityId === node.entityId);
       const percentageComplete = matchingStatus ? matchingStatus.percentageComplete : null;
-      missionCompletedStatus[key] = percentageComplete === 0; // TODO change to 100
+
+      missionCompletedStatus[key] = {
+        percentageComplete: percentageComplete,
+      };
     }
     missionCompleted.value = missionCompletedStatus;
   });
