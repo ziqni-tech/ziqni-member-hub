@@ -4,7 +4,7 @@
       {{ achievement.name }}
     </div>
     <div class="icon">
-      <img :src="defaultIcon" alt="">
+      <img :src="achievementIconLink" alt="">
     </div>
     <div class="achievements-progress-wrapper">
       <span class="progress-title">Progress</span>
@@ -33,7 +33,7 @@
           class="action-btn"
           @click="handleButtonClick"
           :disabled="isLoading"
-          :class="{ 'disabled-btn': isLoading }"
+          :class="{ 'disabled-btn': isLoading, 'join-button': !isEntrant, 'leave-button': isEntrant }"
       >
         <CSpinner v-if="isLoading" grow size="sm"/>
         <span v-else>{{ isEntrant ? 'Leave' : 'Join' }}</span>
@@ -61,7 +61,7 @@
 <script setup>
 
 import defaultIcon from '@/assets/icons/achievements/book.png';
-import { ref, toRef, watch } from 'vue';
+import { computed, ref, toRef } from 'vue';
 import Modal from '@/shared/components/Modal.vue';
 import { CSpinner } from '@coreui/vue';
 
@@ -72,14 +72,14 @@ const props = defineProps({
 const emit = defineEmits(['joinAchievement', 'leaveAchievement']);
 
 const achievement = toRef(props, 'achievement');
-const isEntrant = ref(achievement.value.entrantStatus === 'Entrant' || achievement.value.entrantStatus === 'Entering');
 const isCompleted = ref(achievement.value.entrantStatus === 'Completed');
 const isLoading = ref(false);
 
-watch(achievement, (newVal) => {
-  isEntrant.value = newVal.entrantStatus === 'Entrant' || newVal.entrantStatus === 'Entering';
-  isLoading.value = false;
-});
+const achievementIconLink = computed(() => {
+  return achievement.value.iconLink
+      ? achievement.value.iconLink
+      : defaultIcon
+})
 
 const testDescription = ref('Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.');
 const leaveModal = ref(false);
@@ -128,12 +128,11 @@ const handleButtonClick = async () => {
   flex-direction: column;
   align-items: center;
   margin: auto;
+  font-family: $semi-bold;
 
 
   .title {
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 24px;
+    font-size: 37px;
     color: $text-color-white;
 
     white-space: nowrap;
@@ -164,9 +163,7 @@ const handleButtonClick = async () => {
     .progress-title {
       text-align: start;
       width: 100%;
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 17px;
+      font-size: 16px;
       color: $text-color-white;
       padding-top: 20px;
     }
@@ -190,9 +187,7 @@ const handleButtonClick = async () => {
 
       .progress-value {
         margin-left: 5px;
-        font-weight: 500;
         font-size: 12px;
-        line-height: 16px;
         color: $text-color-white;
       }
     }
@@ -205,9 +200,7 @@ const handleButtonClick = async () => {
     .description-title {
       text-align: start;
       width: 100%;
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 17px;
+      font-size: 16px;
       color: $text-color-white;
       padding-top: 20px;
     }
@@ -215,9 +208,7 @@ const handleButtonClick = async () => {
     .description-value {
       text-align: start;
       width: 100%;
-      font-weight: 500;
-      font-size: 12px;
-      line-height: 16px;
+      font-size: 16px;
       color: $text-color-white;
       padding-top: 14px;
     }
@@ -236,11 +227,18 @@ const handleButtonClick = async () => {
       align-items: center;
       width: 150px;
       padding: 10px;
-
-      background: $purple-gradient;
       border-radius: 10px;
-      border: 1px solid $purple;
       color: $text-color-white;
+    }
+
+    .join-button {
+      background: $purple-gradient;
+      border: 1px solid $purple;
+    }
+
+    .leave-button {
+      border: 1px solid $border-dark;
+      background: $btn-grey;
     }
 
     .disabled-btn {
@@ -281,9 +279,7 @@ const handleButtonClick = async () => {
 
 
     .title {
-      font-weight: 700;
-      font-size: 20px;
-      line-height: 24px;
+      font-size: 28px;
       color: $text-color-white;
 
       white-space: nowrap;

@@ -3,7 +3,7 @@
     <div class="top-section">
       <div class="left-section">
         <div class="icon">
-          <img :src="defaultIcon" alt="">
+          <img :src="achievementIconLink" alt="">
         </div>
       </div>
       <div class="right-section">
@@ -56,6 +56,12 @@ import router from '@/router';
 
 const props = defineProps({
   achievement: { type: Object, required: true }
+});
+
+const achievementIconLink = computed(() => {
+  return props.achievement && props.achievement.iconLink
+      ? props.achievement.iconLink
+      : defaultIcon
 });
 
 const store = useStore();

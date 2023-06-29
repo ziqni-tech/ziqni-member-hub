@@ -29,9 +29,6 @@
     display: flex;
     align-items: center;
 
-    @media screen and (max-width: $tableWidth) {
-      font-size: 13px;
-    }
   }
   & > img {
     margin-left: 18px;
