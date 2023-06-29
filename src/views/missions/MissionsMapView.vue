@@ -92,12 +92,7 @@ const { isMobile } = useMobileDevice();
 
 const nodeSize = computed(() => isMobile.value ? 50 : 90);
 const starSize = computed(() => isMobile.value ? 16 : 25);
-const images = ref(null)
-// const images = {
-//   with_icon: 'https://first-space.cdn.ziqni.com/Icons/ball-1.png',
-//   'with_i_2': 'https://first-space.cdn.ziqni.com/Icons/ball-2.png',
-//   'with_i-3': 'https://first-space.cdn.ziqni.com/Icons/ball-3.png',
-// }
+const images = ref(null);
 
 const missionCompleted = ref(null);
 
@@ -303,10 +298,13 @@ const getMissionGraphData = async () => {
     entityType: 'Achievement'
   }, null);
 
-  await graphsApiWsClient.getGraph(entityGraphRequest, (res) => {
-    res.data.nodes.forEach(node => node.icon = 'https://first-space.cdn.ziqni.com/Icons/ball-2.png')
-
+  await graphsApiWsClient.getGraph(entityGraphRequest, async (res) => {
     const nodes = res.data.nodes;
+
+    for (const node of nodes) {
+      const missionIcon = await getAchievementRequest(node.entityId);
+      node.icon = missionIcon ? missionIcon : 'https://first-space.cdn.ziqni.com/Icons/ball-2.png'
+    }
 
     const icons = {};
     for (const node of nodes) {
@@ -320,6 +318,37 @@ const getMissionGraphData = async () => {
     const ids = nodes.map(item => item.entityId);
     getOptInStatus(ids, nodes);
     result.value = getAchievementOrder(nodes, edges);
+  });
+};
+
+const getAchievementRequest = async (entityId) => {
+  const achievementsApiWsClient = new AchievementsApiWs(ApiClientStomp.instance);
+
+  const achievementsRequest = AchievementRequest.constructFromObject({
+    achievementFilter: {
+      productTagsFilter: [],
+      ids: [entityId],
+      status: [],
+      sortBy: [
+        {
+          queryField: 'created',
+          order: 'Desc'
+        },
+      ],
+      skip: 0,
+      limit: 1,
+      statusCode: {
+        moreThan: 20,
+        lessThan: 30
+      },
+      constraints: []
+    },
+  }, null);
+
+  return new Promise((resolve) => {
+    achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
+      resolve(res.data[0].iconLink);
+    });
   });
 };
 
