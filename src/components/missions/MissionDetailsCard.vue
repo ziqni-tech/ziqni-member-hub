@@ -11,11 +11,11 @@
       </div>
     </div>
     <div class="mobile-mission-icon" v-if="isMobile">
-      <img src="https://first-space.cdn.ziqni.com/Icons/ball-2.png" alt="">
+      <img :src="missionIcon" alt="">
     </div>
     <div class="mission-details-data">
-      <div class="mission-details-card__img" v-if="!isMobile">
-        <img src="https://first-space.cdn.ziqni.com/Icons/ball-2.png" alt="">
+      <div class="mission-icon" v-if="!isMobile">
+        <img :src="missionIcon" alt="">
       </div>
       <div v-if="mission" class="mission-data">
         <h2 class="mission-data__title">{{ mission.name }}</h2>
@@ -66,7 +66,6 @@
 </template>
 
 <script setup>
-// TODO - https://first-space.cdn.ziqni.com/Icons/ball-2.png change to mission.iconLink
 import { ref, onBeforeMount, watch, reactive } from 'vue';
 import { CButton } from '@coreui/vue';
 import { useStore } from 'vuex';
@@ -94,6 +93,7 @@ const isInfo = ref(false)
 const route = useRoute();
 const nodeSize = 40;
 const isGraphLoaded = ref(false);
+const missionIcon = ref('https://first-space.cdn.ziqni.com/Icons/ball-2.png')
 
 const layouts = reactive({
   nodes: {},
@@ -170,6 +170,7 @@ const getMissionRequest = async () => {
 
   achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
     missions.value = res.data;
+    missionIcon.value = res.data[0].iconLink
     getEntityRewards();
   });
 };
@@ -494,15 +495,17 @@ const closeModal = () => {
     width: 100%;
     display: flex;
 
-    &__img {
-      width: 25%;
+    .mission-icon {
+      width: 150px;
+      height: 150px;
       display: flex;
       align-items: center;
       justify-content: center;
 
       & > img {
-        //width: 150px;
-        //height: 150px;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
       }
     }
 
@@ -576,10 +579,16 @@ const closeModal = () => {
   .mission-details-card {
 
     .mobile-mission-icon {
+      width: 100px;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: auto;
 
       > img {
-        width: 100px;
-        height: 100px;
+        width: 100%;
+        height: 100%;
         object-fit: contain;
       }
     }
@@ -612,12 +621,6 @@ const closeModal = () => {
       width: 100%;
       display: flex;
 
-      &__img {
-        width: 25%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
 
       .mission-data {
         width: 100%;
@@ -628,7 +631,7 @@ const closeModal = () => {
         &__title {
           font-size: 28px;
           color: $text-color-white;
-          text-align: start;
+          text-align: center;
         }
 
         .prize_data {
@@ -658,9 +661,7 @@ const closeModal = () => {
 
           .description_text {
             height: 100%;
-            font-weight: 400;
-            font-size: 12px;
-            line-height: 146.5%;
+            font-size: 14px;
             text-align: start;
             margin-bottom: 20px;
           }
