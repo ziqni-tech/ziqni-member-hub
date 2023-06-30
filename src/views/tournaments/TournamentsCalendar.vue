@@ -40,8 +40,8 @@ const store = useStore();
 const isDarMode = true
 
 const statusCode = {
-  moreThan: 20,
-  lessThan: 30
+  moreThan: 5,
+  lessThan: 40
 }
 const limit = 20
 
@@ -342,7 +342,7 @@ const clickEvent = (val) => {
 .competition {
   font-size: 0.85em !important;
   cursor: pointer !important;
-  color: $body-text-color;
+  color: $blue;
 
   &-active {
     background-color: $active-tournament  !important;

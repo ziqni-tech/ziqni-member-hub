@@ -36,14 +36,9 @@ const routes = [
             component: () => import('@/views/tournaments/TournamentDetails'),
           },
           {
-            path: '/tournaments/curren-tournaments-calendar',
-            name: 'CurrentTournamentsCalendar',
-            component: () => import('@/views/tournaments/CurrentTournamentsCalendar.vue'),
-          },
-          {
-            path: '/tournaments/future-tournaments-calendar',
-            name: 'FutureTournamentsCalendar',
-            component: () => import('@/views/tournaments/FutureTournamentsCalendar.vue'),
+            path: '/tournaments/calendar',
+            name: 'TournamentsCalendar',
+            component: () => import('@/views/tournaments/TournamentsCalendar'),
           },
         ]
       },
