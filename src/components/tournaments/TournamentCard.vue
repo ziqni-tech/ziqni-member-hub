@@ -4,7 +4,7 @@
       <img :src="cardImage" alt="">
     </div>
     <div class="t-info">
-      <h3 class="tournament-name">{{ cardItem.name }}</h3>
+      <div class="tournament-name">{{ cardItem.name }}</div>
       <TournamentDataRow
           :icon="expiresInIcon"
           :label="'Ends'"
@@ -51,9 +51,8 @@ const goToTournamentsDetailsPage = () => {
 @import '../../assets/scss/_variables';
 
 .t-card {
-  display: grid;
-  grid-template-rows: 45% 55%;
   background-color: $light-grey;
+  font-family: $semi-bold;
 
   .t-card-image > img {
     width: 100%;
@@ -68,11 +67,12 @@ const goToTournamentsDetailsPage = () => {
     padding: 10px 12px 13px;
 
     .tournament-name {
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 17px;
-
+      font-size: 16px;
       color: $text-color-white;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-height: 24px;
     }
 
     .t-data {
@@ -95,9 +95,7 @@ const goToTournamentsDetailsPage = () => {
       border-radius: $border-radius;
       border: 1px solid $border-dark;
 
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 17px;
+      font-size: 16px;
       color: $text-color-white;
     }
   }
@@ -118,11 +116,12 @@ const goToTournamentsDetailsPage = () => {
       padding: 8px 8px 13px;
 
       .tournament-name {
-        font-weight: 700;
-        font-size: 12px;
-        line-height: 14px;
-
+        font-size: 16px;
         color: $text-color-white;
+        white-space: normal;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-height: 24px;
       }
 
       .t-data {
@@ -145,9 +144,7 @@ const goToTournamentsDetailsPage = () => {
         border-radius: $border-radius;
         border: 1px solid $border-dark;
 
-        font-weight: 700;
-        font-size: 12px;
-        line-height: 14px;
+        font-size: 16px;
         color: $text-color-white;
       }
     }
