@@ -12,10 +12,10 @@
         <button class="btn"><img :src="notificationIcon" alt=""></button>
         <ToggleTheme class="btn" />
       </div>
-      <div class="user-profile">
+      <div class="user-actions-profile">
         <span class="user-name">{{ member.name }}</span>
         <div class="user-image">
-          <img src="../assets/images/user/avatar.png" alt="">
+          <img src="@/assets/images/user/avatar.png" alt="">
         </div>
       </div>
     </div>
@@ -86,14 +86,13 @@ const isGoBackBtn = computed(() => {
       }
     }
 
-    .user-profile {
+    .user-actions-profile {
+      font-family: $semi-bold;
       display: flex;
       align-items: center;
 
       .user-name {
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 17px;
+        font-size: 16px;
         color: $text-color-white;
         margin-right: 10px;
       }
@@ -107,13 +106,13 @@ const isGoBackBtn = computed(() => {
         justify-content: center;
 
         & > img {
-          width: inherit;
-          height: inherit;
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
         }
       }
     }
   }
-
 }
 
 </style>

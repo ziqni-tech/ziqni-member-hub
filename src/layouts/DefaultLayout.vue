@@ -25,7 +25,8 @@
         <img src="@/assets/icons/user-info/notification.png" alt="">
       </button>
       <span class="page-name">{{ router.currentRoute.value.name }}</span>
-      <ToggleTheme class="btn"/>
+<!--      <ToggleTheme class="btn"/>-->
+      <button class="btn" @click="openProfileInfo"><img src="@/assets/icons/user-info/user.png" alt=""></button>
     </div>
     <div id="mobile-layout-main-block">
       <div v-if="isClientConnected">
@@ -33,6 +34,13 @@
       </div>
     </div>
     <MobileNav />
+    <UserProfileMobile
+        v-if="isClientConnected"
+        @closeProfileInfo="closeProfileInfo"
+        @logOut="logOut"
+        :class="{ open: isProfileInfo }"
+        :isProfileInfo="isProfileInfo"
+    />
   </div>
 </template>
 
@@ -43,11 +51,12 @@ import { useRouter } from 'vue-router';
 
 import TheSidebar from '../components/sidebar/TheSidebar';
 import TheHeader from '../components/TheHeader';
-import { computed, onMounted, reactive, watch } from 'vue';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import MobileNav from '@/components/sidebar/MobileNav';
 import ToggleTheme from '@/shared/components/ToggleTheme';
 import useMobileDevice from '@/hooks/useMobileDevice';
+import UserProfileMobile from '@/components/user-profile/UserProfileMobile.vue';
 
 const router = useRouter();
 const store = useStore();
@@ -62,6 +71,16 @@ const isGoBackBtn = computed(() => {
 
   return !!(router.currentRoute.value.params.id || pathLength > 2);
 });
+
+const isProfileInfo = ref(false);
+
+const openProfileInfo = () => {
+  isProfileInfo.value = true;
+}
+
+const closeProfileInfo = () => {
+  isProfileInfo.value = false;
+}
 
 
 onMounted(async () => {
