@@ -147,7 +147,7 @@ const getEntityRewards = async (ids) => {
 const isSeeAll = computed(() => competitions.value.length < totalRecords.value);
 
 const goToCalendar = () => {
-  router.push({name: 'CurrentTournamentsCalendar'})
+  router.push({name: 'TournamentsCalendar'})
 }
 
 const seeAll = async () => {
