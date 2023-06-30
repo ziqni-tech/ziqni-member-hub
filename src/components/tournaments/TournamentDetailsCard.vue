@@ -1,5 +1,12 @@
 <template>
   <div class="tournament-details-card">
+    <button
+        class="info_btn"
+        @click="goToInfo"
+        title="show terms and conditions"
+    >
+      i
+    </button>
     <div class="card-banner">
       <div class="tournament-main-data">
         <span class="tournament-title">{{ tournament.name }}</span>
@@ -19,10 +26,13 @@
       </div>
 
       <div class="tournament-description">
-        <h5 class="tournament-description_title">description</h5>
-        <p class="tournament-description_description">Amet minim mollit non deserunt ullamco est sit aliqua dolor do
-          amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud
-          amet.</p>
+        <h5 class="tournament-description_title">{{ 'Description' }}</h5>
+        <p class="tournament-description_description">{{ removeHTMLTags(description) }}</p>
+      </div>
+
+      <div class="tournament-description" v-if="isTermsAndConditions">
+        <h5 class="tournament-description_title">{{ 'Terms and conditions' }}</h5>
+        <p class="tournament-description_description">{{ removeHTMLTags(termsAndConditions) }}</p>
       </div>
       <button
           class="m-btn register-btn"
@@ -48,7 +58,7 @@
 
 <script setup>
 import { CSpinner } from '@coreui/vue';
-import { ref, toRef, watch } from 'vue';
+import { computed, ref, toRef, watch } from 'vue';
 
 import Countdown from '../Countdown';
 import Modal from '../../shared/components/Modal';
@@ -58,6 +68,7 @@ import cardImage from '../../assets/images/tournaments/tournament.png';
 import prizeIcon from '@/assets/icons/tournament/details/prize.png';
 import rtpIcon from '@/assets/icons/tournament/details/rtp.png';
 import rateIcon from '@/assets/icons/tournament/details/rate.png';
+import { removeHTMLTags } from '@/utils/removeHTMLTags';
 
 const props = defineProps({ tournament: Object });
 const emit = defineEmits(['joinTournament', 'leaveTournament']);
@@ -69,6 +80,19 @@ console.warn('tournament', tournament.value);
 const leaveModal = ref(false);
 const isEntrant = ref(tournament.value.entrantStatus === 'Entrant' || tournament.value.entrantStatus === 'Entering');
 const isLoading = ref(false);
+const isTermsAndConditions = ref(false);
+
+const description = computed(() => {
+  return tournament.value.description
+      ? tournament.value.description
+      : 'Description not specified';
+})
+
+const termsAndConditions = computed(() => {
+  return tournament.value.termsAndConditions
+      ? tournament.value.termsAndConditions
+      : 'Terms and conditions are not specified';
+})
 
 watch(tournament, (newVal) => {
   isEntrant.value = newVal.entrantStatus === 'Entrant' || newVal.entrantStatus === 'Entering';
@@ -109,6 +133,10 @@ const handleButtonClick = async () => {
     console.log('click btn error', e);
   }
 };
+
+const goToInfo = () => {
+  isTermsAndConditions.value = !isTermsAndConditions.value;
+}
 </script>
 
 <style lang="scss">
@@ -124,6 +152,23 @@ const handleButtonClick = async () => {
   border-radius: $border-radius;
   overflow: hidden;
   font-family: $semi-bold;
+
+  .info_btn {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: $border-radius-sm;
+    background: none;
+    border: 1px solid $dark-blue;
+    color: $text-color-white;
+
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 3;
+  }
 
   .card-banner {
     position: relative;
@@ -195,6 +240,7 @@ const handleButtonClick = async () => {
       flex-direction: column;
       color: $text-color-white;
       text-align: start;
+      width: 100%;
 
       &_title {
         font-size: 16px;
