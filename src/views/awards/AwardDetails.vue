@@ -8,14 +8,20 @@ import { onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import {
+  AchievementRequest,
+  AchievementsApiWs,
   ApiClientStomp,
   AwardRequest,
   AwardsApiWs,
   ClaimAwardRequest,
+  CompetitionRequest,
+  CompetitionsApiWs,
+  ContestRequest,
+  ContestsApiWs,
   EntityRequest,
   RewardsApiWs,
 } from '@ziqni-tech/member-api-client';
-import AwardDetailsCard from "@/components/awards/AwardDetailsCard.vue";
+import AwardDetailsCard from '@/components/awards/AwardDetailsCard.vue';
 
 const router = useRouter()
 
@@ -52,8 +58,15 @@ const getAwardsRequest = async () => {
 
   awardsApiWsClient.getAwards(awardRequest, async (res) => {
     awards.value = res.data;
+    award.value = awards.value[0];
+
     const rewardIds = res.data.map(item => item.rewardId);
-    await getEntityRewards(rewardIds)
+    await getEntityRewards(rewardIds);
+
+    const { entityType, entityId } = res.data[0];
+    await getEntityTermAndConditions(entityType, entityId);
+
+    isLoaded.value = true;
   });
 };
 
@@ -87,8 +100,100 @@ const getEntityRewards = async (ids) => {
         }
       }
     }
-    award.value = awards.value[0];
-    isLoaded.value = true;
+  });
+}
+
+const getEntityTermAndConditions = async (entityType, entityId) => {
+  if (entityType === 'Achievement') await getAchievementsRequest(entityId);
+  if (entityType === 'Contest') await getContestRequest(entityId);
+  if (entityType === 'Competition') await getCompetitionRequest(entityId);
+}
+
+const getAchievementsRequest = async (id) => {
+  const achievementsApiWsClient = new AchievementsApiWs(ApiClientStomp.instance);
+
+  const achievementsRequest = AchievementRequest.constructFromObject({
+    achievementFilter: {
+      productTagsFilter: [],
+      ids: [id],
+      status: [],
+      sortBy: [
+        {
+          queryField: 'created',
+          order: 'Desc'
+        },
+      ],
+      skip: 0,
+      limit: 20,
+      statusCode: {
+        moreThan: 0,
+        lessThan: 130
+      },
+      constraints: []
+    },
+  }, null);
+
+  achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
+    if (res.data.length && res.data[0].termsAndConditions) {
+      award.value.termsAndConditions = res.data[0].termsAndConditions;
+    } else {
+      award.value.termsAndConditions = null;
+    }
+  });
+};
+
+const getContestRequest = async (id) => {
+  const contestApiWsClient = new ContestsApiWs(ApiClientStomp.instance);
+  const contestRequest = ContestRequest.constructFromObject({
+    contestFilter: {
+      productIds: [],
+      tags: [],
+      startDate: null,
+      endDate: null,
+      ids: [id],
+      competitionIds: [],
+      constraints: [],
+      statusCode: {
+        moreThan: 10,
+        lessThan: 100
+      },
+    }
+  }, null);
+
+  await contestApiWsClient.getContests(contestRequest, async (res) => {
+    if (res.data.length && res.data[0].termsAndConditions) {
+      award.value.termsAndConditions = res.data[0].termsAndConditions;
+    } else {
+      award.value.termsAndConditions = null;
+    }
+  })
+}
+
+const getCompetitionRequest = async (id) => {
+  const competitionsApiWsClient = new CompetitionsApiWs(ApiClientStomp.instance);
+
+  const competitionRequest = CompetitionRequest.constructFromObject({
+    competitionFilter: {
+      statusCode: {
+        moreThan: 5,
+        lessThan: 100
+      },
+      sortBy: [{
+        queryField: 'created',
+        order: 'Desc'
+      }],
+      limit: 20,
+      skip: 0,
+      ids: [id]
+    }
+  }, null);
+
+  await competitionsApiWsClient.getCompetitions(competitionRequest, async (res) => {
+    if (res.data.length && res.data[0].termsAndConditions) {
+      award.value.termsAndConditions = res.data[0].termsAndConditions;
+    } else {
+      award.value.termsAndConditions = null;
+    }
   });
 }
 

@@ -10,7 +10,13 @@
       <span v-if="award.rewardType.uomSymbol">{{ award.rewardType.uomSymbol }}</span>
       {{ award.rewardValue }}
     </div>
-    <div class="description">
+    <div class="description" v-if="award.termsAndConditions">
+      <span class="description-title">Terms and conditions</span>
+      <span class="description-value">
+        {{ removeHTMLTags(award.termsAndConditions) }}
+      </span>
+    </div>
+    <div class="description" v-if="award.description">
       <span class="description-title">Description</span>
       <span class="description-value">
         {{ removeHTMLTags(award.description) }}
