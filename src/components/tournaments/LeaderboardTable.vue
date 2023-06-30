@@ -152,7 +152,7 @@ table {
     }
 
     tr.active {
-      background: #1d042d;
+      background: #40748C;
       box-shadow: 0 2px 12px rgba(64, 106, 140, 0.5);
 
 
@@ -162,7 +162,6 @@ table {
       }
 
       td:last-child {
-        overflow: hidden;
         border-bottom-right-radius: $border-radius;
         border-top-right-radius: $border-radius;
       }
