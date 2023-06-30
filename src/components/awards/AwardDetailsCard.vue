@@ -13,7 +13,7 @@
     <div class="description">
       <span class="description-title">Description</span>
       <span class="description-value">
-        {{ award.description ? award.description : testDescription }}
+        {{ removeHTMLTags(award.description) }}
       </span>
     </div>
     <div class="bottom-section">
@@ -35,6 +35,7 @@
 import { computed, ref, toRef, watch } from 'vue';
 import { CSpinner } from '@coreui/vue';
 import defaultAwardIcon from '@/assets/icons/awards/book.png';
+import { removeHTMLTags } from '@/utils/removeHTMLTags';
 
 const props = defineProps({
   award: Object
@@ -43,8 +44,6 @@ const props = defineProps({
 const emit = defineEmits(['claimAward']);
 
 const award = toRef(props, 'award');
-
-const testDescription = ref('Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.');
 
 const icon = ref(null);
 const awardIcon = computed(() => {
@@ -135,6 +134,7 @@ const handleButtonClick = async () => {
   .description {
     display: flex;
     flex-direction: column;
+    width: 100%;
 
     .description-title {
       text-align: start;
