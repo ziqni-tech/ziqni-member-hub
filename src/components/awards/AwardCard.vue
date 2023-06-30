@@ -23,13 +23,8 @@
 <script setup>
 
 import { useCountdown } from '@/hooks/useCountdown';
-import { onMounted, ref, toRef, watch } from 'vue';
+import { computed, ref, toRef, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import {
-  ApiClientStomp,
-  FilesApiWs,
-  RewardsApiWs
-} from '@ziqni-tech/member-api-client';
 import defaultAwardIcon from '@/assets/icons/awards/book.png';
 import { CSpinner } from '@coreui/vue';
 import diamondIcon from '@/assets/icons/achievements/diamond.png';
@@ -51,50 +46,16 @@ const router = useRouter()
 
 const award = toRef(props, 'award');
 
-const awardIcon = ref(defaultAwardIcon);
+const awardIcon = computed(() => {
+  return props.award.rewardIconLink
+      ? props.award.rewardIconLink
+      : defaultAwardIcon
+})
+
 const icon = ref(null);
 const rewardIcon = ref(diamondIcon)
 const isLoading = ref(false);
 
-watch(icon, (value) => {
-  if (value) {
-    rewardIcon.value = value;
-    awardIcon.value = value;
-  }
-})
-
-onMounted(() => {
-  getAwardIcon()
-})
-
-const getAwardIcon = async () => {
-  const rewardsApiWsClient = new RewardsApiWs(ApiClientStomp.instance);
-  const rewardRequest = {
-    languageKey: '',
-    entityFilter: [{
-      entityType: 'Reward',
-      entityIds: [award.value.rewardId]
-    }],
-    currencyKey: '',
-    skip: 0,
-    limit: 1
-  };
-  await rewardsApiWsClient.getRewards(rewardRequest, (res) => {
-    if (res.data && res.data.length && res.data[0].icon) {
-      const fileApiWsClient = new FilesApiWs(ApiClientStomp.instance);
-
-      const fileRequest = {
-        ids: [res.data[0].icon],
-        limit: 1,
-        skip: 0
-      };
-
-      fileApiWsClient.getFiles(fileRequest, (res) => {
-        icon.value = res.data[0].uri;
-      });
-    }
-  });
-}
 
 const goToAwardDetails = () => {
   router.push({

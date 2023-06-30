@@ -3,7 +3,7 @@
     <div class="top-section">
       <div class="left-section">
         <div class="icon">
-          <img :src="defaultIcon" alt="">
+          <img :src="achievementIconLink" alt="">
         </div>
       </div>
       <div class="right-section">
@@ -22,7 +22,7 @@
     </div>
     <div class="bottom-section">
       <div class="btn prize">
-        <img :src="achievement.icon" alt="">
+        <img :src="rewardIcon" alt="">
         {{ achievement.rewardValue }}
       </div>
       <button
@@ -46,17 +46,30 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
 import Modal from '@/shared/components/Modal.vue';
 import defaultIcon from '@/assets/icons/achievements/book.png'
 import router from '@/router';
+import diamondIcon from '@/assets/icons/achievements/diamond.png';
 
 
 const props = defineProps({
   achievement: { type: Object, required: true }
 });
+
+const achievementIconLink = computed(() => {
+  return props.achievement && props.achievement.iconLink
+      ? props.achievement.iconLink
+      : defaultIcon
+});
+
+const rewardIcon = computed(() => {
+  return props.achievement && props.achievement.rewardIconLink
+      ? props.achievement.rewardIconLink
+      : diamondIcon
+})
 
 const store = useStore();
 

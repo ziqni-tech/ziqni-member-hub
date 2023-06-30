@@ -16,7 +16,6 @@ import {
   AchievementsApiWs,
   ApiClientStomp,
   EntityRequest,
-  FilesApiWs,
   ManageOptinRequest,
   OptInApiWs,
   OptInStatesRequest,
@@ -130,29 +129,11 @@ const getEntityRewards = async () => {
         if (maxReward) {
           achievement.rewardValue = maxReward.rewardValue;
           achievement.rewardType = maxReward.rewardType.key;
-          if (maxReward.icon) {
-            achievement.icon = await getRewardIcon(maxReward.icon);
-          }
+          achievement.rewardIconLink = maxReward.iconLink;
         }
       }
     }
     achievement.value = achievements.value[0];
-  });
-}
-
-const getRewardIcon = async (id) => {
-  const fileApiWsClient = new FilesApiWs(ApiClientStomp.instance);
-
-  const fileRequest = {
-    ids: [id],
-    limit: 1,
-    skip: 0
-  };
-
-  return new Promise((resolve) => {
-    fileApiWsClient.getFiles(fileRequest, (res) => {
-      resolve(res.data[0].uri);
-    });
   });
 }
 

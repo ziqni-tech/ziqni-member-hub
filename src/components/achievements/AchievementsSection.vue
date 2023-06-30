@@ -70,7 +70,6 @@ import {
   AchievementsApiWs,
   ApiClientStomp,
   EntityRequest,
-  FilesApiWs,
   ManageOptinRequest,
   OptInApiWs,
   OptInStatesRequest,
@@ -196,7 +195,6 @@ const getAchievementsRequest = async () => {
 
   achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
     totalRecords.value = res.meta.totalRecordsFound
-
     const ids = res.data.map(item => item.id);
 
     achievements.value = res.data;
@@ -219,7 +217,7 @@ const getOptInStatus = async (ids) => {
         lt: 40
       },
       skip: 0,
-      limit: 10
+      limit: limit.value
     }
   }, null);
 
@@ -252,7 +250,7 @@ const getEntityRewards = async (ids) => {
       },
     ],
     skip: 0,
-    limit: 20
+    limit: limit.value
   }, null);
 
   await rewardsApiWsClient.getRewards(rewardRequest, async (res) => {
@@ -269,28 +267,10 @@ const getEntityRewards = async (ids) => {
         if (maxReward) {
           achievement.rewardValue = maxReward.rewardValue;
           achievement.rewardType = maxReward.rewardType.key;
-          if (maxReward.icon) {
-            achievement.icon = await getRewardIcon(maxReward.icon);
-          }
+          achievement.rewardIconLink = maxReward.iconLink;
         }
       }
     }
-  });
-}
-
-const getRewardIcon = async (id) => {
-  const fileApiWsClient = new FilesApiWs(ApiClientStomp.instance);
-
-  const fileRequest = {
-    ids: [id],
-    limit: 1,
-    skip: 0
-  };
-
-  return new Promise((resolve) => {
-    fileApiWsClient.getFiles(fileRequest, (res) => {
-      resolve(res.data[0].uri);
-    });
   });
 }
 
