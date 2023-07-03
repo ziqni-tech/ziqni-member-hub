@@ -373,6 +373,7 @@ onMounted(() => {
   justify-content: center;
   color: $text-color-white;
   cursor: pointer;
+  text-transform: capitalize;
 
   @media screen and (max-width: $tableWidth) {
     font-weight: 500;
