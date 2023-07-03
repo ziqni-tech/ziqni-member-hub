@@ -89,11 +89,12 @@ watch(countdownResult, (value) => {
     }
 
     .value {
+      height: 10px;
       text-align: right;
+      padding-left: 20px;
       color: $text-color-white;
     }
   }
 }
-
 
 </style>

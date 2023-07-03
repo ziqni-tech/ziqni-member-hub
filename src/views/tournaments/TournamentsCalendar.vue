@@ -1,20 +1,42 @@
 <template>
   <div class="text-center section">
-    <h2 class="text-center calendar-title">Current competitions calendar</h2>
     <calendar-view
-      v-if="isLoaded"
-      :items="competitions"
-      :show-date="showDate"
-      :time-format-options="{ hour: 'numeric', minute: '2-digit' }"
-      class="theme-default holiday-us-traditional"
-      :class="isDarMode ? 'darkMode' : 'lightMode'"
-      :starting-day-of-week="1"
-      :enable-drag-drop="false"
-      :displayPeriodUom="displayPeriod"
-      @click-item="clickEvent"
+        v-if="isLoaded"
+        :items="competitions"
+        :show-date="showDate"
+        :time-format-options="{ hour: 'numeric', minute: '2-digit' }"
+        class="theme-default holiday-us-traditional"
+        :class="isDarMode ? 'darkMode' : 'lightMode'"
+        :starting-day-of-week="1"
+        :enable-drag-drop="false"
+        :displayPeriodUom="displayPeriod"
+        @click-item="clickEvent"
     >
       <template #header="{ headerProps }">
-        <calendar-view-header slot="header" :header-props="headerProps" @input="setShowDate" />
+        <div class="cv-header">
+          <div class="cv-header-nav">
+            <div class="header-title">
+              <div
+                  class="go-back"
+                  @click="$router.go(-1)"
+              >
+                <img src="@/assets/icons/back_arrow.png" alt="">
+              </div>
+              <div class="calendar-title">Competitions calendar</div>
+              <div></div>
+            </div>
+            <div class="header-nav">
+              <div class="currentPeriod">
+                {{ getCurrentMonthYear(headerProps.currentPeriod) }}
+              </div>
+              <div>
+                <button class="previousPeriod" @click="setShowDate(headerProps.previousPeriod)">&lt;</button>
+                <button v-if="!isMobile" class="currentPeriod" @click="setShowDate(headerProps.currentPeriod)">Today</button>
+                <button class="nextPeriod" @click="setShowDate(headerProps.nextPeriod)">&gt;</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </template>
     </calendar-view>
   </div>
@@ -24,11 +46,12 @@
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-import { CalendarView, CalendarViewHeader } from 'vue-simple-calendar';
+import { CalendarView } from 'vue-simple-calendar';
 import '../../../node_modules/vue-simple-calendar/dist/style.css';
 import '../../../node_modules/vue-simple-calendar/dist/css/default.css';
 import { useStore } from 'vuex';
 import { ApiClientStomp, CompetitionRequest, CompetitionsApiWs } from '@ziqni-tech/member-api-client';
+import useMobileDevice from '@/hooks/useMobileDevice';
 
 const router = useRouter();
 const showDate = ref(new Date());
@@ -37,23 +60,34 @@ const displayPeriod = 'month';
 const store = useStore();
 
 // const isDarMode = computed(() => store.getters.getTheme)
-const isDarMode = true
+const isDarMode = true;
+const { isMobile } = useMobileDevice();
 
 const statusCode = {
   moreThan: 5,
   lessThan: 40
-}
-const limit = 20
+};
+const limit = 20;
 
-const competitions = ref(null)
-const isLoaded = ref(false)
+const competitions = ref([]);
+const isLoaded = ref(false);
 
 const setShowDate = (d) => {
   showDate.value = d;
-}
+};
+
+const getCurrentMonthYear = (date) => {
+  const options = {month: 'long', year: 'numeric'};
+  const formattedDate = date.toLocaleDateString('en-US', options);
+  const [month, year] = formattedDate.split(' ');
+  return `${ month }, ${ year }`;
+};
+
 onMounted(() => {
-  getCompetitionsRequest()
-})
+  getCompetitionsRequest();
+});
+
+
 const getCompetitionsRequest = async () => {
   const competitionRequest = CompetitionRequest.constructFromObject({
     competitionFilter: {
@@ -72,9 +106,18 @@ const getCompetitionsRequest = async () => {
     const apiClientStomp = ApiClientStomp.instance;
     const competitionsApiWsClient = await new CompetitionsApiWs(apiClientStomp);
 
-    await competitionsApiWsClient.getCompetitions(competitionRequest, async (res) => {
-      console.warn('CUR COMP RES', res);
-      competitions.value = res.data.map(item => {
+    let totalFetched = 0;
+    let moreDataAvailable = true;
+
+    while (moreDataAvailable) {
+      competitionRequest.competitionFilter.skip = totalFetched;
+
+      const response = await new Promise((resolve, reject) => {
+        competitionsApiWsClient.getCompetitions(competitionRequest, resolve, reject);
+      });
+      const competitionsData = response.data;
+
+      const mappedCompetitions = competitionsData.map(item => {
         let itemClass = '';
         switch (item.status) {
           case 'Active':
@@ -93,35 +136,45 @@ const getCompetitionsRequest = async () => {
           startDate: new Date(item.scheduledStartDate),
           endDate: new Date(item.scheduledEndDate),
           classes: ['competition', itemClass],
-        }
+        };
       });
-      isLoaded.value = true;
-    });
+
+      competitions.value = [...competitions.value, ...mappedCompetitions];
+      totalFetched += competitionsData.length;
+
+      if (totalFetched >= response.meta.totalRecordsFound || totalFetched >= limit.value) {
+        moreDataAvailable = false;
+      }
+    }
+
+    isLoaded.value = true;
   } catch (e) {
     console.log('ERROR', e);
   }
-}
-
+};
 const clickEvent = (val) => {
   router.push({
     name: 'TournamentDetails',
     params: {
       id: val.id,
     },
-  })
-}
+  });
+};
 
 </script>
 
 <style lang="scss">
 @import 'src/assets/scss/_variables';
 
-.calendar-title {
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 24px;
-  margin-bottom: 15px;
-  color: $body-text-white;
+
+.previousPeriod,
+.nextPeriod,
+.currentPeriod {
+  border: 1px solid $border-dark;
+}
+
+.currentPeriod {
+  font-size: 16px;
 }
 
 .cv-wrapper {
@@ -130,9 +183,53 @@ const clickEvent = (val) => {
   max-height: 696px;
   min-height: 696px;
   border-radius: $border-radius;
+  font-family: $semi-bold;
 
   .cv-header {
     border-radius: 20px 20px 0 0;
+
+    .cv-header-nav {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+
+      .header-title {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 14px;
+
+        .go-back {
+          border-radius: $border-radius-sm;
+          border: 1px solid $border-dark;
+          padding: 7px 12px;
+          cursor: pointer;
+        }
+
+        .calendar-title {
+          color: $text-color-white;
+          font-size: 37px;
+        }
+      }
+
+      .header-nav {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .previousPeriod,
+      .nextPeriod,
+      .currentPeriod {
+        border: 1px solid $border-dark;
+      }
+
+      .currentPeriod {
+        font-size: 16px;
+      }
+    }
 
     .cv-header-nav {
       .previousYear,
@@ -142,6 +239,7 @@ const clickEvent = (val) => {
       .nextYear {
         border-radius: 10px;
         margin-right: 3px;
+        color: $text-color-white !important;
       }
     }
   }
@@ -149,11 +247,13 @@ const clickEvent = (val) => {
   .cv-weeks {
     border-radius: 0 0 20px 20px;
   }
+
   .calendar-controls {
     margin-right: 1rem;
     min-width: 14rem;
     max-width: 14rem;
   }
+
   .calendar-parent {
     display: flex;
     flex-direction: column;
@@ -162,6 +262,7 @@ const clickEvent = (val) => {
     overflow-y: hidden;
     max-height: 80vh;
   }
+
   .cv-wrapper.period-month.periodCount-2 .cv-week,
   .cv-wrapper.period-month.periodCount-3 .cv-week,
   .cv-wrapper.period-year .cv-week {
@@ -171,9 +272,7 @@ const clickEvent = (val) => {
 
 @media screen and (max-width: $tableWidth) {
   .calendar-title {
-    font-weight: 700;
     font-size: 14px;
-    line-height: 17px;
     margin-bottom: 15px;
     color: $text-color-white;
   }
@@ -184,6 +283,25 @@ const clickEvent = (val) => {
     max-height: 500px;
     min-height: 500px;
     border-radius: $border-radius;
+    .cv-header {
+      .cv-header-nav {
+        .header-title {
+          align-items: center;
+          .calendar-title {
+            color: $text-color-white;
+            font-size: 16px;
+            margin: 0;
+          }
+
+          .go-back {
+            border-radius: $border-radius-sm;
+            border: 1px solid $border-dark;
+            padding: 5px 10px;
+            cursor: pointer;
+          }
+        }
+      }
+    }
 
     .cv-header {
       border-radius: 20px 20px 0 0;
@@ -207,11 +325,13 @@ const clickEvent = (val) => {
     .cv-weeks {
       border-radius: 0 0 20px 20px;
     }
+
     .calendar-controls {
       margin-right: 1rem;
       min-width: 10rem;
       max-width: 10rem;
     }
+
     .calendar-parent {
       display: flex;
       flex-direction: column;
@@ -220,6 +340,7 @@ const clickEvent = (val) => {
       overflow-y: hidden;
       max-height: 50vh;
     }
+
     .cv-wrapper.period-month.periodCount-2 .cv-week,
     .cv-wrapper.period-month.periodCount-3 .cv-week,
     .cv-wrapper.period-year .cv-week {
@@ -236,13 +357,17 @@ const clickEvent = (val) => {
     background-color: $light-grey !important;
     border-radius: 20px 20px 0 0;
     color: $body-text-color;
+    display: flex;
+    flex-direction: row-reverse;
 
     .periodLabel {
       background-color: $light-grey !important;
+      color: $text-color-white;
     }
 
     .cv-header-nav {
       background-color: $light-grey !important;
+
       .previousYear,
       .previousPeriod,
       .currentPeriod,
@@ -252,10 +377,20 @@ const clickEvent = (val) => {
         background-color: $light-grey;
       }
     }
+
+    .cv-header-nav {
+      .previousYear,
+      .nextYear {
+        display: none;
+        color: $body-text-color;
+        background-color: $light-grey;
+      }
+    }
   }
 
   .cv-header-days {
     background-color: $light-grey !important;
+
     .cv-header-day {
       background-color: $light-grey !important;
     }
@@ -264,16 +399,23 @@ const clickEvent = (val) => {
   .cv-weekdays {
     .cv-day {
       background-color: $light-grey;
+
+      .cv-day-number {
+        color: $text-color-white;
+      }
     }
+
     .today {
       background-color: $today !important;
       border: 2px solid $blue !important;
     }
+
     .outsideOfMonth {
       background-color: $light-grey !important;
     }
   }
 }
+
 //.cv-wrapper.lightMode {
 //  border: 1px solid $border-header-light-mode;
 //  color: black;
@@ -345,11 +487,13 @@ const clickEvent = (val) => {
   color: $blue;
 
   &-active {
-    background-color: $active-tournament  !important;
+    background-color: $active-tournament !important;
   }
+
   &-ready {
     background-color: $future-tournament !important;
   }
+
   &-finalised {
     background-color: $finished-tournament !important;
   }
@@ -362,11 +506,13 @@ const clickEvent = (val) => {
     color: $body-text-color;
 
     &-active {
-      background-color: $active-tournament  !important;
+      background-color: $active-tournament !important;
     }
+
     &-ready {
       background-color: $future-tournament !important;
     }
+
     &-finalised {
       background-color: $finished-tournament !important;
     }
