@@ -25,7 +25,7 @@
 import { useCountdown } from '@/hooks/useCountdown';
 import { computed, ref, toRef, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import defaultAwardIcon from '@/assets/icons/awards/book.png';
+import defaultAwardIcon from '@/assets/icons/awards/bottle.svg';
 import { CSpinner } from '@coreui/vue';
 import diamondIcon from '@/assets/icons/achievements/diamond.png';
 

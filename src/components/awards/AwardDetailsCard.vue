@@ -40,7 +40,7 @@
 <script setup>
 import { computed, ref, toRef, watch } from 'vue';
 import { CSpinner } from '@coreui/vue';
-import defaultAwardIcon from '@/assets/icons/awards/book.png';
+import defaultAwardIcon from '@/assets/icons/awards/bottle.svg';
 import { removeHTMLTags } from '@/utils/removeHTMLTags';
 
 const props = defineProps({
@@ -114,12 +114,28 @@ const handleButtonClick = async () => {
     justify-content: center;
     width: 100px;
     height: 100px;
-    padding-top: 20px;
+    padding: 20px 0;
+    border-radius: 100px;
+    position: relative;
 
-    > img {
-      width: 100%;
-      height: 100%;
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+
+      background: radial-gradient(50% 50% at 50% 50%, #38ACCF 0%, rgba(56, 172, 207, 0) 100%);
+      opacity: 0.5;
+      filter: blur(37.5px);
+    }
+
+    & > img {
+      max-width: 100%;
+      max-height: 100%;
       object-fit: cover;
+      border-radius: 50%;
     }
   }
 
@@ -128,7 +144,7 @@ const handleButtonClick = async () => {
     justify-content: center;
     align-items: center;
     color: $text-color-white;
-    margin-top: 10px;
+    margin-top: 20px;
 
     > img {
       margin-right: 10px;
