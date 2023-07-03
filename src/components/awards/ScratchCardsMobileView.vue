@@ -66,10 +66,6 @@ onMounted(() => {
   initCanvas();
 });
 
-onUpdated(() => {
-  initCanvas();
-});
-
 function createGrid() {
   const grid = [];
   for (let i = 0; i < 3; i++) {
@@ -302,6 +298,8 @@ const closeModal = () => {
 const clearCanvas = () => {
   const canvas = canvasRef.value;
   const context = canvas.getContext('2d');
+  console.warn('canvas.width', canvas.width);
+  console.warn('canvas.height', canvas.height);
   context.clearRect(0, 0, canvas.width, canvas.height);
 };
 
