@@ -61,7 +61,7 @@
 <script setup>
 
 import defaultIcon from '@/assets/icons/achievements/book.png';
-import { computed, ref, toRef } from 'vue';
+import { computed, ref, toRef, watch } from 'vue';
 import Modal from '@/shared/components/Modal.vue';
 import { CSpinner } from '@coreui/vue';
 import diamondIcon from '@/assets/icons/achievements/diamond.png';
@@ -81,9 +81,15 @@ const achievementIconLink = computed(() => {
       ? achievement.value.iconLink
       : defaultIcon
 })
+
 const isEntrant = computed(() => {
-  return achievement.value.entrantStatus === 'Entrant' || achievement.value.entrantStatus === 'Entering'
-})
+  const entrantStatus = achievement.value.entrantStatus;
+  return entrantStatus === 'Entrant' || entrantStatus === 'Entering';
+});
+
+watch(achievement, (newVal) => {
+  isLoading.value = false;
+});
 
 const rewardIcon = computed(() => {
   return props.achievement && props.achievement.rewardIconLink
