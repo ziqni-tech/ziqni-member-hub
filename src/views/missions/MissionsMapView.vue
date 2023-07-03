@@ -1,4 +1,5 @@
 <template>
+  <h1 class="mission-map-title">Mission map</h1>
   <div class="graph-wrapper">
     <v-network-graph
         ref="graph"
@@ -484,10 +485,10 @@ const getNodeStyles = (nodeId) => {
 <style scoped lang="scss">
 @import "@/assets/scss/_variables";
 .mission-map-title {
-  font-size: 24px;
-  font-weight: 700;
+  font-family: $semi-bold;
+  font-size: 37px;
   color: $body-text-white;
-  margin: 25px auto;
+  margin: 20px auto 0;
 }
 .graph {
   width: 100%;
@@ -512,10 +513,9 @@ const getNodeStyles = (nodeId) => {
   }
 
   .mission-map-title {
-    font-size: 14px;
-    font-weight: 700;
+    font-size: 28px;
     color: $body-text-white;
-    margin: 15px auto;
+    margin: 15px auto 0;
   }
 }
 
