@@ -63,6 +63,8 @@ watch(countdownResult, (value) => {
   .value {
     text-align: right;
     color: $text-color-white;
+    display: block;
+    min-height: 5px;
   }
 }
 
@@ -93,6 +95,12 @@ watch(countdownResult, (value) => {
       text-align: right;
       padding-left: 20px;
       color: $text-color-white;
+      margin-left: 17px;
+
+      &::before {
+        content: '\00a0';
+        visibility: hidden;
+      }
     }
   }
 }
