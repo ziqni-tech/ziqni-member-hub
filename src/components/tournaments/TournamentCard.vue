@@ -4,7 +4,7 @@
       <img :src="cardImage" alt="">
     </div>
     <div class="t-info">
-      <h3 class="tournament-name">{{ cardItem.name }}</h3>
+      <div class="tournament-name">{{ cardItem.name }}</div>
       <TournamentDataRow
           :icon="expiresInIcon"
           :label="'Ends'"
@@ -16,7 +16,9 @@
           :label="'prize'"
           :value="cardItem.rewardValue"
       />
-      <button class="see-more-btn" @click="goToTournamentsDetailsPage">See more</button>
+      <div class="see-more-btn-wrapper" >
+        <button class="see-more-btn" @click="goToTournamentsDetailsPage">See more</button>
+      </div>
     </div>
   </div>
 </template>
@@ -51,9 +53,8 @@ const goToTournamentsDetailsPage = () => {
 @import '../../assets/scss/_variables';
 
 .t-card {
-  display: grid;
-  grid-template-rows: 45% 55%;
   background-color: $light-grey;
+  font-family: $semi-bold;
 
   .t-card-image > img {
     width: 100%;
@@ -68,11 +69,12 @@ const goToTournamentsDetailsPage = () => {
     padding: 10px 12px 13px;
 
     .tournament-name {
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 17px;
-
+      font-size: 16px;
       color: $text-color-white;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-height: 24px;
     }
 
     .t-data {
@@ -82,24 +84,28 @@ const goToTournamentsDetailsPage = () => {
     }
 
 
-    .see-more-btn {
+    .see-more-btn-wrapper {
       width: 100%;
       margin-top: auto;
 
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 10px 57px;
+      .see-more-btn {
+        width: 100%;
+        margin-top: 18px;
 
-      background: $btn-gradient-color;
-      border-radius: $border-radius;
-      border: 1px solid $border-dark;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 57px;
 
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 17px;
-      color: $text-color-white;
+        background: $btn-gradient-color;
+        border-radius: $border-radius;
+        border: 1px solid $border-dark;
+
+        font-size: 16px;
+        color: $text-color-white;
+      }
     }
+
   }
 }
 
@@ -118,11 +124,12 @@ const goToTournamentsDetailsPage = () => {
       padding: 8px 8px 13px;
 
       .tournament-name {
-        font-weight: 700;
-        font-size: 12px;
-        line-height: 14px;
-
+        font-size: 16px;
         color: $text-color-white;
+        white-space: normal;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-height: 24px;
       }
 
       .t-data {
@@ -131,25 +138,24 @@ const goToTournamentsDetailsPage = () => {
         grid-template-rows: repeat(2, minmax(0, 1fr));
       }
 
+      .see-more-btn-wrapper {
+        .see-more-btn {
+          margin-top: 0;
 
-      .see-more-btn {
-        width: 100%;
-        margin-top: auto;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 5px;
 
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 5px;
+          background: $purple;
+          border-radius: $border-radius;
+          border: 1px solid $border-dark;
 
-        background: $purple;
-        border-radius: $border-radius;
-        border: 1px solid $border-dark;
-
-        font-weight: 700;
-        font-size: 12px;
-        line-height: 14px;
-        color: $text-color-white;
+          font-size: 16px;
+          color: $text-color-white;
+        }
       }
+
     }
   }
 }
