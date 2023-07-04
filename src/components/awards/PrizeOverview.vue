@@ -14,16 +14,14 @@
 </template>
 
 <script setup>
-import { useStore } from 'vuex';
-
 const props = defineProps({
   prizes: Array
 })
 
-const store = useStore()
+const emit = defineEmits(['scratchAllCards']);
 
 const scratchAllCards = () => {
-  store.dispatch('setIsScratchAllCards', true)
+  emit('scratchAllCards');
 }
 
 </script>

@@ -63,6 +63,18 @@ const props = defineProps({
   modalStyles: Object
 });
 
+const emit = defineEmits(['claim', 'closeModal']);
+
+const claim = () => {
+  emit('claim');
+  isShowModal.value = false;
+};
+
+const closeModal = () => {
+  emit('closeModal');
+  isShowModal.value = false;
+};
+
 onMounted(() => {
   initCanvas();
 });
@@ -285,16 +297,6 @@ watch(
     },
     { deep: true }
 );
-
-const claim = () => {
-  console.warn('CLAIM');
-  isShowModal.value = false;
-};
-
-const closeModal = () => {
-  console.warn('RETURN');
-  isShowModal.value = false;
-};
 
 const clearCanvas = () => {
   const canvas = canvasRef.value;
