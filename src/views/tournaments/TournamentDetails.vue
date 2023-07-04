@@ -87,7 +87,7 @@ const getCompetition = async () => {
 
   await competitionsApiWsClient.getCompetitions(competitionRequest, async (res) => {
     const competitions = res.data;
-    console.warn('RES DATA', competitions);
+
     const competitionsIds = competitions.map(item => item.id);
 
     const rewards = await getEntityRewards('Competition', competitionsIds);
@@ -164,9 +164,10 @@ const getEntityContests = async () => {
           }
         }
       }
-      contest.value = contests[0];
 
-      await getEntityLeaderboard(contest.value.id);
+      const activeContests = contests.filter(contest => contest.status === 'Active')
+      contest.value = activeContests[0];
+      if (contest.value && contest.value.status === "Active") await getEntityLeaderboard(contest.value.id);
     } else {
       console.warn('This competition has no contests');
     }
