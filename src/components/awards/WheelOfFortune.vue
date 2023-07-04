@@ -58,14 +58,11 @@ const closeModal = () => {
   isShowModal.value = false;
 };
 
-
 const isShowModal = ref(false)
 const titleMessage = ref('');
 const message = ref('');
 const btnTitle = ref('');
 const isWinner = ref(false);
-
-
 const done = (r) => {
   if (r.value !== 'Next time') {
     titleMessage.value = 'Congratulations!';
@@ -116,6 +113,10 @@ const wheelSize = computed(() => {
 });
 
 let interpolate = d3.interpolate(0, 0);
+
+const isGiftSection = (index) => {
+  return props.gift === index;
+};
 
 const createSvg = () => {
   svg.value = d3
@@ -227,8 +228,8 @@ const createArc = () => {
         vis.value
             .append('path')
             .attr('transform', (d) => {
-              const [x, y] = arc.centroid(d)
-              return `translate(${x}, ${y})`
+              const [x, y] = arc.centroid(d);
+              return `translate(${ x }, ${ y })`;
             })
             .attr('class', 'hiddenarcs')
             .attr('id', 'middleArc' + i)
@@ -261,43 +262,44 @@ const addText = () => {
       });
 };
 
-const imageSize = 100;
+const imageSize = computed(() => isMobile.value ? 55 : 90);
 
 const addImage = () => {
-  const arc = d3.arc().innerRadius(0).outerRadius(rayon.value)
+  const arc = d3.arc().innerRadius(0).outerRadius(rayon.value);
 
-  const xy = isMobile.value ? imageSize / 4 : imageSize / 2;
-  const wh = isMobile.value ? imageSize / 2 : imageSize ;
-
-  vis.value
+  const sections = vis.value
       .selectAll('.middleArcText')
       .data(pie.value(props.modelValue))
       .enter()
-      .append('svg:image')
-      .attr('class', 'item-image')
-      .attr('transform', (d) => {
-        const [x,y] = arc.centroid(d)
-        const rotationAngle = d.endAngle > (90 * Math.PI) / 180 ? -35 : 42
+      .append('g')
+      .attr('class', 'section');
 
-        return `rotate(${rotationAngle}, ${x}, ${y})`
+  sections.attr('transform', (d) => {
+    const centroid = arc.centroid(d);
+    const rotationAngle = d.endAngle > (90 * Math.PI) / 180 ? -35 : 42;
+    const x = (centroid[0] + imageSize.value / 20) - 5;
+    const y = (centroid[1] + imageSize.value / 20) - 5;
+    return `rotate(${rotationAngle}, ${x}, ${y}) translate(${x}, ${y})`;
+  });
 
-      })
-      .attr('x', (d) => {
-        const [x, y] = arc.centroid(d)
-        return x - xy
-      })
-      .attr('y', (d) => {
-        const [x, y] = arc.centroid(d)
-        return y - xy
-      })
-      .attr('width', wh)
-      .attr('height', wh)
-      .style('borderRadius', imageSize / 2)
-      .attr('xlink:href', (d) => {
-        return d.data.image
-      })
+  sections
+      .append('image')
+      .attr('x', -imageSize.value / 2)
+      .attr('y', -imageSize.value / 2)
+      .attr('width', imageSize.value)
+      .attr('height', imageSize.value)
+      .attr('xlink:href', (d) => d.data.image)
+      .attr('clip-path', 'url(#clip-path)');
 
-}
+  sections
+      .append('defs')
+      .append('clipPath')
+      .attr('id', 'clip-path')
+      .append('circle')
+      .attr('cx', 0)
+      .attr('cy', 0)
+      .attr('r', imageSize.value / 2);
+};
 
 const createMiddleCircle = () => {
   container.value
@@ -310,30 +312,6 @@ const createMiddleCircle = () => {
       .attr('stroke-width', 6)
       .attr('stroke', '#8749DC');
 };
-const createBorderCircle = () => {
-  container.value
-      .append('g')
-      .append('circle')
-      .attr('cx', 0)
-      .attr('cy', 0)
-      .attr('r', (wheelSize.value.width - 4) / 2)
-      .attr('fill', 'transparent')
-      .attr('stroke-width', '8')
-      .attr('filter', 'url(#shadow)')
-      .attr('stroke', '#8749DC') // main circle border color
-      .attr('box-shadow', '0px 2px 17px rgba(64, 106, 140, 0.82)') // box-shadow ?
-};
-
-const addImgOnCenter = () => {
-  const {width, height, src} = props.imgParams;
-  container.value
-      .append('svg:image')
-      .attr('x', `-${ width / 2 }`)
-      .attr('y', `-${ width / 2 }`)
-      .attr('width', width)
-      .attr('height', height)
-      .attr('xlink:href', src);
-};
 
 const createArrow = () => {
   if (container.value) {
@@ -341,23 +319,13 @@ const createArrow = () => {
         .append('g')
         .append('path')
         .attr('d', `M29.5015 34.8917C27.9007 36.9951 24.7362 36.9951 23.1354 34.8917L1.8143 6.87643C-0.18977 4.24313 1.68818 0.453968 4.99734 0.453968L47.6395 0.453968C50.9487 0.453968 52.8266 4.24313 50.8225 6.87642L29.5015 34.8917Z`)
-        .attr('transform', `translate(-26, -${(wheelSize.value.height / 2)})`)
+        .attr('transform', `translate(-26, -${ (wheelSize.value.height / 2) })`)
         .attr('stroke', '#FFD400')
         .attr('fill', '#FFD400')
         .attr('filter', 'url(#shadow)')
         .attr('stroke-linejoin', 'round')
         .attr('stroke-width', '4');
   }
-};
-
-const findCurrentSlice = (index) => {
-  return props.modelValue.findIndex((x) => x.id === index) + 1;
-};
-
-const animRotation = () => {
-  return (t) => {
-    return `rotate(${ interpolate(t) })`;
-  };
 };
 
 const createWheel = () => {
@@ -374,45 +342,69 @@ const createWheel = () => {
   addText();
   // Make circle
   createMiddleCircle();
-  createBorderCircle();
-  // Add img
-  if (props.imgParams) {
-    // addImgOnCenter();
-  }
   // create arrow
   createArrow();
 };
 
+let isStopped = false;
+
 const spin = async () => {
-  if (!clicked.value) {
+  if (!clicked.value && !isStopped) {
     clicked.value = true;
-    // Define current gain
-    const slicedGift = findCurrentSlice(props.gift);
     const dataLength = props.modelValue.length;
     const sliceWidth = 360 / dataLength;
-    const currentAngle = 360 - sliceWidth * (slicedGift - 1);
+    const currentAngle = 360 - sliceWidth * (props.gift - 0.5);
     const numberOfRotation = 360 * 5;
-    const r = currentAngle + numberOfRotation;
-    rotation.value = Math.round(r / sliceWidth) * sliceWidth;
-    let picked = Math.round(dataLength - (rotation.value % 360) / sliceWidth);
-    picked = picked >= dataLength ? picked % dataLength : picked;
-    // Center slice
-    const sliceSize = sliceWidth + sliceWidth / 2;
-    rotation.value += sliceSize - Math.round(sliceWidth * 2);
-    interpolate = d3.interpolate(0, rotation.value);
+    const targetRotation = currentAngle + numberOfRotation;
+
+    rotation.value = 0; // Сбросить текущий угол вращения
+
+    // Создать интерполяцию для плавного перехода
+    interpolate = d3.interpolate(rotation.value, targetRotation);
+
     const animateVis = () => {
       return vis.value
           .transition()
           .duration(props.animDuration)
           .ease(d3.easeBackOut.overshoot(0.3))
-          .attrTween('transform', animRotation)
-          .end();
+          .tween('rotation', () => (t) => {
+            rotation.value = interpolate(t); // Обновить текущий угол вращения
+            vis.value.attr('transform', `rotate(${ rotation.value })`);
+          })
+          .end()
+          .then(() => {
+            isStopped = true; // Отметить, что колесо остановлено
+            const prizeSection = Math.floor(
+                ((360 - rotation.value) % 360) / sliceWidth
+            );
+            const sections = vis.value.selectAll('.slice');
+            sections
+                .attr('stroke-width', (d, i) =>
+                    isGiftSection(i + 1) ? '8' : '2'
+                )
+                .attr('stroke', (d, i) =>
+                    isGiftSection(i + 1) ? '#c077ee' : '#8749DC'
+                )
+                .attr('filter', (d, i) =>
+                    isGiftSection(i + 1) ? 'none' : 'url(#shadow)'
+                );
+            // Move the prize section to the front
+            const prizeNode = sections.nodes()[prizeSection];
+            sections.nodes().forEach((node) => {
+              if (node === prizeNode) {
+                node.parentNode.appendChild(node);
+              }
+            });
+          });
     };
+
     await animateVis();
     clicked.value = false;
-    emit('done', props.modelValue[picked]);
+    // emit('done', props.modelValue[props.gift - 1]);
+    done(props.modelValue[props.gift - 1]);
   }
 };
+
 
 defineExpose({
   spin,
@@ -425,10 +417,20 @@ onMounted(() => {
 </script>
 
 <style>
+
 .wheel {
   /*width: 100%;*/
   /*height: auto;*/
   margin: auto;
+  position: relative;
+
+  .prize-modal {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+    z-index: 10;
+  }
 }
 
 @media screen and (max-width: $tableWidth) {
