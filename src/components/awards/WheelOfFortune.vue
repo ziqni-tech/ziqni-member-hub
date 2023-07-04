@@ -3,13 +3,23 @@
       id="wheel"
       :class="['wheel', `wheel_font-size--${modelValue.length}`]"
       :style="wheelStyle"
-  />
+  >
+    <AwardsModal
+        v-if="isShowModal"
+        class="prize-modal"
+        :message="message"
+        :title="titleMessage"
+        :btnLabel="btnTitle"
+        @doFunction="isWinner ? claim() : closeModal()"
+    />
+  </div>
 </template>
 
 <script setup>
 import * as d3 from 'd3';
 import { computed, ref, onMounted } from 'vue';
 import useMobileDevice from '@/hooks/useMobileDevice';
+import AwardsModal from '@/components/awards/AwardsModal.vue';
 
 const props = defineProps({
   animDuration: {
@@ -33,7 +43,44 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['done']);
+const emit = defineEmits(['claim', 'closeModal']);
+
+const claim = () => {
+  console.warn('CLAIM');
+  emit('claim')
+  isShowModal.value = false;
+
+};
+
+const closeModal = () => {
+  console.warn('RETURN');
+  emit('closeModal')
+  isShowModal.value = false;
+};
+
+
+const isShowModal = ref(false)
+const titleMessage = ref('');
+const message = ref('');
+const btnTitle = ref('');
+const isWinner = ref(false);
+
+
+const done = (r) => {
+  if (r.value !== 'Next time') {
+    titleMessage.value = 'Congratulations!';
+    message.value = `You won ${ r.value }`;
+    btnTitle.value = 'Claim';
+    isWinner.value = true;
+  } else {
+    titleMessage.value = 'Didn\'t win this time!';
+    message.value = `Wishing you better luck in the future`;
+    btnTitle.value = 'Return';
+    isWinner.value = false;
+  }
+
+  isShowModal.value = true;
+};
 
 const arrow = ref(null);
 const clicked = ref(false);

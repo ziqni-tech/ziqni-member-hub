@@ -21,12 +21,12 @@
     </div>
   </div>
   <AwardsModal
-      :modalShow="isShowModal"
+      v-if="isShowModal"
       :message="message"
+      :style="modalStyles"
       :title="titleMessage"
       :btnLabel="btnTitle"
       @doFunction="isWinner ? claim() : closeModal()"
-      v-on:toggle-modal="isShowModal = false"
   />
 </template>
 
@@ -59,7 +59,8 @@ const btnTitle = ref('');
 const isWinner = ref(false);
 
 const props = defineProps({
-  prizes: Array
+  prizes: Array,
+  modalStyles: Object
 });
 
 onMounted(() => {

@@ -2,8 +2,18 @@
   <div class="page-content">
     <h1 class="page-title">Scratchcards</h1>
     <div class="cards-wrapper">
-      <ScratchCardsMobileView v-if="isMobile" :prizes="images" class="cards-block"  />
-      <Scratchcards v-else :prizes="images" class="cards-block" />
+      <ScratchCardsMobileView
+          v-if="isMobile"
+          :modalStyles="modalStyles"
+          :prizes="images"
+          class="cards-block"
+      />
+      <Scratchcards
+          v-else
+          :modalStyles="modalStyles"
+          :prizes="images"
+          class="cards-block"
+      />
       <PrizeOverview :prizes="images" class="overview-block" />
     </div>
   </div>
@@ -24,6 +34,14 @@ const images = [
   { prize: 'second prize', image: secondPrize },
   { prize: 'third prize', image: thirdPrize }
 ]
+
+const modalStyles = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  'z-index': '10'
+};
 
 const { isMobile } = useMobileDevice();
 </script>
