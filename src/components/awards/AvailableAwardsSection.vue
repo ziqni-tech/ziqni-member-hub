@@ -112,11 +112,13 @@ const claimAward = async (id) => {
     awardIds: [id]
   });
 
-  awardsApiWsClient.claimAwards(claimAwardRequest, (res) => {
+  await awardsApiWsClient.claimAwards(claimAwardRequest, async (res) => {
     if (res.data && res.data.length) {
-      setTimeout(async () => {
-        await getAwardsRequest();
-      }, 5000);
+      await ApiClientStomp.instance.sendSys('', {}, async (res, headers) => {
+        if (res.entityId && res.entityId === id && headers.objectType === "EntityStateChanged") {
+          await getAwardsRequest();
+        }
+      })
     }
   });
 };

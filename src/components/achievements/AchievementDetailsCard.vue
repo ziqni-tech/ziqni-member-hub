@@ -20,7 +20,7 @@
     <div class="description">
       <span class="description-title">Description</span>
       <span class="description-value">
-        {{ achievement.description ? achievement.description : testDescription }}
+        {{ achievement.description ? removeHTMLTags(achievement.description) : testDescription }}
       </span>
     </div>
     <div class="bottom-section">
@@ -32,11 +32,9 @@
           v-if="!isCompleted"
           class="action-btn"
           @click="handleButtonClick"
-          :disabled="isLoading"
-          :class="{ 'disabled-btn': isLoading, 'join-button': !isEntrant, 'leave-button': isEntrant }"
+          :class="{ 'join-button': !isEntrant, 'leave-button': isEntrant }"
       >
-        <CSpinner v-if="isLoading" grow size="sm"/>
-        <span v-else>{{ isEntrant ? 'Leave' : 'Join' }}</span>
+        <span >{{ isEntrant ? 'Leave' : 'Join' }}</span>
       </button>
       <button
           v-else
@@ -63,8 +61,8 @@
 import defaultIcon from '@/assets/icons/achievements/book.png';
 import { computed, ref, toRef, watch } from 'vue';
 import Modal from '@/shared/components/Modal.vue';
-import { CSpinner } from '@coreui/vue';
 import diamondIcon from '@/assets/icons/achievements/diamond.png';
+import { removeHTMLTags } from '@/utils/removeHTMLTags';
 
 const props = defineProps({
   achievement: Object
@@ -87,9 +85,10 @@ const isEntrant = computed(() => {
   return entrantStatus === 'Entrant' || entrantStatus === 'Entering';
 });
 
+
 watch(achievement, (newVal) => {
   isLoading.value = false;
-});
+}, { immediate: true });
 
 const rewardIcon = computed(() => {
   return props.achievement && props.achievement.rewardIconLink

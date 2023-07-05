@@ -337,14 +337,15 @@ const joinAchievement = async ({ id, name }) => {
     action: 'join'
   }, null);
 
-  await optInApiWsClient.manageOptin(optInRequest, (res) => {
+  await optInApiWsClient.manageOptin(optInRequest, async (res) => {
     if (res.data) {
-      const message = `You successfully joined the ${ name } tournament`;
-      store.dispatch('setAlertMessage', message);
-
-      setTimeout(async () => {
-        await getAchievementsRequest();
-      }, 5000);
+      // const message = `You successfully joined the ${ name } tournament`;
+      // store.dispatch('setAlertMessage', message);
+      await ApiClientStomp.instance.sendSys('', {}, async (res, headers) => {
+        if (res.entityId && res.entityId === id && headers.objectType === "EntityStateChanged") {
+          await getAchievementsRequest();
+        }
+      })
     }
   });
 };
@@ -358,14 +359,13 @@ const leaveAchievement = async ({ id, name }) => {
     action: 'leave'
   }, null);
 
-  await optInApiWsClient.manageOptin(optInRequest, (res) => {
+  await optInApiWsClient.manageOptin(optInRequest, async (res) => {
     if (res.data) {
-      const message = `You successfully leaved the ${ name } tournament`;
-      store.dispatch('setAlertMessage', message);
-
-      setTimeout(async () => {
-        await getAchievementsRequest();
-      }, 5000);
+      await ApiClientStomp.instance.sendSys('', {}, async (res, headers) => {
+        if (res.entityId && res.entityId === id && headers.objectType === "EntityStateChanged") {
+          await getAchievementsRequest();
+        }
+      })
     }
   });
 };
