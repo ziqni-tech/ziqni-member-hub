@@ -233,9 +233,7 @@ const unsubscribeEntityLeaderboard = async () => {
     };
     await store.dispatch('leaderboardRequest');
 
-    await apiLeaderboardWsClient.subscribeToLeaderboard(leaderboardSubscriptionRequest, (res) => {
-      console.log('Unsubscribe EntityLeaderboard', res);
-    });
+    await apiLeaderboardWsClient.subscribeToLeaderboard(leaderboardSubscriptionRequest, () => {});
   }
 };
 
