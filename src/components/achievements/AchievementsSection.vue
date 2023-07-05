@@ -35,9 +35,17 @@
           {{ descriptions[activeTabKey] }}
         </p>
       </div>
-      <div class="until-the-next-day" v-if="!isDashboard">
+      <div class="until-the-next-day" v-if="!isDashboard && activeTabKey === 'daily'">
         <img :src="expiresInIcon" alt="">
-        {{ activeTabKey === 'daily' ? dailyTimeLeft : weeklyTimeLeft }} left
+        {{ dailyTimeLeft }} left
+      </div>
+      <div class="until-the-next-day" v-if="!isDashboard && activeTabKey === 'weekly'">
+        <img :src="expiresInIcon" alt="">
+        {{ remainingTimeUntilEndOfWeek }} left
+      </div>
+      <div class="until-the-next-day" v-if="!isDashboard && activeTabKey === 'monthly'">
+        <img :src="expiresInIcon" alt="">
+        {{ remainingTimeUntilEndOfMonth }} left
       </div>
     </div>
     <div class="content-wrapper">
@@ -134,6 +142,42 @@ const getNextDayStart = () => {
 const nextDayStart = getNextDayStart();
 const dailyCountdownResult = useCountdown(nextDayStart);
 
+const remainingTimeUntilEndOfMonth = ref('');
+
+const getRemainingTimeUntilEndOfMonth = () => {
+  const now = new Date();
+  const currentMonth = now.getMonth();
+  const nextMonth = currentMonth + 1;
+  const nextMonthFirstDay = new Date(now.getFullYear(), nextMonth, 1);
+  const endOfMonth = new Date(nextMonthFirstDay - 1);
+
+  const remainingTime = endOfMonth.getTime() - now.getTime();
+  const remainingDays = Math.floor(remainingTime / (1000 * 3600 * 24));
+  const remainingHours = Math.floor((remainingTime % (1000 * 3600 * 24)) / (1000 * 3600));
+  const remainingMinutes = Math.floor((remainingTime % (1000 * 3600)) / (1000 * 60));
+  const remainingSeconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+  return {
+    remainingDays,
+    remainingHours,
+    remainingMinutes,
+    remainingSeconds,
+  };
+};
+
+const updateRemainingTimeUntilEndOfMonth = () => {
+  const { remainingDays, remainingHours, remainingMinutes } = getRemainingTimeUntilEndOfMonth();
+  remainingTimeUntilEndOfMonth.value = `${remainingDays}d ${remainingHours}h ${remainingMinutes}m`;
+};
+
+
+onMounted(updateRemainingTimeUntilEndOfMonth);
+watch(activeTabKey, (newValue) => {
+  if (newValue === 'monthly') {
+    updateRemainingTimeUntilEndOfMonth();
+  }
+});
+
 watch(dailyCountdownResult, value => {
   if (value) {
     const { hours, minutes } = dailyCountdownResult;
@@ -142,31 +186,41 @@ watch(dailyCountdownResult, value => {
 
 }, { immediate: true });
 
-// weekly
-const weeklyTimeLeft = ref('');
+const remainingTimeUntilEndOfWeek = ref('');
 
-const getNextWeekStart = () => {
+const getRemainingTimeUntilEndOfWeek = () => {
   const now = new Date();
   const dayOfWeek = now.getDay();
-  const startOfWeek = new Date(now);
   const daysToNextMonday = 8 - dayOfWeek;
+  const endOfWeek = new Date(now);
+  endOfWeek.setDate(now.getDate() + daysToNextMonday);
+  endOfWeek.setHours(23, 59, 59, 999); // Устанавливаем время на конец дня
 
-  startOfWeek.setDate(now.getDate() + daysToNextMonday);
-  startOfWeek.setHours(0, 0, 0, 0);
+  const remainingTime = endOfWeek.getTime() - now.getTime();
+  const remainingSeconds = Math.floor(remainingTime / 1000) % 60;
+  const remainingMinutes = Math.floor(remainingTime / 1000 / 60) % 60;
+  const remainingHours = Math.floor(remainingTime / 1000 / 60 / 60) % 24;
+  const remainingDays = Math.floor(remainingTime / 1000 / 60 / 60 / 24);
 
-  return startOfWeek;
+  return {
+    remainingDays,
+    remainingHours,
+    remainingMinutes,
+    remainingSeconds
+  };
 };
 
-const nextWeekStart = getNextWeekStart();
-const weeklyCountdownResult = useCountdown(nextWeekStart);
+const updateRemainingTimeUntilEndOfWeek = () => {
+  const { remainingDays, remainingHours, remainingMinutes, remainingSeconds } = getRemainingTimeUntilEndOfWeek();
+  remainingTimeUntilEndOfWeek.value = `${remainingDays}d ${remainingHours}h ${remainingMinutes}m`;
+};
 
-watch(weeklyCountdownResult, value => {
-  if (value) {
-    const { days, hours, minutes } = weeklyCountdownResult;
-    weeklyTimeLeft.value = `${ days }d ${ hours }h ${ minutes }m`;
+onMounted(updateRemainingTimeUntilEndOfWeek);
+watch(activeTabKey, (newValue) => {
+  if (newValue === 'weekly') {
+    updateRemainingTimeUntilEndOfWeek();
   }
-
-}, { immediate: true });
+});
 
 const getAchievementsRequest = async () => {
   isLoading.value = true;
