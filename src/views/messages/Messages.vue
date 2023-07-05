@@ -6,7 +6,7 @@
       </div>
       <div class="message-body">
         <span class="message-body__type" >{{ message.subject }}</span>
-        <span class="message-body__body">{{ message.body }}</span>
+        <span class="message-body__body" v-html="message.body"></span>
       </div>
       <div class="created">
         <span class="date">{{ formattedDate(message.created) }}</span>
@@ -35,6 +35,12 @@ const isLoaded = ref(false)
 
 onMounted(() => {
   getMessagesRequest();
+
+  ApiClientStomp.instance.sendSys('', {}, (json, headers) => {
+    if (json && json.entityType === 'Message') {
+      getMessagesRequest();
+    }
+  })
 })
 
 const goToMessageDetails = (message) => {
@@ -52,6 +58,10 @@ const getMessagesRequest = async () => {
   const messageRequest = {
     messageFilter: {
       messageType: 'InboxItem',
+      sortBy: [{
+        queryField: 'created',
+        order: 'Desc'
+      }],
       skip: 0,
       limit: 20
     }
@@ -59,13 +69,16 @@ const getMessagesRequest = async () => {
 
   await messagesApiWsClient.getMessages(messageRequest, (res) => {
     messages.value = res.data;
-    console.warn('MESSAGES', res.data)
     isLoaded.value = true;
+    if (!res.data || !res.data.length) {
+      setTimeout(() => {
+        getMessagesRequest();
+      }, 1500);
+    }
   });
 }
 
 const formattedDate = (dateString) => {
-  console.log(dateString);
   const date = new Date(dateString)
   let day = date.getDate();
   let month = date.getMonth();
