@@ -50,6 +50,7 @@ const doFunction = () => {
   border: 1px solid $dark-blue;
   padding: 28px 38px;
   max-width: 480px;
+  box-shadow: 0 2px 12px 0 rgba(64, 106, 140, 0.50);
 
   .award-modal-title {
     margin: auto;
