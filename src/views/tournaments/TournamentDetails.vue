@@ -8,16 +8,16 @@
 <!--      </div>-->
     </div>
     <div class="tournament-details">
-      <div class="details">
-        <TournamentDetailsCard
-            v-if="isLoaded"
-            :tournament="currentTournament"
-            @joinTournament="joinTournament"
-            @leaveTournament="leaveTournament"
-        />
-      </div>
       <div class="leaderboard-table" v-if="leaderboardEntries">
         <Leaderboard v-if="contest" :leaders="leaderboardEntries" :prize="contest.rewardValue"/>
+      </div>
+      <div class="details">
+        <TournamentDetailsCard
+          v-if="isLoaded"
+          :tournament="currentTournament"
+          @joinTournament="joinTournament"
+          @leaveTournament="leaveTournament"
+        />
       </div>
     </div>
   </div>
@@ -371,7 +371,7 @@ const goToCalendar = () => {
 
   .details {
     width: 50%;
-    padding-right: 12px;
+    padding-left: 24px;
   }
 
   .leaderboard-table {
@@ -397,7 +397,7 @@ const goToCalendar = () => {
     .leaderboard-table {
       display: flex;
       width: 100%;
-      margin-top: 20px;
+      margin-bottom: 20px;
       padding-left: 0;
     }
   }
