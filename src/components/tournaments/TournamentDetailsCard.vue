@@ -37,11 +37,10 @@
       <button
           class="m-btn register-btn"
           @click="handleButtonClick"
-          :disabled="isLoading"
-          :class="{ 'disabled-btn': isLoading }"
+          :class="{ 'join-button': !isEntrant, 'leave-button': isEntrant }"
       >
         <CSpinner v-if="isLoading" grow size="sm"/>
-        <span v-else>{{ isEntrant ? 'Leave' : 'Join' }}</span>
+        <span v-else >{{ isEntrant ? 'Leave' : 'Join' }}</span>
       </button>
     </div>
   </div>
@@ -76,7 +75,6 @@ const emit = defineEmits(['joinTournament', 'leaveTournament']);
 const tournament = toRef(props, 'tournament');
 
 const leaveModal = ref(false);
-const isEntrant = ref(tournament.value.entrantStatus === 'Entrant' || tournament.value.entrantStatus === 'Entering');
 const isLoading = ref(false);
 const isTermsAndConditions = ref(false);
 
@@ -92,9 +90,10 @@ const termsAndConditions = computed(() => {
       : 'Terms and conditions are not specified';
 })
 
-watch(tournament, (newVal) => {
-  isEntrant.value = newVal.entrantStatus === 'Entrant' || newVal.entrantStatus === 'Entering';
+const isEntrant = computed(() => {
+  const entrantStatus = tournament.value.entrantStatus;
   isLoading.value = false;
+  return entrantStatus === 'Entrant' || entrantStatus === 'Entering';
 });
 
 const finish = () => {
@@ -209,11 +208,14 @@ const goToInfo = () => {
     }
   }
 
-  .register-btn {
-    border-radius: $border-radius;
-    width: 35%;
-    padding: 10px 0;
-    margin-top: auto;
+  .join-button {
+    background: $purple-gradient;
+    border: 1px solid $purple;
+  }
+
+  .leave-button {
+    border: 1px solid $border-dark;
+    background: $btn-grey;
   }
 
   .tournament-data-wrapper {

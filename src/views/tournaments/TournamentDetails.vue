@@ -303,14 +303,14 @@ const joinTournament = async () => {
     action: 'join'
   }, null);
 
-  await optInApiWsClient.manageOptin(optInRequest, (res) => {
+  await optInApiWsClient.manageOptin(optInRequest, async (res) => {
     if (res.data) {
-      const message = `You successfully joined the ${currentTournament.value.name} tournament`;
-      store.dispatch('setAlertMessage', message);
+      // const message = `You successfully joined the ${currentTournament.value.name} tournament`;
+      // store.dispatch('setAlertMessage', message);
 
       setTimeout(async () => {
         await getCompetition();
-      }, 5000);
+      }, 3500);
     }
   })
 }
@@ -324,14 +324,14 @@ const leaveTournament= async () => {
     action: 'leave'
   }, null);
 
-  await optInApiWsClient.manageOptin(optInRequest, (res) => {
+  await optInApiWsClient.manageOptin(optInRequest, async (res) => {
     if (res.data) {
-      const message = `You successfully leaved the ${currentTournament.value.name} tournament`;
-      store.dispatch('setAlertMessage', message);
+      // const message = `You successfully leaved the ${currentTournament.value.name} tournament`;
+      // store.dispatch('setAlertMessage', message);
 
       setTimeout(async () => {
         await getCompetition();
-      }, 5000);
+      }, 3500);
     }
   })
 }
