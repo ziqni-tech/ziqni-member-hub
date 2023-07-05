@@ -27,12 +27,12 @@
             </div>
             <div class="header-nav">
               <div class="currentPeriod">
-                {{ getCurrentMonthYear(headerProps.currentPeriod) }}
+                <button class="previousPeriod" @click="setShowDate(headerProps.previousPeriod)">&lt;</button>
+                {{ headerProps.periodLabel }}
+                <button class="nextPeriod" @click="setShowDate(headerProps.nextPeriod)">&gt;</button>
               </div>
               <div>
-                <button class="previousPeriod" @click="setShowDate(headerProps.previousPeriod)">&lt;</button>
-                <button v-if="!isMobile" class="currentPeriod" @click="setShowDate(headerProps.currentPeriod)">Today</button>
-                <button class="nextPeriod" @click="setShowDate(headerProps.nextPeriod)">&gt;</button>
+                <CFormSwitch reverse label="Week period:" id="formSwitchCheckDefault" @change="displayPeriodUpdate" :checked="isWeekPeriod"/>
               </div>
             </div>
           </div>
@@ -53,9 +53,14 @@ import { useStore } from 'vuex';
 import { ApiClientStomp, CompetitionRequest, CompetitionsApiWs } from '@ziqni-tech/member-api-client';
 import useMobileDevice from '@/hooks/useMobileDevice';
 
+import { CFormSwitch } from '@coreui/vue';
+
 const router = useRouter();
 const showDate = ref(new Date());
-const displayPeriod = 'month';
+const displayPeriod = ref(null);
+let isWeekPeriod = false;
+
+displayPeriod.value = 'month';
 
 const store = useStore();
 
@@ -65,7 +70,7 @@ const { isMobile } = useMobileDevice();
 
 const statusCode = {
   moreThan: 5,
-  lessThan: 40
+  lessThan: 50
 };
 const limit = 20;
 
@@ -87,6 +92,14 @@ onMounted(() => {
   getCompetitionsRequest();
 });
 
+const displayPeriodUpdate = () => {
+  isWeekPeriod = !isWeekPeriod;
+  if (isWeekPeriod) {
+    displayPeriod.value = 'week';
+  } else {
+    displayPeriod.value = 'month';
+  }
+}
 
 const getCompetitionsRequest = async () => {
   const competitionRequest = CompetitionRequest.constructFromObject({
@@ -168,8 +181,7 @@ const clickEvent = (val) => {
 
 
 .previousPeriod,
-.nextPeriod,
-.currentPeriod {
+.nextPeriod {
   border: 1px solid $border-dark;
 }
 
@@ -218,11 +230,21 @@ const clickEvent = (val) => {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        padding: 14px 0;
+
+        .form-label.form-check-label {
+          margin-bottom: 0;
+          margin-top: 5px;
+          color: #ffffff;
+        }
+        .form-check-input:checked {
+          background-color: #8749DC;
+          border-color: unset;
+        }
       }
 
       .previousPeriod,
-      .nextPeriod,
-      .currentPeriod {
+      .nextPeriod{
         border: 1px solid $border-dark;
       }
 
@@ -350,7 +372,6 @@ const clickEvent = (val) => {
 }
 
 .cv-wrapper.darkMode {
-  border: 1px solid $border-dark;
   color: $body-text-color;
 
   .cv-header {
