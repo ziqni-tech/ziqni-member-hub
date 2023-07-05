@@ -75,8 +75,6 @@ const emit = defineEmits(['joinTournament', 'leaveTournament']);
 
 const tournament = toRef(props, 'tournament');
 
-console.warn('tournament', tournament.value);
-
 const leaveModal = ref(false);
 const isEntrant = ref(tournament.value.entrantStatus === 'Entrant' || tournament.value.entrantStatus === 'Entering');
 const isLoading = ref(false);

@@ -204,6 +204,14 @@ const getEntityLeaderboard = async (contestId) => {
   };
   await store.dispatch('leaderboardRequest');
 
+  ApiClientStomp.instance.sendSys('', {}, (json, headers) => {
+    if (headers && headers.objectType === 'Leaderboard') {
+      if (json.id && json.id === contestId) {
+        leaderboardEntries.value = json.leaderboardEntries
+      }
+    }
+  })
+
   await apiLeaderboardWsClient.subscribeToLeaderboard(leaderboardSubscriptionRequest, (res) => {
     leaderboardEntries.value = res.data.leaderboardEntries
   });
@@ -369,7 +377,9 @@ const goToCalendar = () => {
   .leaderboard-table {
     display: flex;
     width: 50%;
-    padding-left: 12px;
+    margin-left: 12px;
+    border: 1px solid $border-dark;
+    border-radius: 10px;
   }
 }
 
