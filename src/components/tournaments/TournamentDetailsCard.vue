@@ -243,14 +243,12 @@ const goToInfo = () => {
       width: 100%;
 
       &_title {
-        font-size: 16px;
+        font-size: 24px;
       }
 
       &_description {
         margin: 15px 0 20px;
-        font-weight: 500;
-        font-size: 12px;
-        line-height: 16px;
+        font-size: 16px;
       }
     }
 
@@ -348,15 +346,13 @@ const goToInfo = () => {
 
         &_title {
           font-weight: 700;
-          font-size: 12px;
+          font-size: 24px;
           line-height: 14px;
         }
 
         &_description {
           margin: 10px 0 20px;
-          font-weight: 500;
-          font-size: 10px;
-          line-height: 12px;
+          font-size: 16px;
         }
       }
 

@@ -202,7 +202,7 @@ const handleButtonClick = async () => {
 
       .progress-value {
         margin-left: 5px;
-        font-size: 12px;
+        font-size: 16px;
         color: $text-color-white;
       }
     }
@@ -211,11 +211,12 @@ const handleButtonClick = async () => {
   .description {
     display: flex;
     flex-direction: column;
+    width: 100%;
 
     .description-title {
       text-align: start;
       width: 100%;
-      font-size: 16px;
+      font-size: 24px;
       color: $text-color-white;
       padding-top: 20px;
     }
@@ -244,6 +245,7 @@ const handleButtonClick = async () => {
       padding: 10px;
       border-radius: 10px;
       color: $text-color-white;
+      font-size: 16px;
     }
 
     .join-button {
@@ -266,6 +268,7 @@ const handleButtonClick = async () => {
       justify-content: center;
       align-items: center;
       padding: 10px 57px;
+      font-size: 16px;
 
       background: $dark-grey;
       border-radius: 10px;
@@ -325,9 +328,7 @@ const handleButtonClick = async () => {
       .progress-title {
         text-align: start;
         width: 100%;
-        font-weight: 700;
-        font-size: 14px;
-        line-height: 17px;
+        font-size: 16px;
         color: $text-color-white;
         padding-top: 20px;
       }
@@ -366,9 +367,7 @@ const handleButtonClick = async () => {
       .description-title {
         text-align: start;
         width: 100%;
-        font-weight: 700;
-        font-size: 14px;
-        line-height: 17px;
+        font-size: 24px;
         color: $text-color-white;
         padding-top: 20px;
       }
@@ -376,9 +375,7 @@ const handleButtonClick = async () => {
       .description-value {
         text-align: start;
         width: 100%;
-        font-weight: 500;
-        font-size: 12px;
-        line-height: 16px;
+        font-size: 16px;
         color: $text-color-white;
         padding-top: 14px;
       }

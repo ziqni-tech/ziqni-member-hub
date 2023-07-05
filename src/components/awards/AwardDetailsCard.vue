@@ -99,7 +99,7 @@ const handleButtonClick = async () => {
 
 
   .title {
-    font-size: 27px;
+    font-size: 37px;
     color: $text-color-white;
 
     white-space: nowrap;
@@ -145,6 +145,7 @@ const handleButtonClick = async () => {
     align-items: center;
     color: $text-color-white;
     margin-top: 20px;
+    font-size: 24px;
 
     > img {
       margin-right: 10px;
@@ -161,7 +162,7 @@ const handleButtonClick = async () => {
     .description-title {
       text-align: start;
       width: 100%;
-      font-size: 16px;
+      font-size: 24px;
       color: $text-color-white;
       padding-top: 20px;
     }
@@ -169,7 +170,7 @@ const handleButtonClick = async () => {
     .description-value {
       text-align: start;
       width: 100%;
-      font-size: 12px;
+      font-size: 16px;
       color: $text-color-white;
       padding-top: 14px;
     }

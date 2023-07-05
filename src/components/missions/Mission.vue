@@ -185,6 +185,8 @@ const goToMissionsMapPage = () => {
         background-color: $dark-grey;
         cursor: default;
         border: none;
+        min-height: 35px;
+        margin-bottom: 5px;
       }
 
       .go-button {

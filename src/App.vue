@@ -12,8 +12,8 @@
 
 #app {
   font-family: $mainFont;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: $mainFont;
+  -moz-osx-font-smoothing: $mainFont;
   text-align: center;
   color: $sidebar-text-color;
   width: 100%;

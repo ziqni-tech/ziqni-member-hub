@@ -21,14 +21,14 @@
         <h2 class="mission-data__title">{{ mission.name }}</h2>
         <div v-if="isReadMore" class="mission-data__description" :class="{'read-more': isReadMore}">
           <span class="description_title">Description </span>
-          <span class="description_text">{{ mission.description }}</span>
+          <span class="description_text">{{ removeHTMLTags(mission.description) }}</span>
         </div>
         <div class="prize_data" v-if="isReadMore">
           prize: <img src="@/assets/icons/tournament/prize.png" alt=""> {{ mission.rewardValue }}
         </div>
         <div class="mission-data__description" v-if="isInfo">
           <span class="description_title">Terms & Conditions</span>
-          <span class="description_text">{{ mission.termsAndConditions }}</span>
+          <span class="description_text">{{ removeHTMLTags(mission.termsAndConditions) }}</span>
         </div>
         <CButton v-if="!isReadMore && !isInfo && !isMobile" class="m-btn register-btn" @click="readMore">
           <span class="b-btn__text">read more</span>
@@ -81,6 +81,7 @@ import { defineConfigs } from 'v-network-graph';
 import dagre from 'dagre/dist/dagre.min.js';
 import { useRoute, useRouter } from "vue-router";
 import useMobileDevice from "@/hooks/useMobileDevice";
+import { removeHTMLTags } from '../../utils/removeHTMLTags';
 
 const { isMobile } = useMobileDevice();
 
@@ -545,13 +546,13 @@ const closeModal = () => {
         align-items: flex-start;
 
         .description_title {
-          font-size: 16px;
+          font-size: 24px;
           margin: 15px 0;
         }
 
         .description_text {
           height: 100%;
-          font-size: 12px;
+          font-size: 16px;
           text-align: start;
           margin-bottom: 20px;
         }
@@ -599,7 +600,8 @@ const closeModal = () => {
       border-radius: $border-radius;
       background: $dark-grey;
       padding: 5px 10px;
-      min-height: 25px;
+      min-height: 34px;
+      min-width: 80px;
 
       font-size: 16px;
       color: $text-color-white;
@@ -655,13 +657,13 @@ const closeModal = () => {
           align-items: flex-start;
 
           .description_title {
-            font-size: 16px;
+            font-size: 24px;
             margin: 15px 0;
           }
 
           .description_text {
             height: 100%;
-            font-size: 14px;
+            font-size: 16px;
             text-align: start;
             margin-bottom: 20px;
           }

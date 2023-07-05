@@ -1,7 +1,7 @@
 <template>
   <div class="message-details-card">
     <div class="message-details-card_header">
-      <div class="empty"></div>
+      <div class="empty" v-if="!isMobile"></div>
       <div class="sender-name">
         <div class="avatar">
           <img src="@/assets/icons/messages/message-avatar.png" alt="">
@@ -13,13 +13,13 @@
         <span class="date">{{ formattedTime(message.created) }}</span>
       </div>
     </div>
-    <div class="message-body">
-      {{ message.body }}
-    </div>
+    <div class="message-body" v-html="message.body"></div>
   </div>
 </template>
 
 <script setup>
+
+import useMobileDevice from '@/hooks/useMobileDevice';
 
 const props = defineProps({
   message: Object
@@ -42,6 +42,8 @@ const formattedTime = (dateString) => {
   return `${hours}:${minutes}`
 }
 
+const { isMobile } = useMobileDevice()
+
 </script>
 
 <style scoped lang="scss">
@@ -58,6 +60,7 @@ const formattedTime = (dateString) => {
   align-items: center;
   padding: 18px 74px 33px;
   color: $body-text-white;
+  font-family: $semi-bold;
 
   &_header {
     width: 100%;
@@ -66,23 +69,27 @@ const formattedTime = (dateString) => {
     justify-content: space-between;
     margin-bottom: 20px;
 
+    .empty,
+    .created,
+    .sender-name {
+      flex-basis: 0;
+      flex-grow: 1;
+    }
+
     .sender-name {
       display: flex;
       align-items: center;
 
       .name {
-        font-weight: 700;
-        font-size: 20px;
-        line-height: 24px;
+        font-size: 24px;
         margin-left: 14px;
       }
     }
 
     .created {
       display: flex;
-      font-weight: 500;
-      font-size: 12px;
-      line-height: 16px;
+      font-size: 16px;
+      justify-content: flex-end;
 
       .date {
         text-align: right;
@@ -95,10 +102,9 @@ const formattedTime = (dateString) => {
   }
 
   .message-body {
+    width: 100%;
     text-align: start;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 17px;
+    font-size: 16px;
   }
 }
 
@@ -113,24 +119,22 @@ const formattedTime = (dateString) => {
       align-items: center;
       justify-content: space-between;
       margin-bottom: 20px;
+      padding: 0;
 
       .sender-name {
         display: flex;
         align-items: center;
 
         .name {
-          font-weight: 700;
-          font-size: 14px;
-          line-height: 17px;
+          font-size: 16px;
           margin-left: 14px;
         }
       }
 
       .created {
         display: flex;
-        font-weight: 500;
+        flex-direction: column;
         font-size: 10px;
-        line-height: 12px;
 
         .date {
           text-align: right;
@@ -144,9 +148,7 @@ const formattedTime = (dateString) => {
 
     .message-body {
       text-align: start;
-      font-weight: 400;
-      font-size: 12px;
-      line-height: 14px;
+      font-size: 16px;
     }
   }
 }
