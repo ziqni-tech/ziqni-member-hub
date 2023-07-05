@@ -35,7 +35,6 @@
 <script setup>
 import { computed } from 'vue';
 import { useStore } from 'vuex';
-import {logPlugin} from "@babel/preset-env/lib/debug";
 const store = useStore();
 
 const props = defineProps({
