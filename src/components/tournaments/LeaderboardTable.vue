@@ -83,6 +83,7 @@ const setPlace = computed(() => (place) => {
   width: 100%;
   overflow-y: auto;
   font-family: $semi-bold;
+  padding: 14px 24px;
 
   &::-webkit-scrollbar {
     height: 5px;
@@ -152,9 +153,10 @@ table {
     }
 
     tr.active {
-      background: #2F0426;
+      background: #262C41;
       border-radius: 10px;
       position: relative;
+      box-shadow: 0 2px 12px 0 rgba(64, 106, 140, 0.50), 0 0 0 1px #406A8C;
     }
 
     td {
