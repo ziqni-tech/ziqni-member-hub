@@ -106,6 +106,7 @@ watch(countdownResult, (value) => {
   padding: 10px 34px;
   background-color: $light-grey;
   border-radius: $border-radius;
+  cursor: pointer;
 
   &__icon {
     width: 136px;
@@ -149,7 +150,7 @@ watch(countdownResult, (value) => {
   &__type {
     max-width: 170px;
     font-family: $semi-bold;
-    font-size: 14px;
+    font-size: 16px;
     color: $body-text-color;
     margin-bottom: 10px;
     white-space: nowrap;
@@ -257,9 +258,7 @@ watch(countdownResult, (value) => {
       cursor: default;
       border: none;
       padding: 5px;
-      font-weight: 500;
       font-size: 16px;
-      line-height: 19px;
       margin-bottom: 10px;
     }
 
@@ -269,9 +268,7 @@ watch(countdownResult, (value) => {
       background: $btn-gradient-color;
       color: $text-color-white;
       padding: 6px;
-      font-weight: 700;
-      font-size: 12px;
-      line-height: 14px;
+      font-size: 16px;
     }
   }
 }
