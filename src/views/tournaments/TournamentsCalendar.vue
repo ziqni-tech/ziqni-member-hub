@@ -1,5 +1,8 @@
 <template>
   <div class="text-center section">
+    <div class="spinner-container" v-if="!isLoaded">
+      <CSpinner color="dark"/>
+    </div>
     <calendar-view
         v-if="isLoaded"
         :items="competitions"
@@ -54,6 +57,7 @@ import { ApiClientStomp, CompetitionRequest, CompetitionsApiWs } from '@ziqni-te
 import useMobileDevice from '@/hooks/useMobileDevice';
 
 import { CFormSwitch } from '@coreui/vue';
+import { CSpinner } from '@coreui/vue'
 
 const router = useRouter();
 const showDate = ref(new Date());
@@ -179,6 +183,15 @@ const clickEvent = (val) => {
 <style lang="scss">
 @import 'src/assets/scss/_variables';
 
+.spinner-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  .spinner-border {
+    position: absolute;
+    top: 30%;
+  }
+}
 
 .previousPeriod,
 .nextPeriod {
