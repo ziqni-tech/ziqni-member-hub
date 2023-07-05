@@ -92,7 +92,7 @@ onMounted(() => {
   getCompetitionsRequest();
 });
 
-const displayPeriodUpdate = (e,b) => {
+const displayPeriodUpdate = () => {
   isWeekPeriod = !isWeekPeriod;
   if (isWeekPeriod) {
     displayPeriod.value = 'week';
