@@ -27,7 +27,7 @@
 <script setup>
 import Leaderboard from '../../components/tournaments/LeaderboardTable.vue';
 import TournamentDetailsCard from '../../components/tournaments/TournamentDetailsCard';
-import { onUnmounted, ref, onMounted, onBeforeUnmount } from 'vue';
+import { onUnmounted, ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import Loader from '../../components/Loader';
