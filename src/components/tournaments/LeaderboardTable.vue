@@ -50,8 +50,6 @@ const isCurrentUser = (item) => {
 }
 
 const memberName = (item) => {
-  console.log('item:', item);
-  console.log('member:', member.value);
   return item.memberRefId === member.value.memberRefId ? 'You' : item.name;
 }
 
@@ -96,16 +94,22 @@ const setPlace = computed(() => (place) => {
   position: sticky;
   top: 0;
   z-index: 3;
+  background-color: $dark-grey;
 }
 
 table {
   width: 100%;
   color: $text-color-white;
 
-  td:first-child { border-top-left-radius: 10px; }
-  td:first-child {  border-bottom-left-radius: 10px; }
-  td:last-child { border-top-right-radius: 10px; }
-  td:last-child { border-bottom-right-radius: 10px; }
+  td:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+
+  td:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
 
   th {
     border: none;
@@ -148,8 +152,9 @@ table {
     }
 
     tr.active {
-      background: #40748C;
-      box-shadow: 0 2px 12px rgba(64, 106, 140, 0.5);
+      background: #2F0426;
+      border-radius: 10px;
+      position: relative;
     }
 
     td {
