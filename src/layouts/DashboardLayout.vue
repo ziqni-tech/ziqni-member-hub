@@ -61,6 +61,7 @@ const closeProfileInfo = () => {
 }
 
 onMounted(async () => {
+  ApiClientStomp.instance.client.debug = () => {};
   await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
   await store.dispatch('setIsConnectedClient', true);
 });
