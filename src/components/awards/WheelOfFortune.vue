@@ -125,6 +125,7 @@ const createSvg = () => {
       .attr('font-size', '16px')
       .attr('height', '100%')
       .attr('width', '100%')
+      .attr('filter', 'drop-shadow(0px 2px 17px rgba(64, 106, 140, 0.82))')
       .attr(
           'viewBox',
           `0 0 ${ wheelSize.value.width + margin.value * 2 } ${
@@ -386,7 +387,7 @@ const spin = async () => {
                     isGiftSection(i + 1) ? '#c077ee' : '#8749DC'
                 )
                 .attr('filter', (d, i) =>
-                    isGiftSection(i + 1) ? 'none' : 'url(#shadow)'
+                    isGiftSection(i + 1) ? 'none' : 'blur(5px)'
                 );
             // Move the prize section to the front
             const prizeNode = sections.nodes()[prizeSection];

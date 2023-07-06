@@ -19,7 +19,7 @@
           @click="$router.go(-1)"
           v-if="isGoBackBtn"
       >
-        <img src="../assets/icons/back_arrow.png" alt="">
+        <img src="@/assets/icons/back_arrow.png" alt="">
       </button>
       <button v-if="!isGoBackBtn" class="btn">
         <img src="@/assets/icons/user-info/notification.png" alt="">
