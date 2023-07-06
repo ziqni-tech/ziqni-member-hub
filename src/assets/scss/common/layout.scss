@@ -41,9 +41,10 @@
       align-items: center;
       justify-content: center;
       background: none;
+      color: $text-color-white;
 
       > img {
-        width: 6px;
+        width: 10px;
         height: 14px;
       }
     }
