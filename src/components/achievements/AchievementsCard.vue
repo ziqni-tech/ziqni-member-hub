@@ -129,7 +129,7 @@ const goToAchievementDetails = () => {
 
   .top-section {
     display: flex;
-    border-bottom: 1px solid $border-dark;
+    border-bottom: 1px solid $btn-border-grey;
     padding-bottom: 14px;
   }
 
@@ -140,7 +140,7 @@ const goToAchievementDetails = () => {
       width: 74px;
       height: 74px;
       border-radius: $border-radius-round;
-      border: 1px solid $border-dark;
+      border: 1px solid $btn-border-grey;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -206,8 +206,6 @@ const goToAchievementDetails = () => {
 
       font-size: 16px;
       font-family: $semi-bold;
-      color: $text-color-white;
-
       color: $text-color-white;
 
       > img {

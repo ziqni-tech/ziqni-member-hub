@@ -25,7 +25,7 @@ const props = defineProps({
   flex-direction: column;
   align-items: center;
   position: relative;
-  border: 1px solid $border-dark;
+  border: 1px solid $btn-border-grey;
   border-radius: 10px;
   padding: 33px 15px 10px;
   background-color: $dark-grey;
@@ -35,7 +35,7 @@ const props = defineProps({
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    border: 1px solid $border-dark;
+    border: 1px solid $btn-border-grey;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -61,16 +61,17 @@ const props = defineProps({
     flex-direction: column;
     align-items: center;
     position: relative;
-    border: 1px solid $border-dark;
+    border: 1px solid $btn-border-grey;
     border-radius: 10px;
     padding: 33px 15px 10px;
     background-color: $dark-grey;
+    font-family: $semi-bold;
 
     .item-icon {
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      border: 1px solid $border-dark;
+      border: 1px solid $btn-border-grey;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -80,9 +81,7 @@ const props = defineProps({
     }
 
     .info-title {
-      font-weight: 500;
-      font-size: 12px;
-      line-height: 14px;
+      font-size: 14px;
       color: $body-text-color;
     }
 

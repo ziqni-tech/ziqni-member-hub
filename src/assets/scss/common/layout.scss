@@ -21,7 +21,7 @@
     .btn {
       padding: 10px;
       border-radius: 5px;
-      border: 1px solid rgba(230, 230, 230, 0.2);
+      border: 1px solid $btn-border-grey;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -36,7 +36,7 @@
       width: 36px;
       height: 36px;
       border-radius: 5px;
-      border: 1px solid rgba(230, 230, 230, 0.2);
+      border: 1px solid $btn-border-grey;
       display: flex;
       align-items: center;
       justify-content: center;

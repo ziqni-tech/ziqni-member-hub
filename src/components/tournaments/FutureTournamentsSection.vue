@@ -242,6 +242,7 @@ const seeAll = async () => {
   .calendar-btn {
     cursor: pointer;
     margin: 8px 0 10px;
+    border-color: $btn-border-grey;
   }
 }
 </style>

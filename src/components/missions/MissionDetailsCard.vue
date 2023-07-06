@@ -435,7 +435,7 @@ const closeModal = () => {
 
 .graph {
   margin: 20px auto 0;
-  border: 1px solid $dark-blue;
+  border: 1px solid $btn-border-grey;
   border-radius: $border-radius;
   max-width: 840px;
   height: 400px;
@@ -487,7 +487,7 @@ const closeModal = () => {
       height: 30px;
       border-radius: $border-radius-sm;
       background: none;
-      border: 1px solid $dark-blue;
+      border: 1px solid $btn-border-grey;
       color: $text-color-white;
     }
   }
@@ -524,7 +524,7 @@ const closeModal = () => {
       }
 
       .read-more {
-        border-bottom: 1px solid $dark-blue;
+        border-bottom: 1px solid $btn-border-grey;
       }
 
       .prize_data {
