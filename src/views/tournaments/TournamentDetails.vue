@@ -360,6 +360,7 @@ const goToCalendar = () => {
 
   .calendar-btn {
     cursor: pointer;
+    border: 1px solid $btn-border-grey;
   }
 }
 
@@ -376,7 +377,7 @@ const goToCalendar = () => {
     display: flex;
     width: 50%;
     margin-left: 12px;
-    border: 1px solid $border-dark;
+    border: 1px solid $btn-border-grey;
     border-radius: 10px;
   }
 }

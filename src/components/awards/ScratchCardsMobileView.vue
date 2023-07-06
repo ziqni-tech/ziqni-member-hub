@@ -216,7 +216,7 @@ const scratching = () => {
   ctx.globalCompositeOperation = 'destination-out';
   ctx.lineJoin = 'round';
   ctx.lineCap = 'round';
-  ctx.lineWidth = '30';
+  ctx.lineWidth = '20';
   ctx.beginPath();
   ctx.moveTo(x, y);
   ctx.lineTo(offsetX, offsetY);

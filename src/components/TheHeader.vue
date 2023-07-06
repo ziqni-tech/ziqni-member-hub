@@ -50,7 +50,7 @@ const isGoBackBtn = computed(() => {
   width: 85%;
   padding: 15px;
   background-color: $dark-grey;
-  border-bottom: 1px solid $border-dark;
+  border-bottom: 1px solid $btn-border-grey;
   position: fixed;
   z-index: 5;
 
@@ -60,7 +60,7 @@ const isGoBackBtn = computed(() => {
   .go-back {
     margin-right: auto;
     border-radius: $border-radius-sm;
-    border: 1px solid $border-dark;
+    border: 1px solid $btn-border-grey;
     margin-left: 10px;
     padding: 7px 15px;
     cursor: pointer;
@@ -78,7 +78,7 @@ const isGoBackBtn = computed(() => {
 
       .btn {
         border-radius: $border-radius-sm;
-        border: 1px solid $border-dark;
+        border: 1px solid $btn-border-grey;
 
         &:nth-child(n + 2) {
           margin-left: 10px;
