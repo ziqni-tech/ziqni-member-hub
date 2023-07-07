@@ -351,8 +351,8 @@ const getAchievementRequest = async (entityId) => {
       skip: 0,
       limit: 1,
       statusCode: {
-        moreThan: 20,
-        lessThan: 30
+        moreThan: -5,
+        lessThan: 130
       },
       constraints: []
     },
