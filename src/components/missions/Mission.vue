@@ -28,7 +28,7 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import { useCountdown } from '@/hooks/useCountdown';
-import missionImage from '@/assets/images/missions/mission.png';
+import missionImage from '@/assets/images/missions/mission.svg';
 import { ref, watch } from 'vue';
 
 const props = defineProps({

@@ -186,9 +186,14 @@ const getEntityContests = async () => {
         }
       }
 
-      const activeContests = contests.filter(contest => contest.status === 'Active')
+      const activeContests = contests.filter(contest => contest.status === 'Active');
       contest.value = activeContests[0];
-      if (contest.value && contest.value.status === "Active") await getEntityLeaderboard(contest.value.id);
+
+      if (contest.value && contest.value.status === 'Active') {
+        await getEntityLeaderboard(contest.value.id);
+      } else {
+        leaderboardEntries.value = defLeaders;
+      }
     } else {
       leaderboardEntries.value = defLeaders;
       console.warn('This competition has no contests');
