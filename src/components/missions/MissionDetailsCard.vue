@@ -4,11 +4,7 @@
       <button class="card-header_btn" @click="goBack">
         <img src="@/assets/icons/back_arrow.png" alt="">
       </button>
-      <button v-if="isReadMore" class="card-header_btn" @click="goToInfo">i</button>
-      <div v-if="!isInfo && !isReadMore && !isMobile" class="prize">
-        <img v-if="mission.rewardIcon" :src="mission.rewardIcon" alt="">
-        <div class="prize-value">{{ mission.rewardValue }}</div>
-      </div>
+      <button class="card-header_btn" @click="goToInfo">i</button>
     </div>
     <div class="mobile-mission-icon" v-if="isMobile">
       <img :src="missionIcon" alt="">
@@ -19,34 +15,18 @@
       </div>
       <div v-if="mission" class="mission-data">
         <h2 class="mission-data__title">{{ mission.name }}</h2>
-        <div v-if="isReadMore" class="mission-data__description" :class="{'read-more': isReadMore}">
+        <div v-if="!isInfo" class="mission-data__description read-more">
           <span class="description_title">Description </span>
           <span class="description_text">{{ removeHTMLTags(mission.description) }}</span>
         </div>
-        <div class="prize_data" v-if="isReadMore">
+        <div class="prize_data" v-if="!isInfo">
           prize: <img src="@/assets/icons/tournament/prize.png" alt=""> {{ mission.rewardValue }}
         </div>
         <div class="mission-data__description" v-if="isInfo">
           <span class="description_title">Terms & Conditions</span>
           <span class="description_text">{{ removeHTMLTags(mission.termsAndConditions) }}</span>
         </div>
-        <CButton v-if="!isReadMore && !isInfo && !isMobile" class="m-btn register-btn" @click="readMore">
-          <span class="b-btn__text">read more</span>
-        </CButton>
       </div>
-    </div>
-    <div
-        v-if="!isInfo && !isReadMore && isMobile"
-        class="bottom-section"
-        :class="{'space-between': !isInfo && !isReadMore && isMobile}"
-    >
-      <div class="prize">
-        <img v-if="mission.rewardIcon" :src="mission.rewardIcon" alt="">
-        <div class="prize-value">{{ mission.rewardValue }}</div>
-      </div>
-      <CButton v-if="!isReadMore && !isInfo" class="m-btn register-btn" @click="readMore">
-        <span class="b-btn__text">read more</span>
-      </CButton>
     </div>
   </div>
   <v-network-graph
@@ -67,7 +47,6 @@
 
 <script setup>
 import { ref, onBeforeMount, watch, reactive } from 'vue';
-import { CButton } from '@coreui/vue';
 import { useStore } from 'vuex';
 import {
   AchievementRequest,
@@ -89,8 +68,7 @@ const emit = defineEmits(['joinMission', 'leaveMission']);
 
 const store = useStore();
 
-const isReadMore = ref(false)
-const isInfo = ref(false)
+const isInfo = ref(false);
 const route = useRoute();
 const nodeSize = 40;
 const isGraphLoaded = ref(false);
@@ -162,8 +140,8 @@ const getMissionRequest = async () => {
       skip: 0,
       limit: 1,
       statusCode: {
-        moreThan: 20,
-        lessThan: 30
+        moreThan: -5,
+        lessThan: 130
       },
       constraints: []
     },
@@ -385,25 +363,17 @@ watch(result, (currentValue, oldValue) => {
 //   });
 // };
 
-const readMore = () => {
-  isReadMore.value = true
-}
-
 const router = useRouter()
 
 const goBack = () => {
   if (isInfo.value === true) {
     isInfo.value = false
-    isReadMore.value = true
-  } else if (isReadMore.value === true) {
-    isReadMore.value = false
   } else {
     router.back()
   }
 }
 
 const goToInfo = () => {
-  isReadMore.value = false
   isInfo.value = true
 }
 
