@@ -19,6 +19,7 @@
     <div id="mobile-layout-main-block">
       <Dashboard />
     </div>
+    <BlazzioMobileNav />
     <MobileNav />
   </div>
   <UserProfileMobile
@@ -41,6 +42,7 @@ import Dashboard from '@/views/Dashboard';
 import useMobileDevice from '@/hooks/useMobileDevice';
 import MobileNav from '@/components/sidebar/MobileNav.vue';
 import UserProfileMobile from '@/components/user-profile/UserProfileMobile.vue';
+import BlazzioMobileNav from "@/components/sidebar/BlazzioMobileNav.vue";
 
 const router = useRouter();
 

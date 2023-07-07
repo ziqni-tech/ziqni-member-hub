@@ -14,19 +14,21 @@
         >
       </div>
     </div>
+    <BlazzioNavigation :nav-items="blazzioNav" />
     <SidebarNav :nav-items="sidebarNav" />
     <LogoutItem class="logout" @logOut="logOut" />
   </div>
 </template>
 
 <script setup>
-import { CSidebar } from '@coreui/vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { computed } from 'vue';
 
 import sidebarNav from './sidebarNav';
+import blazzioNav from './blazzioNav';
 import SidebarNav from '@/components/sidebar/SidebarNav.vue';
+import BlazzioNavigation from '@/components/sidebar/BlazzioNavigation';
 import LogoutItem from '@/components/sidebar/LogoutItem';
 
 const router = useRouter();

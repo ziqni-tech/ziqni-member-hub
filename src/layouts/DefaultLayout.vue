@@ -33,6 +33,7 @@
         <router-view />
       </div>
     </div>
+    <BlazzioMobileNav />
     <MobileNav />
     <UserProfileMobile
         v-if="isClientConnected"
@@ -57,6 +58,7 @@ import MobileNav from '@/components/sidebar/MobileNav';
 import ToggleTheme from '@/shared/components/ToggleTheme';
 import useMobileDevice from '@/hooks/useMobileDevice';
 import UserProfileMobile from '@/components/user-profile/UserProfileMobile.vue';
+import BlazzioMobileNav from "@/components/sidebar/BlazzioMobileNav.vue";
 
 const router = useRouter();
 const store = useStore();
