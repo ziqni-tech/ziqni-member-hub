@@ -65,14 +65,14 @@ const goToMissionsMapPage = () => {
 .m-card {
   background-color: $light-grey;
 
-  .m-card-image > img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
   .m-card-image {
     position: relative;
+
+    > img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 
     .expires-in {
       position: absolute;
