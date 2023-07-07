@@ -9,7 +9,7 @@
     </div>
     <div class="tournament-details">
       <div class="leaderboard-table" v-if="leaderboardEntries">
-        <Leaderboard v-if="contest" :leaders="leaderboardEntries" :prize="contest.rewardValue"/>
+        <Leaderboard :leaders="leaderboardEntries" :prize="contest && contest.rewardValue ? contest.rewardValue : 0"/>
       </div>
       <div class="details">
         <TournamentDetailsCard
@@ -62,6 +62,27 @@ const tournamentRequestData = {
   skip: 0,
   ids
 };
+
+const defLeaders = [];
+for (let i = 0; i < 14; i++) {
+  const rank = i + 1;
+  defLeaders.push({
+    'rank': rank,
+    'score': 0,
+    'bestScores': [],
+    'members': [
+      {
+        'name': '--',
+        'memberId': '--',
+        'memberRefId': '--',
+        'rankChangeFrom': null,
+        'rankChangeType': 0,
+        'params': {},
+        'goalReached': false
+      }
+    ]
+  });
+}
 
 onMounted(async () => {
   await getCompetition()
@@ -169,6 +190,7 @@ const getEntityContests = async () => {
       contest.value = activeContests[0];
       if (contest.value && contest.value.status === "Active") await getEntityLeaderboard(contest.value.id);
     } else {
+      leaderboardEntries.value = defLeaders;
       console.warn('This competition has no contests');
     }
 
@@ -207,13 +229,13 @@ const getEntityLeaderboard = async (contestId) => {
   ApiClientStomp.instance.sendSys('', {}, (json, headers) => {
     if (headers && headers.objectType === 'Leaderboard') {
       if (json.id && json.id === contestId) {
-        leaderboardEntries.value = json.leaderboardEntries
+        leaderboardEntries.value = json.leaderboardEntries.length ? json.leaderboardEntries : defLeaders;
       }
     }
   })
 
   await apiLeaderboardWsClient.subscribeToLeaderboard(leaderboardSubscriptionRequest, (res) => {
-    leaderboardEntries.value = res.data.leaderboardEntries
+    leaderboardEntries.value = res.data.leaderboardEntries.length ? res.data.leaderboardEntries : defLeaders;
   });
 }
 
@@ -379,6 +401,7 @@ const goToCalendar = () => {
     margin-left: 12px;
     border: 1px solid $btn-border-grey;
     border-radius: 10px;
+    overflow: hidden;
   }
 }
 

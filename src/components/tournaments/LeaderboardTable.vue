@@ -78,15 +78,19 @@ const setPlace = computed(() => (place) => {
   display: flex;
   flex-direction: column;
   height: 100%;
-  max-height: 73%;
+  max-height: 690px;
   width: 100%;
   overflow-y: auto;
   font-family: $semi-bold;
-  padding: 14px 24px;
+  padding: 0 24px 14px 24px;
 
   &::-webkit-scrollbar {
-    height: 5px;
-    width: 0;
+    width: 4px;
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #262a3a;
   }
 }
 
@@ -119,6 +123,7 @@ table {
     font-size: 16px;
     line-height: 17px;
     padding-bottom: 15px;
+    padding-top: 15px;
   }
 
   th.rank {
