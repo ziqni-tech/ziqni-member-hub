@@ -192,6 +192,7 @@ const getOptInStatus = async (ids) => {
   width: 100%;
   height: 100%;
   transition: right 0.3s ease-in-out;
+  z-index: 10;
 
   .background-block {
     display: flex;
