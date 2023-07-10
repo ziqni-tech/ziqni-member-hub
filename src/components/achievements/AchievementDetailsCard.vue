@@ -58,7 +58,7 @@
 
 <script setup>
 
-import defaultIcon from '@/assets/icons/achievements/book.png';
+import defaultIcon from '@/assets/icons/achievements/book.svg';
 import { computed, ref, toRef, watch } from 'vue';
 import Modal from '@/shared/components/Modal.vue';
 import diamondIcon from '@/assets/icons/achievements/diamond.png';
@@ -157,14 +157,34 @@ const handleButtonClick = async () => {
   }
 
   .icon {
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     padding-top: 20px;
+    border-radius: $border-radius-round;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid $btn-border-grey;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+
+      background: radial-gradient(50% 50% at 50% 50%, #38ACCF 0%, rgba(56, 172, 207, 0) 100%);
+      opacity: 0.5;
+      filter: blur(37.5px);
+    }
 
     > img {
-      width: inherit;
-      height: inherit;
-      object-fit: cover;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      height: 90%;
     }
   }
 
@@ -310,11 +330,30 @@ const handleButtonClick = async () => {
       width: 100px;
       height: 100px;
       padding-top: 20px;
+      border-radius: $border-radius-round;
+      position: relative;
+      overflow: hidden;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+
+        background: radial-gradient(50% 50% at 50% 50%, #38ACCF 0%, rgba(56, 172, 207, 0) 100%);
+        opacity: 0.5;
+        filter: blur(37.5px);
+      }
 
       > img {
-        width: inherit;
-        height: inherit;
-        object-fit: cover;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        height: 90%;
       }
     }
 

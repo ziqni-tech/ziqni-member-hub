@@ -149,7 +149,11 @@ const getMissionRequest = async () => {
 
   achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
     missions.value = res.data;
-    missionIcon.value = res.data[0].iconLink
+
+    if (res.data[0].iconLink) {
+      missionIcon.value = res.data[0].iconLink
+    }
+
     getEntityRewards();
   });
 };
@@ -472,6 +476,8 @@ const closeModal = () => {
       display: flex;
       align-items: center;
       justify-content: center;
+      border-radius: $border-radius-round;
+      overflow: hidden;
 
       & > img {
         width: 100%;
@@ -556,6 +562,8 @@ const closeModal = () => {
       align-items: center;
       justify-content: center;
       margin: auto;
+      border-radius: $border-radius-round;
+      overflow: hidden;
 
       > img {
         width: 100%;
