@@ -51,7 +51,7 @@ const getIconStrokeColor = (item) => {
     width: 100%;
     padding: 8px 13px;
     border-radius: 10px;
-    max-width: 130px;
+    max-width: 140px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;

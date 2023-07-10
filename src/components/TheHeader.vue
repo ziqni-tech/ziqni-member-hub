@@ -15,7 +15,7 @@
       <div class="user-actions-profile">
         <span class="user-name">{{ member.name }}</span>
         <div class="user-image">
-          <img src="@/assets/images/user/avatar.png" alt="">
+          <img :src="member.iconLink ? member.iconLink : memberDefaultIcon" alt="">
         </div>
       </div>
     </div>
@@ -30,6 +30,7 @@ import { useRouter } from 'vue-router';
 import notificationIcon from '@/assets/icons/user-info/notification.png';
 import sunIcon from '@/assets/icons/user-info/sun.png';
 import ToggleTheme from '@/shared/components/ToggleTheme.vue';
+import memberDefaultIcon from '@/assets/images/user/avatar.png'
 
 const store = useStore();
 const member = computed(() => store.getters.getMember);
@@ -101,14 +102,17 @@ const isGoBackBtn = computed(() => {
         width: 37px;
         height: 37px;
         border-radius: $border-radius-round;
+        border: 1px solid $btn-border-grey;
         display: flex;
         align-items: center;
         justify-content: center;
+        overflow: hidden;
 
-        & > img {
+        > img {
           width: 100%;
           height: 100%;
           object-fit: contain;
+          border: none;
         }
       }
     }

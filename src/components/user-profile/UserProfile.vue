@@ -9,7 +9,7 @@
     <div class="user-info">
       <div class="user-image-wrapper">
         <div class="user-image">
-          <img src="@/assets/images/user/avatar.png" alt="">
+          <img :src="member.iconLink ? member.iconLink : memberDefaultIcon" alt="">
         </div>
       </div>
       <div class="user-name">{{ member.name }}</div>
@@ -48,7 +48,7 @@
 
 <script setup>
 import notificationIcon from '@/assets/icons/user-info/notification.png';
-import {computed, onMounted, ref} from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import ProfileInfoCircleProgress from './ProfileInfoCircleProgress';
 import ToggleTheme from '@/shared/components/ToggleTheme.vue';
@@ -59,6 +59,7 @@ import {
   OptInApiWs,
   OptInStatesRequest
 } from '@ziqni-tech/member-api-client';
+import memberDefaultIcon from "@/assets/images/user/avatar.png";
 
 const store = useStore();
 
@@ -132,7 +133,7 @@ const getOptInStatus = async (ids) => {
         lt: 40
       },
       skip: 0,
-      limit: 10
+      limit: 20
     }
   }, null);
 
@@ -223,6 +224,13 @@ const getOptInStatus = async (ids) => {
         border-radius: 50%;
         border: 4px solid $border-dark;
         background-color: $body-text-color;
+        overflow: hidden;
+
+        > img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
       }
     }
 
