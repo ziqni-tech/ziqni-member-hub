@@ -1,9 +1,10 @@
 <template>
   <AchievementDetailsCard
-      v-if="isLoaded"
-      :achievement="achievement"
-      @joinAchievement="joinAchievement"
-      @leaveAchievement="leaveAchievement"
+    :key="updateKey"
+    v-if="isLoaded"
+    :achievement="achievement"
+    @joinAchievement="joinAchievement"
+    @leaveAchievement="leaveAchievement"
   />
 </template>
 
@@ -31,6 +32,7 @@ const ids = [route.params.id];
 const isLoaded = ref(false);
 const achievements = ref([]);
 const achievement = ref({});
+const updateKey = ref(0);
 const store = useStore();
 
 onMounted(() => {
@@ -147,15 +149,10 @@ const joinAchievement = async ({ id, name }) => {
   }, null);
 
   await optInApiWsClient.manageOptin(optInRequest, async (res) => {
-    if (res.data) {
-      // const message = `You successfully joined the ${ name } tournament`;
-      // store.dispatch('setAlertMessage', message);
-      await ApiClientStomp.instance.sendSys('', {}, async (res, headers) => {
-        if (res.entityId && res.entityId === id && headers.objectType === "EntityStateChanged") {
-          await getAchievementsRequest();
-        }
-      })
-    }
+    setTimeout(async function () {
+      await getAchievementsRequest();
+      updateKey.value++
+    }, 2000);
   });
 };
 
@@ -170,15 +167,10 @@ const leaveAchievement = async ({ id, name }) => {
 
 
   await optInApiWsClient.manageOptin(optInRequest, async (res) => {
-    if (res.data) {
-      // const message = `You successfully leaved the ${ name } tournament`;
-      // store.dispatch('setAlertMessage', message);
-      await ApiClientStomp.instance.sendSys('', {}, async (res, headers) => {
-        if (res.entityId && res.entityId === id && headers.objectType === "EntityStateChanged") {
-          await getAchievementsRequest();
-        }
-      })
-    }
+    setTimeout(async function () {
+      await getAchievementsRequest();
+      updateKey.value++
+    }, 2000);
   });
 };
 
