@@ -1,5 +1,8 @@
 <template>
   <div class="achievements-details-card">
+    <div class="spinner-wrapper-global" v-if="isLoading">
+      <CSpinner grow size="sm"/>
+    </div>
     <div class="title">
       {{ achievement.name }}
     </div>
@@ -63,6 +66,7 @@ import { computed, ref, toRef, watch } from 'vue';
 import Modal from '@/shared/components/Modal.vue';
 import diamondIcon from '@/assets/icons/achievements/diamond.png';
 import { removeHTMLTags } from '@/utils/removeHTMLTags';
+import { CSpinner } from "@coreui/vue";
 
 const props = defineProps({
   achievement: Object
@@ -103,10 +107,12 @@ const closeModal = () => {
 };
 
 const join = () => {
+  isLoading.value = true;
   emit('joinAchievement', {id: achievement.value.id, name: achievement.value.name});
 };
 
 const leave = () => {
+  isLoading.value = true;
   emit('leaveAchievement', {id: achievement.value.id, name: achievement.value.name});
   leaveModal.value = false;
 };
@@ -144,7 +150,7 @@ const handleButtonClick = async () => {
   align-items: center;
   margin: auto;
   font-family: $semi-bold;
-
+  position: relative;
 
   .title {
     font-size: 37px;

@@ -79,6 +79,7 @@ li {
   height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 @media screen and (max-width: $tableWidth) {
@@ -111,6 +112,16 @@ li {
     width: 80px;
     height: 80px;
   }
+}
+
+.spinner-wrapper-global {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 21, 0.25);
 }
 
 .section-header {

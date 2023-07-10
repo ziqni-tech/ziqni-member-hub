@@ -49,6 +49,9 @@
       </div>
     </div>
     <div class="content-wrapper">
+      <div class="spinner-wrapper-global" v-if="isLoading">
+        <CSpinner grow size="sm"/>
+      </div>
       <div :class="isDashboard ? 'achievements-dashboard-cards-grid' : 'achievements-cards-grid'">
         <div v-for="achievement in achievementsData" :key="achievement.id">
           <AchievementsCard
@@ -83,7 +86,7 @@ import {
   OptInStatesRequest,
   RewardsApiWs
 } from '@ziqni-tech/member-api-client';
-import { CNav, CNavLink } from '@coreui/vue';
+import {CNav, CNavLink, CSpinner} from '@coreui/vue';
 
 import { useCountdown } from '@/hooks/useCountdown';
 import AchievementsCard from './AchievementsCard';
@@ -171,7 +174,14 @@ const updateRemainingTimeUntilEndOfMonth = () => {
 };
 
 
-onMounted(updateRemainingTimeUntilEndOfMonth);
+onMounted(() => {
+  updateRemainingTimeUntilEndOfMonth();
+  ApiClientStomp.instance.sendSys('', {}, async (json, headers) => {
+    if (json && json.entityType === 'Achievement') {
+      await getAchievementsRequest();
+    }
+  })
+});
 watch(activeTabKey, (newValue) => {
   if (newValue === 'monthly') {
     updateRemainingTimeUntilEndOfMonth();
@@ -331,27 +341,26 @@ const getEntityRewards = async (ids) => {
 const joinAchievement = async ({ id, name }) => {
   const optInApiWsClient = new OptInApiWs(ApiClientStomp.instance);
 
+  isLoading.value = true;
+
   const optInRequest = ManageOptinRequest.constructFromObject({
     entityId: id,
     entityType: 'Achievement',
     action: 'join'
   }, null);
 
-  await optInApiWsClient.manageOptin(optInRequest, async (res) => {
-    if (res.data) {
-      // const message = `You successfully joined the ${ name } tournament`;
-      // store.dispatch('setAlertMessage', message);
-      await ApiClientStomp.instance.sendSys('', {}, async (res, headers) => {
-        if (res.entityId && res.entityId === id && headers.objectType === "EntityStateChanged") {
-          await getAchievementsRequest();
-        }
-      })
-    }
+  await optInApiWsClient.manageOptin(optInRequest, async () => {
+    setTimeout(async function () {
+      await getAchievementsRequest();
+      isLoading.value = false;
+    }, 2000);
   });
 };
 
 const leaveAchievement = async ({ id, name }) => {
   const optInApiWsClient = new OptInApiWs(ApiClientStomp.instance);
+
+  isLoading.value = true;
 
   const optInRequest = ManageOptinRequest.constructFromObject({
     entityId: id,
@@ -359,14 +368,11 @@ const leaveAchievement = async ({ id, name }) => {
     action: 'leave'
   }, null);
 
-  await optInApiWsClient.manageOptin(optInRequest, async (res) => {
-    if (res.data) {
-      await ApiClientStomp.instance.sendSys('', {}, async (res, headers) => {
-        if (res.entityId && res.entityId === id && headers.objectType === "EntityStateChanged") {
-          await getAchievementsRequest();
-        }
-      })
-    }
+  await optInApiWsClient.manageOptin(optInRequest, async () => {
+    setTimeout(async function () {
+      await getAchievementsRequest();
+      isLoading.value = false;
+    }, 2000);
   });
 };
 
@@ -383,7 +389,7 @@ onMounted(() => {
 
 <style lang="scss">
 @import '@/assets/scss/_variables';
-
+.spinner-wrapper
 .until-the-next-day {
   background-color: $light-grey;
   border-radius: $border-radius;
