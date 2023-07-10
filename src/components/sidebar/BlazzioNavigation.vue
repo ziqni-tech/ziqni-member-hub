@@ -47,7 +47,7 @@ const getIconStrokeColor = (item) => {
   }
 
   .nav-item {
-    font-family: $semi-bold;
+    font-family: $mainFont;
     width: 100%;
     padding: 8px 13px;
     border-radius: 10px;

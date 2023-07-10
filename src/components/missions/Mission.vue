@@ -187,6 +187,11 @@ const goToMissionsMapPage = () => {
         border: none;
         min-height: 35px;
         margin-bottom: 5px;
+
+        > img {
+          height: 25px;
+          object-fit: cover;
+        }
       }
 
       .go-button {

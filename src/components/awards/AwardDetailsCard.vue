@@ -112,10 +112,10 @@ const handleButtonClick = async () => {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     padding: 20px 0;
-    border-radius: 100px;
+    border-radius: 50%;
     position: relative;
 
     &::before {

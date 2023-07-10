@@ -50,7 +50,7 @@ import { computed, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
 import Modal from '@/shared/components/Modal.vue';
-import defaultIcon from '@/assets/icons/achievements/book.png'
+import defaultIcon from '@/assets/icons/achievements/book.svg'
 import router from '@/router';
 import diamondIcon from '@/assets/icons/achievements/diamond.png';
 
@@ -144,6 +144,28 @@ const goToAchievementDetails = () => {
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
+      position: relative;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+
+        background: radial-gradient(50% 50% at 50% 50%, #38ACCF 0%, rgba(56, 172, 207, 0) 100%);
+        opacity: 0.5;
+        filter: blur(37.5px);
+      }
+
+      > img {
+        width: 100%;
+        height: 100%;
+        border-radius: $border-radius-round;
+        object-fit: contain;
+      }
     }
   }
 

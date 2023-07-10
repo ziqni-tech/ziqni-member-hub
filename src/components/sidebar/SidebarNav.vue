@@ -32,7 +32,7 @@ const getIconStrokeColor = (item) => {
 @import 'src/assets/scss/_variables';
 
 .nav-item {
-  font-family: $semi-bold;
+  font-family: $mainFont;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -71,6 +71,7 @@ const getIconStrokeColor = (item) => {
 
   > .router-link-active {
     color: $text-color-white;
+    font-family: $semi-bold;
 
     &:before {
       left: -20px;

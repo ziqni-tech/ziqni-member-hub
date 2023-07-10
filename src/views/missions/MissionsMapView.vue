@@ -22,7 +22,7 @@
         <circle
             class="face-circle"
             :r="config.radius * scale"
-            fill="#ffffff"
+            fill="#262C41"
             v-bind="slotProps"
         />
         <!--
