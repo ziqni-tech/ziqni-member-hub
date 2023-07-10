@@ -11,7 +11,7 @@
     <div class="user-info">
       <div class="user-image-wrapper">
         <div class="user-image">
-          <img src="../../assets/images/user/avatar.png" alt="">
+          <img :src="member.iconLink ? member.iconLink : memberDefaultIcon" alt="">
         </div>
       </div>
       <div class="user-name">{{ member.name }}</div>
@@ -68,6 +68,7 @@ import {
   OptInApiWs,
   OptInStatesRequest
 } from "@ziqni-tech/member-api-client";
+import memberDefaultIcon from "@/assets/images/user/avatar.png";
 
 const store = useStore();
 const { isMobile } = useMobileDevice();
@@ -256,6 +257,13 @@ const getOptInStatus = async (ids) => {
         border-radius: 50%;
         border: 4px solid $border-dark;
         background-color: $body-text-color;
+        overflow: hidden;
+
+        > img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
       }
     }
 

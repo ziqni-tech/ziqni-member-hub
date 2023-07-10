@@ -69,8 +69,8 @@ const logOut = () => emit('logOut');
       align-items: center;
 
       .logo {
-        height: 28px;
-        width: 28px;
+        height: 20px;
+        width: 100px;
         margin-right: 15px;
       }
 
