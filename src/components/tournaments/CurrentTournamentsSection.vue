@@ -226,6 +226,9 @@ const pageChange = async (pageNumber) => {
 
 <style scoped lang="scss">
 @import "@/assets/scss/_variables";
+.section {
+  padding: 20px 16px 20px 0;
+}
 .tournaments-section-header-wrapper {
   width: 100%;
   display: flex;
@@ -250,6 +253,12 @@ const pageChange = async (pageNumber) => {
     cursor: pointer;
     margin: 8px 0 10px;
     border-color: $btn-border-grey;
+  }
+}
+
+@media screen and (max-width: 820px) {
+  .section {
+    padding: 0;
   }
 }
 </style>

@@ -145,10 +145,21 @@ const goToInfo = () => {
   flex-direction: column;
 
   width: 100%;
+  height: 100%;
+  max-height: 92vh;
+  overflow-y: auto;
   background-color: $light-grey;
   border-radius: $border-radius;
-  overflow: hidden;
   font-family: $semi-bold;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #262a3a;
+  }
 
   .info_btn {
     width: 30px;
@@ -194,7 +205,7 @@ const goToInfo = () => {
     .tournament-title {
       color: $text-color-white;
       font-size: 37px;
-      margin-bottom: 30px;
+      margin: 30px 0;
     }
 
     .countdown {
@@ -256,7 +267,6 @@ const goToInfo = () => {
       border-radius: $border-radius;
       width: 35%;
       padding: 10px 0;
-      margin-top: auto;
     }
   }
 }
@@ -272,6 +282,7 @@ const goToInfo = () => {
     border-radius: $border-radius;
     overflow: hidden;
     font-style: normal;
+    max-height: 100%;
 
     .card-banner {
       position: relative;

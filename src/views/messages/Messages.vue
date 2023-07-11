@@ -1,20 +1,23 @@
 <template>
-  <CListGroup v-for="message in messages" v-if="isLoaded">
-    <CListGroupItem class="list-group-item" @click="goToMessageDetails(message)">
-      <div class="avatar">
-        <img src="@/assets/icons/messages/message-avatar.png" alt="">
-      </div>
-      <div class="message-body">
-        <span class="message-body__type" >{{ message.subject }}</span>
-        <span class="message-body__body" v-html="message.body"></span>
-      </div>
-      <div class="created">
-        <span class="date">{{ formattedDate(message.created) }}</span>
-        <span class="date">{{ formattedTime(message.created) }}</span>
-      </div>
-    </CListGroupItem>
-  </CListGroup>
-  <Loader v-else />
+  <div class="messages-wrapper">
+    <CListGroup v-for="message in messages" v-if="isLoaded">
+      <CListGroupItem class="list-group-item" @click="goToMessageDetails(message)">
+        <div class="avatar">
+          <img src="@/assets/icons/messages/message-avatar.png" alt="">
+        </div>
+        <div class="message-body">
+          <span class="message-body__type" >{{ message.subject }}</span>
+          <span class="message-body__body" v-html="message.body"></span>
+        </div>
+        <div class="created">
+          <span class="date">{{ formattedDate(message.created) }}</span>
+          <span class="date">{{ formattedTime(message.created) }}</span>
+        </div>
+      </CListGroupItem>
+    </CListGroup>
+    <Loader v-else />
+  </div>
+
 </template>
 
 
@@ -97,68 +100,17 @@ const formattedTime = (dateString) => {
 </script>
 
 <style lang="scss" scoped>
-@import '../../assets/scss/variables';
+@import '@/assets/scss/variables';
 
-.loader{
-  margin-top: 20%;
-}
-
-.list-group-item {
+.messages-wrapper {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  padding: 20px 170px;
 
-  margin-bottom: 5px;
-  background-color: $light-grey;
-  color: $text-color-white;
-  cursor: pointer;
-
-  .avatar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: $border-radius-round;
-
-    & > img {
-      width: inherit;
-      height: inherit;
-    }
+  .loader{
+    margin-top: 20%;
   }
 
-  .message-body {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-left: 10px;
-    font-family: $semi-bold;
-
-    &__type {
-      font-size: 16px;
-      color: $body-text-color;
-    }
-
-    &__body {
-      font-size: 12px;
-      color: $text-color-white;
-    }
-  }
-
-  .created {
-    display: flex;
-    flex-direction: column;
-    margin-left: auto;
-    font-family: $semi-bold;
-    font-size: 12px;
-    color: $body-text-color;
-
-    .date {
-      text-align: right;
-    }
-  }
-}
-
-@media screen and (max-width: $tableWidth) {
   .list-group-item {
     display: flex;
     align-items: center;
@@ -166,6 +118,7 @@ const formattedTime = (dateString) => {
     margin-bottom: 5px;
     background-color: $light-grey;
     color: $text-color-white;
+    cursor: pointer;
 
     .avatar {
       display: flex;
@@ -186,31 +139,95 @@ const formattedTime = (dateString) => {
       flex-direction: column;
       align-items: flex-start;
       margin-left: 10px;
+      font-family: $semi-bold;
 
       &__type {
-        //font-weight: 500;
-        //font-size: 14px;
-        //line-height: 17px;
+        font-size: 16px;
         color: $body-text-color;
       }
 
       &__body {
-        max-width: 160px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-
-        //font-weight: 400;
-        //font-size: 12px;
-        //line-height: 146.5%;
+        font-size: 12px;
         color: $text-color-white;
       }
     }
 
     .created {
-      //font-weight: 500;
-      //font-size: 12px;
-      //line-height: 12px;
+      display: flex;
+      flex-direction: column;
+      margin-left: auto;
+      font-family: $semi-bold;
+      font-size: 12px;
+      color: $body-text-color;
+
+      .date {
+        text-align: right;
+      }
+    }
+  }
+
+}
+
+
+@media screen and (max-width: $tableWidth) {
+  .messages-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+
+    .list-group-item {
+      display: flex;
+      align-items: center;
+
+      margin-bottom: 5px;
+      background-color: $light-grey;
+      color: $text-color-white;
+
+      .avatar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: $border-radius-round;
+
+        & > img {
+          width: inherit;
+          height: inherit;
+        }
+      }
+
+      .message-body {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-left: 10px;
+
+        &__type {
+          //font-weight: 500;
+          //font-size: 14px;
+          //line-height: 17px;
+          color: $body-text-color;
+        }
+
+        &__body {
+          max-width: 160px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+
+          //font-weight: 400;
+          //font-size: 12px;
+          //line-height: 146.5%;
+          color: $text-color-white;
+        }
+      }
+
+      .created {
+        //font-weight: 500;
+        //font-size: 12px;
+        //line-height: 12px;
+      }
     }
   }
 }

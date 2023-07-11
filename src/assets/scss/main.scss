@@ -66,11 +66,17 @@ li {
   flex-direction: column;
   width: 100%;
   height: calc(100vh - 100px);
+  padding: 20px 16px 20px 0;
 }
 @media screen and (max-width: 820px) {
   .page-content {
     height: calc(100vh - 130px);
+    padding: 0;
   }
+}
+
+.details-content {
+  margin: 20px auto;
 }
 
 

@@ -6,7 +6,7 @@
     <div class="content">
       <TheHeader />
       <div id="main-block">
-        <div v-if="isClientConnected">
+        <div v-if="isClientConnected" class="main-block_content">
           <router-view />
         </div>
       </div>
@@ -142,10 +142,15 @@ const logOut = async () => {
     grid-area: main;
 
     #main-block {
-      padding: 100px 34px 0 20px;
+      padding: 74px 0 0 20px;
       background-color: $dark-grey;
       overflow: auto;
       height: 100%;
+
+      .main-block_content {
+        width: 100%;
+        height: 100%;
+      }
 
       &::-webkit-scrollbar {
         width: 0;

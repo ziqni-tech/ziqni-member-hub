@@ -1,5 +1,7 @@
 <template>
-  <AwardDetailsCard v-if="isLoaded" :award="award" @claimAward="claimAward" />
+  <div class="details-content">
+    <AwardDetailsCard v-if="isLoaded" :award="award" @claimAward="claimAward" />
+  </div>
 </template>
 
 <script setup>
