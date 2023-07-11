@@ -1,5 +1,7 @@
 <template>
-  <MessageDetailsCard v-if="isLoaded" :message="message" />
+  <div class="details-content">
+    <MessageDetailsCard v-if="isLoaded" :message="message" />
+  </div>
 </template>
 
 <script setup>

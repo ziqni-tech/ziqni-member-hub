@@ -420,8 +420,12 @@ onMounted(() => {
   border-radius: $border-radius;
   margin: 0 auto;
 
-  @media screen and (max-width: $tableWidth) {
-    width: 225px;
+  @media screen and (max-width: 480px) {
+    margin-bottom: 20px;
+  }
+
+  @media screen and (max-width: 380px) {
+    width: 280px;
     margin-bottom: 20px;
   }
 }

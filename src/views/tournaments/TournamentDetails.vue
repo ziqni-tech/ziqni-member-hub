@@ -1,24 +1,30 @@
 <template>
   <Loader v-if="!currentTournament" :title="'Loading'" />
-  <div v-else>
-    <div class="header">
+  <div v-else  class="tournament-details">
+    <div class="tournament-details-mobile-header">
       <h1 class="section-title">{{ currentTournament.name }}</h1>
-<!--      <div class="calendar-btn" @click="goToCalendar" title="Tournaments calendar">-->
-<!--        <img src="../../assets/icons/tournament/calendar.png" alt="">-->
-<!--      </div>-->
+      <div class="calendar-btn" @click="goToCalendar" title="Tournaments calendar">
+        <img src="@/assets/icons/tournament/calendar.png" alt="">
+      </div>
     </div>
-    <div class="tournament-details">
+    <div class="leaderboard-section">
+      <div class="leaderboard-section_header">
+        <h1 class="section-title">{{ currentTournament.name }}</h1>
+        <div class="calendar-btn" @click="goToCalendar" title="Tournaments calendar">
+          <img src="@/assets/icons/tournament/calendar.png" alt="">
+        </div>
+      </div>
       <div class="leaderboard-table" v-if="leaderboardEntries">
         <Leaderboard :leaders="leaderboardEntries" :prize="contest && contest.rewardValue ? contest.rewardValue : 0"/>
       </div>
-      <div class="details">
-        <TournamentDetailsCard
-          v-if="isLoaded"
-          :tournament="currentTournament"
-          @joinTournament="joinTournament"
-          @leaveTournament="leaveTournament"
-        />
-      </div>
+    </div>
+    <div class="details">
+      <TournamentDetailsCard
+        v-if="isLoaded"
+        :tournament="currentTournament"
+        @joinTournament="joinTournament"
+        @leaveTournament="leaveTournament"
+      />
     </div>
   </div>
 
@@ -364,7 +370,7 @@ const leaveTournament= async () => {
 onUnmounted(() => unsubscribeEntityLeaderboard());
 
 const goToCalendar = () => {
-  router.push({name: 'Calendar'})
+  router.push({name: 'TournamentsCalendar'})
 }
 
 </script>
@@ -392,21 +398,39 @@ const goToCalendar = () => {
 }
 
 .tournament-details {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 64% 36%;
+  width: 100%;
+  height: 100%;
 
-  .details {
-    width: 50%;
-    padding-left: 24px;
+  .tournament-details-mobile-header {
+    display: none;
   }
 
-  .leaderboard-table {
+  .details {
+    width: 100%;
+    height: 100%;
+  }
+
+  .leaderboard-section {
     display: flex;
-    width: 50%;
-    margin-left: 12px;
-    border: 1px solid $btn-border-grey;
-    border-radius: 10px;
-    overflow: hidden;
+    flex-direction: column;
+
+    &_header {
+      width: 95%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+    }
+
+    .leaderboard-table {
+      display: flex;
+      width: 95%;
+      border: 1px solid $btn-border-grey;
+      border-radius: 10px;
+      overflow: hidden;
+    }
   }
 }
 
@@ -416,17 +440,45 @@ const goToCalendar = () => {
     flex-direction: column;
     align-items: center;
 
+    .tournament-details-mobile-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 14px 0;
+
+      .section-title {
+        font-size: 24px;
+      }
+    }
+
     .details {
       width: 100%;
       padding-right: 0;
     }
 
-    .leaderboard-table {
+    .leaderboard-section {
       display: flex;
+      flex-direction: column;
       width: 100%;
-      margin-bottom: 20px;
-      padding-left: 0;
+      padding-bottom: 30px;
+
+      &_header {
+        display: none;
+      }
+
+      .leaderboard-table {
+        width: 100%;
+
+      }
     }
+
+    //.leaderboard-table {
+    //  display: flex;
+    //  width: 100%;
+    //  margin-bottom: 20px;
+    //  padding-left: 0;
+    //}
   }
 }
 </style>

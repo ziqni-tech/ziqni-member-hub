@@ -198,4 +198,219 @@ table {
     }
   }
 }
+@media screen and (max-width: 1255px) {
+  table {
+    width: 100%;
+    color: $text-color-white;
+    tbody {
+      td {
+        .members {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          max-width: 250px;
+          padding-right: 5px;
+
+          .member {
+            margin: 3px 0;
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+
+            .member-name {
+              width: 100%;
+              max-width: 250px;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: $tableWidth) {
+  .table-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+    font-family: $semi-bold;
+    padding: 0 10px 14px 10px;
+
+    &::-webkit-scrollbar {
+      width: 4px;
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background: #262a3a;
+    }
+  }
+
+  .sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background-color: $dark-grey;
+  }
+
+  table {
+    width: 100%;
+    color: $text-color-white;
+
+    th {
+      border: none;
+      text-transform: capitalize;
+      text-align: start;
+      font-size: 16px;
+      padding-bottom: 10px;
+      padding-top: 10px;
+    }
+
+    th.rank {
+      width: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .avatar {
+      width: 20px;
+      height: 20px;
+      border-radius: $border-radius-round;
+      margin-right: 6px;
+    }
+
+    tbody {
+      td {
+
+        .members {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          max-width: 500px;
+
+          .member {
+            margin: 3px 0;
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+
+            .member-name {
+              width: 100%;
+              //max-width: 80px;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+          }
+        }
+      }
+
+    }
+  }
+}
+
+@media screen and (max-width: 640px) {
+  table {
+    width: 100%;
+    color: $text-color-white;
+    tbody {
+      td {
+        .members {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          max-width: 300px;
+          padding-right: 5px;
+
+          .member {
+            margin: 3px 0;
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+
+            .member-name {
+              width: 100%;
+              max-width: 300px;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 530px) {
+  table {
+    width: 100%;
+    color: $text-color-white;
+    tbody {
+      td {
+        .members {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          max-width: 300px;
+          padding-right: 5px;
+
+          .member {
+            margin: 3px 0;
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+
+            .member-name {
+              width: 100%;
+              max-width: 200px;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 440px) {
+  table {
+    width: 100%;
+    color: $text-color-white;
+    tbody {
+      td {
+        .members {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          max-width: 300px;
+          padding-right: 5px;
+
+          .member {
+            margin: 3px 0;
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+
+            .member-name {
+              width: 100%;
+              max-width: 120px;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+          }
+        }
+      }
+    }
+  }
+}
 </style>

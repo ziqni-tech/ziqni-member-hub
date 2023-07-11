@@ -115,5 +115,11 @@ onMounted(() => {
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 8px;
   }
+
+  @media screen and (max-width: 380px) {
+    max-width: 100%;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 5px;
+  }
 }
 </style>

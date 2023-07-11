@@ -1,11 +1,13 @@
 <template>
-  <AchievementDetailsCard
-    :key="updateKey"
-    v-if="isLoaded"
-    :achievement="achievement"
-    @joinAchievement="joinAchievement"
-    @leaveAchievement="leaveAchievement"
-  />
+  <div class="details-content">
+    <AchievementDetailsCard
+        :key="updateKey"
+        v-if="isLoaded"
+        :achievement="achievement"
+        @joinAchievement="joinAchievement"
+        @leaveAchievement="leaveAchievement"
+    />
+  </div>
 </template>
 
 <script setup>

@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="details-content">
     <MissionDetailsCard />
   </div>
 </template>
@@ -10,7 +10,5 @@ import MissionDetailsCard from '../../components/missions/MissionDetailsCard';
 </script>
 
 <style lang="scss">
-.wrapper {
-  width: 100%;
-}
+
 </style>

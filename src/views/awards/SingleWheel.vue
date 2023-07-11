@@ -169,4 +169,34 @@ const closeModal = () => {
   }
 }
 
+@media screen and (max-width: 380px) {
+  .page-title {
+    font-size: 20px;
+    color: $text-color-white;
+    margin-top: 10px;
+  }
+
+  .page-description {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    color: $body-text-color;
+  }
+
+  .spin-btn {
+    margin-top: 0;
+    padding: 10px 57px;
+
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 17px;
+    color: $text-color-white;
+
+    border: none;
+    border-radius: $border-radius;
+    cursor: pointer;
+    background-color: $purple;
+  }
+}
+
 </style>

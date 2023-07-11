@@ -29,7 +29,7 @@
               <div></div>
             </div>
             <div class="header-nav">
-              <div class="currentPeriod">
+              <div class="currentPeriod" >
                 <button class="previousPeriod" @click="setShowDate(headerProps.previousPeriod)">&lt;</button>
                 {{ headerProps.periodLabel }}
                 <button class="nextPeriod" @click="setShowDate(headerProps.nextPeriod)">&gt;</button>
@@ -198,10 +198,6 @@ const clickEvent = (val) => {
   border: 1px solid $border-dark;
 }
 
-.currentPeriod {
-  font-size: 16px;
-}
-
 .cv-wrapper {
   height: 696px;
   width: 100%;
@@ -345,6 +341,19 @@ const clickEvent = (val) => {
         display: none;
       }
 
+      .currentWeekPeriod {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .switching-months {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+      }
+
       .cv-header-nav {
         .previousYear,
         .previousPeriod,
@@ -380,6 +389,19 @@ const clickEvent = (val) => {
     .cv-wrapper.period-month.periodCount-3 .cv-week,
     .cv-wrapper.period-year .cv-week {
       min-height: 3rem;
+    }
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .cv-wrapper {
+    .cv-header {
+      .currentPeriod {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+      }
+
     }
   }
 }

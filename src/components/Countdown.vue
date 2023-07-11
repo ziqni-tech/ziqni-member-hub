@@ -161,7 +161,7 @@ export default {
   }
 }
 
-@media screen and (max-width: $tableWidth) {
+@media screen and (max-width: 1280px) {
   .countdown {
     display: flex;
     align-items: center;
