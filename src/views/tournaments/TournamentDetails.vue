@@ -3,9 +3,6 @@
   <div v-else  class="tournament-details">
     <div class="tournament-details-mobile-header">
       <h1 class="section-title">{{ currentTournament.name }}</h1>
-      <div class="calendar-btn" @click="goToCalendar" title="Tournaments calendar">
-        <img src="@/assets/icons/tournament/calendar.png" alt="">
-      </div>
     </div>
     <div class="leaderboard-section">
       <div class="leaderboard-section_header">
@@ -460,6 +457,7 @@ const goToCalendar = () => {
       flex-direction: column;
       width: 100%;
       padding-bottom: 30px;
+      padding-right: 0;
 
       &_header {
         display: none;

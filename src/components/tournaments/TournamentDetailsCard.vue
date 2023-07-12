@@ -1,12 +1,12 @@
 <template>
   <div class="tournament-details-card">
-    <button
-        class="info_btn"
-        @click="goToInfo"
-        title="show terms and conditions"
-    >
-      i
-    </button>
+<!--    <button-->
+<!--        class="info_btn"-->
+<!--        @click="goToInfo"-->
+<!--        title="show terms and conditions"-->
+<!--    >-->
+<!--      i-->
+<!--    </button>-->
     <div class="card-banner">
       <div class="tournament-main-data">
         <span class="tournament-title">{{ tournament.name }}</span>
@@ -23,8 +23,14 @@
         <InfoItem :icon="prizeIcon" :title="'prize'" :data="tournament.rewardValue"/>
         <InfoItem :icon="rtpIcon" :title="'RTP'" :data="'84%'"/>
         <InfoItem :icon="rateIcon" :title="'rate'" :data="'4.9'"/>
+        <button
+            class="info_btn"
+            @click="goToInfo"
+            title="show terms and conditions"
+        >
+          i
+        </button>
       </div>
-
       <div class="tournament-description">
         <h5 class="tournament-description_title">{{ 'Description' }}</h5>
         <p class="tournament-description_description">{{ removeHTMLTags(description) }}</p>
@@ -161,23 +167,6 @@ const goToInfo = () => {
     background: #262a3a;
   }
 
-  .info_btn {
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: $border-radius-sm;
-    background: none;
-    border: 1px solid $dark-blue;
-    color: $text-color-white;
-
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    z-index: 3;
-  }
-
   .card-banner {
     position: relative;
     border-radius: $border-radius $border-radius 0 0;
@@ -235,7 +224,7 @@ const goToInfo = () => {
     align-items: center;
     width: 100%;
     height: 100%;
-    padding: 20px 44px;
+    padding: 20px 29px;
 
     .tournament-info-grid {
       display: grid;
@@ -244,6 +233,24 @@ const goToInfo = () => {
       grid-gap: 15px;
       padding: 20px 0;
       margin-top: 25px;
+      position: relative;
+
+      .info_btn {
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: $border-radius-sm;
+        background: none;
+        border: 1px solid $dark-blue;
+        color: $text-color-white;
+
+        position: absolute;
+        bottom: -20px;
+        right: 0px;
+        z-index: 3;
+      }
     }
 
     .tournament-description {
@@ -338,7 +345,7 @@ const goToInfo = () => {
       align-items: center;
       width: 100%;
       height: 100%;
-      padding: 20px 44px;
+      padding: 20px 22px;
 
       .tournament-info-grid {
         display: grid;
