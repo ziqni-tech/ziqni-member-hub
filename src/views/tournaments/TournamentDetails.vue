@@ -10,9 +10,6 @@
     <div class="leaderboard-section">
       <div class="leaderboard-section_header">
         <h1 class="section-title">{{ currentTournament.name }}</h1>
-        <div class="calendar-btn" @click="goToCalendar" title="Tournaments calendar">
-          <img src="@/assets/icons/tournament/calendar.png" alt="">
-        </div>
       </div>
       <div class="leaderboard-table" v-if="leaderboardEntries">
         <Leaderboard :leaders="leaderboardEntries" :prize="contest && contest.rewardValue ? contest.rewardValue : 0"/>
