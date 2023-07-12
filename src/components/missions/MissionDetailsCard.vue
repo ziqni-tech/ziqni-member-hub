@@ -2,7 +2,7 @@
   <div v-if="isLoaded" class="mission-details-card">
     <div class="card-header">
       <button class="card-header_btn" @click="goBack">
-        <img src="@/assets/icons/back_arrow.png" alt="">
+        <img :src="goBackIcon" alt="">
       </button>
       <button class="card-header_btn" @click="goToInfo">i</button>
     </div>
@@ -46,7 +46,7 @@
 </template>
 
 <script setup>
-import { ref, onBeforeMount, watch, reactive } from 'vue';
+import { ref, onBeforeMount, watch, reactive, computed } from 'vue';
 import { useStore } from 'vuex';
 import {
   AchievementRequest,
@@ -60,7 +60,9 @@ import { defineConfigs } from 'v-network-graph';
 import dagre from 'dagre/dist/dagre.min.js';
 import { useRoute, useRouter } from "vue-router";
 import useMobileDevice from "@/hooks/useMobileDevice";
-import { removeHTMLTags } from '../../utils/removeHTMLTags';
+import { removeHTMLTags } from '@/utils/removeHTMLTags';
+import backArrowIcon  from '@/assets/icons/back_arrow.png'
+import closeIcon  from '@/assets/icons/close.svg'
 
 const { isMobile } = useMobileDevice();
 
@@ -72,7 +74,11 @@ const isInfo = ref(false);
 const route = useRoute();
 const nodeSize = 40;
 const isGraphLoaded = ref(false);
-const missionIcon = ref('https://first-space.cdn.ziqni.com/Icons/ball-2.png')
+const missionIcon = ref('https://first-space.cdn.ziqni.com/Icons/ball-2.png');
+
+const goBackIcon = computed(() => {
+  return !isInfo.value ? closeIcon : backArrowIcon
+});
 
 const layouts = reactive({
   nodes: {},
