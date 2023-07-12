@@ -12,7 +12,7 @@
       </div>
 
       <div v-if="!isDashboard" class="calendar-btn" @click="goToCalendar" title="Tournaments calendar">
-        <img src="@/assets/icons/tournament/calendar.png" alt="">
+        <img src="@/assets/icons/tournament/calendar.svg" alt="">
       </div>
     </div>
     <Loader v-if="!isLoaded" :title="'Current Tournaments are loading'" />
@@ -253,6 +253,13 @@ const pageChange = async (pageNumber) => {
     cursor: pointer;
     margin: 8px 0 10px;
     border-color: $btn-border-grey;
+    width: 40px;
+    height: 40px;
+
+    > img {
+      width: 100%;
+      height: 100%;
+    }
   }
 }
 
