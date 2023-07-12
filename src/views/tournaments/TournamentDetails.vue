@@ -412,6 +412,7 @@ const goToCalendar = () => {
   .leaderboard-section {
     display: flex;
     flex-direction: column;
+    padding-right: 20px;
 
     &_header {
       width: 95%;
@@ -423,7 +424,7 @@ const goToCalendar = () => {
 
     .leaderboard-table {
       display: flex;
-      width: 95%;
+      width: 100%;
       border: 1px solid $btn-border-grey;
       border-radius: 10px;
       overflow: hidden;
