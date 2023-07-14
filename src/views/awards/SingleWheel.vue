@@ -25,47 +25,51 @@ const rerenderKey = ref(0);
 const data = ref([
   {
     id: 1,
-    value: '50$ bonus',
+    section: 1,
+    value: '50$ bonus 1',
     bgColor: '#8749DC',
     color: '#FFFFFF',
-    image: require('@/assets/images/instant-wins/reward50_1.png')
+    bg: require('@/assets/images/instant-wins/single-wheel_bgs/50 bonus 1.png')
   },
   {
     id: 2,
-    value: 'Free spins',
+    section: 2,
+    value: 'Free spins 1',
     bgColor: '#223241',
     color: '#FDFDFF',
-    image: require('@/assets/images/instant-wins/free_spin_1.png')
+    bg: require('@/assets/images/instant-wins/single-wheel_bgs/free spins 1.png')
   },
   {
     id: 3,
-    value: 'Next time',
+    section: 3,
+    value: 'Next time 1',
     bgColor: '#40409f',
     color: '#FDFDFF',
-    // image: require('@/assets/images/instant-wins/next_time_1.png')
-    image: require('@/assets/icons/awards/bottle.svg')
+    bg: require('@/assets/images/instant-wins/single-wheel_bgs/next time 1.png')
   },
   {
     id: 4,
-    value: '50$ bonus',
+    section: 4,
+    value: '50$ bonus 2',
     bgColor: '#8749DC',
     color: '#FDFDFF',
-    image: require('@/assets/images/instant-wins/reward50_2.png')
+    bg: require('@/assets/images/instant-wins/single-wheel_bgs/50 bonus 2.png')
   },
   {
     id: 5,
-    value: 'Free spins',
+    section: 5,
+    value: 'Free spins 2',
     bgColor: '#223241',
     color: '#FDFDFF',
-    image: require('@/assets/images/instant-wins/free_spin_2.png')
+    bg: require('@/assets/images/instant-wins/single-wheel_bgs/free spins 2.png')
   },
   {
     id: 6,
-    value: 'Next time',
+    section: 6,
+    value: 'Next time 2',
     bgColor: '#40409f',
     color: '#FDFDFF',
-    // image: require('@/assets/images/instant-wins/next_time_2.png')
-    image: require('@/assets/icons/awards/book.png')
+    bg: require('@/assets/images/instant-wins/single-wheel_bgs/next time 2.png')
   },
 ]);
 
@@ -113,7 +117,7 @@ const closeModal = () => {
 @import '@/assets/scss/_variables';
 
 .page-title {
-  font-family: $semi-bold;
+  font-family: $mainFont;
   font-size: 37px;
   color: $text-color-white;
   margin-top: 50px;
