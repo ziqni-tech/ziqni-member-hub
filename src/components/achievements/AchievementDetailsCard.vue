@@ -3,6 +3,9 @@
     <div class="spinner-wrapper-global" v-if="isLoading">
       <CSpinner grow size="sm"/>
     </div>
+    <button class="info-btn" @click="goToInfo">
+      <img src="@/assets/icons/info.svg" alt="">
+    </button>
     <div class="title">
       {{ achievement.name }}
     </div>
@@ -20,11 +23,15 @@
         </div>
       </div>
     </div>
-    <div class="description">
+    <div class="description" v-if="!isInfo">
       <span class="description-title">Description</span>
       <span class="description-value">
         {{ achievement.description ? removeHTMLTags(achievement.description) : testDescription }}
       </span>
+    </div>
+    <div class="description" v-if="isInfo">
+      <span class="description-title">Terms & Conditions</span>
+      <span class="description-text">{{ removeHTMLTags(achievement.termsAndConditions) }}</span>
     </div>
     <div class="bottom-section">
       <div class="prize-btn">
@@ -77,6 +84,7 @@ const emit = defineEmits(['joinAchievement', 'leaveAchievement']);
 const achievement = toRef(props, 'achievement');
 const isCompleted = ref(achievement.value.entrantStatus === 'Completed');
 const isLoading = ref(false);
+const isInfo = ref(false);
 
 const achievementIconLink = computed(() => {
   return achievement.value.iconLink
@@ -135,6 +143,10 @@ const handleButtonClick = async () => {
   }
 };
 
+const goToInfo = () => {
+  isInfo.value = !isInfo.value
+}
+
 </script>
 
 <style lang="scss" scoped>
@@ -151,6 +163,27 @@ const handleButtonClick = async () => {
   margin: auto;
   font-family: $semi-bold;
   position: relative;
+
+  .info-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: $border-radius-sm;
+    background: none;
+    border: 1px solid $btn-border-grey;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    > img {
+      width: 100%;
+      height: 31px;
+      object-fit: cover;
+    }
+  }
 
   .title {
     font-size: 37px;

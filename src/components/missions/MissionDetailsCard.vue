@@ -4,7 +4,9 @@
       <button class="card-header_btn" @click="goBack">
         <img :src="goBackIcon" alt="">
       </button>
-      <button class="card-header_btn" @click="goToInfo">i</button>
+      <button class="info-btn" @click="goToInfo">
+        <img src="@/assets/icons/info.svg" alt="">
+      </button>
     </div>
     <div class="mobile-mission-icon" v-if="isMobile">
       <img :src="missionIcon" alt="">
@@ -469,6 +471,25 @@ const closeModal = () => {
       background: none;
       border: 1px solid $btn-border-grey;
       color: $text-color-white;
+    }
+
+    .info-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: $border-radius-sm;
+      background: none;
+      border: 1px solid $btn-border-grey;
+      color: $text-color-white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+
+      > img {
+        width: 100%;
+        height: 31px;
+        object-fit: cover;
+      }
     }
   }
 
