@@ -485,8 +485,8 @@ const getNodeStyles = (nodeId) => {
 <style scoped lang="scss">
 @import "@/assets/scss/_variables";
 .mission-map-title {
-  font-family: $semi-bold;
-  font-size: 37px;
+  font-family: $mainFont;
+  font-size: 24px;
   color: $body-text-white;
   margin: 20px auto 0;
 }
@@ -513,7 +513,7 @@ const getNodeStyles = (nodeId) => {
   }
 
   .mission-map-title {
-    font-size: 28px;
+    font-size: 22px;
     color: $body-text-white;
     margin: 15px auto 0;
   }

@@ -186,7 +186,8 @@ const goToInfo = () => {
   }
 
   .title {
-    font-size: 37px;
+    font-family: $mainFont;
+    font-size: 24px;
     color: $text-color-white;
 
     white-space: nowrap;
@@ -275,7 +276,7 @@ const goToInfo = () => {
     .description-title {
       text-align: start;
       width: 100%;
-      font-size: 24px;
+      font-size: 16px;
       color: $text-color-white;
       padding-top: 20px;
     }
@@ -284,6 +285,7 @@ const goToInfo = () => {
       text-align: start;
       width: 100%;
       font-size: 16px;
+      font-family: $mainFont;
       color: $text-color-white;
       padding-top: 14px;
     }
@@ -356,7 +358,7 @@ const goToInfo = () => {
 
 
     .title {
-      font-size: 28px;
+      font-size: 22px;
       color: $text-color-white;
 
       white-space: nowrap;

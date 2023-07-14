@@ -521,7 +521,7 @@ const closeModal = () => {
       font-family: $semi-bold;
 
       &__title {
-        font-size: 37px;
+        font-size: 24px;
         color: $text-color-white;
         text-align: start;
       }
@@ -556,6 +556,7 @@ const closeModal = () => {
         .description_text {
           height: 100%;
           font-size: 16px;
+          font-family: $mainFont;
           text-align: start;
           margin-bottom: 20px;
         }
@@ -636,7 +637,7 @@ const closeModal = () => {
         padding: 20px 0;
 
         &__title {
-          font-size: 28px;
+          font-size: 22px;
           color: $text-color-white;
           text-align: center;
         }

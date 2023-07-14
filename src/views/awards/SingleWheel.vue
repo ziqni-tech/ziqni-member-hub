@@ -118,7 +118,7 @@ const closeModal = () => {
 
 .page-title {
   font-family: $mainFont;
-  font-size: 37px;
+  font-size: 24px;
   color: $text-color-white;
   margin-top: 50px;
 }
@@ -145,15 +145,13 @@ const closeModal = () => {
 
 @media screen and (max-width: $tableWidth) {
   .page-title {
-    font-size: 28px;
+    font-size: 22px;
     color: $text-color-white;
     margin-top: 30px;
   }
 
   .page-description {
-    font-weight: 400;
     font-size: 12px;
-    line-height: 14px;
     color: $body-text-color;
   }
 
