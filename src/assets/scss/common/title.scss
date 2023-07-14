@@ -1,13 +1,12 @@
 .section-title {
-  font-family: $semi-bold;
-  font-size: 37px;
+  font-family: $mainFont;
+  font-size: 24px;
   text-align: start;
   color: $text-color-white;
+  letter-spacing: -0.5px;
 
   @media screen and (max-width: $tableWidth) {
-    font-weight: 700;
-    font-size: 14px;
-    line-height: 17px;
+    font-size: 22px;
 
     padding-bottom: 5px;
   }

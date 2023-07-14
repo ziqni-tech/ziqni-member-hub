@@ -99,7 +99,8 @@ const handleButtonClick = async () => {
 
 
   .title {
-    font-size: 37px;
+    font-family: $mainFont;
+    font-size: 24px;
     color: $text-color-white;
 
     white-space: nowrap;
@@ -162,12 +163,13 @@ const handleButtonClick = async () => {
     .description-title {
       text-align: start;
       width: 100%;
-      font-size: 24px;
+      font-size: 16px;
       color: $text-color-white;
       padding-top: 20px;
     }
 
     .description-value {
+      font-family: $mainFont;
       text-align: start;
       width: 100%;
       font-size: 16px;

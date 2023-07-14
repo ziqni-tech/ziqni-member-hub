@@ -261,11 +261,12 @@ const goToInfo = () => {
       width: 100%;
 
       &_title {
-        font-size: 24px;
+        font-size: 16px;
       }
 
       &_description {
         margin: 15px 0 20px;
+        font-family: $mainFont;
         font-size: 16px;
       }
     }

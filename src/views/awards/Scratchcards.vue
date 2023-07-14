@@ -92,7 +92,7 @@ const closeModal = () => {
 
   .page-title {
     font-family: $mainFont;
-    font-size: 37px;
+    font-size: 24px;
     color: $text-color-white;
     margin-top: 50px;
   }
@@ -125,7 +125,7 @@ const closeModal = () => {
     justify-content: center;
     .page-title {
       display: none;
-      font-size: 28px;
+      font-size: 22px;
       color: $text-color-white;
       margin-top: 20px;
     }

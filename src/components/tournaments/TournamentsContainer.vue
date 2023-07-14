@@ -63,10 +63,10 @@ export default {
 
   .title-block {
     text-align: start;
-    font-family: 'Montserrat';
+    font-family: $mainFont;
     font-style: normal;
     font-weight: 700;
-    font-size: 22px;
+    font-size: 24px;
     line-height: 27px;
     color: #737478;
     text-transform: capitalize;
