@@ -260,6 +260,23 @@ const goToAchievementDetails = () => {
       color: $text-color-white;
     }
   }
+}
+@media screen and (max-width: $tableWidth) {
+  .achievements-card {
 
+    .bottom-section {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+
+      .btn {
+        font-size: 12px;
+
+        > img {
+          margin-right: 5px;
+        }
+      }
+    }
+  }
 }
 </style>

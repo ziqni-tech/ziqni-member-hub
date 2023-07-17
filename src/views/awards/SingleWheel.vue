@@ -173,7 +173,7 @@ const closeModal = () => {
 
 @media screen and (max-width: 380px) {
   .page-title {
-    font-size: 20px;
+    font-size: 22px;
     color: $text-color-white;
     margin-top: 10px;
   }

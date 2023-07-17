@@ -162,7 +162,7 @@ const scratchAllCards = () => {
       margin-top: 30px;
 
       font-weight: 700;
-      font-size: 14px;
+      font-size: 12px;
       line-height: 17px;
       color: $text-color-white;
     }

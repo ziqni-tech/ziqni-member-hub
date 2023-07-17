@@ -241,6 +241,7 @@ const pageChange = async (pageNumber) => {
     align-items: center;
     justify-content: space-between;
 
+
     .see-all-btn {
       font-size: 16px;
       font-family: $semi-bold;
@@ -266,6 +267,42 @@ const pageChange = async (pageNumber) => {
 @media screen and (max-width: 820px) {
   .section {
     padding: 0;
+
+    .tournaments-section-header-wrapper {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      padding-top: 15px;
+
+      .tournaments-section-header {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+
+        .see-all-btn {
+          font-size: 16px;
+          font-family: $semi-bold;
+          color: $text-color-white;
+          cursor: pointer;
+        }
+      }
+
+      .calendar-btn {
+        cursor: pointer;
+        margin: 8px 0 10px;
+        border-color: $btn-border-grey;
+        width: 40px;
+        height: 40px;
+
+        > img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
   }
 }
 </style>

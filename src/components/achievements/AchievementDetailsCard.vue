@@ -447,7 +447,7 @@ const goToInfo = () => {
       .description-title {
         text-align: start;
         width: 100%;
-        font-size: 24px;
+        font-size: 16px;
         color: $text-color-white;
         padding-top: 20px;
       }
@@ -455,7 +455,7 @@ const goToInfo = () => {
       .description-value {
         text-align: start;
         width: 100%;
-        font-size: 16px;
+        font-size: 12px;
         color: $text-color-white;
         padding-top: 14px;
       }
@@ -474,6 +474,7 @@ const goToInfo = () => {
         align-items: center;
         width: 150px;
         padding: 10px;
+        font-size: 12px;
 
         background: $purple-gradient;
         border-radius: 10px;
@@ -492,6 +493,7 @@ const goToInfo = () => {
         align-items: center;
         padding: 10px 20px;
         margin-right: 10px;
+        font-size: 12px;
 
         background: $dark-grey;
         border-radius: 10px;

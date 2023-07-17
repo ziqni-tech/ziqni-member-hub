@@ -52,6 +52,7 @@ const props = defineProps({
   .info-data {
     font-size: 24px;
     color: $text-color-white;
+    font-family: $mainFont;
   }
 }
 
@@ -81,13 +82,13 @@ const props = defineProps({
     }
 
     .info-title {
-      font-size: 14px;
+      font-size: 16px;
       color: $body-text-color;
     }
 
     .info-data {
       font-weight: 700;
-      font-size: 14px;
+      font-size: 22px;
       line-height: 17px;
       color: $text-color-white;
     }

@@ -663,13 +663,14 @@ const closeModal = () => {
           align-items: flex-start;
 
           .description_title {
-            font-size: 24px;
+            font-size: 16px;
             margin: 15px 0;
           }
 
           .description_text {
             height: 100%;
             font-size: 16px;
+            font-family: $mainFont;
             text-align: start;
             margin-bottom: 20px;
           }
