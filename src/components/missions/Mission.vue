@@ -163,7 +163,7 @@ const goToMissionsMapPage = () => {
         justify-content: center;
         border-radius: $border-radius;
 
-        font-size: 16px;
+        font-size: 12px;
 
         > img {
           margin-right: 5px;
@@ -172,7 +172,7 @@ const goToMissionsMapPage = () => {
         @media screen and (max-width: $tableWidth) {
           width: 100%;
 
-          font-size: 16px;
+          font-size: 12px;
 
           &:last-child {
             margin-top: 5px;

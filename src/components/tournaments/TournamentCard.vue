@@ -151,7 +151,7 @@ const goToTournamentsDetailsPage = () => {
           border-radius: $border-radius;
           border: 1px solid $border-dark;
 
-          font-size: 16px;
+          font-size: 12px;
           color: $text-color-white;
         }
       }

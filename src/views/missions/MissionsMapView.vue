@@ -507,15 +507,16 @@ const getNodeStyles = (nodeId) => {
   pointer-events: none;
 }
 
-@media screen and (max-width: 380px) {
-  .graph {
-    height: 500px;
-  }
+@media screen and (max-width: $tableWidth) {
 
   .mission-map-title {
     font-size: 22px;
-    color: $body-text-white;
-    margin: 15px auto 0;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .graph {
+    height: 500px;
   }
 }
 

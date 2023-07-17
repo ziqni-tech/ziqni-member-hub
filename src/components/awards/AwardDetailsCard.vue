@@ -208,6 +208,131 @@ const handleButtonClick = async () => {
       border: 1px solid $btn-grey;
     }
   }
+}
 
+@media screen and (max-width: $tableWidth) {
+  .award-details-card {
+    font-family: $semi-bold;
+    max-width: 840px;
+    background-color: $light-grey;
+    border-radius: $border-radius;
+    padding: 10px 25px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+
+
+    .title {
+      font-family: $mainFont;
+      font-size: 22px;
+      color: $text-color-white;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-top: 30px;
+    }
+
+    .icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 150px;
+      height: 150px;
+      padding: 20px 0;
+      border-radius: 50%;
+      position: relative;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+
+        background: radial-gradient(50% 50% at 50% 50%, #38ACCF 0%, rgba(56, 172, 207, 0) 100%);
+        opacity: 0.5;
+        filter: blur(37.5px);
+      }
+
+      & > img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+    }
+
+    .prize {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: $text-color-white;
+      margin-top: 20px;
+      font-size: 22px;
+
+      > img {
+        margin-right: 10px;
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .description {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+
+      .description-title {
+        text-align: start;
+        width: 100%;
+        font-size: 16px;
+        color: $text-color-white;
+        padding-top: 20px;
+      }
+
+      .description-value {
+        font-family: $mainFont;
+        text-align: start;
+        width: 100%;
+        font-size: 12px;
+        color: $text-color-white;
+        padding-top: 14px;
+      }
+    }
+
+    .bottom-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin-top: 30px;
+
+      .disabled-btn {
+        background: $btn-grey;
+        border: 1px solid $btn-grey;
+      }
+
+      .action-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 150px;
+        padding: 10px;
+
+        background: $purple-gradient;
+        border-radius: 10px;
+        border: 1px solid $purple;
+        color: $text-color-white;
+      }
+
+      .disabled-btn {
+        background: $btn-grey;
+        border: 1px solid $btn-grey;
+      }
+    }
+  }
 }
 </style>

@@ -97,7 +97,7 @@ watch(countdownResult, (value) => {
 </script>
 
 <style lang="scss" scoped>
-@import '../../assets/scss/_variables';
+@import '@/assets/scss/_variables';
 
 .award {
   display: flex;
@@ -149,7 +149,7 @@ watch(countdownResult, (value) => {
 
   &__type {
     max-width: 170px;
-    font-family: $semi-bold;
+    font-family: $mainFont;
     font-size: 16px;
     color: $body-text-color;
     margin-bottom: 10px;
@@ -222,7 +222,7 @@ watch(countdownResult, (value) => {
 
     &__name {
       font-weight: 700;
-      font-size: 12px;
+      font-size: 16px;
       line-height: 14px;
       color: $text-color-white;
       margin: 5px 0;
@@ -258,7 +258,7 @@ watch(countdownResult, (value) => {
       cursor: default;
       border: none;
       padding: 5px;
-      font-size: 16px;
+      font-size: 12px;
       margin-bottom: 10px;
     }
 
@@ -268,7 +268,7 @@ watch(countdownResult, (value) => {
       background: $btn-gradient-color;
       color: $text-color-white;
       padding: 6px;
-      font-size: 16px;
+      font-size: 12px;
     }
   }
 }

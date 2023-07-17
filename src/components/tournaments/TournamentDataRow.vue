@@ -75,7 +75,7 @@ watch(countdownResult, (value) => {
     flex-direction: column;
     align-items: flex-start;
     font-weight: 500;
-    font-size: 10px;
+    font-size: 12px;
     line-height: 12px;
     margin: 5px 0;
 
@@ -93,7 +93,6 @@ watch(countdownResult, (value) => {
     .value {
       height: 10px;
       text-align: right;
-      padding-left: 20px;
       color: $text-color-white;
       margin-left: 17px;
 

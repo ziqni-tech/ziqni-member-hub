@@ -193,7 +193,7 @@ const goToInfo = () => {
 
     .tournament-title {
       color: $text-color-white;
-      font-size: 37px;
+      font-size: 24px;
       margin: 30px 0;
     }
 
@@ -318,7 +318,7 @@ const goToInfo = () => {
 
       .tournament-title {
         color: $text-color-white;
-        font-size: 28px;
+        font-size: 22px;
         margin-bottom: 14px;
       }
 
@@ -365,7 +365,7 @@ const goToInfo = () => {
 
         &_title {
           font-weight: 700;
-          font-size: 24px;
+          font-size: 16px;
           line-height: 14px;
         }
 

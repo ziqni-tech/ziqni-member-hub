@@ -49,7 +49,7 @@ const doFunction = () => {
   border-radius: $border-radius;
   border: 1px solid $dark-blue;
   padding: 28px 38px;
-  max-width: 380px;
+  width: 290px;
   box-shadow: 0 2px 12px 0 rgba(64, 106, 140, 0.50);
 
   .award-modal-title {
