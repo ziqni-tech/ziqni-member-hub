@@ -17,7 +17,7 @@
 
 <script setup>
 import * as d3 from 'd3';
-import { computed, ref, onMounted } from 'vue';
+import { computed, ref, onMounted, onUnmounted } from 'vue';
 import useMobileDevice from '@/hooks/useMobileDevice';
 import AwardsModal from '@/components/awards/AwardsModal.vue';
 
@@ -94,18 +94,25 @@ const style = ref({
 const margin = ref(20);
 const svg = ref();
 const vis = ref(null);
+const isMobileDevice = ref(false)
+
+const checkIsMobile = () => {
+  isMobileDevice.value = window.innerWidth <= 450
+}
 
 const wheelStyle = computed(() => {
+  const width = isMobileDevice.value ? 230 : 355
+  const height = isMobileDevice.value ? 350 : 395
   return {
-    width: `${ wheelSize.value.width }px`,
-    height: `${ wheelSize.value.height }px`,
+    width: `${ width }px`,
+    height: `${ height }px`,
   };
 });
 
 const wheelSize = computed(() => {
   const screenWidth = window.innerWidth;
-  const width = Math.min(screenWidth, style.value.width) - margin.value;
-  const height = Math.min(screenWidth, style.value.width) + 20;
+  const width = 480 - margin.value;
+  const height = 520 + 20;
   return {
     width,
     height,
@@ -178,7 +185,7 @@ const createArc = () => {
       .attr('class', 'slice')
       .attr('d', arc)
       .attr('stroke', '#8749DC') // items borders
-      .attr('stroke-width', '3')
+      .attr('stroke-width', '5')
       .attr('overflow', 'none')
       .each(function (d, i) {
         const firstArcSection = /(^.+?)L/;
@@ -316,46 +323,46 @@ const addImage = () => {
       .attr('x', (d) => {
         switch (d.data.section) {
           case 1: // bonus 1
-            return isMobile.value ? -114 : -210;
+            return isMobile.value ? -122 : -205;
           case 2: // free 1
-            return isMobile.value ? -95 : -157;
+            return isMobile.value ? -110 : -153;
           case 3: // next time 1
-            return isMobile.value ? -101 : -111;
+            return isMobile.value ? -143 : -102;
           case 4: // bonus 2
-            return isMobile.value ? -126 : -118;
+            return isMobile.value ? -187 : -105;
           case 5: // free 2
-            return isMobile.value ? -145 : -173;
+            return isMobile.value ? -200 : -160;
           case 6: // next 2
-            return isMobile.value ? -139 : -219;
+            return isMobile.value ? -167 : -209;
 
         }
       })
       .attr('y', (d) => {
         switch (d.data.section) {
           case 1: // bonus 1
-            return isMobile.value ? -202 : -215;
+            return isMobile.value ? -212 : -210;
           case 2: // free 1
-            return isMobile.value ? -155 : -195;
+            return isMobile.value ? -130 : -203;
           case 3: // next time 1
-            return isMobile.value ? -193 : -249;
+            return isMobile.value ? -180 : -251;
           case 4: // bonus 2
-            return isMobile.value ? -135 : -122;
+            return isMobile.value ? -125 : -126;
           case 5: // free 2
-            return isMobile.value ? -185 : -142;
+            return isMobile.value ? -205 : -137;
           case 6: // next 2
-            return isMobile.value ? -164 : -117;
+            return isMobile.value ? -185 : -112;
 
         }
       })
       .attr('width', (d) => {
         if (d.data.section === 3) {
-          return isMobile.value ? 195 : 265
+          return 255
         } else {
-          return isMobile.value ? 240 : 329
+          return 310
         }
       })
       .attr('height', (d) => {
-        return d.data.section === 5 ? 340 : 335
+        return 335
       })
       .attr('xlink:href', (d) => `${d.data.bg}`)
 
@@ -366,10 +373,22 @@ const createMiddleCircle = () => {
       .append('circle')
       .attr('cx', 0)
       .attr('cy', 0)
-      .attr('r', rayon.value / 10)
+      .attr('r', rayon.value / 12)
       .attr('fill', '#c077ee') // center circle color
       .attr('filter', 'url(#shadow)')
-      .attr('stroke-width', 6)
+      .attr('stroke-width', 7)
+      .attr('stroke', '#8749DC');
+};
+
+const createOuterCircle = () => {
+  container.value
+      .append('circle')
+      .attr('class', 'outer-border')
+      .attr('cx', 0)
+      .attr('cy', 0)
+      .attr('r', rayon.value)
+      .attr('fill', 'none')
+      .attr('stroke-width', 15)
       .attr('stroke', '#8749DC');
 };
 
@@ -403,6 +422,8 @@ const createWheel = () => {
   addText();
   // Make circle
   createMiddleCircle();
+  // Make outer circle
+  createOuterCircle()
   // create arrow
   createArrow();
 };
@@ -438,23 +459,37 @@ const spin = async () => {
             const sections = vis.value.selectAll('.slice');
             sections
                 .attr('stroke-width', (d, i) =>
-                    isGiftSection(d.data.section) ? '10' : '2'
+                    isGiftSection(d.data.section) ? '15' : '5'
                 )
                 .attr('stroke', (d, i) =>
                     isGiftSection(d.data.section) ? '#c077ee' : '#8749DC'
                 )
+
             const texts = vis.value.selectAll('.middleArcText');
             texts
                 .attr('filter', (d, i) => {
                       return isGiftSection(d.data.section) ? 'none' : 'blur(3px)'
                     }
+                )
+                .attr('stroke-width', (d, i) =>
+                    isGiftSection(d.data.section) ? '15' : '3'
                 );
+
             const images = vis.value.selectAll('.image-section');
             images
                 .attr('filter', (d, i) => {
                       return isGiftSection(d.data.section) ? 'none' : 'blur(3px)'
                     }
                 );
+
+            // remove outer circle
+            const outerBorder = container.value.selectAll('.outer-border')
+            outerBorder.remove()
+
+            // Move the prize section to the front
+            const prizeSection = sections.filter((d, i) => isGiftSection(d.data.section));
+            prizeSection.raise()
+            prizeSection.attr('fill', 'none')
           });
     };
 
@@ -470,9 +505,16 @@ defineExpose({
 });
 
 onMounted(() => {
+  window.addEventListener('resize', checkIsMobile)
+  checkIsMobile()
+
   rayon.value = Math.min(wheelSize.value.width, wheelSize.value.height) / 2;
   createWheel();
 });
+
+onUnmounted(() => {
+  window.removeEventListener('resize', checkIsMobile)
+})
 </script>
 
 <style>

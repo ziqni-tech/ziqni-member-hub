@@ -229,7 +229,6 @@ const getEntityLeaderboard = async (contestId) => {
       topRanksToInclude: 10
     }
   };
-  await store.dispatch('leaderboardRequest');
 
   ApiClientStomp.instance.sendSys('', {}, (json, headers) => {
     if (headers && headers.objectType === 'Leaderboard') {
@@ -246,21 +245,25 @@ const getEntityLeaderboard = async (contestId) => {
 
 const unsubscribeEntityLeaderboard = async () => {
   if (contest.value) {
-    const contestId = contest.value.id;
+    try {
+      const contestId = contest.value.id;
 
-    const apiLeaderboardWsClient = new LeaderboardApiWs(ApiClientStomp.instance);
-    const leaderboardSubscriptionRequest = {
-      action: 'Unsubscribe',
-      entityId: contestId,
-      leaderboardFilter: {
-        ranksAboveToInclude: 10,
-        ranksBelowToInclude: 10,
-        topRanksToInclude: 10
-      }
-    };
-    await store.dispatch('leaderboardRequest');
+      const apiLeaderboardWsClient = new LeaderboardApiWs(ApiClientStomp.instance);
 
-    await apiLeaderboardWsClient.subscribeToLeaderboard(leaderboardSubscriptionRequest, () => {});
+      const leaderboardSubscriptionRequest = {
+        action: 'Unsubscribe',
+        entityId: contestId,
+        leaderboardFilter: {
+          ranksAboveToInclude: 10,
+          ranksBelowToInclude: 10,
+          topRanksToInclude: 10
+        }
+      };
+
+      await apiLeaderboardWsClient.subscribeToLeaderboard(leaderboardSubscriptionRequest, () => {});
+    } catch (err) {
+      console.log('Unsubscribe Leaderboard error', err)
+    }
   }
 };
 
