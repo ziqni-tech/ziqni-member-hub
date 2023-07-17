@@ -163,7 +163,7 @@ const goToMissionsMapPage = () => {
         justify-content: center;
         border-radius: $border-radius;
 
-        font-size: 12px;
+        font-size: 16px;
 
         > img {
           margin-right: 5px;

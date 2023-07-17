@@ -54,12 +54,13 @@ const doFunction = () => {
 
   .award-modal-title {
     margin: auto;
-    font-size: 20px;
+    font-size: 24px;
     color: $text-color-white;
   }
 
   .award-description {
     font-size: 16px;
+    font-family: $mainFont;
     color: $body-text-color;
     padding-top: 10px;
   }
@@ -83,6 +84,7 @@ const doFunction = () => {
     .award-modal-title {
       margin: auto;
       color: $text-color-white;
+      font-size: 22px;
     }
 
     .award-description {
@@ -97,8 +99,8 @@ const doFunction = () => {
       color: $text-color-white;
       border: none;
 
-      font-size: 16px;
-      padding: 10px 57px;
+      font-size: 12px;
+      padding: 7px 57px;
       border-radius: $border-radius;
     }
   }
