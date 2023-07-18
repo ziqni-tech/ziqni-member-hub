@@ -62,7 +62,7 @@ function updateDiameter() {
       diameter = 80;
       break;
     case screenWidth < 890:
-      diameter = 60;
+      diameter = 80;
       break;
     default:
       diameter = 100;
