@@ -60,6 +60,8 @@ const isLoading = ref(false);
 const modalShow = ref(false);
 
 const getAwardsRequest = async () => {
+  isLoading.value = true;
+
   const awardsApiWsClient = new AwardsApiWs(ApiClientStomp.instance);
 
   const availableAwardsRequest = AwardRequest.constructFromObject({
@@ -79,10 +81,17 @@ const getAwardsRequest = async () => {
   });
 
   awardsApiWsClient.getAwards(availableAwardsRequest, async (res) => {
+    if (res.data && !res.data.length) {
+      emit('setIsAvailableAwards');
+    }
+
     awards.value = res.data;
     totalRecords.value = res.meta.totalRecordsFound;
+
     const rewardIds = res.data.map(item => item.rewardId);
     await getEntityRewards(rewardIds);
+
+    isLoading.value = false;
     isLoaded.value = true;
   });
 };
