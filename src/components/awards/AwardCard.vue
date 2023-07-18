@@ -14,8 +14,7 @@
         v-if="award.status !== 'Claimed'"
         @click.stop="handleButtonClick"
     >
-      <CSpinner v-if="isLoading" grow size="sm"/>
-      <span v-else>Claim</span>
+      <span >Claim</span>
     </button>
   </div>
 </template>
