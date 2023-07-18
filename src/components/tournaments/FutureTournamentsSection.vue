@@ -9,6 +9,12 @@
             @click="seeAll">
           see all
         </div>
+        <div
+            v-else
+            class="see-all-btn"
+            @click="seeOriginalView">
+          original view
+        </div>
       </div>
       <div v-if="!isDashboard" class="calendar-btn" @click="goToCalendar" title="Tournaments calendar">
         <img src="@/assets/icons/tournament/calendar.svg" alt="">
@@ -64,6 +70,10 @@ const statusCode = {
 onMounted(() => {
   getCompetitionsRequest();
 });
+
+const seeOriginalView = () => {
+  getCompetitionsRequest()
+}
 
 const getCompetitionsRequest = async () => {
   isLoaded.value = false;
