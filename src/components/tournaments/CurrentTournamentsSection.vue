@@ -10,7 +10,7 @@
           see all
         </div>
         <div
-            v-else
+            v-if="!isSeeAll && competitions.length"
             class="see-all-btn"
             @click="seeOriginalView">
           original view
@@ -236,6 +236,7 @@ const pageChange = async (pageNumber) => {
 @import "@/assets/scss/_variables";
 .section {
   padding: 20px 16px 20px 0;
+  min-height: 400px;
 }
 .tournaments-section-header-wrapper {
   width: 100%;

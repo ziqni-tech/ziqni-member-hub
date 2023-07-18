@@ -10,7 +10,7 @@
           see all
         </div>
         <div
-            v-else
+            v-if="!isSeeAll && competitions.length"
             class="see-all-btn"
             @click="seeOriginalView">
           original view
