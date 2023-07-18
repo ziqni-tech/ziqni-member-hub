@@ -4,6 +4,7 @@
       <CNavLink
           :active="activeTabKey === 'available'"
           @click="() => updateActiveTab('available')"
+          :disabled="!isAvailableAwardsActive"
       >
         available
       </CNavLink>
@@ -20,7 +21,7 @@
         Instant wins
       </CNavLink>
     </CNav>
-    <AvailableAwardsSection v-if="activeTabKey === 'available'" />
+    <AvailableAwardsSection v-if="activeTabKey === 'available'" @setIsAvailableAwards="setIsAvailableAwards" />
     <ClaimedAwardsSection v-if="activeTabKey === 'claimed'" />
     <InstantWinsSection v-if="activeTabKey === 'instantWins'" />
   </div>
@@ -34,11 +35,17 @@ import AvailableAwardsSection from '@/components/awards/AvailableAwardsSection.v
 import ClaimedAwardsSection from '@/components/awards/ClaimedAwardsSection.vue';
 import InstantWinsSection from '@/components/instant-wins/InstantWinsSection.vue';
 
-const activeTabKey = ref('available')
+const activeTabKey = ref('available');
 
 const updateActiveTab = (val) => {
   activeTabKey.value = val;
 };
+
+const isAvailableAwardsActive = ref(true);
+const setIsAvailableAwards = () => {
+  isAvailableAwardsActive.value = false;
+  activeTabKey.value = 'claimed'
+}
 
 </script>
 
