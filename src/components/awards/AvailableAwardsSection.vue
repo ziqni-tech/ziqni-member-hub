@@ -1,5 +1,8 @@
 <template>
   <div class="content-wrapper">
+    <div class="spinner-wrapper-global" v-if="isLoading">
+      <CSpinner grow size="sm"/>
+    </div>
     <div class="awards-cards-grid" v-if="isLoaded">
       <div v-for="award in awards">
         <AwardCard :award="award" @claimAward="claimAward" />
@@ -10,6 +13,20 @@
         :total-pages="totalPages"
         @pageChange="pageChange"
     />
+    <CModal size="sm" alignment="center" :visible="modalShow" @close="closeModal">
+      <CModalBody>
+        {{ 'Award has been claimed' }}
+      </CModalBody>
+      <CModalFooter>
+        <CButton
+            @click="closeModal"
+            color="primary"
+            class="submitBtn"
+        >
+          OK
+        </CButton>
+      </CModalFooter>
+    </CModal>
   </div>
 </template>
 
@@ -26,6 +43,9 @@ import {
 
 import AwardCard from '@/components/awards/AwardCard.vue';
 import Pagination from '@/shared/components/Pagination.vue';
+import { CButton, CModal, CModalBody, CModalFooter, CSpinner } from "@coreui/vue";
+
+const emit = defineEmits(['setIsAvailableAwards']);
 
 const awards = ref([]);
 const isLoaded = ref(false);
@@ -35,6 +55,9 @@ const limit = ref(8);
 
 const skip = computed(() => (currentPage.value - 1) * limit.value);
 const totalPages = computed(() => Math.ceil(totalRecords.value / limit.value));
+
+const isLoading = ref(false);
+const modalShow = ref(false);
 
 const getAwardsRequest = async () => {
   const awardsApiWsClient = new AwardsApiWs(ApiClientStomp.instance);
@@ -114,16 +137,40 @@ const claimAward = async (id) => {
 
   await awardsApiWsClient.claimAwards(claimAwardRequest, async (res) => {
     if (res.data && res.data.length) {
-      setTimeout(async () => {
-        await getAwardsRequest();
-      }, 3000);
+      isLoading.value = true;
+
+      setTimeout(() => {
+        modalShow.value = true;
+        isLoading.value = false;
+      }, 1500);
     }
   });
 };
+
+const closeModal = async () => {
+  await getAwardsRequest();
+  modalShow.value = false;
+}
 </script>
 
 <style scoped lang="scss">
 @import "@/assets/scss/_variables";
+
+.modal-body {
+  padding: 30px 18px 20px;
+  color: $text-color-white;
+  font-size: 16px;
+  font-family: $semi-bold;
+}
+
+.modal-footer {
+  border: none;
+}
+
+.submitBtn {
+  font-family: $semi-bold;
+  font-size: 16px;
+}
 
 .awards-cards-grid {
   display: grid;
