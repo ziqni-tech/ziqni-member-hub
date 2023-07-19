@@ -3,11 +3,11 @@
       v-for="(item, index) in navItems"
       :key="index"
   >
-    <router-link :to="item.to" class="nav-item">
+    <router-link :to="item.to" class="nav-item" :class="{'light-mode': !isDarkMode}">
       <div class="nav-item__icon-wrapper">
         <component class="icon" :is="item.icon" :strokeColor="getIconStrokeColor(item)"/>
       </div>
-      <span class="nav-item__title">{{ item.name }}</span>
+      <span class="nav-item__title" :class="{'light-mode': !isDarkMode}">{{ item.name }}</span>
     </router-link>
   </CNavItem>
 </template>
@@ -15,14 +15,14 @@
 <script setup>
 import { CNavItem } from '@coreui/vue';
 import { useRoute } from 'vue-router';
-const props = defineProps({ navItems: Array });
+const props = defineProps({ navItems: Array, isDarkMode: Boolean });
 
 const route = useRoute();
 const getIconStrokeColor = (item) => {
   if (route.path.startsWith(item.to)) {
-    return '#8749DC';
+    return '#FFFFFF';
   } else {
-    return '#8B96BE';
+    return props.isDarkMode ? '#FFFFFF' : '#141E28';
   }
 };
 
@@ -42,11 +42,11 @@ const getIconStrokeColor = (item) => {
 
   & a {
     text-decoration: none;
-    color: $sidebar-text-color;
-  }
+    color: $nav-active-item-color-LM;
 
-  & a:hover {
-    color: $text-color-white;
+    &.light-mode {
+      color: $nav-item-color-LM;
+    }
   }
 
   &__icon-wrapper {
@@ -72,6 +72,11 @@ const getIconStrokeColor = (item) => {
   > .router-link-active {
     color: $text-color-white;
     font-family: $semi-bold;
+    background-color: $btn-primary-bg-color-LM;
+
+    &.light-mode {
+      color: $nav-active-item-color-LM;
+    }
 
     &:before {
       left: -20px;

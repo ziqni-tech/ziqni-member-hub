@@ -4,18 +4,12 @@
       <div class="logo-wrapper">
         <img
             class="logo"
-            src="https://a.storyblok.com/f/157554/x/d874de8b74/sign-easter.svg"
+            :src="require(`../../assets/icons/${logoName}.svg`)"
             alt="logo"
         />
-        <img
-            class="logo-name"
-            src="https://a.storyblok.com/f/157554/x/ab3b3516a2/blazzio-logo-text.svg"
-            alt=""
-        >
       </div>
     </div>
-    <BlazzioNavigation :nav-items="blazzioNav" />
-    <SidebarNav :nav-items="sidebarNav" />
+    <SidebarNav :nav-items="sidebarNav" :isDarkMode="isDarkMode" />
     <LogoutItem class="logout" @logOut="logOut" />
   </div>
 </template>
@@ -26,19 +20,16 @@ import { useStore } from 'vuex';
 import { computed } from 'vue';
 
 import sidebarNav from './sidebarNav';
-import blazzioNav from './blazzioNav';
 import SidebarNav from '@/components/sidebar/SidebarNav.vue';
-import BlazzioNavigation from '@/components/sidebar/BlazzioNavigation';
 import LogoutItem from '@/components/sidebar/LogoutItem';
 
 const router = useRouter();
 const store = useStore();
 const emit = defineEmits(['logOut']);
-
 const isDarkMode = computed(() => store.getters.getTheme);
 
 const logoName = computed(() => {
-  return store.getters.getTheme
+  return isDarkMode.value
       ? 'logo-dark'
       : 'logo-light';
 });
@@ -103,7 +94,7 @@ const logOut = () => emit('logOut');
 
         .logo {
           height: 24px;
-          width: 24px;
+          width: 100px;
           margin-right: 10px;
         }
 
@@ -137,7 +128,7 @@ const logOut = () => emit('logOut');
 
         .logo {
           height: 20px;
-          width: 20px;
+          width: 90px;
           margin-right: 8px;
         }
 
