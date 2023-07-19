@@ -1,18 +1,32 @@
 <template>
-  <button class="btn" @click="toggleTheme">
-    <img :src="themeIcon" alt="">
+  <button @click="toggleTheme">
+    <SunIcon
+        v-if="isDarkTheme"
+        :strokeColor="strokeColor"
+        :width="'40'"
+        :height="'40'"
+    />
+    <MoonIcon
+        v-else
+        :strokeColor="strokeColor"
+        :width="'20'"
+        :height="'20'"
+    />
   </button>
 </template>
 
 <script setup>
 import { computed, onBeforeMount, ref } from 'vue';
 import { useStore } from 'vuex';
-
-import sunIcon from '@/assets/icons/user-info/sun.png';
-import moonIcon from '@/assets/icons/user-info/moon.png';
+import MoonIcon from "@/shared/components/svg-icons/MoonIcon.vue";
+import SunIcon from "@/shared/components/svg-icons/SunIcon.vue";
 
 const isDarkTheme = ref(false);
 const store = useStore();
+
+const props = defineProps({
+  strokeColor: String
+})
 
 onBeforeMount(() => {
   if (!localStorage.getItem('theme')) {
@@ -34,12 +48,14 @@ const themeClass = computed(() => {
   return isDarkTheme.value ? 'dark-mode' : 'light-mode';
 });
 
-const themeIcon = computed(() => {
-  return isDarkTheme.value ? sunIcon : moonIcon;
-});
-
 </script>
 
 <style scoped lang="scss">
-
+.moon-btn {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+}
 </style>

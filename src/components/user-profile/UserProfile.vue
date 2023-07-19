@@ -2,8 +2,14 @@
   <div id="user-profile">
     <div class="background-block" :style="{ 'background-image': `url(${require('@/assets/images/user/cover.png')})` }">
       <div class="buttons">
-        <button class="btn"><img :src="notificationIcon" alt=""></button>
-        <ToggleTheme class="btn" />
+        <button class="btn">
+          <NotificationIcon
+              :strokeColor="'#FFFFFF'"
+              :width="'40'"
+              :height="'40'"
+          />
+        </button>
+        <ToggleTheme class="btn" :class="{'isMoon-icon': !isDarkMode}" :stroke-color="'#FFFFFF'" />
       </div>
     </div>
     <div class="user-info">
@@ -51,7 +57,6 @@
 </template>
 
 <script setup>
-import notificationIcon from '@/assets/icons/user-info/notification.png';
 import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import ProfileInfoCircleProgress from './ProfileInfoCircleProgress';
@@ -63,6 +68,7 @@ import {
   OptInApiWs,
   OptInStatesRequest
 } from '@ziqni-tech/member-api-client';
+import NotificationIcon from "@/shared/components/svg-icons/NotificationIcon.vue";
 import memberDefaultIcon from "@/assets/images/user/avatar.png";
 
 const store = useStore();
@@ -186,16 +192,15 @@ const getOptInStatus = async (ids) => {
       padding: 12px;
 
       .btn {
-        padding: 10px;
+        padding: 0;
         border-radius: 5px;
         border: 1px solid rgba(230, 230, 230, 0.2);
         display: flex;
         align-items: center;
         justify-content: center;
 
-        > img {
-          width: 16px;
-          height: 16px;
+        &.isMoon-icon {
+          padding: 10px;
         }
       }
     }

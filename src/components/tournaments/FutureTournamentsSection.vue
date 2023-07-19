@@ -18,7 +18,7 @@
         </div>
       </div>
       <div v-if="!isDashboard" class="calendar-btn" @click="goToCalendar" title="Tournaments calendar">
-        <CalendarIcon :strokeColor="getIconStrokeColor()" :width="'40'" :height="'40'" />
+        <CalendarIcon :strokeColor="getIconStrokeColor()" :width="'35'" :height="'35'" />
       </div>
     </div>
     <Loader v-if="!isLoaded" :title="'Future Tournaments are loading'" />

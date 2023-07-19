@@ -5,12 +5,18 @@
         @click="$router.go(-1)"
         v-if="isGoBackBtn"
     >
-      <img src="../assets/icons/back_arrow.png" alt="">
+      <ArrowLeft :strokeColor="getIconStrokeColor()" />
     </div>
     <div class="user-actions">
       <div class="header-btns">
-        <button class="btn"><img :src="notificationIcon" alt=""></button>
-        <ToggleTheme class="btn" />
+        <button class="btn">
+          <NotificationIcon
+              :strokeColor="getIconStrokeColor()"
+              :width="'40'"
+              :height="'40'"
+          />
+        </button>
+        <ToggleTheme class="btn" :stroke-color="getIconStrokeColor()" />
       </div>
       <div class="user-actions-profile">
         <span class="user-name">{{ member.name }}</span>
@@ -27,13 +33,18 @@ import { useStore } from 'vuex';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 
-import notificationIcon from '@/assets/icons/user-info/notification.png';
 import ToggleTheme from '@/shared/components/ToggleTheme.vue';
 import memberDefaultIcon from '@/assets/images/user/avatar.png'
+import ArrowLeft from "@/shared/components/svg-icons/ArrowLeft.vue";
+import NotificationIcon from "@/shared/components/svg-icons/NotificationIcon.vue";
 
 const store = useStore();
 const member = computed(() => store.getters.getMember);
 const isDarkMode = computed(() => store.getters.getTheme);
+
+const getIconStrokeColor = () => {
+  return isDarkMode.value ? '#FFFFFF' : '#080D12'
+};
 
 const router = useRouter();
 const isGoBackBtn = computed(() => {
@@ -63,7 +74,7 @@ const isGoBackBtn = computed(() => {
     border-radius: $border-radius-sm;
     border: 1px solid $btn-border-grey;
     margin-left: 10px;
-    padding: 7px 15px;
+    padding: 7px 12px;
     cursor: pointer;
 
   }
@@ -80,6 +91,7 @@ const isGoBackBtn = computed(() => {
       .btn {
         border-radius: $border-radius-sm;
         border: 1px solid $btn-border-grey;
+        padding: 0;
 
         &:nth-child(n + 2) {
           margin-left: 10px;
@@ -120,6 +132,53 @@ const isGoBackBtn = computed(() => {
   &.light-mode {
     background-color: $bg-body-LM;
     border-bottom: 1px solid $main-border-color-LM;
+
+    .go-back {
+      border: 1px solid $main-border-color-LM;
+    }
+
+    .header-btns {
+      display: flex;
+      align-items: center;
+      margin-right: 30px;
+
+      .btn {
+        border: 1px solid $main-border-color-LM;
+        &:nth-child(n + 2) {
+          padding: 6.5px 10px;
+        }
+      }
+    }
+
+    .user-actions-profile {
+      font-family: $semi-bold;
+      display: flex;
+      align-items: center;
+
+      .user-name {
+        font-size: 16px;
+        color: $section-title-color-LM;
+        margin-right: 10px;
+      }
+
+      .user-image {
+        width: 37px;
+        height: 37px;
+        border-radius: $border-radius-round;
+        border: 1px solid $main-border-color-LM;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+
+        > img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          border: none;
+        }
+      }
+    }
   }
 }
 
