@@ -1,5 +1,5 @@
 <template>
-  <div class="section">
+  <div class="section" :class="{'light-mode': !isDarkMode}">
     <CNav variant="pills" layout="fill" class="achievements-tabs" v-if="!isDashboard">
       <CNavLink
           :active="activeTabKey === 'all'"
@@ -86,7 +86,7 @@ import {
   OptInStatesRequest,
   RewardsApiWs
 } from '@ziqni-tech/member-api-client';
-import {CNav, CNavLink, CSpinner} from '@coreui/vue';
+import { CNav, CNavLink, CSpinner } from '@coreui/vue';
 
 import { useCountdown } from '@/hooks/useCountdown';
 import AchievementsCard from './AchievementsCard';
@@ -101,6 +101,8 @@ const props = defineProps({
     default: false
   }
 });
+
+const isDarkMode = computed(() => store.getters.getTheme);
 
 const achievementsData = ref([]);
 const limit = ref(computed(() => props.isDashboard ? 2 : 9));
@@ -389,7 +391,7 @@ onMounted(() => {
 
 <style lang="scss">
 @import '@/assets/scss/_variables';
-.spinner-wrapper
+
 .until-the-next-day {
   background-color: $light-grey;
   border-radius: $border-radius;

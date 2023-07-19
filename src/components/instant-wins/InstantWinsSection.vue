@@ -1,5 +1,5 @@
 <template>
-  <div class="section">
+  <div class="section" :class="{'light-mode': !isDarkMode}">
     <div class="section-header" >
       <h2 class="section-title" v-if="isDashboard">Instant wins</h2>
     </div>
@@ -25,6 +25,8 @@ import InstantWins from './InstantWinsCard';
 import singleWheelImg from '@/assets/images/instant-wins/single-wheel.png'
 import scratchcardsImg from '@/assets/images/instant-wins/scratchcard.png'
 import { useRouter } from 'vue-router';
+import { computed } from "vue";
+import { useStore } from "vuex";
 
 const singleWheelTitle = 'The Single Wheel'
 const scratchcardsTitle = 'Scratchcards'
@@ -36,6 +38,9 @@ const props = defineProps({
     default: false
   }
 })
+
+const store = useStore();
+const isDarkMode = computed(() => store.getters.getTheme);
 
 const router = useRouter()
 
@@ -54,10 +59,22 @@ const scratchcardsPlay = () => {
 </script>
 
 <style lang="scss">
-.instant-cards-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  width: 100%;
-  grid-gap: 15px;
+@import '@/assets/scss/_variables';
+.section {
+  .instant-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+    grid-gap: 15px;
+  }
+
+  &.light-mode {
+    .section-header {
+      .section-title {
+        color: $section-title-color-LM;
+      }
+    }
+  }
 }
+
 </style>

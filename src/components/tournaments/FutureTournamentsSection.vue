@@ -1,5 +1,5 @@
 <template>
-  <div class="section">
+  <div class="section" :class="{'light-mode': !isDarkMode}">
     <div class="tournaments-section-header-wrapper">
       <div class="tournaments-section-header">
         <h2 class="section-title">Future Tournaments</h2>
@@ -10,9 +10,10 @@
           see all
         </div>
         <div
-            v-if="!isSeeAll && competitions.length"
+            v-if="!isSeeAll && competitions.length > limit"
             class="see-all-btn"
-            @click="seeOriginalView">
+            @click="seeOriginalView"
+        >
           original view
         </div>
       </div>
@@ -236,36 +237,113 @@ const seeAll = async () => {
 
 <style scoped lang="scss">
 @import "@/assets/scss/_variables";
-.tournaments-section-header-wrapper {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: start;
+.section {
+  padding: 20px 16px 20px 0;
+  min-height: 400px;
 
-  .tournaments-section-header {
+  .tournaments-section-header-wrapper {
     width: 100%;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: start;
 
-    .see-all-btn {
-      font-size: 16px;
-      font-family: $semi-bold;
-      color: $text-color-white;
+    .tournaments-section-header {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+
+      .see-all-btn {
+        font-size: 16px;
+        font-family: $semi-bold;
+        color: $text-color-white;
+        cursor: pointer;
+      }
+    }
+
+    .calendar-btn {
       cursor: pointer;
+      margin: 8px 0 10px;
+      border-color: $btn-border-grey;
+      width: 40px;
+      height: 40px;
+
+      > img {
+        width: 100%;
+        height: 100%;
+      }
     }
   }
 
-  .calendar-btn {
-    cursor: pointer;
-    margin: 8px 0 10px;
-    border-color: $btn-border-grey;
-    width: 40px;
-    height: 40px;
+  &.light-mode {
+    .tournaments-section-header-wrapper {
+      .tournaments-section-header {
+        .section-title {
+          color: $section-title-color-LM;
+        }
+        .see-all-btn {
+          font-size: 16px;
+          font-family: $semi-bold;
+          color: $btn-secondary-color-LM;
+          cursor: pointer;
+        }
+      }
 
-    > img {
+      .calendar-btn {
+        cursor: pointer;
+        margin: 8px 0 10px;
+        border-color: $btn-border-grey;
+        width: 40px;
+        height: 40px;
+
+        > img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 820px) {
+  .section {
+    padding: 0;
+
+    .tournaments-section-header-wrapper {
       width: 100%;
-      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      padding-top: 15px;
+
+      .tournaments-section-header {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+
+        .see-all-btn {
+          font-size: 16px;
+          font-family: $semi-bold;
+          color: $text-color-white;
+          cursor: pointer;
+        }
+      }
+
+      .calendar-btn {
+        cursor: pointer;
+        margin: 8px 0 10px;
+        border-color: $btn-border-grey;
+        width: 40px;
+        height: 40px;
+
+        > img {
+          width: 100%;
+          height: 100%;
+        }
+      }
     }
   }
 }
