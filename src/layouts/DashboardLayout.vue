@@ -1,5 +1,8 @@
 <template>
-  <div id="app-layout" v-if="!isMobile">
+  <div id="app-layout"
+       v-if="!isMobile && isDarkMode !== null"
+       :class="{'light-mode': !isDarkMode}"
+  >
     <div id="nav-block">
       <TheSidebar @logOut="logOut" />
     </div>
@@ -9,8 +12,15 @@
     <div id="user-profile-block">
       <UserProfile v-if="isClientConnected"/>
     </div>
+    <div class="spinner-wrapper-global" v-if="isDarkMode === null">
+      <CSpinner grow size="sm"/>
+    </div>
   </div>
-  <div v-if="isMobile && !isProfileInfo" id="mobile-layout">
+  <div
+      v-if="isMobile && !isProfileInfo"
+      id="mobile-layout"
+      :class="{'light-mode': !isDarkMode}"
+  >
     <div class="mobile-header">
       <button class="btn"><img src="@/assets/icons/user-info/notification.png" alt=""></button>
       <span class="page-name">{{ router.currentRoute.value.name }}</span>
@@ -19,7 +29,6 @@
     <div id="mobile-layout-main-block">
       <Dashboard />
     </div>
-    <BlazzioMobileNav />
     <MobileNav />
   </div>
   <UserProfileMobile
@@ -42,7 +51,7 @@ import Dashboard from '@/views/Dashboard';
 import useMobileDevice from '@/hooks/useMobileDevice';
 import MobileNav from '@/components/sidebar/MobileNav.vue';
 import UserProfileMobile from '@/components/user-profile/UserProfileMobile.vue';
-import BlazzioMobileNav from "@/components/sidebar/BlazzioMobileNav.vue";
+import { CSpinner } from "@coreui/vue";
 
 const router = useRouter();
 
@@ -149,6 +158,24 @@ html, body {
     height: 100%;
     overflow: auto;
     width: 20%;
+  }
+
+  &.light-mode {
+    #nav-block {
+      background-color: $bg-secondary-LM;
+    }
+
+    #main-block {
+      background-color: $bg-body-LM;
+
+      &::-webkit-scrollbar {
+        width: 0;
+      }
+    }
+
+    #user-profile-block {
+      background-color: $bg-secondary-LM;
+    }
   }
 }
 

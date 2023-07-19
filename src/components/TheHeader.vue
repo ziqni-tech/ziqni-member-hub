@@ -1,5 +1,5 @@
 <template>
-  <div id="app-header">
+  <div id="app-header" :class="{'light-mode': !isDarkMode}">
     <div
         class="go-back"
         @click="$router.go(-1)"
@@ -34,6 +34,7 @@ import memberDefaultIcon from '@/assets/images/user/avatar.png'
 
 const store = useStore();
 const member = computed(() => store.getters.getMember);
+const isDarkMode = computed(() => store.getters.getTheme);
 
 const router = useRouter();
 const isGoBackBtn = computed(() => {
@@ -116,6 +117,10 @@ const isGoBackBtn = computed(() => {
         }
       }
     }
+  }
+  &.light-mode {
+    background-color: $bg-body-LM;
+    border-bottom: 1px solid $main-border-color-LM;
   }
 }
 

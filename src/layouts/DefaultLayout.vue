@@ -1,5 +1,9 @@
 <template>
-  <div class="default-layout" v-if="!isMobile">
+  <div
+      class="default-layout"
+      v-if="!isMobile"
+      :class="{'light-mode': !isDarkMode}"
+  >
     <div id="nav-block">
       <TheSidebar @logOut="logOut" />
     </div>
@@ -12,7 +16,11 @@
       </div>
     </div>
   </div>
-  <div v-if="isMobile" id="mobile-layout">
+  <div
+      v-if="isMobile"
+      id="mobile-layout"
+      :class="{'light-mode': !isDarkMode}"
+  >
     <div class="mobile-header">
       <button
           class="go-back-btn"
@@ -33,7 +41,6 @@
         <router-view />
       </div>
     </div>
-    <BlazzioMobileNav />
     <MobileNav />
     <UserProfileMobile
         v-if="isClientConnected"
@@ -62,6 +69,8 @@ import BlazzioMobileNav from "@/components/sidebar/BlazzioMobileNav.vue";
 
 const router = useRouter();
 const store = useStore();
+
+const isDarkMode = computed(() => store.getters.getTheme);
 
 const isClientConnected = computed(() => store.getters.getIsConnectedClient);
 const currentMember = reactive({});
@@ -157,5 +166,24 @@ const logOut = async () => {
       }
     }
   }
+
+  &.light-mode {
+    #nav-block {
+      background-color: $bg-secondary-LM;
+    }
+
+    #main-block {
+      background-color: $bg-body-LM;
+
+      &::-webkit-scrollbar {
+        width: 0;
+      }
+    }
+
+    #user-profile-block {
+      background-color: $bg-secondary-LM;
+    }
+  }
+
 }
 </style>
