@@ -17,7 +17,7 @@
         </div>
       </div>
       <div v-if="!isDashboard" class="calendar-btn" @click="goToCalendar" title="Tournaments calendar">
-        <img src="@/assets/icons/tournament/calendar.svg" alt="">
+        <CalendarIcon :strokeColor="getIconStrokeColor()" :width="'40'" :height="'40'" />
       </div>
     </div>
     <Loader v-if="!isLoaded" :title="'Future Tournaments are loading'" />
@@ -43,6 +43,7 @@ import {
   RewardsApiWs
 } from '@ziqni-tech/member-api-client';
 import { useRouter } from 'vue-router';
+import CalendarIcon from "@/shared/components/svg-icons/CalendarIcon.vue";
 
 const props = defineProps({
   isDashboard: {
@@ -54,6 +55,12 @@ const props = defineProps({
 const store = useStore();
 const isLoaded = ref(true);
 const router = useRouter();
+
+const isDarkMode = computed(() => store.getters.getTheme);
+
+const getIconStrokeColor = () => {
+  return isDarkMode.value ? '#FFFFFF' : '#080D12'
+};
 
 const limit = ref(computed(() => props.isDashboard ? 3 : 4));
 

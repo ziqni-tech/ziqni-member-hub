@@ -28,7 +28,6 @@ import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 
 import notificationIcon from '@/assets/icons/user-info/notification.png';
-import sunIcon from '@/assets/icons/user-info/sun.png';
 import ToggleTheme from '@/shared/components/ToggleTheme.vue';
 import memberDefaultIcon from '@/assets/images/user/avatar.png'
 
