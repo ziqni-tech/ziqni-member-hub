@@ -5,25 +5,28 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, onBeforeMount, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import sunIcon from '@/assets/icons/user-info/sun.png';
 import moonIcon from '@/assets/icons/user-info/moon.png';
 
-const isDarkTheme = computed(() => {
-  if (localStorage.getItem('theme')) {
-    return localStorage.getItem('theme') === 'dark-mode'
-  } else {
-    return false
-  }
-});
-const store = useStore()
+const isDarkTheme = ref(false);
+const store = useStore();
 
+onBeforeMount(() => {
+  if (!localStorage.getItem('theme')) {
+    localStorage.setItem('theme', 'dark-mode');
+  } else if (localStorage.getItem('theme')) {
+    isDarkTheme.value = localStorage.getItem('theme') === 'dark-mode';
+    store.dispatch('setTheme', isDarkTheme.value);
+  }
+})
 
 const toggleTheme = () => {
   isDarkTheme.value = !isDarkTheme.value;
-  store.dispatch('setTheme', themeClass.value)
+
+  store.dispatch('setTheme', isDarkTheme.value);
   localStorage.setItem('theme', themeClass.value);
 };
 
