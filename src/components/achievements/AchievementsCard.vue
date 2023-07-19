@@ -328,7 +328,7 @@ const goToAchievementDetails = () => {
 
           .progress-bar {
             height: 100%;
-            background: $purple-gradient;
+            background: $blue-gradient;
             border-radius: $border-radius-sm;
           }
         }
