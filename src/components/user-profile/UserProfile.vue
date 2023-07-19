@@ -12,7 +12,7 @@
           <img :src="member.iconLink ? member.iconLink : memberDefaultIcon" alt="">
         </div>
       </div>
-      <div class="user-name">{{ member.name }}</div>
+      <div class="user-name" :class="{'light-mode': !isDarkMode}">{{ member.name }}</div>
       <div class="pro-label">pro</div>
       <div class="info-block">
         <ProfileInfoCircleProgress
@@ -20,12 +20,14 @@
             :title="'Total game'"
             :completed-steps="totalGames"
             :total-steps="100"
+            :is-dark-mode="isDarkMode"
         />
         <ProfileInfoCircleProgress
             :color="'#8749DC'"
             :title="'Points'"
             :completed-steps="1200"
             :total-steps="10000"
+            :is-dark-mode="isDarkMode"
         />
         <ProfileInfoCircleProgress
             :color="'#6FCF97'"
@@ -33,6 +35,7 @@
             :completed-steps="winPercentage"
             :total-steps="100"
             :is-percents="true"
+            :is-dark-mode="isDarkMode"
         />
         <ProfileInfoCircleProgress
             :color="'#EB5757'"
@@ -40,6 +43,7 @@
             :completed-steps="lossPercentage"
             :total-steps="100"
             :is-percents="true"
+            :is-dark-mode="isDarkMode"
         />
       </div>
     </div>
@@ -62,7 +66,7 @@ import {
 import memberDefaultIcon from "@/assets/images/user/avatar.png";
 
 const store = useStore();
-
+const isDarkMode = computed(() => store.getters.getTheme);
 const member = computed(() => store.getters.getMember);
 const totalGames = ref(0);
 const wins = ref(0);
@@ -238,6 +242,10 @@ const getOptInStatus = async (ids) => {
       font-style: normal;
       font-size: 16px;
       color: $sidebar-text-color;
+
+      &.light-mode {
+        color: $section-title-color-LM;
+      }
     }
 
     .pro-label {

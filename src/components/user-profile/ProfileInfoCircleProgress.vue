@@ -10,8 +10,8 @@
       :inner-stroke-color="state.innerStrokeColor"
       :stroke-linecap="state.strokeLinecap"
   >
-    <p class="progress-value">{{ completedSteps }}{{ isPercents ? '%' : ''}}</p>
-    <p class="progress-title">{{ title }}</p>
+    <p class="progress-value" :class="{'light-mode': !isDarkMode}">{{ completedSteps }}{{ isPercents ? '%' : ''}}</p>
+    <p class="progress-title" :class="{'light-mode': !isDarkMode}">{{ title }}</p>
   </GradientProgress>
 </template>
 
@@ -24,14 +24,15 @@ const props = defineProps({
   totalSteps: Number || String,
   completedSteps: Number || String,
   title: String,
-  isPercents: Boolean
+  isPercents: Boolean,
+  isDarkMode: Boolean
 })
 
 const state = reactive({
   diameter: 90,
   strokeWidth: 5,
   strokeLinecap: 'round',
-  innerStrokeColor: '#141E28'
+  innerStrokeColor: props.isDarkMode ? '#141E28' : '#DCE6EF'
 });
 
 onMounted(() => {
@@ -83,6 +84,14 @@ watch(() => window.innerWidth, updateDiameter);
   font-family: $semi-bold;
   font-size: 24px;
   color: $text-color-white;
+
+  &.light-mode {
+    color: $section-title-color-LM;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
 }
 
 .progress-title {
@@ -91,6 +100,14 @@ watch(() => window.innerWidth, updateDiameter);
   line-height: 16px;
   color: $body-text-color;
   text-transform: capitalize;
+
+  &.light-mode {
+    font-family: $mainFont;
+    color: $info-name-color;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
 }
 
 @media screen and (max-width: 1200px) {
