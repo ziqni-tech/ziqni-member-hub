@@ -1,5 +1,5 @@
 <template>
-  <div class="award" @click="goToAwardDetails">
+  <div class="award" @click="goToAwardDetails" :class="{'light-mode': !isDarkMode}">
     <div class="award__icon">
       <img :src="awardIcon" alt="">
     </div>
@@ -25,8 +25,8 @@ import { useCountdown } from '@/hooks/useCountdown';
 import { computed, ref, toRef, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import defaultAwardIcon from '@/assets/icons/awards/bottle.svg';
-import { CSpinner } from '@coreui/vue';
 import diamondIcon from '@/assets/icons/achievements/diamond.png';
+import { useStore } from "vuex";
 
 const countdownResult = useCountdown();
 
@@ -54,6 +54,9 @@ const awardIcon = computed(() => {
 const icon = ref(null);
 const rewardIcon = ref(diamondIcon)
 const isLoading = ref(false);
+
+const store = useStore();
+const isDarkMode = computed(() => store.getters.getTheme);
 
 
 const goToAwardDetails = () => {
@@ -140,8 +143,8 @@ watch(countdownResult, (value) => {
   }
 
   &__name {
-    font-family: $semi-bold;
-    font-size: 16px;
+    font-family: $bold;
+    font-size: 14px;
     color: $text-color-white;
     margin: 5px 0;
   }
@@ -191,6 +194,95 @@ watch(countdownResult, (value) => {
     color: $text-color-white;
     padding: 10px 57px;
     font-size: 16px;
+  }
+
+  &.light-mode {
+    background-color: $card-bg-LM;
+    border-radius: $border-radius;
+    cursor: pointer;
+
+    &__icon {
+      width: 136px;
+      height: 136px;
+      padding: 23px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+
+        background: radial-gradient(50% 50% at 50% 50%, #38ACCF 0%, rgba(56, 172, 207, 0) 100%);
+        opacity: 0.5;
+        filter: blur(37.5px);
+      }
+
+      & > img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+    }
+
+    .award__name {
+      color: $section-title-color-LM;
+    }
+
+    .award__type {
+      max-width: 170px;
+      font-family: $mainFont;
+      font-size: 14px;
+      color: $card-title-color-LM;
+      margin-bottom: 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    &__btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: $border-radius;
+      font-family: $semi-bold;
+
+      > img {
+        margin-right: 5px;
+      }
+    }
+
+    .prize {
+      color: $card-title-color-LM;
+      background-color: $btn-prize-bg-color-LM;
+      cursor: default;
+      border: none;
+      padding: 5px;
+      font-size: 24px;
+      margin-bottom: 10px;
+
+      > img {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    .claim-button {
+      border: 1px solid $btn-primary-bg-color-LM;
+      background: $btn-primary-bg-color-LM;
+      color: $text-color-white;
+      padding: 10px 57px;
+      font-size: 16px;
+    }
   }
 }
 
