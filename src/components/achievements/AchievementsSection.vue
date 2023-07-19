@@ -59,6 +59,7 @@
               :achievement="achievement"
               @joinAchievement="joinAchievement"
               @leaveAchievement="leaveAchievement"
+              :isDarkMode="isDarkMode"
           />
         </div>
       </div>

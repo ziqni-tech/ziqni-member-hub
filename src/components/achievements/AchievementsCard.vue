@@ -1,5 +1,9 @@
 <template>
-  <div class="achievements-card" @click="goToAchievementDetails">
+  <div
+      class="achievements-card"
+      :class="{'light-mode': !isDarkMode}"
+      @click="goToAchievementDetails"
+  >
     <div class="top-section">
       <div class="left-section">
         <div class="icon">
@@ -56,7 +60,8 @@ import diamondIcon from '@/assets/icons/achievements/diamond.png';
 
 
 const props = defineProps({
-  achievement: { type: Object, required: true }
+  achievement: { type: Object, required: true },
+  isDarkMode: Boolean
 });
 
 const achievementIconLink = computed(() => {
@@ -258,6 +263,134 @@ const goToAchievementDetails = () => {
     .go-button {
       border: 1px solid $purple;
       color: $text-color-white;
+    }
+  }
+
+  &.light-mode {
+    background-color: $card-bg-LM;
+
+    .top-section {
+      border-bottom: 1px solid $main-border-color-LM;
+    }
+
+    .left-section {
+
+      .icon {
+        border: 1px solid $main-border-color-LM;
+
+        &::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 0;
+          bottom: 0;
+
+          background: radial-gradient(50% 50% at 50% 50%, #38ACCF 0%, rgba(56, 172, 207, 0) 100%);
+          opacity: 0.5;
+          filter: blur(37.5px);
+        }
+
+        > img {
+          width: 100%;
+          height: 100%;
+          border-radius: $border-radius-round;
+          object-fit: contain;
+        }
+      }
+    }
+
+    .right-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 10px 0 0 20px;
+
+      .title {
+        font-family: $bold;
+        font-size: 14px;
+        font-style: normal;
+        line-height: normal;
+        color: $card-title-color-LM;
+      }
+
+      .achievements-progress {
+        display: flex;
+        margin-top: 10px;
+        width: 100%;
+
+        .progress {
+          width: 90%;
+          height: 4px;
+          background-color: $bg-body-LM;
+          margin: 10px 0;
+
+          .progress-bar {
+            height: 100%;
+            background: $purple-gradient;
+            border-radius: $border-radius-sm;
+          }
+        }
+
+        .progress-value {
+          margin-left: 5px;
+          font-family: $medium;
+          font-size: 12px;
+          line-height: 16px;
+          color: $card-text-color-LM;
+        }
+      }
+    }
+
+    .bottom-section {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+
+      .btn {
+        width: 108px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: $border-radius;
+
+        font-size: 16px;
+        font-family: $bold;
+        color: $btn-primary-color-LM;
+
+        > img {
+          margin-right: 5px;
+        }
+      }
+
+      .leave-button {
+        background: none;
+        color: $btn-secondary-color-LM;
+        border: 1px solid $btn-border-color-LM;
+      }
+
+      .join-btn {
+        background: $btn-primary-bg-color-LM;
+        color: $btn-primary-color-LM;
+      }
+
+      .prize {
+        color: $btn-prize-color-LM;
+        background-color: $btn-prize-bg-color-LM;
+        cursor: default;
+        border: none;
+
+        > img {
+          max-width: 36px;
+          height: 18px;
+        }
+      }
+
+      .go-button {
+        border: 1px solid $purple;
+        color: $text-color-white;
+      }
     }
   }
 }
