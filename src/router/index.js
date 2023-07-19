@@ -34,6 +34,7 @@ const routes = [
             path: ':id',
             name: 'TournamentDetails',
             component: () => import('@/views/tournaments/TournamentDetails'),
+            // component: () => import('@/components/tournaments/TournamentsBracket.vue'),
           },
           {
             path: '/tournaments/calendar',

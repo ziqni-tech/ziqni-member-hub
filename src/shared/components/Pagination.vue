@@ -1,5 +1,9 @@
 <template>
-  <div class="table-pagination" v-if="totalPages > 1">
+  <div
+      class="table-pagination"
+      :class="{'light-mode': !isDarkMode}"
+      v-if="totalPages > 1"
+  >
     <button
         class="page-item"
         @click="prevPage"
@@ -28,6 +32,7 @@
 
 <script setup>
 import { computed } from 'vue';
+import {useStore} from "vuex";
 
 const props = defineProps({
   totalPages: Number,
@@ -35,6 +40,9 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['pageChange']);
+
+const store = useStore();
+const isDarkMode = computed(() => store.getters.getTheme);
 
 const pageNumbers = computed(() => {
   const { totalPages, currentPage } = props;
@@ -103,8 +111,8 @@ function changePage(pageNumber) {
   width: 100%;
   margin-top: auto;
   padding-bottom: 15px;
-  font-family: $semi-bold;
-  font-size: 16px;
+  font-family: $bold;
+  font-size: 12px;
 
   .page-item {
     margin: 0 3px;
@@ -125,6 +133,40 @@ function changePage(pageNumber) {
 
   button[disabled] {
     cursor: not-allowed;
+  }
+
+  &.light-mode {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    margin-top: auto;
+    padding-bottom: 15px;
+    font-family: $semi-bold;
+    font-size: 16px;
+
+    .page-item {
+      margin: 0 3px;
+      border: 1px solid $pagination-btn-border;
+      width: 55px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $btn-secondary-color-LM;
+      border-radius: $border-radius-sm;
+      background-color: $btn-primary-color-LM;
+    }
+
+    .active {
+      background: $pagination-active-btn-bg;
+      border: 1px solid var(--primary-pink-200, #F7A1E4);
+      box-shadow: 0 2px 12px 0 rgba(238, 62, 200, 0.40);
+    }
+
+    button[disabled] {
+      cursor: not-allowed;
+    }
   }
 }
 
