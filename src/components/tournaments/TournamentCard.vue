@@ -1,5 +1,5 @@
 <template>
-  <div class="t-card">
+  <div class="t-card" :class="{'light-mode': !isDarkMode}">
     <div class="t-card-image">
       <img :src="cardImage" alt="">
     </div>
@@ -10,11 +10,13 @@
           :label="'Ends'"
           :value="cardItem.scheduledEndDate"
           :is-date="true"
+          :is-dark-mode="isDarkMode"
       />
       <TournamentDataRow
           :icon="prizeIcon"
           :label="'prize'"
           :value="cardItem.rewardValue"
+          :is-dark-mode="isDarkMode"
       />
       <div class="see-more-btn-wrapper" >
         <button class="see-more-btn" @click="goToTournamentsDetailsPage">See more</button>
@@ -31,7 +33,8 @@ import prizeIcon from '@/assets/icons/tournament/prize.png';
 import expiresInIcon from '@/assets/icons/tournament/expires-in.png';
 
 const props = defineProps({
-  card: Object
+  card: Object,
+  isDarkMode: Boolean
 });
 
 const cardItem = props.card;
@@ -54,7 +57,7 @@ const goToTournamentsDetailsPage = () => {
 
 .t-card {
   background-color: $light-grey;
-  font-family: $semi-bold;
+  font-family: $bold;
 
   .t-card-image > img {
     width: 100%;
@@ -105,7 +108,37 @@ const goToTournamentsDetailsPage = () => {
         color: $text-color-white;
       }
     }
+  }
 
+  &.light-mode {
+    background-color: $card-bg-LM;
+
+    .t-info {
+
+      .tournament-name {
+        font-size: 14px;
+        color: $card-title-color-LM;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-height: 24px;
+      }
+
+
+      .see-more-btn-wrapper {
+        width: 100%;
+        margin-top: auto;
+
+        .see-more-btn {
+          background: $btn-primary-bg-color-LM;
+          border-radius: $border-radius;
+          border: 1px solid $btn-border-color-LM;
+
+          font-size: 14px;
+          color: $text-color-white;
+        }
+      }
+    }
   }
 }
 

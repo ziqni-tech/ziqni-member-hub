@@ -25,7 +25,11 @@
     <Loader v-if="!isLoaded" :title="'Current Tournaments are loading'" />
     <div :class="isDashboard ? 'dashboard-cards-grid' : 'tournaments-cards-grid '" v-else-if="competitions.length && isLoaded">
       <div v-for="c in competitions" class="card-wrapper">
-        <Tournament :key="c.id" :card="c"/>
+        <Tournament
+            :key="c.id"
+            :card="c"
+            :is-dark-mode="isDarkMode"
+        />
       </div>
     </div>
   </div>

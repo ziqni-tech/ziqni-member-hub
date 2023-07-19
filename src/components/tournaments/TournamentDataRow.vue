@@ -1,5 +1,5 @@
 <template>
-  <div class="data-row">
+  <div class="data-row" :class="{'light-mode': !isDarkMode}">
     <div class="label">
       <div class="icon">
         <img :src="icon" alt="">
@@ -19,7 +19,8 @@ const props = defineProps({
   icon: String,
   label: String,
   value: String,
-  isDate: Boolean
+  isDate: Boolean,
+  isDarkMode: Boolean
 });
 import { useCountdown } from '@/hooks/useCountdown';
 
@@ -42,7 +43,7 @@ watch(countdownResult, (value) => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-family: $bold;
+  font-family: $medium;
   font-size: 12px;
   margin-top: 10px;
 
@@ -65,6 +66,18 @@ watch(countdownResult, (value) => {
     color: $text-color-white;
     display: block;
     min-height: 5px;
+  }
+
+  &.light-mode {
+
+    .label {
+      color: $card-text-color-LM;
+    }
+
+    .value {
+      color: $section-title-color-LM;
+
+    }
   }
 }
 
