@@ -1,5 +1,5 @@
 <template>
-  <div class="instant-wins-card">
+  <div class="instant-wins-card" :class="{'light-mode': !isDarkMode}">
     <h3 class="mobile-card-title">{{ title }}</h3>
     <div class="instant-img-wrapper">
       <img class="instant-img" :src="img" alt="" />
@@ -16,7 +16,8 @@
 const props = defineProps({
   title: String,
   description: String,
-  img: String
+  img: String,
+  isDarkMode: Boolean
 });
 
 const emit = defineEmits(['play'])
@@ -93,6 +94,67 @@ const play = () => {
 
       margin-top: auto;
       max-width: 124px;
+    }
+  }
+
+  &.light-mode {
+    background-color: $card-bg-LM;
+
+    .mobile-card-title {
+      display: none;
+    }
+
+    .instant-img-wrapper {
+      width: 44%;
+      height: 100%;
+      background-color: $bg-body-LM;
+      border-radius: $border-radius;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .instant-img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+
+    .instant-info {
+      display: flex;
+      flex-direction: column;
+      width: 56%;
+      height: 100%;
+      padding: 6px 16px 0;
+
+      .card-title {
+        font-size: 16px;
+        color: $card-title-color-LM;
+      }
+
+      .card-description {
+        font-size: 12px;
+        color: $card-text-color-LM;
+        margin-top: 10px;
+      }
+
+      .play-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 57px;
+
+        background: $btn-primary-bg-color-LM;
+        border-radius: $border-radius;
+        border: 1px solid $btn-border-color-LM;
+
+        font-size: 16px;
+        font-family: $semi-bold;
+        color: $btn-primary-color-LM;
+
+        margin-top: auto;
+        max-width: 124px;
+      }
     }
   }
 }

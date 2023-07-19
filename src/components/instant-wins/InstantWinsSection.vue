@@ -5,16 +5,18 @@
     </div>
     <div class="instant-cards-grid">
       <InstantWins
-          :img="singleWheelImg"
+          :img="wheelImg"
           :title="singleWheelTitle"
           :description="description"
           @play="singleWheelPlay"
+          :isDarkMode="isDarkMode"
       />
       <InstantWins
-          :img="scratchcardsImg"
+          :img="scratchcardImg"
           :title="scratchcardsTitle"
           :description="description"
           @play="scratchcardsPlay"
+          :isDarkMode="isDarkMode"
       />
     </div>
   </div>
@@ -23,7 +25,9 @@
 <script setup>
 import InstantWins from './InstantWinsCard';
 import singleWheelImg from '@/assets/images/instant-wins/single-wheel.png'
+import singleWheelImgLight from '@/assets/images/instant-wins/single-wheel_light.png'
 import scratchcardsImg from '@/assets/images/instant-wins/scratchcard.png'
+import scratchcardsImgLight from '@/assets/images/instant-wins/scratchcard_light.png'
 import { useRouter } from 'vue-router';
 import { computed } from "vue";
 import { useStore } from "vuex";
@@ -31,6 +35,9 @@ import { useStore } from "vuex";
 const singleWheelTitle = 'The Single Wheel'
 const scratchcardsTitle = 'Scratchcards'
 const description = 'Short description about this instant wins'
+
+const wheelImg = computed(() => isDarkMode.value ? singleWheelImg : singleWheelImgLight);
+const scratchcardImg = computed(() => isDarkMode.value ? scratchcardsImg : scratchcardsImgLight);
 
 const props = defineProps({
   isDashboard: {
