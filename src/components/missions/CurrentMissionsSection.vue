@@ -3,7 +3,7 @@
     <Loader v-if="isLoading" :title="'Current Missions are loading'"/>
     <div :class="isDashboard ? 'dashboard-cards-grid' : 'missions-cards-grid'">
       <div class="card-wrapper" v-for="mission in currentMissions">
-        <Mission :mission="mission"/>
+        <Mission :mission="mission" :isDarkMode="isDarkMode"/>
       </div>
     </div>
   </div>
@@ -32,11 +32,14 @@ const props = defineProps({
 
 const store = useStore();
 
+const isDarkMode = computed(() => store.getters.getTheme);
+
 const currentMissions = computed(() => {
   return props.isDashboard
       ? store.getters.getCurrentMissions.slice(0, 3)
       : store.getters.getCurrentMissions;
 });
+
 const totalRecords = computed(() => store.getters.getCurrentMissionsTotalRecords);
 
 const limit = ref(20);

@@ -1,5 +1,5 @@
 <template>
-  <div class="m-card">
+  <div class="m-card" :class="{'light-mode': !isDarkMode}">
     <div class="m-card-image">
       <img :src="missionImage" alt="">
       <div class="expires-in">{{ date }}</div>
@@ -32,7 +32,8 @@ import missionImage from '@/assets/images/missions/mission.svg';
 import { ref, watch } from 'vue';
 
 const props = defineProps({
-  mission: Object
+  mission: Object,
+  isDarkMode: Boolean
 });
 const missionItem = props.mission;
 
@@ -198,6 +199,155 @@ const goToMissionsMapPage = () => {
         border: 1px solid $purple;
         background: $btn-gradient-color;
         color: $text-color-white;
+      }
+    }
+  }
+
+  &.light-mode {
+    background-color: $card-bg-LM;
+
+    .m-card-image {
+      position: relative;
+
+      > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .expires-in {
+        position: absolute;
+        top: 16px;
+        right: -10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: $border-radius-sm;
+        background: $expires-in-bg;
+        padding: 8px 16px;
+        color: $btn-primary-color-LM;
+        font-family: $medium;
+        font-size: 12px;
+
+        @media screen and (max-width: $tableWidth) {
+          right: 0;
+          font-size: 12px;
+        }
+      }
+    }
+
+    .m-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 14px 12px 10px;
+
+      .mission-name {
+        font-size: 14px;
+        color: $btn-secondary-color-LM;
+        font-family: $bold;
+
+        @media screen and (max-width: $tableWidth) {
+          font-size: 12px;
+        }
+      }
+
+      .mission-progress {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+        width: 100%;
+
+        .progress {
+          width: 90%;
+          height: 4px;
+          background-color: $bg-body-LM;
+          margin: 10px 0;
+
+          .progress-bar {
+            height: 100%;
+            width: 50%;
+            background: $blue-gradient;
+            border-radius: $border-radius-sm;
+          }
+        }
+
+        .progress-value {
+          margin-left: 5px;
+          font-size: 12px;
+          color: $card-title-color-LM;
+          font-family: $medium;
+
+          @media screen and (max-width: $tableWidth) {
+            font-size: 10px;
+            line-height: 12px;
+          }
+        }
+      }
+
+      .bottom-section {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+        width: 100%;
+
+        @media screen and (max-width: $tableWidth) {
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+
+        .btn {
+          width: 108px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: $border-radius;
+
+          font-size: 14px;
+
+          > img {
+            margin-right: 5px;
+          }
+
+          @media screen and (max-width: $tableWidth) {
+            width: 100%;
+
+            &:last-child {
+              margin-top: 5px;
+            }
+          }
+        }
+
+        .prize {
+          color: $card-title-color-LM;
+          background-color: $btn-prize-bg-color-LM;
+          cursor: default;
+          border: none;
+          min-height: 35px;
+          margin-bottom: 5px;
+          font-family: $medium;
+
+          @media screen and (max-width: $tableWidth) {
+            font-size: 16px;
+          }
+
+          > img {
+            height: 25px;
+            object-fit: cover;
+          }
+        }
+
+        .go-button {
+          border: 1px solid $btn-border-color-LM;
+          background: $btn-primary-bg-color-LM;
+          color: $btn-primary-color-LM;
+          font-family: $bold;
+
+          @media screen and (max-width: $tableWidth) {
+            font-size: 12px;
+          }
+        }
       }
     }
   }
