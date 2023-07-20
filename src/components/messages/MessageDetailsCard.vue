@@ -1,5 +1,5 @@
 <template>
-  <div class="message-details-card">
+  <div class="message-details-card" :class="{'light-mode': !isDarkMode}">
     <div class="message-details-card_header">
       <div class="empty" v-if="!isMobile"></div>
       <div class="sender-name">
@@ -22,27 +22,28 @@
 import useMobileDevice from '@/hooks/useMobileDevice';
 
 const props = defineProps({
-  message: Object
-})
+  message: Object,
+  isDarkMode: Boolean
+});
 
 const formattedDate = (dateString) => {
-  const date = new Date(dateString)
+  const date = new Date(dateString);
   let day = date.getDate();
   let month = date.getMonth();
   let year = date.getFullYear();
 
-  return `${day}.${month}.${year}`
-}
+  return `${ day }.${ month }.${ year }`;
+};
 
 const formattedTime = (dateString) => {
-  const date = new Date(dateString)
+  const date = new Date(dateString);
   const hours = date.getHours();
   const minutes = date.getMinutes();
 
-  return `${hours}:${minutes}`
-}
+  return `${ hours }:${ minutes }`;
+};
 
-const { isMobile } = useMobileDevice()
+const { isMobile } = useMobileDevice();
 
 </script>
 
@@ -59,8 +60,6 @@ const { isMobile } = useMobileDevice()
   flex-direction: column;
   align-items: center;
   padding: 18px 74px 33px;
-  color: $body-text-white;
-  font-family: $semi-bold;
 
   &_header {
     width: 100%;
@@ -81,14 +80,16 @@ const { isMobile } = useMobileDevice()
       align-items: center;
 
       .name {
-        font-size: 24px;
+        font-size: 20px;
+        font-family: $bold;
         margin-left: 14px;
       }
     }
 
     .created {
       display: flex;
-      font-size: 16px;
+      font-size: 12px;
+      font-family: $medium;
       justify-content: flex-end;
 
       .date {
@@ -104,7 +105,56 @@ const { isMobile } = useMobileDevice()
   .message-body {
     width: 100%;
     text-align: start;
-    font-size: 16px;
+    font-size: 14px;
+  }
+
+  &.light-mode {
+    background: $card-bg-LM;
+
+    .message-details-card_header {
+
+      .empty,
+      .created,
+      .sender-name {
+        flex-basis: 0;
+        flex-grow: 1;
+      }
+
+      .sender-name {
+        display: flex;
+        align-items: center;
+
+        .name {
+          font-size: 20px;
+          font-family: $bold;
+          color: $section-title-color-LM;
+          margin-left: 14px;
+        }
+      }
+
+      .created {
+        font-size: 12px;
+        font-family: $medium;
+        color: $card-title-color-LM;
+
+
+        .date {
+          text-align: right;
+
+          &:last-child {
+            margin-left: 7px;
+          }
+        }
+      }
+    }
+
+    .message-body {
+      width: 100%;
+      text-align: start;
+      font-size: 14px;
+      font-family: $mainFont;
+      color: $card-title-color-LM;
+    }
   }
 }
 
