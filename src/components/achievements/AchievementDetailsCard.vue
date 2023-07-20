@@ -1,10 +1,10 @@
 <template>
-  <div class="achievements-details-card">
+  <div class="achievements-details-card" :class="{'light-mode': !isDarkMode}">
     <div class="spinner-wrapper-global" v-if="isLoading">
       <CSpinner grow size="sm"/>
     </div>
     <button class="info-btn" @click="goToInfo">
-      <img src="@/assets/icons/info.svg" alt="">
+      i
     </button>
     <div class="title">
       {{ achievement.name }}
@@ -76,7 +76,8 @@ import { removeHTMLTags } from '@/utils/removeHTMLTags';
 import { CSpinner } from "@coreui/vue";
 
 const props = defineProps({
-  achievement: Object
+  achievement: Object,
+  isDarkMode: Boolean
 });
 
 const emit = defineEmits(['joinAchievement', 'leaveAchievement']);
@@ -177,18 +178,13 @@ const goToInfo = () => {
     align-items: center;
     justify-content: center;
     overflow: hidden;
-
-    > img {
-      width: 100%;
-      height: 31px;
-      object-fit: cover;
-    }
+    color: $text-color-white-LM;
   }
 
   .title {
-    font-family: $mainFont;
-    font-size: 24px;
-    color: $text-color-white;
+    font-family: $bold;
+    font-size: 20px;
+    color: #080D12;
 
     white-space: nowrap;
     overflow: hidden;
@@ -238,7 +234,8 @@ const goToInfo = () => {
     .progress-title {
       text-align: start;
       width: 100%;
-      font-size: 16px;
+      font-family: $medium;
+      font-size: 14px;
       color: $text-color-white;
       padding-top: 20px;
     }
@@ -262,7 +259,8 @@ const goToInfo = () => {
 
       .progress-value {
         margin-left: 5px;
-        font-size: 16px;
+        font-size: 12px;
+        font-family: $mainFont;
         color: $text-color-white;
       }
     }
@@ -276,7 +274,7 @@ const goToInfo = () => {
     .description-title {
       text-align: start;
       width: 100%;
-      font-size: 16px;
+      font-size: 14px;
       color: $text-color-white;
       padding-top: 20px;
     }
@@ -284,7 +282,7 @@ const goToInfo = () => {
     .description-value {
       text-align: start;
       width: 100%;
-      font-size: 16px;
+      font-size: 12px;
       font-family: $mainFont;
       color: $text-color-white;
       padding-top: 14px;
@@ -341,6 +339,185 @@ const goToInfo = () => {
         max-width: 40px;
         height: 30px;
         object-fit: cover;
+      }
+    }
+  }
+
+  &.light-mode {
+    background-color: $card-bg-LM;
+    border-radius: $border-radius;
+    padding: 10px 25px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    font-family: $semi-bold;
+    position: relative;
+
+    .info-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: $border-radius-sm;
+      background: none;
+      border: 1px solid $main-border-color-LM;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      color: $card-text-color-LM;
+    }
+
+    .title {
+      color: $section-title-color-LM;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-top: 30px;
+    }
+
+    .icon {
+      width: 150px;
+      height: 150px;
+      padding-top: 20px;
+      border-radius: $border-radius-round;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid $main-border-color-LM;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+
+        background: radial-gradient(50% 50% at 50% 50%, #38ACCF 0%, rgba(56, 172, 207, 0) 100%);
+        opacity: 0.5;
+        filter: blur(37.5px);
+      }
+
+      > img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        height: 90%;
+      }
+    }
+
+    .achievements-progress-wrapper {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      margin-top: 50px;
+      text-align: start;
+
+      .progress-title {
+        text-align: start;
+        width: 100%;
+        font-size: 16px;
+        color: $section-title-color-LM;
+        padding-top: 20px;
+      }
+
+      .achievements-progress {
+        display: flex;
+        width: 100%;
+
+        .progress {
+          width: 100%;
+          height: 4px;
+          background-color: $bg-body-LM;
+          margin: 10px 0;
+
+          .progress-bar {
+            height: 100%;
+            background: $blue-gradient;
+            border-radius: $border-radius-sm;
+          }
+        }
+
+        .progress-value {
+          color: $card-text-color-LM;
+        }
+      }
+    }
+
+    .description {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+
+      .description-title {
+        color: $card-title-color-LM;
+      }
+
+      .description-value {
+        color: $card-title-color-LM;
+        padding-top: 14px;
+      }
+    }
+
+    .bottom-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin-top: 30px;
+
+      .action-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 150px;
+        padding: 10px;
+        border-radius: 10px;
+        color: $text-color-white;
+        font-size: 16px;
+      }
+
+      .join-button {
+        background: $btn-primary-bg-color-LM;
+        border: 1px solid $btn-border-color-LM;
+        color: $btn-primary-color-LM;
+      }
+
+      .leave-button {
+        border: 1px solid $btn-border-color-LM;
+        background: none;
+        color: $btn-secondary-color-LM;
+      }
+
+      .disabled-btn {
+        background: $btn-prize-color-LM;
+        border: 1px solid $btn-prize-color-LM;
+        color: $btn-primary-color-LM;
+      }
+
+      .prize-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 57px;
+        font-size: 16px;
+
+        background: $btn-prize-bg-color-LM;
+        border-radius: 10px;
+        border: none;
+        color: $btn-prize-color-LM;
+
+        > img {
+          margin-right: 10px;
+          max-width: 40px;
+          height: 30px;
+          object-fit: cover;
+        }
       }
     }
   }

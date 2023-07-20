@@ -6,6 +6,7 @@
         :achievement="achievement"
         @joinAchievement="joinAchievement"
         @leaveAchievement="leaveAchievement"
+        :isDarkMode="isDarkMode"
     />
   </div>
 </template>
@@ -13,7 +14,7 @@
 <script setup>
 
 import { useRoute, useRouter } from 'vue-router';
-import { onMounted, ref } from 'vue';
+import {computed, onMounted, ref} from 'vue';
 import {
   AchievementRequest,
   AchievementsApiWs,
@@ -36,6 +37,8 @@ const achievements = ref([]);
 const achievement = ref({});
 const updateKey = ref(0);
 const store = useStore();
+
+const isDarkMode = computed(() => store.getters.getTheme);
 
 onMounted(() => {
   getAchievementsRequest()
