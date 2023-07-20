@@ -1,6 +1,12 @@
 <template>
   <div class="section" :class="{'light-mode': !isDarkMode}">
-    <CNav variant="pills" layout="fill" class="achievements-tabs" v-if="!isDashboard">
+    <CNav
+        v-if="!isDashboard"
+        variant="pills"
+        layout="fill"
+        class="achievements-tabs"
+        :class="{'light-mode': !isDarkMode}"
+    >
       <CNavLink
           :active="activeTabKey === 'all'"
           @click="() => updateActiveTab('all')"
@@ -398,8 +404,8 @@ onMounted(() => {
   border-radius: $border-radius;
   padding: 12px 30px;
 
-  font-family: $semi-bold;
-  font-size: 16px;
+  font-family: $medium;
+  font-size: 14px;
   color: $text-color-white;
 
   & > img {
@@ -407,12 +413,16 @@ onMounted(() => {
   }
 
   @media screen and (max-width: $tableWidth) {
-    font-weight: 500;
     font-size: 12px;
     line-height: 14px;
 
     padding: 8px;
   }
+}
+
+.light-mode .until-the-next-day {
+  background-color: $card-bg-LM;
+  color: $card-title-color-LM;
 }
 
 .achievements-tabs {
@@ -422,6 +432,8 @@ onMounted(() => {
   background-color: $light-grey;
   border-radius: $border-radius;
   margin: 0 auto;
+  font-family: $medium;
+  font-size: 12px;
 
   @media screen and (max-width: 480px) {
     margin-bottom: 20px;
@@ -430,6 +442,10 @@ onMounted(() => {
   @media screen and (max-width: 380px) {
     width: 280px;
     margin-bottom: 20px;
+  }
+
+  &.light-mode {
+    background-color: $card-bg-LM;
   }
 }
 
@@ -443,14 +459,24 @@ onMounted(() => {
   text-transform: capitalize;
 
   @media screen and (max-width: $tableWidth) {
-    font-weight: 500;
     font-size: 10px;
     line-height: 12px;
   }
 }
 
+.light-mode .nav-pills .nav-link {
+  color: $card-text-color-LM;
+}
+
 .nav-pills .nav-link.active {
   background: $btn-gradient-color;
+
+}
+
+.light-mode .nav-pills .nav-link.active {
+  background: $pagination-active-btn-bg;
+  border: 1px solid $border-pink;
+  box-shadow: 0 2px 12px 0 rgba(238, 62, 200, 0.40);
 }
 
 .achievements-dashboard-cards-grid {
