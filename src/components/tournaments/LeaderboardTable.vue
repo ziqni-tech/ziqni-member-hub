@@ -1,7 +1,7 @@
 <template>
-  <div class="table-container">
-    <table>
-      <thead class="sticky-header">
+  <div class="table-container" :class="{'light-mode': !isDarkMode}">
+    <table :class="{'light-mode': !isDarkMode}">
+      <thead class="sticky-header" :class="{'light-mode': !isDarkMode}">
         <tr>
           <th class="rank">rank</th>
           <th>name</th>
@@ -39,7 +39,8 @@ const store = useStore();
 
 const props = defineProps({
   leaders: Array,
-  prize: Number
+  prize: Number,
+  isDarkMode: Boolean
 });
 
 const member = computed(() => store.getters.getMember);
@@ -85,7 +86,7 @@ const setPlace = computed(() => (place) => {
   padding: 0 24px 14px 24px;
 
   &::-webkit-scrollbar {
-    width: 4px;
+    width: 0;
     background: transparent;
   }
   &::-webkit-scrollbar-thumb {
@@ -99,6 +100,10 @@ const setPlace = computed(() => (place) => {
   top: 0;
   z-index: 3;
   background-color: $dark-grey;
+
+  &.light-mode {
+    background-color: white;
+  }
 }
 
 table {
@@ -156,6 +161,10 @@ table {
       }
     }
 
+    tr {
+      border-radius: 10px;
+    }
+
     tr.active {
       background: #262C41;
       border-radius: 10px;
@@ -195,6 +204,106 @@ table {
       font-size: 14px;
       line-height: 17px;
       text-align: center;
+    }
+  }
+
+  &.light-mode {
+    width: 100%;
+    color: $card-text-color-LM;
+
+    td:first-child {
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+    }
+
+    td:last-child {
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+
+    th {
+      border: none;
+      text-transform: capitalize;
+      text-align: start;
+      font-family: $bold;
+      font-size: 14px;
+      line-height: 17px;
+      padding-bottom: 15px;
+      padding-top: 15px;
+    }
+
+    th.rank {
+      width: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: $border-radius-round;
+      margin-right: 6px;
+    }
+
+    tbody {
+      height: auto;
+      overflow: hidden;
+      color: $card-title-color-LM;
+
+      tr {
+        display: table-row;
+        height: auto;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 16px;
+
+        &:nth-child(odd) {
+          background-color: $card-bg-LM;
+        }
+      }
+
+      tr.active {
+        border-radius: 10px;
+        position: relative;
+        box-shadow: 0 2px 12px 0 rgba(236, 60, 198, 0.4);
+        //border: 1px solid #F7A1E4;
+        background: $info-item-bg;
+      }
+
+      td {
+        vertical-align: middle;
+        text-align: start;
+        padding: 8px 0;
+
+        .members {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+
+          .member {
+            margin: 3px 0;
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+
+            .member-name {
+              width: 100%;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+          }
+        }
+      }
+
+      .rank {
+        width: 100px;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 17px;
+        text-align: center;
+      }
     }
   }
 }
@@ -238,7 +347,7 @@ table {
     height: 100%;
     width: 100%;
     overflow-y: auto;
-    font-family: $semi-bold;
+    font-family: $bold;
     padding: 0 10px 14px 10px;
 
     &::-webkit-scrollbar {
@@ -248,6 +357,10 @@ table {
     &::-webkit-scrollbar-thumb {
       border-radius: 10px;
       background: #262a3a;
+    }
+
+    &.light-mode {
+
     }
   }
 

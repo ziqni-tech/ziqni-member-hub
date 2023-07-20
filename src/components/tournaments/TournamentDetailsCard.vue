@@ -1,12 +1,5 @@
 <template>
-  <div class="tournament-details-card">
-<!--    <button-->
-<!--        class="info_btn"-->
-<!--        @click="goToInfo"-->
-<!--        title="show terms and conditions"-->
-<!--    >-->
-<!--      i-->
-<!--    </button>-->
+  <div class="tournament-details-card" :class="{'light-mode': !isDarkMode}">
     <div class="card-banner">
       <div class="tournament-main-data">
         <span class="tournament-title">{{ tournament.name }}</span>
@@ -20,9 +13,24 @@
     </div>
     <div class="tournament-data-wrapper">
       <div class="tournament-info-grid">
-        <InfoItem :icon="prizeIcon" :title="'prize'" :data="tournament.rewardValue"/>
-        <InfoItem :icon="rtpIcon" :title="'RTP'" :data="'84%'"/>
-        <InfoItem :icon="rateIcon" :title="'rate'" :data="'4.9'"/>
+        <InfoItem
+            :icon="TrophyIcon"
+            :title="'prize'"
+            :data="tournament.rewardValue"
+            :isDarkMode="isDarkMode"
+        />
+        <InfoItem
+            :icon="DiamondIcon"
+            :title="'RTP'"
+            :data="'84%'"
+            :isDarkMode="isDarkMode"
+        />
+        <InfoItem
+            :icon="StarIcon"
+            :title="'rate'"
+            :data="'4.9'"
+            :isDarkMode="isDarkMode"
+        />
         <button
             class="info_btn"
             @click="goToInfo"
@@ -63,19 +71,19 @@
 
 <script setup>
 import { CSpinner } from '@coreui/vue';
-import { computed, ref, toRef, watch } from 'vue';
+import { computed, ref, toRef } from 'vue';
 
 import Countdown from '../Countdown';
 import Modal from '../../shared/components/Modal';
 import InfoItem from '../../shared/components/InfoItem';
 
 import cardImage from '../../assets/images/tournaments/tournament.png';
-import prizeIcon from '@/assets/icons/tournament/details/prize.png';
-import rtpIcon from '@/assets/icons/tournament/details/rtp.png';
-import rateIcon from '@/assets/icons/tournament/details/rate.png';
+import TrophyIcon from "@/shared/components/svg-icons/TrophyIcon.vue";
+import DiamondIcon from "@/shared/components/svg-icons/DiamondIcon.vue";
+import StarIcon from "@/shared/components/svg-icons/StarIcon.vue";
 import { removeHTMLTags } from '@/utils/removeHTMLTags';
 
-const props = defineProps({ tournament: Object });
+const props = defineProps({ tournament: Object, isDarkMode: Boolean });
 const emit = defineEmits(['joinTournament', 'leaveTournament']);
 
 const tournament = toRef(props, 'tournament');
@@ -192,13 +200,28 @@ const goToInfo = () => {
     }
 
     .tournament-title {
-      color: $text-color-white;
-      font-size: 24px;
+      color: $text-color-white-LM;
+      font-size: 20px;
+      font-family: $bold;
       margin: 30px 0;
     }
 
     .countdown {
       width: 50%;
+      color: $text-color-white-LM;
+
+      .indicator {
+        .indicator-block {
+          .indicator-block_digits {
+            font-family: $bold;
+            font-size: 24px;
+          }
+          .indicator-block_text {
+            font-family: $medium;
+            font-size: 12px;
+          }
+        }
+      }
 
       .title-medium {
         max-width: 100px;
@@ -248,7 +271,7 @@ const goToInfo = () => {
 
         position: absolute;
         bottom: -20px;
-        right: 0px;
+        right: 0;
         z-index: 3;
       }
     }
@@ -262,12 +285,13 @@ const goToInfo = () => {
 
       &_title {
         font-size: 16px;
+        font-family: $bold;
       }
 
       &_description {
         margin: 15px 0 20px;
-        font-family: $mainFont;
-        font-size: 16px;
+        font-family: $medium;
+        font-size: 12px;
       }
     }
 
@@ -275,6 +299,105 @@ const goToInfo = () => {
       border-radius: $border-radius;
       width: 35%;
       padding: 10px 0;
+    }
+  }
+
+  &.light-mode {
+    background-color: $card-bg-LM;
+    border-radius: $border-radius;
+
+    &::-webkit-scrollbar {
+      width: 0;
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background: #262a3a;
+    }
+
+    .card-banner {
+      .tournament-title {
+        color: $text-color-white-LM;
+        font-size: 20px;
+        margin: 30px 0;
+      }
+    }
+
+    .join-button {
+      background: $btn-primary-bg-color-LM;
+      border: 1px solid $btn-border-color-LM;
+      font-size: 14px;
+      font-family: $bold;
+    }
+
+    .leave-button {
+      border: 1px solid $btn-border-color-LM;
+      background: none;
+      color: $btn-secondary-color-LM;
+      font-size: 14px;
+      font-family: $bold;
+    }
+
+    .tournament-data-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      padding: 20px 29px;
+
+      .tournament-info-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        width: 100%;
+        grid-gap: 15px;
+        padding: 20px 0;
+        margin-top: 25px;
+        position: relative;
+
+        .info_btn {
+          width: 30px;
+          height: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: $border-radius-sm;
+          background: none;
+          border: 1px solid $main-border-color-LM;
+          color: $btn-prize-color-LM;
+
+          position: absolute;
+          bottom: -20px;
+          right: 0;
+          z-index: 3;
+        }
+      }
+
+      .tournament-description {
+        display: flex;
+        flex-direction: column;
+        text-align: start;
+        width: 100%;
+
+        &_title {
+          font-size: 16px;
+          color: $section-title-color-LM;
+          font-family: $bold;
+        }
+
+        &_description {
+          margin: 15px 0 20px;
+          font-family: $medium;
+          font-size: 12px;
+          color: $card-title-color-LM;
+        }
+      }
+
+      .register-btn {
+        border-radius: $border-radius;
+        width: 35%;
+        padding: 10px 0;
+      }
     }
   }
 }

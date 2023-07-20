@@ -1,6 +1,6 @@
 <template>
   <Loader v-if="!currentTournament" :title="'Loading'" />
-  <div v-else  class="tournament-details">
+  <div v-else  class="tournament-details" :class="{'light-mode': !isDarkMode}">
     <div class="tournament-details-mobile-header">
       <h1 class="section-title">{{ currentTournament.name }}</h1>
     </div>
@@ -9,7 +9,11 @@
         <h1 class="section-title">{{ currentTournament.name }}</h1>
       </div>
       <div class="leaderboard-table" v-if="leaderboardEntries">
-        <Leaderboard :leaders="leaderboardEntries" :prize="contest && contest.rewardValue ? contest.rewardValue : 0"/>
+        <Leaderboard
+            :leaders="leaderboardEntries"
+            :prize="contest && contest.rewardValue ? contest.rewardValue : 0"
+            :isDarkMode="isDarkMode"
+        />
       </div>
     </div>
     <div class="details">
@@ -18,6 +22,7 @@
         :tournament="currentTournament"
         @joinTournament="joinTournament"
         @leaveTournament="leaveTournament"
+        :isDarkMode="isDarkMode"
       />
     </div>
   </div>
@@ -27,7 +32,7 @@
 <script setup>
 import Leaderboard from '../../components/tournaments/LeaderboardTable.vue';
 import TournamentDetailsCard from '../../components/tournaments/TournamentDetailsCard';
-import { onUnmounted, ref, onMounted } from 'vue';
+import { onUnmounted, ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import Loader from '../../components/Loader';
@@ -52,10 +57,10 @@ const store = useStore();
 const contests = ref(null);
 const contest = ref(null);
 const isLoaded = ref(false)
-const leaderboardEntries = ref(null);
+const leaderboardEntries = ref([]);
 const tournaments = ref(null)
 const currentTournament = ref(null);
-
+const isDarkMode = computed(() => store.getters.getTheme);
 const tournamentRequestData = {
   statusCode,
   limit: 1,
@@ -233,13 +238,13 @@ const getEntityLeaderboard = async (contestId) => {
   ApiClientStomp.instance.sendSys('', {}, (json, headers) => {
     if (headers && headers.objectType === 'Leaderboard') {
       if (json.id && json.id === contestId) {
-        leaderboardEntries.value = json.leaderboardEntries.length ? json.leaderboardEntries : defLeaders;
+        leaderboardEntries.value = json.leaderboardEntries && json.leaderboardEntries.length ? json.leaderboardEntries : defLeaders;
       }
     }
   })
 
   await apiLeaderboardWsClient.subscribeToLeaderboard(leaderboardSubscriptionRequest, (res) => {
-    leaderboardEntries.value = res.data.leaderboardEntries.length ? res.data.leaderboardEntries : defLeaders;
+    leaderboardEntries.value = res.data.leaderboardEntries && res.data.leaderboardEntries.length ? res.data.leaderboardEntries : defLeaders;
   });
 }
 
@@ -428,6 +433,30 @@ const goToCalendar = () => {
       border: 1px solid $btn-border-grey;
       border-radius: 10px;
       overflow: hidden;
+    }
+  }
+
+  &.light-mode {
+    .leaderboard-section {
+      display: flex;
+      flex-direction: column;
+      padding-right: 20px;
+
+      &_header {
+        width: 95%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 0;
+      }
+
+      .leaderboard-table {
+        display: flex;
+        width: 100%;
+        border: 1px solid $main-border-color-LM;
+        border-radius: 10px;
+        overflow: hidden;
+      }
     }
   }
 }

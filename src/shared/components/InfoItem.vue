@@ -1,7 +1,7 @@
 <template>
-<div class="info-item">
+<div class="info-item" :class="{'light-mode': !isDarkMode}">
   <div class="item-icon">
-    <img :src="icon" alt="" >
+    <component :is="icon" :strokeColor="getIconStrokeColor()" />
   </div>
   <div class="info-title">{{ title }}</div>
   <div class="info-data">{{ data }}</div>
@@ -12,8 +12,13 @@
 const props = defineProps({
   title: String,
   data: String,
-  icon: String,
+  icon: Object,
+  isDarkMode: Boolean
 })
+
+const getIconStrokeColor = () => {
+  return props.isDarkMode ? '#FFFFFF' : '#080D12'
+};
 
 </script>
 
@@ -45,14 +50,44 @@ const props = defineProps({
   }
 
   .info-title {
-    font-size: 16px;
+    font-size: 14px;
+    font-family: $medium;
     color: $body-text-color;
   }
 
   .info-data {
-    font-size: 24px;
+    font-size: 20px;
     color: $text-color-white;
-    font-family: $mainFont;
+    font-family: $bold;
+  }
+
+  &.light-mode {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    border: 1px solid $info-item-bg;
+    border-radius: 10px;
+    padding: 33px 15px 10px;
+    background-color: $bg-body-LM;
+    font-family: $semi-bold;
+
+    .item-icon {
+      border: 1px solid $info-item-bg;
+      background-color: $info-item-bg;
+    }
+
+    .info-title {
+      font-size: 14px;
+      font-family: $medium;
+      color: $info-name-color;
+    }
+
+    .info-data {
+      font-size: 20px;
+      color: $section-title-color-LM;
+      font-family: $bold;
+    }
   }
 }
 
