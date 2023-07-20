@@ -1,5 +1,5 @@
 <template>
-  <div class="messages-wrapper">
+  <div class="messages-wrapper" :class="{'light-mode': !isDarkMode}">
     <CListGroup v-for="message in messages" v-if="isLoaded">
       <CListGroupItem class="list-group-item" @click="goToMessageDetails(message)">
         <div class="avatar">
@@ -57,28 +57,32 @@ const goToMessageDetails = (message) => {
 }
 
 const getMessagesRequest = async () => {
-  const messagesApiWsClient = new MessagesApiWs(ApiClientStomp.instance);
-  const messageRequest = {
-    messageFilter: {
-      messageType: 'InboxItem',
-      sortBy: [{
-        queryField: 'created',
-        order: 'Desc'
-      }],
-      skip: 0,
-      limit: 20
-    }
-  };
+  try {
+    const messagesApiWsClient = new MessagesApiWs(ApiClientStomp.instance);
+    const messageRequest = {
+      messageFilter: {
+        messageType: 'InboxItem',
+        sortBy: [{
+          queryField: 'created',
+          order: 'Desc'
+        }],
+        skip: 0,
+        limit: 20
+      }
+    };
 
-  await messagesApiWsClient.getMessages(messageRequest, (res) => {
-    messages.value = res.data;
-    isLoaded.value = true;
-    if (!res.data || !res.data.length) {
-      setTimeout(() => {
-        getMessagesRequest();
-      }, 1500);
-    }
-  });
+    await messagesApiWsClient.getMessages(messageRequest, (res) => {
+      messages.value = res.data;
+      isLoaded.value = true;
+      if (!res.data || !res.data.length) {
+        setTimeout(() => {
+          getMessagesRequest();
+        }, 1500);
+      }
+    });
+  } catch (err) {
+    console.log('get messages error', err)
+  }
 }
 
 const formattedDate = (dateString) => {
@@ -166,6 +170,64 @@ const formattedTime = (dateString) => {
     }
   }
 
+  &.light-mode {
+    .list-group-item {
+      display: flex;
+      align-items: center;
+
+      margin-bottom: 5px;
+      background-color: $card-bg-LM;
+      color: $text-color-white;
+      cursor: pointer;
+
+      .avatar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: $border-radius-round;
+
+        & > img {
+          width: inherit;
+          height: inherit;
+        }
+      }
+
+      .message-body {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-left: 10px;
+        font-family: $semi-bold;
+
+        &__type {
+          font-size: 14px;
+          font-family: $medium;
+          color: $btn-secondary-color-LM;
+        }
+
+        &__body {
+          font-size: 12px;
+          font-family: $mainFont;
+          color: $card-title-color-LM;
+        }
+      }
+
+      .created {
+        display: flex;
+        flex-direction: column;
+        margin-left: auto;
+        font-family: $medium;
+        font-size: 12px;
+        color: $card-title-color-LM;
+
+        .date {
+          text-align: right;
+        }
+      }
+    }
+  }
 }
 
 
