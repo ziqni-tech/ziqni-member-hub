@@ -1,12 +1,17 @@
 <template>
   <div class="details-content">
-    <AwardDetailsCard v-if="isLoaded" :award="award" @claimAward="claimAward" />
+    <AwardDetailsCard
+        v-if="isLoaded"
+        :award="award"
+        @claimAward="claimAward"
+        :isDarkMode="isDarkMode"
+    />
   </div>
 </template>
 
 <script setup>
 
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import {
@@ -33,6 +38,7 @@ const isLoaded = ref(false);
 const awards = ref(null);
 const award = ref(null);
 const store = useStore();
+const isDarkMode = computed(() => store.getters.getTheme);
 
 onMounted(() => {
   getAwardsRequest()

@@ -1,5 +1,5 @@
 <template>
-  <div class="award-details-card">
+  <div class="award-details-card" :class="{'light-mode': !isDarkMode}">
     <div class="title">
       {{ award.name }}
     </div>
@@ -44,7 +44,8 @@ import defaultAwardIcon from '@/assets/icons/awards/bottle.svg';
 import { removeHTMLTags } from '@/utils/removeHTMLTags';
 
 const props = defineProps({
-  award: Object
+  award: Object,
+  isDarkMode: Boolean
 });
 
 const emit = defineEmits(['claimAward']);
@@ -87,7 +88,6 @@ const handleButtonClick = async () => {
 @import '@/assets/scss/_variables';
 
 .award-details-card {
-  font-family: $semi-bold;
   max-width: 840px;
   background-color: $light-grey;
   border-radius: $border-radius;
@@ -99,8 +99,8 @@ const handleButtonClick = async () => {
 
 
   .title {
-    font-family: $mainFont;
-    font-size: 24px;
+    font-family: $bold;
+    font-size: 20px;
     color: $text-color-white;
 
     white-space: nowrap;
@@ -146,7 +146,8 @@ const handleButtonClick = async () => {
     align-items: center;
     color: $text-color-white;
     margin-top: 20px;
-    font-size: 24px;
+    font-size: 20px;
+    font-family: $bold;
 
     > img {
       margin-right: 10px;
@@ -163,7 +164,8 @@ const handleButtonClick = async () => {
     .description-title {
       text-align: start;
       width: 100%;
-      font-size: 16px;
+      font-size: 14px;
+      font-family: $medium;
       color: $text-color-white;
       padding-top: 20px;
     }
@@ -172,7 +174,7 @@ const handleButtonClick = async () => {
       font-family: $mainFont;
       text-align: start;
       width: 100%;
-      font-size: 16px;
+      font-size: 12px;
       color: $text-color-white;
       padding-top: 14px;
     }
@@ -196,6 +198,8 @@ const handleButtonClick = async () => {
       align-items: center;
       width: 150px;
       padding: 10px;
+      font-size: 14px;
+      font-family: $bold;
 
       background: $purple-gradient;
       border-radius: 10px;
@@ -206,6 +210,113 @@ const handleButtonClick = async () => {
     .disabled-btn {
       background: $btn-grey;
       border: 1px solid $btn-grey;
+    }
+  }
+
+  &.light-mode {
+    max-width: 840px;
+    background-color: $card-bg-LM;
+    border-radius: $border-radius;
+    padding: 10px 25px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+
+
+    .title {
+      color: $section-title-color-LM;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-top: 30px;
+    }
+
+    .icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 150px;
+      height: 150px;
+      padding: 20px 0;
+      border-radius: 50%;
+      position: relative;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+
+        background: radial-gradient(50% 50% at 50% 50%, #38ACCF 0%, rgba(56, 172, 207, 0) 100%);
+        opacity: 0.5;
+        filter: blur(37.5px);
+      }
+
+      & > img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+    }
+
+    .prize {
+      color: $section-title-color-LM;
+
+      > img {
+        margin-right: 10px;
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .description {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+
+      .description-title {;
+        color: $section-title-color-LM;
+      }
+
+      .description-value {
+        color: $card-title-color-LM;
+      }
+    }
+
+    .bottom-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin-top: 30px;
+
+      .disabled-btn {
+        background: $btn-grey;
+        border: 1px solid $btn-grey;
+      }
+
+      .action-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 150px;
+        padding: 10px;
+
+        background: $btn-primary-bg-color-LM;
+        border-radius: 10px;
+        border: 1px solid $btn-border-color-LM;
+        color: $btn-primary-color-LM;
+      }
+
+      .disabled-btn {
+        background: $btn-prize-color-LM;
+        border: 1px solid $btn-prize-color-LM;
+      }
     }
   }
 }
