@@ -1,9 +1,6 @@
 <template>
   <Loader v-if="!currentTournament" :title="'Loading'" />
   <div v-else  class="tournament-details" :class="{'light-mode': !isDarkMode}">
-    <div class="tournament-details-mobile-header">
-      <h1 class="section-title">{{ currentTournament.name }}</h1>
-    </div>
     <div class="leaderboard-section">
       <div class="leaderboard-section_header">
         <h1 class="section-title">{{ currentTournament.name }}</h1>
@@ -425,6 +422,12 @@ const goToCalendar = () => {
       align-items: center;
       justify-content: space-between;
       padding: 14px 0;
+
+      .section-title {
+        font-size: 24px;
+        font-family: $bold;
+        color: $text-color-white;
+      }
     }
 
     .leaderboard-table {
@@ -448,6 +451,12 @@ const goToCalendar = () => {
         align-items: center;
         justify-content: space-between;
         padding: 14px 0;
+
+        .section-title {
+          font-size: 24px;
+          font-family: $bold;
+          color: $section-title-color-LM;
+        }
       }
 
       .leaderboard-table {
@@ -467,18 +476,6 @@ const goToCalendar = () => {
     flex-direction: column;
     align-items: center;
 
-    .tournament-details-mobile-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      padding: 14px 0;
-
-      .section-title {
-        font-size: 24px;
-      }
-    }
-
     .details {
       width: 100%;
       padding-right: 0;
@@ -492,21 +489,53 @@ const goToCalendar = () => {
       padding-right: 0;
 
       &_header {
-        display: none;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 0;
+
+        .section-title {
+          font-size: 14px;
+          font-family: $bold;
+          color: $text-color-white;
+        }
       }
 
       .leaderboard-table {
         width: 100%;
-
       }
     }
 
-    //.leaderboard-table {
-    //  display: flex;
-    //  width: 100%;
-    //  margin-bottom: 20px;
-    //  padding-left: 0;
-    //}
+    &.light-mode {
+      .leaderboard-section {
+        display: flex;
+        flex-direction: column;
+        padding-right: 0;
+
+        &_header {
+          width: 95%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 14px 0;
+
+          .section-title {
+            font-size: 14px;
+            font-family: $bold;
+            color: $section-title-color-LM;
+          }
+        }
+
+        .leaderboard-table {
+          display: flex;
+          width: 100%;
+          border: 1px solid $main-border-color-LM;
+          border-radius: 10px;
+          overflow: hidden;
+        }
+      }
+    }
   }
 }
 </style>
