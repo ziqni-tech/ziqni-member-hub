@@ -27,7 +27,7 @@
           @click="$router.go(-1)"
           v-if="isGoBackBtn"
       >
-        <img src="@/assets/icons/back_arrow.png" alt="">
+        <ArrowLeft :strokeColor="getIconStrokeColor()" />
       </button>
       <div v-if="!isGoBackBtn" class="icon-btn">
         <NotificationIcon :width="'40'" :height="'40'" :stroke-color="getIconStrokeColor()" />
@@ -67,6 +67,7 @@ import useMobileDevice from '@/hooks/useMobileDevice';
 import UserProfileMobile from '@/components/user-profile/UserProfileMobile.vue';
 import NotificationIcon from '@/shared/components/svg-icons/NotificationIcon.vue';
 import PersonIcon from '@/shared/components/svg-icons/PersonIcon.vue';
+import ArrowLeft from '@/shared/components/svg-icons/ArrowLeft.vue';
 
 const router = useRouter();
 const store = useStore();
