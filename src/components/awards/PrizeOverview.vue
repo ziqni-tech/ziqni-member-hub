@@ -174,13 +174,13 @@ const scratchAllCards = () => {
       justify-content: center;
       align-items: center;
       padding: 10px 57px;
-      background-color: $purple;
+      background-color: $btn-primary-bg-color-LM;
       border-radius: $border-radius;
       border: none;
       margin-top: 30px;
 
-      font-weight: 700;
-      font-size: 12px;
+      font-family: $bold;
+      font-size: 14px;
       line-height: 17px;
       color: $text-color-white;
     }

@@ -27,6 +27,7 @@
       :title="titleMessage"
       :btnLabel="btnTitle"
       @doFunction="isWinner ? claim() : closeModal()"
+      :is-dark-mode="isDarkMode"
   />
 </template>
 
@@ -48,6 +49,7 @@ const height = ref(212);
 const width = ref(212);
 
 const store = useStore();
+const isDarkMode = computed(() => store.getters.getTheme);
 
 const isAutoScratchAll = computed(() => store.getters.getIsScratchAll);
 const scratchText = ref('?');
@@ -130,7 +132,7 @@ function initCanvas() {
           ctx.restore(); // Восстанавливаем контекст
         };
       } else {
-        ctx.fillStyle = '#1A202C';
+        ctx.fillStyle = isDarkMode.value ? '#1A202C' : '#EDF3F7';
         ctx.fillRect(x, y, cellSize, cellSize);
 
         // Добавляем скругленные радиусы
@@ -145,8 +147,8 @@ function initCanvas() {
         ctx.clip();
 
         ctx.fillStyle = '#BEE9F3';
-        ctx.font = '30px AvertaStd-Regular';
-        ctx.strokeStyle = '#8749DC';
+        ctx.font = '40px Syne-Bold';
+        ctx.strokeStyle = isDarkMode.value ? '#406A8C' : '#F7A1E4';
         ctx.stroke();
 
         // Исправляем координаты текста
@@ -298,11 +300,13 @@ watch(
     { deep: true }
 );
 
+watch(isDarkMode, (newValue) => {
+  initCanvas()
+}, { deep: true })
+
 const clearCanvas = () => {
   const canvas = canvasRef.value;
   const context = canvas.getContext('2d');
-  console.warn('canvas.width', canvas.width);
-  console.warn('canvas.height', canvas.height);
   context.clearRect(0, 0, canvas.width, canvas.height);
 };
 
