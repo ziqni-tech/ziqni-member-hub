@@ -1,16 +1,16 @@
 <template>
-  <button @click="toggleTheme">
+  <button @click="toggleTheme" >
     <SunIcon
         v-if="isDarkTheme"
         :strokeColor="strokeColor"
-        :width="'40'"
-        :height="'40'"
+        :width="iconSize"
+        :height="iconSize"
     />
     <MoonIcon
         v-else
         :strokeColor="strokeColor"
-        :width="'20'"
-        :height="'20'"
+        :width="iconSize"
+        :height="iconSize"
     />
   </button>
 </template>
@@ -25,7 +25,9 @@ const isDarkTheme = ref(false);
 const store = useStore();
 
 const props = defineProps({
-  strokeColor: String
+  strokeColor: String,
+  iconSize: String,
+  moonSize: String
 })
 
 onBeforeMount(() => {

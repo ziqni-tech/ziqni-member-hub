@@ -74,15 +74,17 @@ import memberDefaultIcon from "@/assets/images/user/avatar.png";
 const store = useStore();
 const isDarkMode = computed(() => store.getters.getTheme);
 const member = computed(() => store.getters.getMember);
+const achievements = ref([])
 const totalGames = ref(0);
 const wins = ref(0);
 const losses = ref(0);
-
+console.warn('MEMBER', member.value)
 const winPercentage = computed(() => {
   if (totalGames.value === 0) {
     return 0;
   }
   const percentage = (wins.value / totalGames.value) * 100;
+  console.warn('WIN', percentage)
   return Math.round(percentage);
 });
 
@@ -91,6 +93,7 @@ const lossPercentage = computed(() => {
     return 0;
   }
   const percentage = (losses.value / totalGames.value) * 100;
+  console.warn('LOSE', percentage)
   return Math.round(percentage);
 });
 
@@ -125,6 +128,8 @@ const getAchievementsRequest = async () => {
   }, null);
 
   achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
+    console.warn('RES', res.data)
+    achievements.value = res.data;
     // totalGames.value = res.meta.totalRecordsFound;
     const ids = res.data.map(item => item.id);
     getOptInStatus(ids);
@@ -149,16 +154,28 @@ const getOptInStatus = async (ids) => {
 
   await optInApiWsClient.optInStates(optInStateRequest, res => {
     if (res.data && res.data.length) {
+      console.warn('OPT RES', res.data)
       totalGames.value = res.data.length;
-      res.data.forEach((item) => {
-        if (item.percentageComplete === 100) {
+
+      for (const achievement of achievements.value) {
+        const percentage = res.data.find(item => item.entityId === achievement.id)?.percentageComplete;
+        achievement.percentageComplete = percentage ? percentage : 0;
+
+        const isFinished = achievement.status === 'Finished' || achievement.status === 'Finishing';
+        const isWinner = achievement.percentageComplete === 100;
+
+        if (isWinner) {
           wins.value++;
-        } else {
+        } else if (isFinished && !isWinner) {
           losses.value++;
         }
-      });
+      }
     }
   });
+
+  await ApiClientStomp.instance.sendSys('', {}, async (res, headers) => {
+    console.warn()
+  })
 };
 </script>
 

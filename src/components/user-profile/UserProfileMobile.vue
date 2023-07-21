@@ -1,11 +1,15 @@
 <template>
-  <div id="user-profile-mobile" :class="{ open: isProfileInfo }">
+  <div id="user-profile-mobile" :class="{ open: isProfileInfo, 'light-mode': !isDarkMode }">
     <div class="background-block" :style="{ 'background-image': `url(${require('@/assets/images/user/cover.png')})` }">
       <div class="buttons">
-        <ToggleTheme class="btn" />
-        <button class="btn" v-if="isMobile" @click="closeProfileInfo">
-          <img src="@/assets/icons/user-info/close.png" alt="">
-        </button>
+        <ToggleTheme
+            class="theme-btn"
+            :stroke-color="getIconStrokeColor()"
+            :iconSize="'40'"
+        />
+        <div class="cross-btn" v-if="isMobile" @click="closeProfileInfo">
+          <CrossIcon :width="'40'" :height="'40'" :stroke-color="getIconStrokeColor()"/>
+        </div>
       </div>
     </div>
     <div class="user-info">
@@ -22,12 +26,14 @@
             :title="'Total game'"
             :completed-steps="totalGames"
             :total-steps="100"
+            :is-dark-mode="isDarkMode"
         />
         <ProfileInfoCircleProgress
             :color="'#8749DC'"
             :title="'Points'"
             :completed-steps="1200"
             :total-steps="10000"
+            :is-dark-mode="isDarkMode"
         />
         <ProfileInfoCircleProgress
             :color="'#6FCF97'"
@@ -35,6 +41,7 @@
             :completed-steps="winPercentage"
             :total-steps="100"
             :is-percents="true"
+            :is-dark-mode="isDarkMode"
         />
         <ProfileInfoCircleProgress
             :color="'#EB5757'"
@@ -42,6 +49,7 @@
             :completed-steps="lossPercentage"
             :total-steps="100"
             :is-percents="true"
+            :is-dark-mode="isDarkMode"
         />
       </div>
     </div>
@@ -67,27 +75,34 @@ import {
   ApiClientStomp,
   OptInApiWs,
   OptInStatesRequest
-} from "@ziqni-tech/member-api-client";
-import memberDefaultIcon from "@/assets/images/user/avatar.png";
+} from '@ziqni-tech/member-api-client';
+import memberDefaultIcon from '@/assets/images/user/avatar.png';
+import CrossIcon from '@/shared/components/svg-icons/CrossIcon.vue';
 
 const store = useStore();
 const { isMobile } = useMobileDevice();
-const emit = defineEmits(['closeProfileInfo', 'logOut'])
+const emit = defineEmits(['closeProfileInfo', 'logOut']);
 
 const props = defineProps({
   isProfileInfo: {
     type: Boolean,
     default: false
   }
-})
+});
+
+const isDarkMode = computed(() => store.getters.getTheme);
+
+const getIconStrokeColor = () => {
+  return '#FFFFFF';
+};
 
 const closeProfileInfo = () => {
-  emit('closeProfileInfo')
-}
+  emit('closeProfileInfo');
+};
 
 const logOut = () => {
-  emit('logOut')
-}
+  emit('logOut');
+};
 
 const member = computed(() => store.getters.getMember);
 
@@ -113,7 +128,7 @@ const lossPercentage = computed(() => {
 
 onMounted(() => {
   getAchievementsRequest();
-})
+});
 
 
 const getAchievementsRequest = async () => {
@@ -214,18 +229,25 @@ const getOptInStatus = async (ids) => {
       width: 100%;
       padding: 12px;
 
-      .btn {
-        padding: 10px;
+      .theme-btn {
+        background-color: inherit;
         border-radius: 5px;
         border: 1px solid rgba(230, 230, 230, 0.2);
         display: flex;
         align-items: center;
         justify-content: center;
+        padding: 0;
 
-        > img {
-          width: 16px;
-          height: 16px;
-        }
+      }
+
+      .cross-btn {
+        padding: 0;
+        background-color: inherit;
+        border-radius: 5px;
+        border: 1px solid rgba(230, 230, 230, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
     }
   }
@@ -269,7 +291,7 @@ const getOptInStatus = async (ids) => {
 
     .user-name {
       font-style: normal;
-      font-weight: 700;
+      font-family: $bold;
       font-size: 14px;
       line-height: 17px;
       color: $sidebar-text-color;
@@ -309,7 +331,7 @@ const getOptInStatus = async (ids) => {
     margin: 0 auto 20px;
     padding: 10px;
     border-radius: $border-radius;
-    border: 1px solid $purple;
+    border: 1px solid #EB5757;
     background: none;
 
     font-weight: 700;
@@ -317,6 +339,35 @@ const getOptInStatus = async (ids) => {
     line-height: 14px;
 
     color: $text-color-white;
+  }
+
+  &.light-mode {
+    background-color: $bg-secondary-LM;
+
+    .user-info {
+      .user-name {
+        color: $section-title-color-LM;
+      }
+    }
+
+    .border-block {
+      border-bottom: 1px solid $main-border-color-LM;
+    }
+
+    .logout-mobile-btn {
+      width: 320px;
+      margin: 0 auto 20px;
+      padding: 10px;
+      border-radius: $border-radius;
+      border: 1px solid #EB5757;
+      background: none;
+
+      font-weight: 700;
+      font-size: 12px;
+      line-height: 14px;
+
+      color: $card-title-color-LM;
+    }
   }
 }
 

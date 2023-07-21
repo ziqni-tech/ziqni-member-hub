@@ -16,7 +16,11 @@
               :height="'40'"
           />
         </button>
-        <ToggleTheme class="btn" :stroke-color="getIconStrokeColor()" />
+        <ToggleTheme
+            class="btn"
+            :stroke-color="getIconStrokeColor()"
+            :iconSize="'40'"
+        />
       </div>
       <div class="user-actions-profile">
         <span class="user-name">{{ member.name }}</span>
@@ -144,9 +148,6 @@ const isGoBackBtn = computed(() => {
 
       .btn {
         border: 1px solid $main-border-color-LM;
-        &:nth-child(n + 2) {
-          padding: 6.5px 10px;
-        }
       }
     }
 
