@@ -14,23 +14,23 @@
     flex-shrink: 0;
 
     .page-name {
-      font-size: 24px;
+      font-size: 16px;
+      font-family: $bold;
       color: $text-color-white;
     }
 
-    .btn {
-      padding: 10px;
+    .icon-btn {
       border-radius: 5px;
-      border: 1px solid $btn-border-grey;
+      border: 1px solid rgba(230, 230, 230, 0.20);
       display: flex;
       align-items: center;
       justify-content: center;
-
-      > img {
-        width: 14px;
-        height: 14px;
-      }
     }
+
+    .person-icon {
+      padding: 9px;
+    }
+
 
     .go-back-btn {
       width: 36px;
@@ -84,6 +84,18 @@
         font-size: 16px;
         font-family: $bold;
         color: $section-title-color-LM;
+      }
+
+      .icon-btn {
+        border-radius: 5px;
+        border: 1px solid $main-border-color-LM;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .person-icon {
+        padding: 9px;
       }
 
       .btn {

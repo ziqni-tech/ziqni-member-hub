@@ -22,9 +22,13 @@
       :class="{'light-mode': !isDarkMode}"
   >
     <div class="mobile-header">
-      <button class="btn"><img src="@/assets/icons/user-info/notification.png" alt=""></button>
+      <div class="icon-btn">
+        <NotificationIcon :width="'40'" :height="'40'" :stroke-color="getIconStrokeColor()" />
+      </div>
       <span class="page-name">{{ router.currentRoute.value.name }}</span>
-      <button class="btn" @click="openProfileInfo"><img src="@/assets/icons/user-info/user.png" alt=""></button>
+      <div class="icon-btn person-icon" @click="openProfileInfo">
+        <PersonIcon :width="'20'" :height="'20'" :stroke-color="getIconStrokeColor()" />
+      </div>
     </div>
     <div id="mobile-layout-main-block">
       <Dashboard />
@@ -52,6 +56,8 @@ import useMobileDevice from '@/hooks/useMobileDevice';
 import MobileNav from '@/components/sidebar/MobileNav.vue';
 import UserProfileMobile from '@/components/user-profile/UserProfileMobile.vue';
 import { CSpinner } from "@coreui/vue";
+import NotificationIcon from '@/shared/components/svg-icons/NotificationIcon.vue';
+import PersonIcon from '@/shared/components/svg-icons/PersonIcon.vue';
 
 const router = useRouter();
 
@@ -62,6 +68,10 @@ const message = ref(null);
 const isDarkMode = computed(() => store.getters.getTheme);
 const isClientConnected = computed(() => store.getters.getIsConnectedClient);
 const isProfileInfo = ref(false);
+
+const getIconStrokeColor = () => {
+  return isDarkMode.value ? '#FFFFFF' : '#080D12'
+};
 
 const openProfileInfo = () => {
   isProfileInfo.value = true;

@@ -29,12 +29,13 @@
       >
         <img src="@/assets/icons/back_arrow.png" alt="">
       </button>
-      <button v-if="!isGoBackBtn" class="btn">
-        <img src="@/assets/icons/user-info/notification.png" alt="">
-      </button>
+      <div v-if="!isGoBackBtn" class="icon-btn">
+        <NotificationIcon :width="'40'" :height="'40'" :stroke-color="getIconStrokeColor()" />
+      </div>
       <span class="page-name">{{ router.currentRoute.value.name }}</span>
-<!--      <ToggleTheme class="btn"/>-->
-      <button class="btn" @click="openProfileInfo"><img src="@/assets/icons/user-info/user.png" alt=""></button>
+      <div class="icon-btn person-icon" @click="openProfileInfo">
+        <PersonIcon :width="'20'" :height="'20'" :stroke-color="getIconStrokeColor()" />
+      </div>
     </div>
     <div id="mobile-layout-main-block">
       <div v-if="isClientConnected">
@@ -62,10 +63,10 @@ import TheHeader from '../components/TheHeader';
 import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import MobileNav from '@/components/sidebar/MobileNav';
-import ToggleTheme from '@/shared/components/ToggleTheme';
 import useMobileDevice from '@/hooks/useMobileDevice';
 import UserProfileMobile from '@/components/user-profile/UserProfileMobile.vue';
-import BlazzioMobileNav from "@/components/sidebar/BlazzioMobileNav.vue";
+import NotificationIcon from '@/shared/components/svg-icons/NotificationIcon.vue';
+import PersonIcon from '@/shared/components/svg-icons/PersonIcon.vue';
 
 const router = useRouter();
 const store = useStore();
@@ -84,6 +85,11 @@ const isGoBackBtn = computed(() => {
 });
 
 const isProfileInfo = ref(false);
+
+const getIconStrokeColor = () => {
+  return isDarkMode.value ? '#FFFFFF' : '#080D12'
+};
+
 
 const openProfileInfo = () => {
   isProfileInfo.value = true;
