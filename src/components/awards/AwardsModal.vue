@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-content">
+  <div class="modal-content" :class="{'light-mode': !isDarkMode}">
     <h5 class="award-modal-title">{{ title }}</h5>
     <span class="award-description">{{ message }}</span>
       <button
@@ -12,7 +12,6 @@
 </template>
 
 <script setup>
-import { CModal, CModalFooter } from '@coreui/vue';
 
 const props = defineProps({
   title: String,
@@ -29,6 +28,7 @@ const props = defineProps({
       return []
     }
   },
+  isDarkMode: Boolean,
 })
 
 const emit = defineEmits(['doFunction'])
@@ -43,37 +43,58 @@ const doFunction = () => {
 @import 'src/assets/scss/_variables';
 
 .modal-content {
-  background-color: $light-grey;
-  color: $body-text-color;
+  background-color: $modal-bg-DM;
   font-family: $semi-bold;
   border-radius: $border-radius;
-  border: 1px solid $dark-blue;
+  border: 1px solid $border-color-DM;
   padding: 28px 38px;
   width: 290px;
   box-shadow: 0 2px 12px 0 rgba(64, 106, 140, 0.50);
 
   .award-modal-title {
     margin: auto;
-    font-size: 24px;
-    color: $text-color-white;
+    font-size: 20px;
+    font-family: $bold;
+    color: $prize-name-DM;
   }
 
   .award-description {
-    font-size: 16px;
-    font-family: $mainFont;
-    color: $body-text-color;
+    font-size: 14px;
+    font-family: $medium;
+    color: $description-color-DM;
     padding-top: 10px;
   }
 
 
   .confirm-btn {
     margin: 20px auto;
-    background-color: $purple;
+    background-color: $btn-primary-bg-color-LM;
     color: $text-color-white;
     border: none;
-    font-size: 16px;
+    font-size: 14px;
+    font-family: $bold;
     padding: 10px 57px;
     border-radius: $border-radius;
+  }
+
+  &.light-mode {
+    background-color: $bg-body-LM;
+    border: 1px solid $border-pink;
+    box-shadow: 0 2px 12px 0 rgba(64, 106, 140, 0.50);
+
+    .award-modal-title {
+      margin: auto;
+      font-size: 20px;
+      font-family: $bold;
+      color: $info-name-color;
+    }
+
+    .award-description {
+      font-size: 14px;
+      font-family: $medium;
+      color: $card-title-color-LM;
+      padding-top: 10px;
+    }
   }
 }
 @media screen and (max-width: $tableWidth) {
