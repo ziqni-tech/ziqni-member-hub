@@ -65,7 +65,6 @@ const doFunction = () => {
     padding-top: 10px;
   }
 
-
   .confirm-btn {
     margin: 20px auto;
     background-color: $btn-primary-bg-color-LM;
@@ -99,25 +98,18 @@ const doFunction = () => {
 }
 @media screen and (max-width: $tableWidth) {
   .modal-content {
-    background-color: $light-grey;
-    color: $body-text-color;
-
     .award-modal-title {
       margin: auto;
-      color: $text-color-white;
-      font-size: 22px;
+      font-size: 14px;
     }
 
     .award-description {
-      color: $body-text-color;
+      font-size: 12px;
       padding-top: 10px;
     }
 
-
     .confirm-btn {
       margin: 20px auto;
-      background: $btn-gradient-color;
-      color: $text-color-white;
       border: none;
 
       font-size: 12px;

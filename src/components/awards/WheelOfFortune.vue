@@ -11,6 +11,7 @@
         :title="titleMessage"
         :btnLabel="btnTitle"
         @doFunction="isWinner ? claim() : closeModal()"
+        :is-dark-mode="isDarkMode"
     />
   </div>
 </template>
