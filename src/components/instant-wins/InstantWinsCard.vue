@@ -174,7 +174,7 @@ const play = () => {
       width: 100%;
       justify-content: center;
       padding-bottom: 15px;
-      font-size: 16px;
+      font-size: 14px;
       color: $text-color-white;
     }
 
@@ -229,6 +229,73 @@ const play = () => {
         color: $text-color-white;
 
         margin-top: auto;
+      }
+    }
+    &.light-mode {
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      border-radius: $border-radius;
+      width: 100%;
+
+      .mobile-card-title {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        padding-bottom: 15px;
+        font-size: 14px;
+        color: $section-title-color-LM;
+      }
+
+      .instant-img-wrapper {
+        width: 100%;
+        border-radius: $border-radius;
+        padding-bottom: 75%;
+        position: relative;
+        overflow: hidden;
+
+        .instant-img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
+
+      .instant-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        padding: 0;
+
+        .card-title {
+          display: none;
+        }
+
+        .card-description {
+          display: none;
+        }
+
+        .play-btn {
+          display: flex;
+          width: 100%;
+          justify-content: center;
+          align-items: center;
+          padding: 6px;
+
+          border-radius: $border-radius;
+
+          font-weight: 700;
+          font-size: 12px;
+          line-height: 14px;
+          color: $text-color-white;
+
+          margin-top: auto;
+        }
       }
     }
   }
