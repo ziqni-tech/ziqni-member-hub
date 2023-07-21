@@ -15,7 +15,8 @@
     <div class="scratch-cards-block">
       <div v-for="(row, rowIndex) in grid" :key="rowIndex" class="scratch-cards-row">
         <div v-for="(cell, colIndex) in row" :key="colIndex" class="cell">
-          <img :src="cell.image" alt="" width="60" height="60" >
+          <div class="bg-img" :style="{ backgroundImage: `url(${cellBg})`}"></div>
+          <img class="cell-img" :src="cell.image" alt="" width="60" height="60" >
         </div>
       </div>
     </div>
@@ -36,6 +37,7 @@ import { ref, reactive, watch, onMounted, computed, onUpdated } from 'vue';
 import { useStore } from 'vuex';
 import { useMouse } from '@vueuse/core';
 import AwardsModal from '@/components/awards/AwardsModal.vue';
+import cellBg from '@/assets/images/instant-wins/scratch-card/open-card-bg.svg';
 
 const grid = reactive(createGrid());
 
@@ -372,6 +374,27 @@ const done = (prize) => {
       box-shadow: 0 2px 12px rgba(64, 106, 140, 0.5);
       border-radius: $border-radius;
       overflow: hidden;
+      position: relative;
+
+      .bg-img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      .cell-img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        height: 80%;
+      }
     }
 
     .mobile-cell {
