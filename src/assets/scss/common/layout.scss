@@ -68,6 +68,55 @@
   #mobile-footer {
     flex-shrink: 0;
   }
+
+  &.light-mode {
+    background-color: $bg-body-LM;
+
+    .mobile-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      height: 60px;
+      flex-shrink: 0;
+
+      .page-name {
+        font-size: 16px;
+        font-family: $bold;
+        color: $section-title-color-LM;
+      }
+
+      .btn {
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid $main-border-color-LM;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        > img {
+          width: 14px;
+          height: 14px;
+        }
+      }
+
+      .go-back-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 5px;
+        border: 1px solid $main-border-color-LM;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: none;
+
+        > img {
+          width: 10px;
+          height: 14px;
+        }
+      }
+    }
+  }
 }
 
 .section {
