@@ -1,26 +1,33 @@
 <template>
-  <h1 class="page-title">The Single Wheel</h1>
-  <span class="page-description">Ready to test your luck? Take a spin and find out!</span>
-  <WheelOfFortune
-      :gift="gift"
-      ref="wheel"
-      v-model="data"
-      @claim="claim"
-      @closeModal="closeModal"
-      :key="rerenderKey"
-  />
-  <button class="spin-btn" @click="launchWheel">spin</button>
+  <div class="single-wheel-content" :class="{'light-mode': !isDarkMode}">
+    <h1 class="page-title">The Single Wheel</h1>
+    <span class="page-description">Ready to test your luck? Take a spin and find out!</span>
+    <WheelOfFortune
+        class="wheelOfFortune"
+        :gift="gift"
+        ref="wheel"
+        v-model="data"
+        @claim="claim"
+        @closeModal="closeModal"
+        :key="rerenderKey"
+    />
+    <button class="spin-btn" @click="launchWheel">spin</button>
+  </div>
+
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import WheelOfFortune from '@/components/awards/WheelOfFortune.vue';
+import { useStore } from 'vuex';
 
 const wheel = ref(null);
 const gift = ref(0);
 
 const message = ref('');
 const rerenderKey = ref(0);
+const store = useStore();
+const isDarkMode = computed(() => store.getters.getTheme);
 
 const data = ref([
   {
@@ -82,22 +89,7 @@ const launchWheel = () => {
     wheel.value.spin();
   }, 100);
 };
-// const done = (r) => {
-//   console.warn('done ', r);
-//   if (r.value !== 'Next time') {
-//     titleMessage.value = 'Congratulations!';
-//     message.value = `You won ${ r.value }`;
-//     btnTitle.value = 'Claim';
-//     isWinner.value = true;
-//   } else {
-//     titleMessage.value = 'Didn\'t win this time!';
-//     message.value = `Wishing you better luck in the future`;
-//     btnTitle.value = 'Return';
-//     isWinner.value = false;
-//   }
-//
-//   isShowModal.value = true;
-// };
+
 
 const claim = () => {
   console.warn('CLAIM');
@@ -116,88 +108,80 @@ const closeModal = () => {
 <style scoped lang="scss">
 @import '@/assets/scss/_variables';
 
-.page-title {
-  font-family: $mainFont;
-  font-size: 24px;
-  color: $text-color-white;
-  margin-top: 50px;
-}
+.single-wheel-content {
 
-.page-description {
-  font-family: $semi-bold;
-  font-size: 16px;
-  color: $body-text-color;
-}
-
-.spin-btn {
-  margin-top: 20px;
-  padding: 10px 57px;
-
-  font-family: $semi-bold;
-  font-size: 16px;
-  color: $text-color-white;
-
-  border: none;
-  border-radius: $border-radius;
-  cursor: pointer;
-  background-color: $purple;
-}
-
-@media screen and (max-width: $tableWidth) {
   .page-title {
-    font-size: 22px;
+    font-family: $bold;
+    font-size: 24px;
     color: $text-color-white;
-    margin-top: 30px;
+    margin-top: 50px;
   }
 
   .page-description {
-    font-size: 12px;
-    color: $body-text-color;
+    font-family: $mainFont;
+    font-size: 14px;
+    color: $description-color-DM;
+  }
+
+  .wheelOfFortune {
+    margin-top: 50px;
   }
 
   .spin-btn {
-    margin-top: 10px;
+    margin-top: 20px;
     padding: 10px 57px;
 
-    font-weight: 700;
+    font-family: $bold;
     font-size: 14px;
-    line-height: 17px;
-    color: $text-color-white;
+    text-transform: capitalize;
+    color: $btn-primary-color-LM;
 
     border: none;
     border-radius: $border-radius;
     cursor: pointer;
-    background-color: $purple;
+    background-color: $btn-primary-bg-color-LM;
+  }
+
+  &.light-mode {
+    .page-title {
+      font-family: $bold;
+      font-size: 24px;
+      color: $section-title-color-LM;
+    }
+
+    .page-description {
+      font-family: $mainFont;
+      font-size: 14px;
+      color: $card-title-color-LM;
+    }
   }
 }
 
-@media screen and (max-width: 380px) {
-  .page-title {
-    font-size: 22px;
-    color: $text-color-white;
-    margin-top: 10px;
-  }
+@media screen and (max-width: 420px) {
+  .single-wheel-content {
+    .page-title {
+      font-size: 16px;
+      color: $text-color-white;
+      margin-top: 30px;
+    }
 
-  .page-description {
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 14px;
-    color: $body-text-color;
-  }
+    .page-description {
+      font-size: 12px;
+      color: $description-color-DM;
+    }
 
-  .spin-btn {
-    margin-top: 0;
-    padding: 10px 57px;
+    .wheelOfFortune {
+      margin-top: 0;
+    }
 
-    font-weight: 700;
-    font-size: 14px;
-    line-height: 17px;
-    color: $text-color-white;
+    .spin-btn {
+      margin-top: 10px;
+      padding: 10px 57px;
 
-    border: none;
-    border-radius: $border-radius;
-    cursor: pointer;
-    background-color: $purple;
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 17px;
+    }
   }
 }
 

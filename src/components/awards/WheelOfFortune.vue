@@ -17,9 +17,10 @@
 
 <script setup>
 import * as d3 from 'd3';
-import { computed, ref, onMounted, onUnmounted } from 'vue';
+import { computed, ref, onMounted, onUnmounted, watch } from 'vue';
 import useMobileDevice from '@/hooks/useMobileDevice';
 import AwardsModal from '@/components/awards/AwardsModal.vue';
+import { useStore } from 'vuex';
 
 const props = defineProps({
   animDuration: {
@@ -47,18 +48,18 @@ const emit = defineEmits(['claim', 'closeModal']);
 
 const claim = () => {
   console.warn('CLAIM');
-  emit('claim')
+  emit('claim');
   isShowModal.value = false;
 
 };
 
 const closeModal = () => {
   console.warn('RETURN');
-  emit('closeModal')
+  emit('closeModal');
   isShowModal.value = false;
 };
 
-const isShowModal = ref(false)
+const isShowModal = ref(false);
 const titleMessage = ref('');
 const message = ref('');
 const btnTitle = ref('');
@@ -94,15 +95,18 @@ const style = ref({
 const margin = ref(20);
 const svg = ref();
 const vis = ref(null);
-const isMobileDevice = ref(false)
+const isMobileDevice = ref(false);
+
+const store = useStore();
+const isDarkMode = computed(() => store.getters.getTheme);
 
 const checkIsMobile = () => {
-  isMobileDevice.value = window.innerWidth <= 450
-}
+  isMobileDevice.value = window.innerWidth <= 450;
+};
 
 const wheelStyle = computed(() => {
-  const width = isMobileDevice.value ? 230 : 355
-  const height = isMobileDevice.value ? 350 : 395
+  const width = isMobileDevice.value ? 230 : 355;
+  const height = isMobileDevice.value ? 350 : 395;
   return {
     width: `${ width }px`,
     height: `${ height }px`,
@@ -152,7 +156,7 @@ const createSvg = () => {
 
 const createDefs = () => {
   const defs = svg.value
-      .append('defs')
+      .append('defs');
 
   defs
       .append('feBlend')
@@ -184,8 +188,8 @@ const createArc = () => {
       .append('path')
       .attr('class', 'slice')
       .attr('d', arc)
-      .attr('stroke', '#8749DC') // items borders
-      .attr('stroke-width', '5')
+      .attr('stroke', '#8D0C71') // items borders
+      .attr('stroke-width', '2')
       .attr('overflow', 'none')
       .each(function (d, i) {
         const firstArcSection = /(^.+?)L/;
@@ -221,37 +225,37 @@ const addText = () => {
       .append('text')
       .attr('class', 'middleArcText')
       .attr('dy', (d) => {
-        return isMobile.value ? 25 :  37;
+        return isMobile.value ? 25 : 37;
       })
       .each(function (d) {
         const text = d3.select(this);
-        const isReversed = d.endAngle > (90 * Math.PI) / 180
+        const isReversed = d.endAngle > (90 * Math.PI) / 180;
 
         if (isReversed) {
           text.attr('transform', (d) => {
             let rotate;
             switch (d.data.section) {
               case 1: // bonus 1
-                rotate = 180
+                rotate = 180;
                 break;
               case 2: // free 1
-                rotate = 420
+                rotate = 420;
                 break;
               case 3: // next time 1
-                rotate = 120
+                rotate = 120;
                 break;
               case 4: // bonus 2
-                rotate = 180
+                rotate = 180;
                 break;
               case 5: // free 2
-                rotate = 240
+                rotate = 240;
                 break;
               case 6: // next 2
                 rotate = 300;
                 break;
             }
-            return `rotate(${rotate})`;
-          })
+            return `rotate(${ rotate })`;
+          });
         }
 
         text
@@ -264,7 +268,7 @@ const addText = () => {
             .attr('xlink:href', (d, i) => {
               return '#middleArc' + i;
             })
-            .text(d.data.value)
+            .text(d.data.value);
       });
 };
 
@@ -283,9 +287,9 @@ const addImage = () => {
 
   sections.attr('transform', (d) => {
     const centroid = arc.centroid(d);
-    const angle = d.startAngle + (d.endAngle - d.startAngle) / 2
-    const radius = rayon.value / 2
-    const imageRadius = radius - imageSize.value / 2
+    const angle = d.startAngle + (d.endAngle - d.startAngle) / 2;
+    const radius = rayon.value / 2;
+    const imageRadius = radius - imageSize.value / 2;
 
     const x = (centroid[0] + Math.cos(angle) * imageRadius);
 
@@ -294,28 +298,28 @@ const addImage = () => {
     let rotate;
     switch (d.data.section) {
       case 1: // bonus 1
-        rotate = 210.5
+        rotate = 210.5;
         break;
       case 2: // free 1
-        rotate = 210
+        rotate = 210;
         break;
       case 3: // next time 1
-        rotate = 210
+        rotate = 210;
         break;
       case 4: // bonus 2
-        rotate = 210.5
+        rotate = 210.5;
         break;
       case 5: // free 2
-        rotate = 210
+        rotate = 210;
         break;
       case 6: // next 2
         rotate = 210;
         break;
       default:
-        rotate = d.endAngle + 30
-        break
+        rotate = d.endAngle + 30;
+        break;
     }
-    return `rotate(${rotate}, ${x}, ${y}) translate(${x}, ${y})`;
+    return `rotate(${ rotate }, ${ x }, ${ y }) translate(${ x }, ${ y })`;
   });
 
   sections
@@ -356,15 +360,15 @@ const addImage = () => {
       })
       .attr('width', (d) => {
         if (d.data.section === 3) {
-          return 255
+          return 255;
         } else {
-          return 310
+          return 310;
         }
       })
       .attr('height', (d) => {
-        return 335
+        return 335;
       })
-      .attr('xlink:href', (d) => `${d.data.bg}`)
+      .attr('xlink:href', (d) => `${ d.data.bg }`);
 
 };
 
@@ -374,11 +378,12 @@ const createMiddleCircle = () => {
       .attr('cx', 0)
       .attr('cy', 0)
       .attr('r', rayon.value / 12)
-      .attr('fill', '#c077ee') // center circle color
+      .attr('fill', '#EE3EC8') // center circle color
       .attr('filter', 'url(#shadow)')
       .attr('stroke-width', 7)
-      .attr('stroke', '#8749DC');
+      .attr('stroke', '#8D0C71');
 };
+
 
 const createOuterCircle = () => {
   container.value
@@ -389,8 +394,15 @@ const createOuterCircle = () => {
       .attr('r', rayon.value)
       .attr('fill', 'none')
       .attr('stroke-width', 15)
-      .attr('stroke', '#8749DC');
+      .attr('stroke', isDarkMode.value ? '#2F0426' : '#BEE9F3');
 };
+
+watch(isDarkMode, (value) => {
+  if (container.value) {
+    const outerBorder = container.value.selectAll('.outer-border')
+    outerBorder.attr('stroke', value ? '#2F0426' : '#BEE9F3')
+  }
+})
 
 const createArrow = () => {
   if (container.value) {
@@ -423,10 +435,14 @@ const createWheel = () => {
   // Make circle
   createMiddleCircle();
   // Make outer circle
-  createOuterCircle()
+  createOuterCircle();
   // create arrow
   createArrow();
 };
+
+watch(isDarkMode, (value) => {
+  if (value) {}
+})
 
 let isStopped = false;
 
@@ -459,16 +475,16 @@ const spin = async () => {
             const sections = vis.value.selectAll('.slice');
             sections
                 .attr('stroke-width', (d, i) =>
-                    isGiftSection(d.data.section) ? '15' : '5'
+                    isGiftSection(d.data.section) ? '5' : '1'
                 )
                 .attr('stroke', (d, i) =>
-                    isGiftSection(d.data.section) ? '#c077ee' : '#8749DC'
-                )
+                    isGiftSection(d.data.section) ? '#EE3EC8' : '#8D0C71'
+                );
 
             const texts = vis.value.selectAll('.middleArcText');
             texts
                 .attr('filter', (d, i) => {
-                      return isGiftSection(d.data.section) ? 'none' : 'blur(3px)'
+                      return isGiftSection(d.data.section) ? 'none' : 'blur(3px)';
                     }
                 )
                 .attr('stroke-width', (d, i) =>
@@ -478,18 +494,18 @@ const spin = async () => {
             const images = vis.value.selectAll('.image-section');
             images
                 .attr('filter', (d, i) => {
-                      return isGiftSection(d.data.section) ? 'none' : 'blur(3px)'
+                      return isGiftSection(d.data.section) ? 'none' : 'blur(3px)';
                     }
                 );
 
             // remove outer circle
-            const outerBorder = container.value.selectAll('.outer-border')
-            outerBorder.remove()
+            const outerBorder = container.value.selectAll('.outer-border');
+            outerBorder.remove();
 
             // Move the prize section to the front
             const prizeSection = sections.filter((d, i) => isGiftSection(d.data.section));
-            prizeSection.raise()
-            prizeSection.attr('fill', 'none')
+            prizeSection.raise();
+            prizeSection.attr('fill', 'none');
           });
     };
 
@@ -505,16 +521,16 @@ defineExpose({
 });
 
 onMounted(() => {
-  window.addEventListener('resize', checkIsMobile)
-  checkIsMobile()
+  window.addEventListener('resize', checkIsMobile);
+  checkIsMobile();
 
   rayon.value = Math.min(wheelSize.value.width, wheelSize.value.height) / 2;
   createWheel();
 });
 
 onUnmounted(() => {
-  window.removeEventListener('resize', checkIsMobile)
-})
+  window.removeEventListener('resize', checkIsMobile);
+});
 </script>
 
 <style>
@@ -538,7 +554,7 @@ onUnmounted(() => {
   .wheel {
     /*width: 100%;*/
     height: 400px;
-    margin: auto;
+    margin: 0;
   }
 }
 
