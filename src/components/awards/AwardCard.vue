@@ -14,7 +14,7 @@
         v-if="award.status !== 'Claimed'"
         @click.stop="handleButtonClick"
     >
-      <span >Claim</span>
+      Claim
     </button>
   </div>
 </template>
@@ -106,7 +106,7 @@ watch(countdownResult, (value) => {
   flex-direction: column;
   align-items: center;
   padding: 10px 34px;
-  background-color: $light-grey;
+  background-color: $card-bg-DM;
   border-radius: $border-radius;
   cursor: pointer;
 
@@ -152,8 +152,8 @@ watch(countdownResult, (value) => {
   &__type {
     max-width: 170px;
     font-family: $mainFont;
-    font-size: 16px;
-    color: $body-text-color;
+    font-size: 14px;
+    color: $description-color-DM;
     margin-bottom: 10px;
     white-space: nowrap;
     overflow: hidden;
@@ -175,10 +175,11 @@ watch(countdownResult, (value) => {
 
   .prize {
     color: $text-color-white;
-    background-color: $dark-grey;
+    background-color: $prize-btn-bg-DM;
     cursor: default;
     border: none;
     padding: 5px;
+    font-family: $medium;
     font-size: 24px;
     margin-bottom: 10px;
 
@@ -189,11 +190,13 @@ watch(countdownResult, (value) => {
   }
 
   .claim-button {
-    border: 1px solid $purple;
-    background: $btn-gradient-color;
+    border: 1px solid $btn-border-color-LM;
+    background: $btn-primary-bg-color-LM;
     color: $text-color-white;
     padding: 10px 57px;
-    font-size: 16px;
+    font-size: 14px;
+    font-family: $bold;
+    text-transform: capitalize;
   }
 
   &.light-mode {
@@ -284,6 +287,23 @@ watch(countdownResult, (value) => {
       font-size: 16px;
     }
   }
+
+  &.light-mode {
+    &__name {
+      color: $section-title-color-LM;
+    }
+
+    &__type {
+
+      color: $card-title-color-LM;
+    }
+
+    .prize {
+      color: $card-title-color-LM;
+      background-color: $btn-prize-bg-color-LM;
+    }
+  }
+
 }
 
 @media screen and (max-width: $tableWidth) {
@@ -312,8 +332,8 @@ watch(countdownResult, (value) => {
     }
 
     &__name {
-      font-weight: 700;
-      font-size: 16px;
+      font-family: $bold;
+      font-size: 12px;
       line-height: 14px;
       color: $text-color-white;
       margin: 5px 0;
@@ -324,10 +344,10 @@ watch(countdownResult, (value) => {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      font-weight: 400;
+      font-family: $mainFont;
       font-size: 12px;
       line-height: 14px;
-      color: $body-text-color;
+      color: $description-color-DM;
       margin-bottom: 10px;
     }
 
@@ -342,25 +362,61 @@ watch(countdownResult, (value) => {
         margin-right: 5px;
       }
     }
-
     .prize {
       color: $text-color-white;
-      background-color: $dark-grey;
+      background-color: $prize-btn-bg-DM;
       cursor: default;
       border: none;
       padding: 5px;
-      font-size: 12px;
+      font-family: $medium;
+      font-size: 16px;
       margin-bottom: 10px;
     }
 
     .claim-button {
       width: 100%;
-      border: 1px solid $purple;
-      background: $btn-gradient-color;
+      border: 1px solid $btn-border-color-LM;
+      background: $btn-primary-bg-color-LM;
       color: $text-color-white;
       padding: 6px;
-      font-size: 12px;
+      font-size: 14px;
     }
+
+    &.light-mode {
+      .prize {
+        color: $card-title-color-LM;
+        background-color: $btn-prize-bg-color-LM;
+        cursor: default;
+        border: none;
+        padding: 5px;
+        font-family: $medium;
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
+      .claim-button {
+        width: 100%;
+        border: 1px solid $btn-border-color-LM;
+        background: $btn-primary-bg-color-LM;
+        color: $text-color-white;
+        padding: 6px;
+        font-size: 14px;
+      }
+    }
+  }
+}
+@media screen and (max-width: 420px) {
+  .award {
+    max-width: 190px;
+  }
+}
+@media screen and (max-width: 390px) {
+  .award {
+    max-width: 180px;
+  }
+}
+@media screen and (max-width: 380px) {
+  .award {
+    max-width: 170px;
   }
 }
 </style>
