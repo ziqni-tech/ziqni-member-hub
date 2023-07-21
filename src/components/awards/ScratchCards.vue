@@ -1,5 +1,5 @@
 <template>
-  <div class="scratch-cards">
+  <div class="scratch-cards" :class="{'light-mode': !isDarkMode}">
     <canvas
         class="scratch-cards-canvas"
         ref="canvasRef"
@@ -15,7 +15,8 @@
     <div class="scratch-cards-block">
       <div v-for="(row, rowIndex) in grid" :key="rowIndex" class="scratch-cards-row">
         <div v-for="(cell, colIndex) in row" :key="colIndex" class="cell">
-          <img :src="cell.image" alt="" width="80" height="80" >
+          <div class="bg-img" :style="{ backgroundImage: `url(${cellBg})`}"></div>
+          <img class="cell-img" :src="cell.image" alt="" width="80" height="80" >
         </div>
       </div>
     </div>
@@ -35,6 +36,7 @@ import { ref, reactive, watch, onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useMouse } from '@vueuse/core';
 import AwardsModal from '@/components/awards/AwardsModal.vue';
+import cellBg from '@/assets/images/instant-wins/scratch-card/open-card-bg.svg'
 
 const grid = reactive(createGrid());
 
@@ -62,6 +64,9 @@ const props = defineProps({
   prizes: Array,
   modalStyles: Object
 });
+
+const isDarkMode = computed(() => store.getters.getTheme);
+
 
 const emit = defineEmits(['claim', 'closeModal']);
 
@@ -130,7 +135,7 @@ function initCanvas() {
           ctx.restore(); // Восстанавливаем контекст
         };
       } else {
-        ctx.fillStyle = '#1A202C';
+        ctx.fillStyle = isDarkMode.value ? '#1A202C' : '#EDF3F7';
         ctx.fillRect(x, y, cellSize, cellSize);
 
         // Добавляем скругленные радиусы
@@ -145,8 +150,8 @@ function initCanvas() {
         ctx.clip();
 
         ctx.fillStyle = '#BEE9F3';
-        ctx.font = '40px AvertaStd-Regular';
-        ctx.strokeStyle = '#8749DC';
+        ctx.font = '40px Syne-Bold';
+        ctx.strokeStyle = isDarkMode.value ? '#406A8C' : '#F7A1E4';
         ctx.stroke();
 
         // Исправляем координаты текста
@@ -298,6 +303,10 @@ watch(
     { deep: true }
 );
 
+watch(isDarkMode, (newValue) => {
+  initCanvas()
+}, { deep: true })
+
 const clearCanvas = () => {
   const canvas = canvasRef.value;
   const context = canvas.getContext('2d');
@@ -363,10 +372,56 @@ const done = (prize) => {
       width: 80px;
       height: 80px;
       margin: 0 10px;
-      border: 1px solid #8749DC;
+      border: 1px solid #406A8C;
       box-shadow: 0 2px 12px rgba(64, 106, 140, 0.5);
       border-radius: $border-radius;
       overflow: hidden;
+      position: relative;
+
+      .bg-img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      .cell-img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        height: 80%;
+      }
+
+    }
+  }
+
+  &.light-mode {
+    .scratch-cards-block {
+
+      .scratch-cards-row {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+
+      .cell {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 80px;
+        height: 80px;
+        margin: 0 10px;
+        border: 1px solid #F7A1E4;
+        box-shadow: 0 2px 12px 0 rgba(238, 62, 200, 0.40);
+        border-radius: $border-radius;
+        overflow: hidden;
+      }
     }
   }
 }

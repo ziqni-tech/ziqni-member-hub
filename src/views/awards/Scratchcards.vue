@@ -1,5 +1,5 @@
 <template>
-  <div class="page-content">
+  <div class="page-content" :class="{'light-mode': !isDarkMode}">
     <h1 class="page-title">Scratchcards</h1>
     <div class="cards-wrapper">
       <ScratchCardsMobileView
@@ -10,6 +10,7 @@
           @claim="claim"
           @closeModal="closeModal"
           :key="rerenderKey"
+          :isDarkMode="isDarkMode"
       />
       <Scratchcards
           v-else
@@ -19,12 +20,14 @@
           @claim="claim"
           @closeModal="closeModal"
           :key="rerenderKey"
+          :isDarkMode="isDarkMode"
       />
       <PrizeOverview
           :prizes="images"
           class="overview-block"
           @scratchAllCards="scratchAllCards"
           :key="rerenderKey"
+          :isDarkMode="isDarkMode"
       />
     </div>
   </div>
@@ -35,17 +38,26 @@ import useMobileDevice from '@/hooks/useMobileDevice';
 import Scratchcards from '@/components/awards/ScratchCards'
 import PrizeOverview from '@/components/awards/PrizeOverview'
 
-import firstPrize from '@/assets/images/instant-wins/first_prize.png'
-import secondPrize from '@/assets/images/instant-wins/second_prize.png'
-import thirdPrize from '@/assets/images/instant-wins/third_prize.png'
+import firstPrizeIcon from '@/assets/images/instant-wins/scratch-card/first-prize-icon.svg'
+import secondPrizeIcon from '@/assets/images/instant-wins/scratch-card/second-prize-icon.svg'
+import thirdPrizeIcon from '@/assets/images/instant-wins/scratch-card/third-prize-icon.svg'
+// import firstPrizeBg from '@/assets/images/instant-wins/scratch-card/open-card-1.svg'
+// import secondPrizeBg from '@/assets/images/instant-wins/scratch-card/open-card-2.svg'
+// import thirdPrizeBg from '@/assets/images/instant-wins/scratch-card/open-card-3.svg'
 import ScratchCardsMobileView from '@/components/awards/ScratchCardsMobileView.vue';
 import { useStore } from 'vuex';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+
+// const prizesBackgrounds = [
+//   { prize: 'first prize', image: firstPrizeBg },
+//   { prize: 'second prize', image: secondPrizeBg },
+//   { prize: 'third prize', image: thirdPrizeBg }
+// ]
 
 const images = [
-  { prize: 'first prize', image: firstPrize },
-  { prize: 'second prize', image: secondPrize },
-  { prize: 'third prize', image: thirdPrize }
+  { prize: 'first prize', image: firstPrizeIcon },
+  { prize: 'second prize', image: secondPrizeIcon },
+  { prize: 'third prize', image: thirdPrizeIcon }
 ]
 
 const modalStyles = {
@@ -60,6 +72,7 @@ const { isMobile } = useMobileDevice();
 
 const store = useStore();
 const rerenderKey = ref(0);
+const isDarkMode = computed(() => store.getters.getTheme);
 
 const scratchAllCards = () => {
   store.dispatch('setIsScratchAllCards', true)
@@ -91,15 +104,15 @@ const closeModal = () => {
   user-select: none;
 
   .page-title {
-    font-family: $mainFont;
+    font-family: $bold;
     font-size: 24px;
     color: $text-color-white;
     margin-top: 50px;
   }
 
   .page-description {
-    font-family: $semi-bold;
-    font-size: 16px;
+    font-family: $mainFont;
+    font-size: 14px;
     color: $body-text-color;
     padding-top: 10px;
   }
@@ -117,6 +130,22 @@ const closeModal = () => {
 
   .overview-block {
     margin-left: 50px;
+  }
+
+  &.light-mode {
+    .page-title {
+      font-family: $bold;
+      font-size: 24px;
+      color: $section-title-color-LM;
+      margin-top: 50px;
+    }
+
+    .page-description {
+      font-family: $mainFont;
+      font-size: 14px;
+      color: $card-title-color-LM;
+      padding-top: 10px;
+    }
   }
 }
 

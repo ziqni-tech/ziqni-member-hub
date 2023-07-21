@@ -1,5 +1,5 @@
 <template>
-<div class="prize-overview">
+<div class="prize-overview" :class="{'light-mode': !isDarkMode}">
   <h3 class="prizes-title">Uncover your prize by scratching away!</h3>
   <div class="prizes">
     <div class="prize-wrapper" v-for="(prize) in prizes">
@@ -15,7 +15,8 @@
 
 <script setup>
 const props = defineProps({
-  prizes: Array
+  prizes: Array,
+  isDarkMode: Boolean
 })
 
 const emit = defineEmits(['scratchAllCards']);
@@ -35,8 +36,8 @@ const scratchAllCards = () => {
   align-items: center;
 
   .prizes-title {
-    font-family: $semi-bold;
-    font-size: 16px;
+    font-family: $bold;
+    font-size: 14px;
     color: $text-color-white;
   }
 
@@ -66,16 +67,15 @@ const scratchAllCards = () => {
           left: 50%;
           transform: translate(-50%, -50%);
           z-index: 3;
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
+          width: 85%;
+          height: 85%;
         }
       }
 
       .prize-name {
-        font-family: $semi-bold;
-        font-size: 12px;
-        color: $body-text-color;
+        font-family: $mainFont;
+        font-size: 14px;
+        color: $prize-name-DM;
         margin-top: 15px;
         text-transform: capitalize;
       }
@@ -88,14 +88,34 @@ const scratchAllCards = () => {
     justify-content: center;
     align-items: center;
     padding: 10px 57px;
-    background: $btn-gradient-color;
+    background: $btn-primary-bg-color-LM;
     border-radius: $border-radius;
     border: none;
     margin-top: 50px;
 
-    font-family: $semi-bold;
-    font-size: 16px;
+    font-family: $bold;
+    font-size: 14px;
     color: $text-color-white;
+  }
+
+  &.light-mode {
+    .prizes-title {
+      font-family: $bold;
+      font-size: 14px;
+      color: $btn-prize-color-LM;
+    }
+
+    .prizes {
+      .prize-wrapper {
+        .prize-name {
+          font-family: $mainFont;
+          font-size: 14px;
+          color: $prize-name-LM;
+          margin-top: 15px;
+          text-transform: capitalize;
+        }
+      }
+    }
   }
 }
 @media screen and (max-width: $tableWidth) {
@@ -105,8 +125,7 @@ const scratchAllCards = () => {
     align-items: center;
 
     .prizes-title {
-      font-size: 16px;
-      color: $text-color-white;
+      font-size: 14px;
     }
 
     .prizes {
@@ -143,7 +162,6 @@ const scratchAllCards = () => {
 
         .prize-name {
           font-size: 12px;
-          color: $body-text-color;
           margin-top: 10px;
           text-transform: capitalize;
         }
