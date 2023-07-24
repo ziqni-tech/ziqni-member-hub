@@ -10,7 +10,7 @@
       </div>
     </div>
     <SidebarNav :nav-items="sidebarNav" :isDarkMode="isDarkMode" />
-    <LogoutItem class="logout" @logOut="logOut" />
+    <LogoutItem class="logout" :isDarkMode="isDarkMode" @logOut="logOut" />
   </div>
 </template>
 
