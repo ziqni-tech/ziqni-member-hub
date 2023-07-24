@@ -427,6 +427,7 @@ onMounted(() => {
 
 .achievements-tabs {
   width: 400px;
+  max-width: 90%;
   display: flex;
   align-items: center;
   background-color: $light-grey;
