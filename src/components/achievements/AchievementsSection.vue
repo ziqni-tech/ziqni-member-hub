@@ -430,7 +430,7 @@ onMounted(() => {
   max-width: 90%;
   display: flex;
   align-items: center;
-  background-color: $light-grey;
+  background-color: $tabs-bg-DM;
   border-radius: $border-radius;
   margin: 0 auto;
   font-family: $medium;
@@ -470,8 +470,9 @@ onMounted(() => {
 }
 
 .nav-pills .nav-link.active {
-  background: $btn-gradient-color;
-
+  background: $active-tab-bg_DM;
+  box-shadow: 0 2px 12px 0 rgba(64, 106, 140, 0.50);
+  border: 1px solid var(--secondary-dark-blue-600, #406A8C);
 }
 
 .light-mode .nav-pills .nav-link.active {
