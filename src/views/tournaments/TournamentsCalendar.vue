@@ -9,7 +9,7 @@
         :show-date="showDate"
         :time-format-options="{ hour: 'numeric', minute: '2-digit' }"
         class="theme-default holiday-us-traditional"
-        :class="isDarMode ? 'darkMode' : 'lightMode'"
+        :class="isDarkMode ? 'darkMode' : 'lightMode'"
         :starting-day-of-week="1"
         :enable-drag-drop="false"
         :displayPeriodUom="displayPeriod"
@@ -23,7 +23,7 @@
                   class="go-back"
                   @click="$router.go(-1)"
               >
-                <img src="@/assets/icons/back_arrow.png" alt="">
+                <ArrowLeft :width="'30'" :height="'30'" :strokeColor="getIconStrokeColor()" />
               </div>
               <div class="calendar-title">Competitions calendar</div>
               <div></div>
@@ -46,7 +46,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { CalendarView } from 'vue-simple-calendar';
@@ -58,6 +58,7 @@ import useMobileDevice from '@/hooks/useMobileDevice';
 
 import { CFormSwitch } from '@coreui/vue';
 import { CSpinner } from '@coreui/vue'
+import ArrowLeft from '@/shared/components/svg-icons/ArrowLeft.vue';
 
 const router = useRouter();
 const showDate = ref(new Date());
@@ -68,8 +69,11 @@ displayPeriod.value = 'month';
 
 const store = useStore();
 
-// const isDarMode = computed(() => store.getters.getTheme)
-const isDarMode = true;
+const isDarkMode = computed(() => store.getters.getTheme)
+const getIconStrokeColor = () => {
+  return isDarkMode.value ? '#FFFFFF' : '#080D12'
+};
+// const isDarMode = true;
 const { isMobile } = useMobileDevice();
 
 const statusCode = {
@@ -224,7 +228,7 @@ const clickEvent = (val) => {
         .go-back {
           border-radius: $border-radius-sm;
           border: 1px solid $border-dark;
-          padding: 7px 12px;
+          //padding: 7px 12px;
           cursor: pointer;
         }
 
@@ -327,7 +331,7 @@ const clickEvent = (val) => {
           .go-back {
             border-radius: $border-radius-sm;
             border: 1px solid $border-dark;
-            padding: 5px 10px;
+            //padding: 5px 10px;
             cursor: pointer;
           }
         }
@@ -424,6 +428,7 @@ const clickEvent = (val) => {
     .cv-header-nav {
       background-color: $light-grey !important;
 
+
       .previousYear,
       .previousPeriod,
       .currentPeriod,
@@ -449,12 +454,17 @@ const clickEvent = (val) => {
 
     .cv-header-day {
       background-color: $light-grey !important;
+      font-size: 14px;
+      font-family: $medium;
+      padding: 12px 0;
     }
   }
 
   .cv-weekdays {
     .cv-day {
       background-color: $light-grey;
+      font-size: 20px;
+      font-family: $bold;
 
       .cv-day-number {
         color: $text-color-white;
@@ -472,50 +482,125 @@ const clickEvent = (val) => {
   }
 }
 
-//.cv-wrapper.lightMode {
-//  border: 1px solid $border-header-light-mode;
-//  color: black;
-//
-//  .cv-wrapper.period-month.periodCount-2 .cv-week,
-//  .cv-wrapper.period-month.periodCount-3 .cv-week,
-//  .cv-wrapper.period-year .cv-week {
-//    min-height: 6rem;
-//  }
-//
-//  .cv-header {
-//    background-color: $primary-bg !important;
-//
-//    .cv-header-nav {
-//      .previousYear,
-//      .previousPeriod,
-//      .currentPeriod,
-//      .nextPeriod,
-//      .nextYear {
-//        color: black;
-//        background-color: $primary-bg;
-//      }
-//    }
-//  }
-//
-//  .cv-header-days {
-//    .cv-header-day {
-//      background-color: $primary-bg !important;
-//    }
-//  }
-//
-//  .cv-weekdays {
-//    .cv-day {
-//      background-color: $primary-bg !important;
-//    }
-//    .today {
-//      background-color: $light-blue !important;
-//      border: 2px solid $border-header-light-mode !important;
-//    }
-//    .outsideOfMonth {
-//      background-color: $primary-bg-dark-LM  !important;
-//    }
-//  }
-//}
+.previousPeriod,
+.nextPeriod.lightMode  {
+  border: 1px solid $main-border-color-LM;
+}
+
+.cv-wrapper.lightMode {
+  color: black;
+  .cv-weeks {
+    border-color: $main-border-color-LM;
+  }
+
+  .cv-wrapper.period-month.periodCount-2 .cv-week,
+  .cv-wrapper.period-month.periodCount-3 .cv-week,
+  .cv-wrapper.period-year .cv-week {
+    min-height: 6rem;
+  }
+
+  .cv-header {
+    background-color: $card-bg-LM !important;
+
+    .cv-header-nav {
+
+      .header-nav {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 0;
+
+        .form-label.form-check-label {
+          margin-bottom: 0;
+          margin-top: 5px;
+          color: #080D12;
+          font-family: $medium;
+          font-size: 14px;
+        }
+        .form-check-input:checked {
+          background-color: #8749DC;
+          border-color: unset;
+        }
+      }
+
+      .previousPeriod,
+      .nextPeriod {
+        border: 1px solid $main-border-color-LM;
+        color: #080D12 !important;
+        width: 30px;
+        height: 30px;
+        border-radius: 5px;
+      }
+      .currentPeriod {
+        color: #080D12 !important;
+        font-size: 12px;
+        font-family: $medium;
+      }
+    }
+
+    .cv-header-nav {
+      .previousYear,
+      .previousPeriod,
+      .currentPeriod,
+      .nextPeriod,
+      .nextYear {
+        color: black;
+        background-color: $card-bg-LM;
+      }
+    }
+  }
+
+  .cv-header {
+    .cv-header-nav {
+      .header-title {
+        align-items: center;
+        .calendar-title {
+          color: $section-title-color-LM;
+          font-size: 20px;
+          margin: 0;
+          font-family: $bold;
+        }
+
+        .go-back {
+          border-radius: $border-radius-sm;
+          border: 1px solid $main-border-color-LM;
+          //padding: 5px 10px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .cv-header-days {
+    border-color: $main-border-color-LM;
+    .cv-header-day {
+      border-color: $main-border-color-LM;
+      background-color: #B9CEDF !important;
+      font-size: 14px;
+      font-family: $medium;
+      padding: 12px 0;
+      color: $btn-prize-color-LM;
+    }
+  }
+
+  .cv-weekdays {
+    border-color: $main-border-color-LM;
+    .cv-day {
+      border-color: $main-border-color-LM;
+      background-color: $bg-body-LM !important;
+      font-size: 20px;
+      font-family: $bold;
+    }
+    .today {
+      background-color: $pagination-active-btn-bg !important;
+      border: 2px solid $main-border-color-LM !important;
+    }
+    .outsideOfMonth {
+      background-color: $bg-secondary-LM  !important;
+    }
+  }
+}
 .theme-default .cv-item.continued::before, .theme-default .cv-item.toBeContinued::after {
   color: $purple;
   margin: 0 3px;
@@ -538,9 +623,11 @@ const clickEvent = (val) => {
 }
 
 .competition {
-  font-size: 0.85em !important;
+  font-size: 12px !important;
   cursor: pointer !important;
-  color: $blue;
+  color: #141E28;
+  font-family: $bold;
+
 
   &-active {
     background-color: $active-tournament !important;
