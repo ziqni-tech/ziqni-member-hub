@@ -42,7 +42,7 @@
         <router-view />
       </div>
     </div>
-    <MobileNav />
+    <MobileNav :isDarkMode="isDarkMode" />
     <UserProfileMobile
         v-if="isClientConnected"
         @closeProfileInfo="closeProfileInfo"

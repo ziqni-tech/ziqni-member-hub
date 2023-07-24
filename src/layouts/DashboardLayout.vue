@@ -33,7 +33,7 @@
     <div id="mobile-layout-main-block">
       <Dashboard />
     </div>
-    <MobileNav />
+    <MobileNav :isDarkMode="isDarkMode" />
   </div>
   <UserProfileMobile
       v-if="isClientConnected"

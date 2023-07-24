@@ -1,5 +1,5 @@
 <template>
-  <div id="mobile-nav">
+  <div id="mobile-nav" :class="{'light-mode': !isDarkMode}">
     <CNavItem
         v-for="(item, index) in sidebarNav"
         :key="index"
@@ -21,12 +21,15 @@ import sidebarNav from './sidebarNav';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
+const props = defineProps({
+  isDarkMode: Boolean
+})
 
 const getIconStrokeColor = (item) => {
   if (route.path.startsWith(item.to)) {
-    return '#8749DC';
+    return '#FFFFFF';
   } else {
-    return '#8B96BE';
+    return props.isDarkMode ? '#FFFFFF' : '#141E28';
   }
 };
 
@@ -40,17 +43,15 @@ const isActive = (path) => {
 @import "@/assets/scss/_variables";
 
 #mobile-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
 
   .nav-item {
     flex-grow: 1;
     display: flex;
 
     > .router-link-active {
-      background: radial-gradient(84.48% 157.68% at 50.5% 101.43%, rgba(127, 33, 255, 0.2) 0%, rgba(19, 22, 33, 0) 69.27%);
-      color: $text-color-white;
+      background: $btn-primary-bg-color-LM;
       border-radius: 8px;
     }
   }
@@ -80,11 +81,23 @@ const isActive = (path) => {
     }
 
     .item-name {
-      font-weight: 500;
+      font-family: $medium;
       font-size: 9px;
       line-height: 11px;
       color: $text-color-white;
       margin-top: 8px;
+    }
+  }
+
+  &.light-mode {
+    .nav-item {
+      flex-grow: 1;
+      display: flex;
+
+      > .router-link-active {
+        background: $btn-primary-bg-color-LM;
+        border-radius: 8px;
+      }
     }
   }
 }
