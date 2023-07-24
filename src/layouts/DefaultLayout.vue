@@ -160,12 +160,16 @@ const logOut = async () => {
     #main-block {
       padding: 74px 0 0 20px;
       background-color: $dark-grey;
-      overflow: auto;
+      overflow: hidden;
       height: 100%;
+      position: relative;
 
       .main-block_content {
+        position: absolute;
+        top: 73px;
+        left: 0;
         width: 100%;
-        height: 100%;
+        height: calc(100% - 80px);
       }
 
       &::-webkit-scrollbar {

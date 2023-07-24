@@ -152,7 +152,6 @@ html, body {
     grid-area: main;
     padding: 20px 34px 0 20px;
     background-color: $dark-grey;
-    overflow: auto;
     height: 100%;
 
     &::-webkit-scrollbar {

@@ -110,7 +110,13 @@ const formattedTime = (dateString) => {
   display: flex;
   flex-direction: column;
   padding: 20px 170px;
+  overflow-y: scroll;
+  width: 100%;
+  height: 100%;
 
+  &::-webkit-scrollbar {
+    width: 0;
+  }
   .loader{
     margin-top: 20%;
   }

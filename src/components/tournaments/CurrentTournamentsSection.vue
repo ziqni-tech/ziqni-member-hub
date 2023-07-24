@@ -246,7 +246,7 @@ const pageChange = async (pageNumber) => {
 <style scoped lang="scss">
 @import "@/assets/scss/_variables";
 .section {
-  padding: 20px 16px 20px 0;
+  padding: 20px 16px 20px 20px;
   min-height: 400px;
 
   .tournaments-section-header-wrapper {
