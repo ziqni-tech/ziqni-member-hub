@@ -9,7 +9,7 @@
               :height="'40'"
           />
         </button>
-        <ToggleTheme class="btn" :class="{'isMoon-icon': !isDarkMode}" :stroke-color="'#FFFFFF'" />
+        <ToggleTheme class="btn" :iconSize="'40'" :stroke-color="'#FFFFFF'" />
       </div>
     </div>
     <div class="user-info">

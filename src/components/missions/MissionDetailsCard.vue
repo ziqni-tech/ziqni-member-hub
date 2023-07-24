@@ -4,9 +4,6 @@
       <div class="card-header_btn" @click="goBack">
         <CrossIcon v-if="!isInfo" :width="'30'" :height="'30'" :stroke-color="getIconStrokeColor()" />
         <ArrowLeft v-if="isInfo" :width="'20'" :height="'20'" :stroke-color="getIconStrokeColor()" />
-<!--        <button class="card-header_btn" @click="goBack">-->
-<!--          <img :src="goBackIcon" alt="">-->
-<!--        </button>-->
       </div>
       <button class="info-btn" @click="goToInfo">
         i
@@ -26,7 +23,8 @@
           <span class="description_text">{{ removeHTMLTags(mission.description) }}</span>
         </div>
         <div class="prize_data" v-if="!isInfo">
-          prize: <div class="trophy-icon" v-html="filledTrophyIcon"></div>
+          prize:
+          <div class="trophy-icon" v-html="filledTrophyIcon"></div>
           <div class="prize-value">{{ mission.rewardValue }}</div>
         </div>
         <div class="mission-data__description" v-if="isInfo">
@@ -44,10 +42,17 @@
       :edges="result.edgesResult"
       :configs="configs"
       class="graph"
+      :class="{'light-mode': !isDarkMode}"
       :layouts="layouts"
+      :key="rerenderKey"
   >
     <template #edge-label="{ edge, ...slotProps }">
-      <v-edge-label :text="edge.label" align="center" vertical-align="above" v-bind="slotProps"/>
+      <v-edge-label
+          :text="edge.label"
+          align="center"
+          vertical-align="above"
+          v-bind="slotProps"
+      />
     </template>
   </v-network-graph>
 </template>
@@ -65,11 +70,11 @@ import {
 
 import { defineConfigs } from 'v-network-graph';
 import dagre from 'dagre/dist/dagre.min.js';
-import { useRoute, useRouter } from "vue-router";
-import useMobileDevice from "@/hooks/useMobileDevice";
+import { useRoute, useRouter } from 'vue-router';
+import useMobileDevice from '@/hooks/useMobileDevice';
 import { removeHTMLTags } from '@/utils/removeHTMLTags';
-import backArrowIcon  from '@/assets/icons/back_arrow.png'
-import closeIcon  from '@/assets/icons/close.svg'
+import backArrowIcon from '@/assets/icons/back_arrow.png';
+import closeIcon from '@/assets/icons/close.svg';
 import CrossIcon from '@/shared/components/svg-icons/CrossIcon.vue';
 import ArrowLeft from '@/shared/components/svg-icons/ArrowLeft.vue';
 
@@ -81,7 +86,7 @@ const filledTrophyIcon = `
     <path d="M16.3127 4.5H14.0627C13.752 4.5 13.5002 4.75184 13.5002 5.0625C13.5002 5.37316 13.752 5.625 14.0627 5.625H16.3127V6.75C16.3127 7.44899 15.8184 7.94324 15.8184 7.94324C15.3242 8.4375 14.6252 8.4375 14.6252 8.4375H13.9361C13.6255 8.4375 13.3736 8.68934 13.3736 9C13.3736 9.31066 13.6255 9.5625 13.9361 9.5625H14.6252C15.7902 9.5625 16.6139 8.73874 16.6139 8.73874C17.4377 7.91498 17.4377 6.75 17.4377 6.75V5.625C17.4377 5.15901 17.1082 4.82951 17.1082 4.82951C16.7787 4.5 16.3127 4.5 16.3127 4.5Z" fill="#EE3EC8"/>
     <path d="M1.68066 5.625H3.93066C4.24132 5.625 4.49316 5.37316 4.49316 5.0625C4.49316 4.75184 4.24132 4.5 3.93066 4.5H1.68066C1.21467 4.5 0.885169 4.82951 0.885169 4.82951C0.555664 5.15901 0.555664 5.625 0.555664 5.625V6.75C0.555664 7.91498 1.37943 8.73874 1.37943 8.73874C2.20319 9.5625 3.36816 9.5625 3.36816 9.5625H4.07832C4.38898 9.5625 4.64082 9.31066 4.64082 9C4.64082 8.68934 4.38898 8.4375 4.07832 8.4375H3.36816C2.66918 8.4375 2.17492 7.94324 2.17492 7.94324C1.68066 7.44899 1.68066 6.75 1.68066 6.75V5.625Z" fill="#EE3EC8"/>
   </svg>
-`
+`;
 
 const { isMobile } = useMobileDevice();
 
@@ -89,9 +94,10 @@ const emit = defineEmits(['joinMission', 'leaveMission']);
 
 const store = useStore();
 const isDarkMode = computed(() => store.getters.getTheme);
+const rerenderKey = ref(0);
 
 const getIconStrokeColor = () => {
-  return isDarkMode.value ? '#FFFFFF' : '#080D12'
+  return isDarkMode.value ? '#FFFFFF' : '#080D12';
 };
 
 const isInfo = ref(false);
@@ -101,12 +107,22 @@ const isGraphLoaded = ref(false);
 const missionIcon = ref('https://first-space.cdn.ziqni.com/Icons/ball-2.png');
 
 const goBackIcon = computed(() => {
-  return !isInfo.value ? closeIcon : backArrowIcon
+  return !isInfo.value ? closeIcon : backArrowIcon;
 });
 
 const layouts = reactive({
   nodes: {},
 });
+
+const getEdgeLabelColor = (label) => {
+  console.warn('lab', label);
+  const edgeLabelColors = {
+    MUST: '#6FCF97',
+    SHOULD: '#F2994A',
+    'MUST-NOT': '#EB5757'
+  }
+  return edgeLabelColors[label] || '#7781A8';
+}
 
 const configs = defineConfigs({
   view: {
@@ -114,12 +130,17 @@ const configs = defineConfigs({
     // panEnabled: false
   },
   node: {
-    normal: {radius: nodeSize / 2, color: '#8749DC'},
+    normal: {
+      radius: nodeSize / 2,
+      color: isDarkMode.value ? '#2F0426' : '#BEE9F3',
+      strokeColor: isDarkMode.value ? '#406A8C' : '#F7A1E4',
+      strokeWidth: 1
+    },
     label: {
       direction: 'south',
-      color: '#FDFDFF',
-      fontFamily: 'AvertaStd-Semibold',
-      fontSize: 16
+      color: isDarkMode.value ? '#FDFDFF' : '#141E28',
+      fontFamily: 'Syne-Medium',
+      fontSize: 12,
     },
   },
   edge: {
@@ -130,7 +151,8 @@ const configs = defineConfigs({
     },
     label: {
       color: '#7781A8',
-      fontFamily: 'AvertaStd-Semibold',
+      // color: edge => edge.color,
+      fontFamily: 'Syne-Medium',
       fontSize: 12
     },
     margin: 4,
@@ -182,7 +204,7 @@ const getMissionRequest = async () => {
       missions.value = res.data;
 
       if (res.data[0].iconLink) {
-        missionIcon.value = res.data[0].iconLink
+        missionIcon.value = res.data[0].iconLink;
       }
 
       getEntityRewards();
@@ -229,7 +251,7 @@ const getEntityRewards = async () => {
     mission.value = missions.value[0];
     isLoaded.value = true;
   });
-}
+};
 
 onBeforeMount(() => {
   getMissionGraphData();
@@ -251,7 +273,7 @@ const getRewardIcon = async (id) => {
       resolve(res.data[0].uri);
     });
   });
-}
+};
 
 const getAchievementOrder = (nodes, edges) => {
   const edgesResult = {};
@@ -266,7 +288,7 @@ const getAchievementOrder = (nodes, edges) => {
           break;
         }
         case 'SHOULD': {
-          color = 'rgb(238, 187, 0)';
+          color = '#F2994A';
           break;
         }
         case 'MUST-NOT': {
@@ -284,12 +306,12 @@ const getAchievementOrder = (nodes, edges) => {
   }
 
   for (const node of nodes) {
-    nodesResult[node.name] = {name: node.name};
+    nodesResult[node.name] = { name: node.name };
   }
   const selectedNode = nodes.find(n => n.entityId === route.params.id).name;
   // selectedNodes.value.push(selectedNode);
 
-  return {edgesResult, nodesResult};
+  return { edgesResult, nodesResult };
 };
 
 const getMissionGraphData = async () => {
@@ -329,7 +351,7 @@ const layout = (direction) => {
   g.setDefaultEdgeLabel(() => ({}));
 
   Object.entries(result.value.nodesResult).forEach(([nodeId, node]) => {
-    g.setNode(nodeId, {label: node.name, width: nodeSize, height: nodeSize});
+    g.setNode(nodeId, { label: node.name, width: nodeSize, height: nodeSize });
   });
 
   Object.values(result.value.edgesResult).forEach(edge => {
@@ -343,7 +365,7 @@ const layout = (direction) => {
   g.nodes().forEach((nodeId) => {
     const x = g.node(nodeId).x;
     const y = g.node(nodeId).y;
-    layouts.nodes[nodeId] = {x, y};
+    layouts.nodes[nodeId] = { x, y };
 
     box.top = box.top ? Math.min(box.top, y) : y;
     box.bottom = box.bottom ? Math.max(box.bottom, y) : y;
@@ -368,52 +390,30 @@ watch(result, (currentValue, oldValue) => {
   }
 });
 
-// const getOptInStatus = async () => {
-//   const optInApiWsClient = new OptInApiWs(ApiClientStomp.instance);
-//
-//   const optInStateRequest = OptInStatesRequest.constructFromObject({
-//     optinStatesFilter: {
-//       entityTypes: ['Achievement'],
-//       ids: [route.params.id],
-//       statusCodes: {
-//         gt: 0,
-//         lt: 40
-//       },
-//       skip: 0,
-//       limit: 10
-//     }
-//   }, null);
-//
-//   await optInApiWsClient.optInStates(optInStateRequest, (res) => {
-//     console.warn('optIn', res)
-// if (res.data.length) {
-//   console.warn('optIn', res)
-//   const status = res.data[0].status;
-//   const percentage = res.data[0]?.percentageComplete;
-//
-//   mission.value.entrantStatus = status ? status : '';
-//   mission.value.percentageComplete = percentage ? percentage : 0;
-// } else {
-//   mission.value.percentageComplete = 0;
-//   mission.value.entrantStatus = '';
-// }
-//     store.dispatch('setCurrentMissionAction', mission.value);
-//   });
-// };
+watch(isDarkMode, (newValue) => {
+  // Update node colors and other properties here
+  configs.node.normal.color = newValue ? '#2F0426' : '#BEE9F3';
+  configs.node.normal.strokeColor = newValue ? '#406A8C' : '#F7A1E4';
+  configs.node.normal.strokeWidth = 1;
 
-const router = useRouter()
+  configs.node.label.color = newValue ? '#FDFDFF' : '#141E28';
+
+  rerenderKey.value += 1;
+});
+
+const router = useRouter();
 
 const goBack = () => {
   if (isInfo.value === true) {
-    isInfo.value = false
+    isInfo.value = false;
   } else {
-    router.back()
+    router.back();
   }
-}
+};
 
 const goToInfo = () => {
-  isInfo.value = true
-}
+  isInfo.value = true;
+};
 
 const finish = () => {
   console.log('finish');
@@ -443,10 +443,14 @@ const closeModal = () => {
 
 .graph {
   margin: 20px auto 0;
-  border: 1px solid $btn-border-grey;
+  border: 1px solid $dark-blue;
   border-radius: $border-radius;
   max-width: 840px;
   height: 400px;
+
+  &.light-mode {
+    border: 1px solid $main-border-color-LM;
+  }
 }
 
 .mission-details-card {
@@ -739,6 +743,7 @@ const closeModal = () => {
         object-fit: contain;
       }
     }
+
     .prize {
       display: flex;
       align-items: center;

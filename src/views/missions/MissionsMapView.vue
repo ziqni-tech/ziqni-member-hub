@@ -43,7 +43,7 @@
             class="face-circle"
             :r="config.radius * scale"
             fill="none"
-            stroke="#808080"
+            stroke="#38ACCF"
             :stroke-width="1 * scale"
             v-bind="slotProps"
         />
@@ -103,7 +103,6 @@ const getStarAngle = () => {
   return 180;
 }
 
-
 const getStarTransform = () => {
   const angle = getStarAngle();
   return `rotate(${angle})`;
@@ -160,25 +159,35 @@ const configs = computed(() => {
     node: {
       normal: {
         radius: nodeSize.value / 2,
-        color: '#8749DC'
+        color: '#8749DC',
+        strokeColor: '#38ACCF',
+        strokeWidth: 1
       },
       label: {
         direction: 'south',
         color: '#FDFDFF',
-        fontFamily: 'AvertaStd-Semibold',
+        fontFamily: 'Syne-Medium',
         fontSize: 16
       },
     },
     edge: {
       normal: {
         // color: edge => edge.color,
-        color: '#8749DC',
+        color: '#B9CEDF',
         width: 3,
         dasharray: 8,
         linecap: 'round'
       },
+      summarized: {
+        shape: {
+          type: 'circle',
+          width: 4,
+          height: 4,
+          borderRadius: 2
+        }
+      },
       label: {
-        fontFamily: 'AvertaStd-Semibold',
+        fontFamily: 'Syne-Medium',
         fontSize: 16,
         lineHeight: 17,
         color: '#7781A8',
