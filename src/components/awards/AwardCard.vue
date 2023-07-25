@@ -145,7 +145,7 @@ watch(countdownResult, (value) => {
   &__name {
     font-family: $bold;
     font-size: 14px;
-    color: $text-color-white;
+    color: $white-color-DM;
     margin: 5px 0;
   }
 
@@ -174,7 +174,7 @@ watch(countdownResult, (value) => {
   }
 
   .prize {
-    color: $text-color-white;
+    color: $white-color-DM;
     background-color: $prize-btn-bg-DM;
     cursor: default;
     border: none;
@@ -335,7 +335,7 @@ watch(countdownResult, (value) => {
       font-family: $bold;
       font-size: 12px;
       line-height: 14px;
-      color: $text-color-white;
+      color: $white-color-DM;
       margin: 5px 0;
     }
 
@@ -363,7 +363,7 @@ watch(countdownResult, (value) => {
       }
     }
     .prize {
-      color: $text-color-white;
+      color: $white-color-DM;
       background-color: $prize-btn-bg-DM;
       cursor: default;
       border: none;
@@ -377,7 +377,7 @@ watch(countdownResult, (value) => {
       width: 100%;
       border: 1px solid $btn-border-color-LM;
       background: $btn-primary-bg-color-LM;
-      color: $text-color-white;
+      color: $white-color-DM;
       padding: 6px;
       font-size: 14px;
     }
@@ -397,7 +397,7 @@ watch(countdownResult, (value) => {
         width: 100%;
         border: 1px solid $btn-border-color-LM;
         background: $btn-primary-bg-color-LM;
-        color: $text-color-white;
+        color: $white-color-DM;
         padding: 6px;
         font-size: 14px;
       }
