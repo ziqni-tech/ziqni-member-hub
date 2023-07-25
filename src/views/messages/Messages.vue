@@ -126,8 +126,7 @@ const formattedTime = (dateString) => {
     align-items: center;
 
     margin-bottom: 5px;
-    background-color: $light-grey;
-    color: $text-color-white;
+    background-color: $card-bg-DM;
     cursor: pointer;
 
     .avatar {
@@ -152,13 +151,19 @@ const formattedTime = (dateString) => {
       font-family: $semi-bold;
 
       &__type {
-        font-size: 16px;
-        color: $body-text-color;
+        font-size: 14px;
+        font-family: $medium;
+        color: $white-color-DM;
       }
 
       &__body {
         font-size: 12px;
-        color: $text-color-white;
+        color: $description-color-DM;
+        font-family: $mainFont;
+        max-width: 650px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
 
@@ -166,9 +171,9 @@ const formattedTime = (dateString) => {
       display: flex;
       flex-direction: column;
       margin-left: auto;
-      font-family: $semi-bold;
+      font-family: $medium;
       font-size: 12px;
-      color: $body-text-color;
+      color: $description-color-DM;
 
       .date {
         text-align: right;
@@ -205,7 +210,6 @@ const formattedTime = (dateString) => {
         flex-direction: column;
         align-items: flex-start;
         margin-left: 10px;
-        font-family: $semi-bold;
 
         &__type {
           font-size: 14px;
@@ -248,8 +252,8 @@ const formattedTime = (dateString) => {
       align-items: center;
 
       margin-bottom: 5px;
-      background-color: $light-grey;
-      color: $text-color-white;
+      background-color: $card-bg-DM;
+      color: $white-color-DM;
 
       .avatar {
         display: flex;
@@ -272,42 +276,69 @@ const formattedTime = (dateString) => {
         margin-left: 10px;
 
         &__type {
-          //font-weight: 500;
-          //font-size: 14px;
-          //line-height: 17px;
-          color: $body-text-color;
+          font-size: 12px;
+          color: $white-color-DM;
         }
 
         &__body {
-          max-width: 160px;
+          max-width: 600px;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
 
-          //font-weight: 400;
-          //font-size: 12px;
-          //line-height: 146.5%;
-          color: $text-color-white;
+          font-size: 10px;
+          color: $description-color-DM;
         }
       }
 
       .created {
-        //font-weight: 500;
-        //font-size: 12px;
-        //line-height: 12px;
+        font-size: 10px;
       }
     }
   }
 }
-
-//.list-group-item.darkMode {
-//  background-color: $light-grey;
-//  border: 1px solid $border-header-dark-mode;
-//  color: $light-grey;
-//}
-//.list-group-item.lightMode {
-//  background-color: $primary-bg-dark-LM;
-//  border: 1px solid $border-header-light-mode;
-//  color: $txt-dark-grey;
-//}
+@media screen and (max-width: 755px) {
+  .messages-wrapper {
+    .list-group-item {
+      .message-body {
+        &__body {
+          max-width: 500px;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 650px) {
+  .messages-wrapper {
+    .list-group-item {
+      .message-body {
+        &__body {
+          max-width: 400px;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 550px) {
+  .messages-wrapper {
+    .list-group-item {
+      .message-body {
+        &__body {
+          max-width: 300px;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 450px) {
+  .messages-wrapper {
+    .list-group-item {
+      .message-body {
+        &__body {
+          max-width: 200px;
+        }
+      }
+    }
+  }
+}
 </style>
