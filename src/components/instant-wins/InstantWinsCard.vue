@@ -33,7 +33,7 @@ const play = () => {
   display: flex;
   padding: 10px;
   border-radius: $border-radius;
-  background-color: $card-bg-color;
+  background-color: $card-bg-DM;
 
   width: 100%;
   height: auto;
@@ -47,7 +47,7 @@ const play = () => {
   .instant-img-wrapper {
     width: 44%;
     height: 100%;
-    background-color: $dark-grey;
+    background-color: $prize-btn-bg-DM;
     border-radius: $border-radius;
     display: flex;
     align-items: center;
@@ -68,13 +68,17 @@ const play = () => {
     padding: 6px 16px 0;
 
     .card-title {
-      font-size: 16px;
-      color: $text-color-white;
+      font-size: 14px;
+      font-family: $bold;
+      color: $white-color-DM;
+      text-align: start;
     }
 
     .card-description {
       font-size: 12px;
-      color: $body-text-color;
+      color: $description-color-DM;
+      font-family: $mainFont;
+      text-align: start;
       margin-top: 10px;
     }
 
@@ -84,12 +88,12 @@ const play = () => {
       align-items: center;
       padding: 10px 57px;
 
-      background: $btn-gradient-color;
+      background: $btn-primary-bg-color-LM;
       border-radius: $border-radius;
-      border: 1px solid $border-dark;
+      border: 1px solid $btn-border-color-LM;
 
-      font-size: 16px;
-      font-family: $semi-bold;
+      font-size: 14px;
+      font-family: $bold;
       color: $text-color-white;
 
       margin-top: auto;
@@ -128,7 +132,7 @@ const play = () => {
       padding: 6px 16px 0;
 
       .card-title {
-        font-size: 16px;
+        font-size: 14px;
         color: $card-title-color-LM;
       }
 
@@ -148,9 +152,9 @@ const play = () => {
         border-radius: $border-radius;
         border: 1px solid $btn-border-color-LM;
 
-        font-size: 16px;
-        font-family: $semi-bold;
-        color: $btn-primary-color-LM;
+        font-size: 14px;
+        font-family: $bold;
+        color: $white-color-DM;
 
         margin-top: auto;
         max-width: 124px;
@@ -165,7 +169,7 @@ const play = () => {
     flex-direction: column;
     padding: 10px;
     border-radius: $border-radius;
-    background-color: $light-grey;
+    background-color: $card-bg-DM;
 
     width: 100%;
 
@@ -174,13 +178,14 @@ const play = () => {
       width: 100%;
       justify-content: center;
       padding-bottom: 15px;
-      font-size: 14px;
-      color: $text-color-white;
+      font-size: 12px;
+      font-family: $bold;
+      color: $white-color-DM;
     }
 
     .instant-img-wrapper {
       width: 100%;
-      background-color: $dark-grey;
+      background-color: $prize-btn-bg-DM;
       border-radius: $border-radius;
       padding-bottom: 75%;
       position: relative;
@@ -219,14 +224,10 @@ const play = () => {
         align-items: center;
         padding: 6px;
 
-        background: $btn-gradient-color;
-        border-radius: $border-radius;
-        border: 1px solid $border-dark;
-
-        font-weight: 700;
+        font-family: $bold;;
         font-size: 12px;
         line-height: 14px;
-        color: $text-color-white;
+        color: $white-color-DM;
 
         margin-top: auto;
       }
@@ -289,7 +290,7 @@ const play = () => {
 
           border-radius: $border-radius;
 
-          font-weight: 700;
+          font-family: $bold;;
           font-size: 12px;
           line-height: 14px;
           color: $text-color-white;
