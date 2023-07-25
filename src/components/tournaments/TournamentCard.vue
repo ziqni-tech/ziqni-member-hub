@@ -56,8 +56,7 @@ const goToTournamentsDetailsPage = () => {
 @import '../../assets/scss/_variables';
 
 .t-card {
-  background-color: $light-grey;
-  font-family: $bold;
+  background-color: $card-bg-DM;
 
   .t-card-image > img {
     width: 100%;
@@ -72,8 +71,9 @@ const goToTournamentsDetailsPage = () => {
     padding: 10px 12px 13px;
 
     .tournament-name {
-      font-size: 16px;
-      color: $text-color-white;
+      font-size: 14px;
+      font-family: $bold;
+      color: $white-color-DM;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -100,12 +100,13 @@ const goToTournamentsDetailsPage = () => {
         align-items: center;
         padding: 10px 57px;
 
-        background: $btn-gradient-color;
+        background: $btn-primary-bg-color-LM;
         border-radius: $border-radius;
-        border: 1px solid $border-dark;
+        border: 1px solid $btn-border-color-LM;
 
-        font-size: 16px;
-        color: $text-color-white;
+        font-size: 14px;
+        font-family: $bold;
+        color: $white-color-DM;
       }
     }
   }

@@ -51,7 +51,7 @@ watch(countdownResult, (value) => {
     display: flex;
     align-items: center;
     text-transform: capitalize;
-    color: $body-text-color;
+    color: $dark-blue-DM;
 
     .icon {
       margin-right: 5px;
@@ -63,7 +63,7 @@ watch(countdownResult, (value) => {
 
   .value {
     text-align: right;
-    color: $text-color-white;
+    color: $white-color-DM;
     display: block;
     min-height: 5px;
   }
