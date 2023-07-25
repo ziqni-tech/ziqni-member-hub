@@ -126,7 +126,7 @@ const goToAchievementDetails = () => {
 
 .achievements-card {
   width: 100%;
-  background-color: $light-grey;
+  background-color: $card-bg-DM;
   border-radius: $border-radius;
   padding: 10px 16px 14px;
 
@@ -134,7 +134,7 @@ const goToAchievementDetails = () => {
 
   .top-section {
     display: flex;
-    border-bottom: 1px solid $btn-border-grey;
+    border-bottom: 1px solid $border-color-DM;
     padding-bottom: 14px;
   }
 
@@ -182,9 +182,9 @@ const goToAchievementDetails = () => {
     padding: 10px 0 0 20px;
 
     .title {
-      font-family: $semi-bold;
-      font-size: 16px;
-      color: $text-color-white;
+      font-family: $bold;
+      font-size: 14px;
+      color: $white-color-DM;
 
       white-space: nowrap;
       overflow: hidden;
@@ -199,22 +199,22 @@ const goToAchievementDetails = () => {
       .progress {
         width: 90%;
         height: 4px;
-        background-color: $dark-blue;
+        background-color: $progress-bg-DM;
         margin: 10px 0;
 
         .progress-bar {
           height: 100%;
-          background: $purple-gradient;
+          background: $blue-gradient;
           border-radius: $border-radius-sm;
         }
       }
 
       .progress-value {
         margin-left: 5px;
-        font-weight: 500;
+        font-family: $medium;
         font-size: 12px;
         line-height: 16px;
-        color: $text-color-white;
+        color: $white-color-DM;
       }
     }
   }
@@ -231,9 +231,9 @@ const goToAchievementDetails = () => {
       justify-content: center;
       border-radius: $border-radius;
 
-      font-size: 16px;
-      font-family: $semi-bold;
-      color: $text-color-white;
+      font-size: 14px;
+      font-family: $bold;
+      color: $white-color-DM;
 
       > img {
         margin-right: 5px;
@@ -241,16 +241,17 @@ const goToAchievementDetails = () => {
     }
 
     .leave-button {
-      background: $btn-grey;
+      background: none;
+      border: 1px solid $btn-border-color-LM;
     }
 
     .join-btn {
-      background: $btn-gradient-color;
+      background: $btn-primary-bg-color-LM;
     }
 
     .prize {
-      color: $body-text-color;
-      background-color: $dark-grey;
+      color: $prize-btn-color-DM;
+      background-color: $prize-btn-bg-DM;
       cursor: default;
       border: none;
 
@@ -258,11 +259,6 @@ const goToAchievementDetails = () => {
         max-width: 36px;
         height: 18px;
       }
-    }
-
-    .go-button {
-      border: 1px solid $purple;
-      color: $text-color-white;
     }
   }
 
@@ -355,7 +351,7 @@ const goToAchievementDetails = () => {
         justify-content: center;
         border-radius: $border-radius;
 
-        font-size: 16px;
+        font-size: 14px;
         font-family: $bold;
         color: $btn-primary-color-LM;
 
@@ -385,11 +381,6 @@ const goToAchievementDetails = () => {
           max-width: 36px;
           height: 18px;
         }
-      }
-
-      .go-button {
-        border: 1px solid $purple;
-        color: $text-color-white;
       }
     }
   }

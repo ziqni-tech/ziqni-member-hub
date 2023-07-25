@@ -8,7 +8,6 @@ $text-color-white:          #FDFDFF;
 $body-text-color:           #7781A8;
 $card-text-color:           #9fa9d2;
 $purple-gradient:           linear-gradient(90deg, rgba(131,71,215,1) 0%, rgba(163,95,227,1) 35%, rgba(192,119,238,1) 100%);
-$blue-gradient:             linear-gradient(90deg, rgba(64,106,140,1) 35%, rgba(115,157,191,1) 100%);;
 $btn-grey:                  #262C41;
 $black-text:                #020204;
 
@@ -86,11 +85,13 @@ $btn-prize-color-LM:        #223241;
 $pagination-active-btn-bg:  #BEE9F3;
 $pagination-btn-border:     #CCCCCC;
 
-
+// progress
+$blue-gradient:             linear-gradient(90deg, rgba(64,106,140,1) 35%, rgba(115,157,191,1) 100%);
 // dark mode
 $description-color-DM:      #E6E6E6;
 $prize-name-DM:             #BEE9F3;
 $prize-btn-bg-DM:           #0F1921;
+$prize-btn-color-DM:        #EDF3F7;
 
 $card-bg-DM:                #141E28;
 $border-color-DM:           #406A8C;
@@ -102,6 +103,9 @@ $active-tab-bg_DM:          #2F0426;
 
 $white-color-DM:            #FFF;
 $description-color-DM:      #E6E6E6;
+
+$border-color-DM:           #223241;
+$progress-bg-DM:            #223241;
 
 
 
