@@ -122,13 +122,17 @@ function changePage(pageNumber) {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: $text-color-white;
+    font-family: $bold;
+    font-size: 12px;
+    color: $white-color-DM;
     border-radius: $border-radius-sm;
-    background-color: $light-grey;
+    background: none;
   }
 
   .active {
-    background: $btn-gradient-color;
+    background: $active-tab-bg_DM;
+    border: 1px solid $border-color-DM;
+    box-shadow: 0 2px 12px 0 rgba(64, 106, 140, 0.50);
   }
 
   button[disabled] {
@@ -142,8 +146,8 @@ function changePage(pageNumber) {
     width: 100%;
     margin-top: auto;
     padding-bottom: 15px;
-    font-family: $semi-bold;
-    font-size: 16px;
+    font-family: $bold;
+    font-size: 12px;
 
     .page-item {
       margin: 0 3px;
