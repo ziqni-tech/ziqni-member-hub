@@ -53,7 +53,7 @@ const { isMobile } = useMobileDevice();
 .message-details-card {
   max-width: 840px;
   margin: auto;
-  background: $light-grey;
+  background: $card-bg-DM;
   height: 500px;
   border-radius: $border-radius;
   display: flex;
@@ -83,6 +83,7 @@ const { isMobile } = useMobileDevice();
         font-size: 20px;
         font-family: $bold;
         margin-left: 14px;
+        color: $white-color-DM;
       }
     }
 
@@ -91,6 +92,7 @@ const { isMobile } = useMobileDevice();
       font-size: 12px;
       font-family: $medium;
       justify-content: flex-end;
+      color: $white-color-DM;
 
       .date {
         text-align: right;
@@ -106,6 +108,7 @@ const { isMobile } = useMobileDevice();
     width: 100%;
     text-align: start;
     font-size: 14px;
+    color: $white-color-DM;
   }
 
   &.light-mode {
