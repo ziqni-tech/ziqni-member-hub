@@ -201,7 +201,7 @@ const getOptInStatus = async (ids) => {
 #user-profile-mobile {
   display: flex;
   flex-direction: column;
-  background-color: $light-grey;
+  background-color: $card-bg-DM;
   position: fixed;
   top: 0;
   right: -100%;

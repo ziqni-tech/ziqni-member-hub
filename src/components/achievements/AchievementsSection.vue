@@ -503,6 +503,7 @@ onMounted(() => {
 
   @media screen and (max-width: $tableWidth) {
     grid-template-columns: repeat(1, 1fr);
+    height: auto;
   }
 }
 </style>

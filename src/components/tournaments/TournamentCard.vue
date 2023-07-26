@@ -181,10 +181,6 @@ const goToTournamentsDetailsPage = () => {
           align-items: center;
           padding: 5px;
 
-          background: $purple;
-          border-radius: $border-radius;
-          border: 1px solid $border-dark;
-
           font-size: 12px;
           color: $text-color-white;
         }

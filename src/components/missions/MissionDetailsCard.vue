@@ -457,7 +457,7 @@ const closeModal = () => {
   display: flex;
   flex-direction: column;
   max-width: 840px;
-  background: $light-grey;
+  background: $card-bg-DM;
   overflow: hidden;
   border-radius: $border-radius;
   margin: 0 auto;
@@ -474,16 +474,16 @@ const closeModal = () => {
       align-items: center;
       justify-content: center;
       border-radius: $border-radius;
-      background: $dark-grey;
+      background: $prize-btn-bg-DM;
       padding: 15px 40px;
 
       font-family: $semi-bold;
-      font-size: 16px;
-      color: $text-color-white;
+      font-size: 14px;
+      color: $white-color-DM;
       vertical-align: middle;
 
       .prize-value {
-        font-family: $semi-bold;
+        font-family: $bold;
         padding-top: 3px;
       }
 
@@ -503,7 +503,7 @@ const closeModal = () => {
       border-radius: $border-radius-sm;
       background: none;
       border: 1px solid $btn-border-grey;
-      color: $text-color-white;
+      color: $white-color-DM;
       cursor: pointer;
     }
 
@@ -513,7 +513,7 @@ const closeModal = () => {
       border-radius: $border-radius-sm;
       background: none;
       border: 1px solid $btn-border-grey;
-      color: $text-color-white;
+      color: $white-color-DM;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -556,7 +556,7 @@ const closeModal = () => {
       &__title {
         font-size: 20px;
         font-family: $bold;
-        color: $text-color-white;
+        color: $white-color-DM;
         text-align: start;
       }
 
@@ -567,7 +567,7 @@ const closeModal = () => {
       .prize_data {
         width: 100%;
         font-size: 14px;
-        color: $text-color-white;
+        color: $white-color-DM;
         text-align: left;
         margin-top: 21px;
         display: flex;
@@ -584,7 +584,7 @@ const closeModal = () => {
       }
 
       &__description {
-        color: $text-color-white;
+        color: $white-color-DM;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
@@ -632,7 +632,7 @@ const closeModal = () => {
         border-radius: $border-radius-sm;
         background: none;
         border: 1px solid $main-border-color-LM;
-        color: $text-color-white;
+        color: $white-color-DM;
       }
 
       .info-btn {
@@ -754,8 +754,8 @@ const closeModal = () => {
       min-height: 34px;
       min-width: 80px;
 
-      font-size: 16px;
-      color: $text-color-white;
+      font-size: 12px;
+      color: $white-color-DM;
 
 
       .prize-value {
@@ -783,15 +783,15 @@ const closeModal = () => {
 
         &__title {
           font-size: 22px;
-          color: $text-color-white;
+          color: $white-color-DM;
           text-align: center;
         }
 
         .prize_data {
           width: 100%;
 
-          font-size: 16px;
-          color: $text-color-white;
+          font-size: 12px;
+          color: $white-color-DM;
           text-align: left;
           margin-top: 21px;
 
@@ -802,7 +802,7 @@ const closeModal = () => {
 
         &__description {
           width: 100%;
-          color: $text-color-white;
+          color: $white-color-DM;
           display: flex;
           flex-direction: column;
           align-items: flex-start;
