@@ -141,7 +141,7 @@ html, body {
 
   #nav-block {
     grid-area: nav;
-    background-color: $light-grey;
+    background-color: $secondary-bg-DM;
     position: fixed;
     height: 100%;
     overflow: auto;
@@ -151,7 +151,7 @@ html, body {
   #main-block {
     grid-area: main;
     padding: 20px 34px 0 20px;
-    background-color: $dark-grey;
+    background-color: $main-bg-DM;
     height: 100%;
 
     &::-webkit-scrollbar {
@@ -161,7 +161,7 @@ html, body {
 
   #user-profile-block {
     grid-area: user-profile;
-    background-color: $light-grey;
+    background-color: $secondary-bg-DM;
     position: fixed;
     right: 0;
     height: 100%;

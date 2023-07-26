@@ -147,7 +147,7 @@ const logOut = async () => {
 
   #nav-block {
     grid-area: nav;
-    background-color: $light-grey;
+    background-color: $secondary-bg-DM;
     position: fixed;
     height: 100%;
     overflow: auto;
@@ -159,7 +159,7 @@ const logOut = async () => {
 
     #main-block {
       padding: 74px 0 0 20px;
-      background-color: $dark-grey;
+      background-color: $main-bg-DM;
       overflow: hidden;
       height: 100%;
       position: relative;

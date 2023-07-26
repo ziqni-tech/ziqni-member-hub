@@ -65,8 +65,8 @@ const isGoBackBtn = computed(() => {
 #app-header {
   width: 85%;
   padding: 15px;
-  background-color: $dark-grey;
-  border-bottom: 1px solid $btn-border-grey;
+  background-color: $main-bg-DM;
+  border-bottom: 1px solid $border-color-DM;
   position: fixed;
   z-index: 5;
 
