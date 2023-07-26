@@ -1,5 +1,7 @@
 <template>
-  <CurrentMissionsSection />
+  <div class="missions">
+    <CurrentMissionsSection />
+  </div>
 <!--  <FeaturedMissionsSection  />-->
 </template>
 
@@ -10,6 +12,14 @@ import CurrentMissionsSection from '../../components/missions/CurrentMissionsSec
 
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
+.missions {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
 
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+}
 </style>
