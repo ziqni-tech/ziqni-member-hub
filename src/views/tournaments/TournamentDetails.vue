@@ -414,7 +414,7 @@ const goToCalendar = () => {
   .leaderboard-section {
     display: flex;
     flex-direction: column;
-    padding-right: 20px;
+    padding: 0 20px;
 
     &_header {
       width: 95%;
@@ -426,14 +426,14 @@ const goToCalendar = () => {
       .section-title {
         font-size: 24px;
         font-family: $bold;
-        color: $text-color-white;
+        color: $white-color-DM;
       }
     }
 
     .leaderboard-table {
       display: flex;
       width: 100%;
-      border: 1px solid $btn-border-grey;
+      border: 1px solid $border-color-DM;
       border-radius: 10px;
       overflow: hidden;
     }

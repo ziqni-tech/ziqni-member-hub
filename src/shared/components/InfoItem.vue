@@ -30,23 +30,22 @@ const getIconStrokeColor = () => {
   flex-direction: column;
   align-items: center;
   position: relative;
-  border: 1px solid $btn-border-grey;
+  border: 1px solid $info-item-icon-bg-DM;
   border-radius: 10px;
   padding: 33px 15px 10px;
-  background-color: $dark-grey;
-  font-family: $semi-bold;
+  background-color: $info-item-bg-DM;
 
   .item-icon {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    border: 1px solid $btn-border-grey;
+    border: 1px solid $info-item-icon-bg-DM;
     display: flex;
     align-items: center;
     justify-content: center;
     position: absolute;
     top: -25px;
-    background-color: $lighter-grey;
+    background-color: $info-item-icon-bg-DM;
   }
 
   .info-title {

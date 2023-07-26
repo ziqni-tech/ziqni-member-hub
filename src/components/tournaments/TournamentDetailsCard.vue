@@ -162,9 +162,8 @@ const goToInfo = () => {
   height: 100%;
   max-height: 92vh;
   overflow-y: auto;
-  background-color: $light-grey;
+  background-color: $card-bg-DM;
   border-radius: $border-radius;
-  font-family: $semi-bold;
 
   &::-webkit-scrollbar {
     width: 4px;
@@ -200,7 +199,7 @@ const goToInfo = () => {
     }
 
     .tournament-title {
-      color: $text-color-white-LM;
+      color: $white-color-DM;
       font-size: 20px;
       font-family: $bold;
       margin: 30px 0;
@@ -208,7 +207,7 @@ const goToInfo = () => {
 
     .countdown {
       width: 50%;
-      color: $text-color-white-LM;
+      color: $white-color-DM;
 
       .indicator {
         .indicator-block {
@@ -232,13 +231,19 @@ const goToInfo = () => {
   }
 
   .join-button {
-    background: $purple-gradient;
-    border: 1px solid $purple;
+    background: $btn-primary-bg-color-LM;
+    border: 1px solid $btn-border-color-LM;
+    color: $white-color-DM;
+    font-family: $bold;
+    font-size: 14px;
   }
 
   .leave-button {
-    border: 1px solid $border-dark;
-    background: $btn-grey;
+    border: 1px solid $btn-border-color-LM;
+    background: none;
+    font-family: $bold;
+    color: $white-color-DM;
+    font-size: 14px;
   }
 
   .tournament-data-wrapper {
@@ -266,7 +271,7 @@ const goToInfo = () => {
         justify-content: center;
         border-radius: $border-radius-sm;
         background: none;
-        border: 1px solid $dark-blue;
+        border: 1px solid $info-item-icon-bg-DM;
         color: $text-color-white;
 
         position: absolute;
