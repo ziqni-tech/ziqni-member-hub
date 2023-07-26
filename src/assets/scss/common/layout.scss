@@ -1,7 +1,7 @@
 #mobile-layout {
   display: flex;
   flex-direction: column;
-  background-color: $dark-grey;
+  background-color: $main-bg-DM;
   height: 100vh;
   overflow: hidden;
 
@@ -16,7 +16,7 @@
     .page-name {
       font-size: 16px;
       font-family: $bold;
-      color: $text-color-white;
+      color: $white-color-DM;
     }
 
     .icon-btn {
@@ -41,7 +41,7 @@
       align-items: center;
       justify-content: center;
       background: none;
-      color: $text-color-white;
+      color: $white-color-DM;
 
       > img {
         width: 10px;

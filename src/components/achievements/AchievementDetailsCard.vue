@@ -155,14 +155,13 @@ const goToInfo = () => {
 
 .achievements-details-card {
   max-width: 840px;
-  background-color: $light-grey;
+  background-color: $card-bg-DM;
   border-radius: $border-radius;
   padding: 10px 25px 14px;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: auto;
-  font-family: $semi-bold;
   position: relative;
 
   .info-btn {
@@ -170,7 +169,7 @@ const goToInfo = () => {
     height: 30px;
     border-radius: $border-radius-sm;
     background: none;
-    border: 1px solid $btn-border-grey;
+    border: 1px solid $info-item-icon-bg-DM;
     position: absolute;
     top: 20px;
     right: 20px;
@@ -178,18 +177,18 @@ const goToInfo = () => {
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    color: $text-color-white-LM;
+    color: $white-color-DM
   }
 
   .title {
     font-family: $bold;
     font-size: 20px;
-    color: #080D12;
+    color: $white-color-DM;
 
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding-top: 30px;
+    padding: 30px 0 20px;
   }
 
   .icon {
@@ -252,7 +251,7 @@ const goToInfo = () => {
 
         .progress-bar {
           height: 100%;
-          background: $purple-gradient;
+          background: $blue-gradient;
           border-radius: $border-radius-sm;
         }
       }
@@ -303,18 +302,18 @@ const goToInfo = () => {
       width: 150px;
       padding: 10px;
       border-radius: 10px;
-      color: $text-color-white;
-      font-size: 16px;
+      color: $white-color-DM;
+      font-size: 14px;
     }
 
     .join-button {
-      background: $purple-gradient;
-      border: 1px solid $purple;
+      background: $btn-primary-bg-color-LM;
+      border: 1px solid $btn-border-color-LM
     }
 
     .leave-button {
-      border: 1px solid $border-dark;
-      background: $btn-grey;
+      border: 1px solid $btn-border-color-LM;
+      background: none;
     }
 
     .disabled-btn {
@@ -327,12 +326,12 @@ const goToInfo = () => {
       justify-content: center;
       align-items: center;
       padding: 10px 57px;
-      font-size: 16px;
+      font-size: 14px;
 
-      background: $dark-grey;
+      background: $prize-btn-bg-DM;
       border-radius: 10px;
-      border: 1px solid $dark-grey;
-      color: $text-color-white;
+      border: 1px solid $prize-btn-bg-DM;
+      color: $white-color-DM;
 
       > img {
         margin-right: 10px;
@@ -525,7 +524,6 @@ const goToInfo = () => {
 @media screen and (max-width: 500px) {
   .achievements-details-card {
     max-width: 840px;
-    background-color: $light-grey;
     border-radius: $border-radius;
     padding: 10px 25px 14px;
     display: flex;
@@ -535,8 +533,7 @@ const goToInfo = () => {
 
 
     .title {
-      font-size: 22px;
-      color: $text-color-white;
+      font-size: 14px;
 
       white-space: nowrap;
       overflow: hidden;
@@ -585,7 +582,7 @@ const goToInfo = () => {
       .progress-title {
         text-align: start;
         width: 100%;
-        font-size: 16px;
+        font-size: 10px;
         color: $text-color-white;
         padding-top: 20px;
       }
@@ -597,12 +594,10 @@ const goToInfo = () => {
         .progress {
           width: 100%;
           height: 4px;
-          background-color: $dark-blue;
           margin: 10px 0;
 
           .progress-bar {
             height: 100%;
-            background: $purple-gradient;
             border-radius: $border-radius-sm;
           }
         }
@@ -653,10 +648,10 @@ const goToInfo = () => {
         padding: 10px;
         font-size: 12px;
 
-        background: $purple-gradient;
+        //background: $purple-gradient;
         border-radius: 10px;
-        border: 1px solid $purple;
-        color: $text-color-white;
+        //border: 1px solid $purple;
+        //color: $text-color-white;
       }
 
       .disabled-btn {
@@ -679,8 +674,8 @@ const goToInfo = () => {
 
         > img {
           margin-right: 10px;
-          max-width: 40px;
-          height: 30px;
+          max-width: 22px;
+          height: 12px;
           object-fit: cover;
         }
       }
