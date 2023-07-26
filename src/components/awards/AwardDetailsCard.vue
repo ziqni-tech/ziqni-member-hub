@@ -89,7 +89,7 @@ const handleButtonClick = async () => {
 
 .award-details-card {
   max-width: 840px;
-  background-color: $light-grey;
+  background-color: $card-bg-DM;
   border-radius: $border-radius;
   padding: 10px 25px 14px;
   display: flex;
@@ -101,12 +101,12 @@ const handleButtonClick = async () => {
   .title {
     font-family: $bold;
     font-size: 20px;
-    color: $text-color-white;
+    color: $white-color-DM;
 
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding-top: 30px;
+    padding: 30px 0 20px;
   }
 
   .icon {
@@ -144,7 +144,7 @@ const handleButtonClick = async () => {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: $text-color-white;
+    color: $white-color-DM;
     margin-top: 20px;
     font-size: 20px;
     font-family: $bold;
@@ -166,7 +166,7 @@ const handleButtonClick = async () => {
       width: 100%;
       font-size: 14px;
       font-family: $medium;
-      color: $text-color-white;
+      color: $white-color-DM;
       padding-top: 20px;
     }
 
@@ -175,7 +175,7 @@ const handleButtonClick = async () => {
       text-align: start;
       width: 100%;
       font-size: 12px;
-      color: $text-color-white;
+      color: $white-color-DM;
       padding-top: 14px;
     }
   }
@@ -201,10 +201,10 @@ const handleButtonClick = async () => {
       font-size: 14px;
       font-family: $bold;
 
-      background: $purple-gradient;
+      background: $btn-primary-bg-color-LM;
       border-radius: 10px;
-      border: 1px solid $purple;
-      color: $text-color-white;
+      border: 1px solid $btn-border-color-LM;
+      color: $white-color-DM;
     }
 
     .disabled-btn {
@@ -325,7 +325,6 @@ const handleButtonClick = async () => {
   .award-details-card {
     font-family: $semi-bold;
     max-width: 840px;
-    background-color: $light-grey;
     border-radius: $border-radius;
     padding: 10px 25px 14px;
     display: flex;
@@ -337,7 +336,7 @@ const handleButtonClick = async () => {
     .title {
       font-family: $mainFont;
       font-size: 22px;
-      color: $text-color-white;
+      color: $white-color-DM;
 
       white-space: nowrap;
       overflow: hidden;
@@ -380,7 +379,7 @@ const handleButtonClick = async () => {
       display: flex;
       justify-content: center;
       align-items: center;
-      color: $text-color-white;
+      color: $white-color-DM;
       margin-top: 20px;
       font-size: 22px;
 
@@ -400,7 +399,7 @@ const handleButtonClick = async () => {
         text-align: start;
         width: 100%;
         font-size: 16px;
-        color: $text-color-white;
+        color: $white-color-DM;
         padding-top: 20px;
       }
 
@@ -409,7 +408,7 @@ const handleButtonClick = async () => {
         text-align: start;
         width: 100%;
         font-size: 12px;
-        color: $text-color-white;
+        color: $white-color-DM;
         padding-top: 14px;
       }
     }
@@ -433,10 +432,8 @@ const handleButtonClick = async () => {
         width: 150px;
         padding: 10px;
 
-        background: $purple-gradient;
         border-radius: 10px;
-        border: 1px solid $purple;
-        color: $text-color-white;
+        color: $white-color-DM;
       }
 
       .disabled-btn {
