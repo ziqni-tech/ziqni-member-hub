@@ -4,7 +4,7 @@
       :class="['wheel', `wheel_font-size--${modelValue.length}`]"
       :style="wheelStyle"
   >
-    <AwardsModal
+    <WheelOfFortuneModal
         v-if="isShowModal"
         class="prize-modal"
         :message="message"
@@ -20,7 +20,7 @@
 import * as d3 from 'd3';
 import { computed, ref, onMounted, onUnmounted, watch } from 'vue';
 import useMobileDevice from '@/hooks/useMobileDevice';
-import AwardsModal from '@/components/awards/AwardsModal.vue';
+import WheelOfFortuneModal from '@/components/awards/WheelOfFortuneModal.vue';
 import { useStore } from 'vuex';
 
 const props = defineProps({

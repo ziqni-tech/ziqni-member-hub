@@ -21,7 +21,7 @@
       </div>
     </div>
   </div>
-  <AwardsModal
+  <ScratchCardsModal
       v-if="isShowModal"
       :message="message"
       :style="modalStyles"
@@ -33,11 +33,11 @@
 </template>
 
 <script setup>
-import { ref, reactive, watch, onMounted, computed, onUpdated } from 'vue';
+import { ref, reactive, watch, onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useMouse } from '@vueuse/core';
-import AwardsModal from '@/components/awards/AwardsModal.vue';
 import cellBg from '@/assets/images/instant-wins/scratch-card/open-card-bg.svg';
+import ScratchCardsModal from '@/components/awards/ScratchCardsModal.vue';
 
 const grid = reactive(createGrid());
 
