@@ -77,7 +77,7 @@ import Countdown from '../Countdown';
 import Modal from '../../shared/components/Modal';
 import InfoItem from '../../shared/components/InfoItem';
 
-import cardImage from '../../assets/images/tournaments/tournament.png';
+import cardImage from '@/assets/images/tournaments/tournament_details_bg.svg';
 import TrophyIcon from "@/shared/components/svg-icons/TrophyIcon.vue";
 import DiamondIcon from "@/shared/components/svg-icons/DiamondIcon.vue";
 import StarIcon from "@/shared/components/svg-icons/StarIcon.vue";

@@ -18,11 +18,12 @@
         </div>
       </div>
       <div v-if="!isDashboard" class="calendar-btn" @click="goToCalendar" title="Tournaments calendar">
-        <CalendarIcon :strokeColor="getIconStrokeColor()" :width="'35'" :height="'35'" />
+        <CalendarIcon :strokeColor="getIconStrokeColor()" :width="'35'" :height="'35'"/>
       </div>
     </div>
-    <Loader v-if="!isLoaded" :title="'Future Tournaments are loading'" />
-    <div :class="isDashboard ? 'dashboard-cards-grid' : 'tournaments-cards-grid '" v-else-if="competitions.length && isLoaded">
+    <Loader v-if="!isLoaded" :title="'Future Tournaments are loading'"/>
+    <div :class="isDashboard ? 'dashboard-cards-grid' : 'tournaments-cards-grid '"
+         v-else-if="competitions.length && isLoaded">
       <div v-for="c in competitions" class="card-wrapper">
         <Tournament
             :key="c.id"
@@ -48,7 +49,18 @@ import {
   RewardsApiWs
 } from '@ziqni-tech/member-api-client';
 import { useRouter } from 'vue-router';
-import CalendarIcon from "@/shared/components/svg-icons/CalendarIcon.vue";
+import CalendarIcon from '@/shared/components/svg-icons/CalendarIcon.vue';
+import cardImage1 from '@/assets/images/tournaments/tournament_1.svg';
+import cardImage2 from '@/assets/images/tournaments/tournament_2.svg';
+import cardImage3 from '@/assets/images/tournaments/tournament_3.svg';
+import cardImage4 from '@/assets/images/tournaments/tournament_4.svg';
+
+const images = [
+  cardImage1,
+  cardImage2,
+  cardImage3,
+  cardImage4
+];
 
 const props = defineProps({
   isDashboard: {
@@ -64,7 +76,7 @@ const router = useRouter();
 const isDarkMode = computed(() => store.getters.getTheme);
 
 const getIconStrokeColor = () => {
-  return isDarkMode.value ? '#FFFFFF' : '#080D12'
+  return isDarkMode.value ? '#FFFFFF' : '#080D12';
 };
 
 const limit = ref(computed(() => props.isDashboard ? 3 : 4));
@@ -84,8 +96,8 @@ onMounted(() => {
 });
 
 const seeOriginalView = () => {
-  getCompetitionsRequest()
-}
+  getCompetitionsRequest();
+};
 
 const getCompetitionsRequest = async () => {
   isLoaded.value = false;
@@ -110,7 +122,7 @@ const getCompetitionsRequest = async () => {
     await competitionsApiWsClient.getCompetitions(competitionRequest, async (res) => {
       const competitionsData = res.data;
 
-      totalRecords.value = res.meta.totalRecordsFound
+      totalRecords.value = res.meta.totalRecordsFound;
 
       const compIds = competitionsData.map(item => item.id);
 
@@ -136,13 +148,20 @@ const getCompetitionsRequest = async () => {
         }
       }
 
-      competitions.value = competitionsData;
+      competitions.value = competitionsData.map((competition, index) => {
+        const image = images[index % images.length];
+        return {
+          ...competition,
+          image
+        };
+      });
+
       isLoaded.value = true;
     });
   } catch (e) {
     console.log('ERROR', e);
   }
-}
+};
 
 const getEntityRewards = async (ids) => {
   const rewardsApiWsClient = await new RewardsApiWs(ApiClientStomp.instance);
@@ -163,13 +182,13 @@ const getEntityRewards = async (ids) => {
       resolve(res.data);
     });
   });
-}
+};
 
 const isSeeAll = computed(() => competitions.value.length < totalRecords.value);
 
 const goToCalendar = () => {
-  router.push({name: 'TournamentsCalendar'})
-}
+  router.push({ name: 'TournamentsCalendar' });
+};
 
 const seeAll = async () => {
   isLoaded.value = false;
@@ -199,7 +218,14 @@ const seeAll = async () => {
       const response = await new Promise((resolve, reject) => {
         competitionsApiWsClient.getCompetitions(competitionRequest, resolve, reject);
       });
-      const competitionsData = response.data;
+
+      const competitionsData = response.data.map((competition, index) => {
+        const image = images[index % images.length];
+        return {
+          ...competition,
+          image
+        };
+      });
 
       const compIds = competitionsData.map(item => item.id);
       const rewards = await getEntityRewards(compIds);
@@ -236,11 +262,12 @@ const seeAll = async () => {
   } catch (e) {
     console.log('ERROR', e);
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
 @import "@/assets/scss/_variables";
+
 .section {
   padding: 20px 16px 0 20px;
   min-height: 400px;
@@ -286,6 +313,7 @@ const seeAll = async () => {
         .section-title {
           color: $section-title-color-LM;
         }
+
         .see-all-btn {
           font-size: 16px;
           font-family: $semi-bold;

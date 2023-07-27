@@ -1,7 +1,7 @@
 <template>
   <div class="t-card" :class="{'light-mode': !isDarkMode}">
     <div class="t-card-image">
-      <img :src="cardImage" alt="">
+      <img :src="cardItem.image" alt="">
     </div>
     <div class="t-info">
       <div class="tournament-name">{{ cardItem.name }}</div>
@@ -27,7 +27,6 @@
 
 <script setup>
 import { useRouter } from 'vue-router';
-import cardImage from '@/assets/images/tournaments/tournament.png';
 import TournamentDataRow from './TournamentDataRow';
 import prizeIcon from '@/assets/icons/tournament/prize.png';
 import expiresInIcon from '@/assets/icons/tournament/expires-in.png';

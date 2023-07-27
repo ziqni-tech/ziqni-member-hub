@@ -50,6 +50,16 @@ import {
 } from '@ziqni-tech/member-api-client';
 import { useRouter } from 'vue-router';
 import CalendarIcon from "@/shared/components/svg-icons/CalendarIcon.vue";
+import cardImage1 from '@/assets/images/tournaments/tournament_1.svg';
+import cardImage2 from '@/assets/images/tournaments/tournament_2.svg';
+import cardImage3 from '@/assets/images/tournaments/tournament_3.svg';
+import cardImage4 from '@/assets/images/tournaments/tournament_4.svg';
+const images = [
+  cardImage1,
+  cardImage2,
+  cardImage3,
+  cardImage4
+]
 
 const props = defineProps({
   isDashboard: {
@@ -134,7 +144,14 @@ const getCompetitionsRequest = async () => {
         }
       }
 
-      competitions.value = competitionsData;
+      competitions.value = competitionsData.map((competition, index) => {
+        const image = images[index % images.length]
+        return {
+          ...competition,
+          image
+        }
+      });
+
       isLoaded.value = true;
     });
   } catch (e) {
@@ -197,7 +214,14 @@ const seeAll = async () => {
       const response = await new Promise((resolve, reject) => {
         competitionsApiWsClient.getCompetitions(competitionRequest, resolve, reject);
       });
-      const competitionsData = response.data;
+
+      const competitionsData = response.data.map((competition, index) => {
+        const image = images[index % images.length];
+        return {
+          ...competition,
+          image
+        };
+      });
 
       const compIds = competitionsData.map(item => item.id);
       const rewards = await getEntityRewards(compIds);
