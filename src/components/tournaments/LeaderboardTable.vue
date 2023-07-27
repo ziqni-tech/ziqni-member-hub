@@ -82,7 +82,6 @@ const setPlace = computed(() => (place) => {
   max-height: 690px;
   width: 100%;
   overflow-y: auto;
-  //font-family: $semi-bold;
   padding: 0 24px 14px 24px;
 
   &::-webkit-scrollbar {
@@ -99,10 +98,10 @@ const setPlace = computed(() => (place) => {
   position: sticky;
   top: 0;
   z-index: 3;
-  //background-color: $dark-grey;
+  background-color: $main-bg-DM;
 
   &.light-mode {
-    //background-color: white;
+    background-color: white;
   }
 }
 
@@ -172,6 +171,7 @@ table {
       border-radius: 10px;
       position: relative;
       box-shadow: 0 2px 12px 0 rgba(64, 106, 140, 0.50), 0 0 0 1px #406A8C;
+      z-index: 5;
 
       td {
         background: $active-tab-bg_DM;
@@ -237,6 +237,10 @@ table {
       line-height: 17px;
       padding-bottom: 15px;
       padding-top: 15px;
+
+      tr {
+        background: none;
+      }
     }
 
     th.rank {
@@ -276,6 +280,7 @@ table {
         border-radius: 10px;
         position: relative;
         box-shadow: 0 2px 12px 0 rgba(236, 60, 198, 0.4), 0 0 0 1px #F7A1E4;
+        z-index: 5;
 
         td {
           background: $info-item-bg;
@@ -379,7 +384,7 @@ table {
     position: sticky;
     top: 0;
     z-index: 3;
-    background-color: $dark-grey;
+    background-color: $main-bg-DM;
   }
 
   table {
