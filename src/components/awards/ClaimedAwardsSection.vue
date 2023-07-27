@@ -30,31 +30,35 @@ const skip = computed(() => (currentPage.value - 1) * limit.value);
 const totalPages = computed(() => Math.ceil(totalRecords.value / limit.value));
 
 const getAwardsRequest = async () => {
-  const awardsApiWsClient = new AwardsApiWs(ApiClientStomp.instance);
+  try {
+    const awardsApiWsClient = new AwardsApiWs(ApiClientStomp.instance);
 
-  const claimedAwardsRequest = AwardRequest.constructFromObject({
-    awardFilter: {
-      statusCode: {
-        moreThan: 34,
-        lessThan: 36
+    const claimedAwardsRequest = AwardRequest.constructFromObject({
+      awardFilter: {
+        statusCode: {
+          moreThan: 34,
+          lessThan: 36
+        },
+        sortBy: [{
+          queryField: 'created',
+          order: 'Desc'
+        }],
+        skip: skip.value,
+        limit: limit.value
       },
-      sortBy: [{
-        queryField: 'created',
-        order: 'Desc'
-      }],
-      skip: skip.value,
-      limit: limit.value
-    },
-    currencyKey: ''
-  });
+      currencyKey: ''
+    });
 
-  awardsApiWsClient.getAwards(claimedAwardsRequest, async (res) => {
-    awards.value = res.data;
-    totalRecords.value = res.meta.totalRecordsFound;
-    const rewardIds = res.data.map(item => item.rewardId);
-    await getEntityRewards(rewardIds);
-    isLoaded.value = true;
-  });
+    awardsApiWsClient.getAwards(claimedAwardsRequest, async (res) => {
+      awards.value = res.data;
+      totalRecords.value = res.meta.totalRecordsFound;
+      const rewardIds = res.data.map(item => item.rewardId);
+      await getEntityRewards(rewardIds);
+      isLoaded.value = true;
+    });
+  } catch (err) {
+    console.log('getAwardsRequest error =>', err)
+  }
 };
 
 const getEntityRewards = async (ids) => {

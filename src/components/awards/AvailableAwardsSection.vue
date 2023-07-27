@@ -60,40 +60,44 @@ const isLoading = ref(false);
 const modalShow = ref(false);
 
 const getAwardsRequest = async () => {
-  isLoading.value = true;
+  try {
+    isLoading.value = true;
 
-  const awardsApiWsClient = new AwardsApiWs(ApiClientStomp.instance);
+    const awardsApiWsClient = new AwardsApiWs(ApiClientStomp.instance);
 
-  const availableAwardsRequest = AwardRequest.constructFromObject({
-    awardFilter: {
-      statusCode: {
-        moreThan: 14,
-        lessThan: 16
+    const availableAwardsRequest = AwardRequest.constructFromObject({
+      awardFilter: {
+        statusCode: {
+          moreThan: 14,
+          lessThan: 16
+        },
+        sortBy: [{
+          queryField: 'created',
+          order: 'Desc'
+        }],
+        skip: skip.value,
+        limit: limit.value
       },
-      sortBy: [{
-        queryField: 'created',
-        order: 'Desc'
-      }],
-      skip: skip.value,
-      limit: limit.value
-    },
-    currencyKey: ''
-  });
+      currencyKey: ''
+    });
 
-  awardsApiWsClient.getAwards(availableAwardsRequest, async (res) => {
-    if (res.data && !res.data.length) {
-      emit('setIsAvailableAwards');
-    }
+    awardsApiWsClient.getAwards(availableAwardsRequest, async (res) => {
+      if (res.data && !res.data.length) {
+        emit('setIsAvailableAwards');
+      }
 
-    awards.value = res.data;
-    totalRecords.value = res.meta.totalRecordsFound;
+      awards.value = res.data;
+      totalRecords.value = res.meta.totalRecordsFound;
 
-    const rewardIds = res.data.map(item => item.rewardId);
-    await getEntityRewards(rewardIds);
+      const rewardIds = res.data.map(item => item.rewardId);
+      await getEntityRewards(rewardIds);
 
-    isLoading.value = false;
-    isLoaded.value = true;
-  });
+      isLoading.value = false;
+      isLoaded.value = true;
+    });
+  } catch (err) {
+    console.log('getAwardsRequest error =>', err)
+  }
 };
 
 const getEntityRewards = async (ids) => {
