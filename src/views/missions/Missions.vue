@@ -17,9 +17,15 @@ import CurrentMissionsSection from '../../components/missions/CurrentMissionsSec
   width: 100%;
   height: 100%;
   overflow-y: scroll;
+  padding: 0 20px;
 
   &::-webkit-scrollbar {
     width: 0;
+  }
+}
+@media screen and (max-width: 820px) {
+  .missions {
+    padding: 0;
   }
 }
 </style>

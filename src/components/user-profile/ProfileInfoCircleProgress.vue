@@ -7,17 +7,17 @@
       :inner-stroke-width="state.strokeWidth"
       :start-color="color"
       :stop-color="color"
-      :inner-stroke-color="state.innerStrokeColor"
+      :inner-stroke-color="innerStrokeColor"
       :stroke-linecap="state.strokeLinecap"
   >
-    <p class="progress-value" :class="{'light-mode': !isDarkMode}">{{ completedSteps }}{{ isPercents ? '%' : ''}}</p>
+    <p class="progress-value" :class="{'light-mode': !isDarkMode}">{{ completedSteps }}{{ isPercents ? '%' : '' }}</p>
     <p class="progress-title" :class="{'light-mode': !isDarkMode}">{{ title }}</p>
   </GradientProgress>
 </template>
 
 <script setup>
 import GradientProgress from 'vue3-radial-progress';
-import { onMounted, onUnmounted, onUpdated, reactive, watch } from 'vue';
+import { computed, onMounted, onUnmounted, onUpdated, reactive, watch } from 'vue';
 
 const props = defineProps({
   color: String,
@@ -26,14 +26,15 @@ const props = defineProps({
   title: String,
   isPercents: Boolean,
   isDarkMode: Boolean
-})
+});
 
 const state = reactive({
   diameter: 90,
   strokeWidth: 5,
   strokeLinecap: 'round',
-  innerStrokeColor: props.isDarkMode ? '#141E28' : '#DCE6EF'
 });
+
+const innerStrokeColor = computed(() => props.isDarkMode ? '#141E28' : '#DCE6EF');
 
 onMounted(() => {
   updateDiameter();
@@ -45,7 +46,7 @@ onUpdated(() => {
   updateDiameter();
 
   window.addEventListener('resize', updateDiameter);
-})
+});
 onUnmounted(() => {
   window.removeEventListener('resize', updateDiameter);
 });
@@ -81,31 +82,30 @@ watch(() => window.innerWidth, updateDiameter);
 @import "src/assets/scss/_variables";
 
 .progress-value {
-  font-family: $semi-bold;
-  font-size: 24px;
-  color: $text-color-white;
+  font-family: $bold;
+  font-size: 20px;
+  color: $white-color-DM;
+  line-height: normal;
 
   &.light-mode {
     color: $section-title-color-LM;
     font-size: 20px;
-    font-style: normal;
-    font-weight: 700;
+    font-family: $bold;
     line-height: normal;
   }
 }
 
 .progress-title {
-  font-weight: 500;
+  font-family: $medium;
   font-size: 12px;
   line-height: 16px;
-  color: $body-text-color;
+  color: #CCC;
   text-transform: capitalize;
 
   &.light-mode {
-    font-family: $mainFont;
     color: $info-name-color;
     font-style: normal;
-    font-weight: 700;
+    font-family: $medium;
     line-height: normal;
   }
 }

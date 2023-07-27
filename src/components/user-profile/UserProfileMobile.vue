@@ -201,7 +201,7 @@ const getOptInStatus = async (ids) => {
 #user-profile-mobile {
   display: flex;
   flex-direction: column;
-  background-color: $card-bg-DM;
+  background-color: $secondary-bg-DM;
   position: fixed;
   top: 0;
   right: -100%;
@@ -265,7 +265,8 @@ const getOptInStatus = async (ids) => {
       width: 100px;
       height: 100px;
       border-radius: 50%;
-      background-color: $purple;
+      border: 4px solid #7ED4E7;
+      background: none;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -277,8 +278,9 @@ const getOptInStatus = async (ids) => {
         align-items: center;
         justify-content: center;
         border-radius: 50%;
-        border: 4px solid $border-dark;
-        background-color: $body-text-color;
+        //border: 4px solid $border-dark;
+        //background-color: $body-text-color;
+        background: none;
         overflow: hidden;
 
         > img {
@@ -292,20 +294,20 @@ const getOptInStatus = async (ids) => {
     .user-name {
       font-style: normal;
       font-family: $bold;
-      font-size: 14px;
+      font-size: 12px;
       line-height: 17px;
-      color: $sidebar-text-color;
+      color: $white-color-DM;
     }
 
     .pro-label {
       margin-top: 5px;
       border-radius: 5px;
       text-transform: uppercase;
-      background: $purple;
-      color: $text-color-white;
+      background: #7ED4E7;
+      color: #223241;
       padding: 0 10px;
-      font-weight: 700;
-      font-size: 10px;
+      font-family: $bold;
+      font-size: 8px;
       line-height: 12px;
     }
 
@@ -323,7 +325,7 @@ const getOptInStatus = async (ids) => {
     height: 0;
     width: 90%;
     margin: auto;
-    border-bottom: 1px solid $border-dark;
+    border-bottom: 1px solid $card-bg-DM;
   }
 
   .logout-mobile-btn {

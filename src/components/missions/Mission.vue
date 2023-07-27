@@ -1,8 +1,9 @@
 <template>
   <div class="m-card" :class="{'light-mode': !isDarkMode}">
+    <div class="expires-in">{{ date }}</div>
     <div class="m-card-image">
-      <img :src="missionImage" alt="">
-      <div class="expires-in">{{ date }}</div>
+      <img :src="missionItem.iconLink ? missionItem.iconLink : missionImage" alt="">
+<!--      <div class="expires-in">{{ date }}</div>-->
     </div>
     <div class="m-info">
       <h3 class="mission-name"> {{ missionItem.name }} </h3>
@@ -36,6 +37,7 @@ const props = defineProps({
   isDarkMode: Boolean
 });
 const missionItem = props.mission;
+console.warn('missionItem', missionItem);
 
 const countdownResult = useCountdown(missionItem.scheduling.endDate);
 
@@ -64,35 +66,39 @@ const goToMissionsMapPage = () => {
 @import '@/assets/scss/_variables';
 
 .m-card {
-  background-color: $card-bg-DM;
+  position: relative;
+
+  .expires-in {
+    position: absolute;
+    top: 16px;
+    right: -10px;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: $border-radius-sm;
+    background: $expires-in-bg;
+    padding: 8px 16px;
+    color: $white-color-DM;
+    font-family: $medium;
+    font-size: 12px;
+
+    @media screen and (max-width: $tableWidth) {
+      right: 0;
+      font-size: 10px;
+    }
+  }
 
   .m-card-image {
     position: relative;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    overflow: hidden;
 
     > img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-    }
-
-    .expires-in {
-      position: absolute;
-      top: 16px;
-      right: -10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: $border-radius-sm;
-      background: $expires-in-bg;
-      padding: 8px 16px;
-      color: $white-color-DM;
-      font-family: $medium;
-      font-size: 12px;
-
-      @media screen and (max-width: $tableWidth) {
-        right: 0;
-        font-size: 10px;
-      }
     }
   }
 
@@ -103,6 +109,10 @@ const goToMissionsMapPage = () => {
     justify-content: space-between;
     padding: 14px 12px 10px;
     font-family: $semi-bold;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    overflow: hidden;
+    background-color: $card-bg-DM;
 
     .mission-name {
       font-size: 14px;
@@ -208,7 +218,6 @@ const goToMissionsMapPage = () => {
   }
 
   &.light-mode {
-    background-color: $card-bg-LM;
 
     .m-card-image {
       position: relative;
@@ -246,6 +255,7 @@ const goToMissionsMapPage = () => {
       align-items: flex-start;
       justify-content: space-between;
       padding: 14px 12px 10px;
+      background-color: $card-bg-LM;
 
       .mission-name {
         font-size: 14px;

@@ -69,19 +69,24 @@ const achievementsRequest = AchievementRequest.constructFromObject({
 }, null);
 
 const getAchievementsRequest = async () => {
-  isLoading.value = true;
-  const achievementsApiWsClient = new AchievementsApiWs(ApiClientStomp.instance);
+  try {
+    isLoading.value = true;
+    const achievementsApiWsClient = new AchievementsApiWs(ApiClientStomp.instance);
 
-  await achievementsApiWsClient.getAchievements(achievementsRequest, async (res) => {
-    store.dispatch('setCurrentMissionsTotalRecords', res.meta.totalRecordsFound);
+    achievementsApiWsClient.getAchievements(achievementsRequest, async (res) => {
+      store.dispatch('setCurrentMissionsTotalRecords', res.meta.totalRecordsFound);
 
-    const ids = res.data.map(item => item.id);
-    missions.value = res.data;
+      const ids = res.data.map(item => item.id);
+      missions.value = res.data;
 
-    await getOptInStatus(ids);
-    await getEntityRewards(ids);
-    isLoading.value = false;
-  });
+      await getOptInStatus(ids);
+      await getEntityRewards(ids);
+      isLoading.value = false;
+    });
+  } catch (err) {
+    console.log('missions Request error => ', err)
+  }
+
 };
 
 const getOptInStatus = async (ids) => {
@@ -180,7 +185,7 @@ const loadMore = async () => {
 
   achievementsRequest.achievementFilter.skip = currentMissions.value.length;
 
-  await achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
+  achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
     missions.value = res.data;
 
     const ids = res.data.map(item => item.id);
@@ -199,7 +204,7 @@ const loadMore = async () => {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   width: 100%;
-  grid-gap: 15px;
+  grid-gap: 26px;
 
   @media screen and (max-width: 1240px) {
     grid-template-columns: repeat(3, 1fr);

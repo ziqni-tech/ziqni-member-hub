@@ -56,9 +56,10 @@ const goToTournamentsDetailsPage = () => {
 @import '../../assets/scss/_variables';
 
 .t-card {
-  background-color: $card-bg-DM;
 
   .t-card-image > img {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -69,6 +70,9 @@ const goToTournamentsDetailsPage = () => {
     flex-direction: column;
     align-items: flex-start;
     padding: 10px 12px 13px;
+    background-color: $card-bg-DM;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 
     .tournament-name {
       font-size: 14px;
@@ -78,6 +82,7 @@ const goToTournamentsDetailsPage = () => {
       overflow: hidden;
       text-overflow: ellipsis;
       max-height: 24px;
+      max-width: 260px;
     }
 
     .t-data {
@@ -112,10 +117,9 @@ const goToTournamentsDetailsPage = () => {
   }
 
   &.light-mode {
-    background-color: $card-bg-LM;
 
     .t-info {
-
+      background-color: $card-bg-LM;
       .tournament-name {
         font-size: 14px;
         color: $card-title-color-LM;
@@ -142,7 +146,15 @@ const goToTournamentsDetailsPage = () => {
     }
   }
 }
-
+@media screen and (max-width: 1430px) {
+  .t-card {
+    .t-info {
+      .tournament-name {
+        max-width: 200px;
+      }
+    }
+  }
+}
 @media screen and (max-width: $tableWidth) {
   .t-card {
     .t-card-image > img {
@@ -186,6 +198,33 @@ const goToTournamentsDetailsPage = () => {
         }
       }
 
+    }
+  }
+}
+@media screen and (max-width: 420px) {
+  .t-card {
+    .t-info {
+      .tournament-name {
+        max-width: 160px;
+      }
+    }
+  }
+}
+@media screen and (max-width: 380px) {
+  .t-card {
+    .t-info {
+      .tournament-name {
+        max-width: 150px;
+      }
+    }
+  }
+}
+@media screen and (max-width: 360px) {
+  .t-card {
+    .t-info {
+      .tournament-name {
+        max-width: 140px;
+      }
     }
   }
 }
