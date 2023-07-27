@@ -157,19 +157,26 @@ table {
       line-height: 16px;
 
       &:nth-child(odd) {
-        background-color: $card-bg-DM;
+        td {
+          background-color: $card-bg-DM;
+        }
       }
     }
 
     tr {
       border-radius: 10px;
+      overflow: hidden;
     }
 
     tr.active {
-      background: $active-tab-bg_DM;
       border-radius: 10px;
       position: relative;
       box-shadow: 0 2px 12px 0 rgba(64, 106, 140, 0.50), 0 0 0 1px #406A8C;
+
+      td {
+        background: $active-tab-bg_DM;
+      }
+
     }
 
     td {
@@ -259,7 +266,9 @@ table {
         line-height: 16px;
 
         &:nth-child(odd) {
-          background-color: $card-bg-LM;
+          td {
+            background-color: $card-bg-LM;
+          }
         }
       }
 
@@ -267,7 +276,10 @@ table {
         border-radius: 10px;
         position: relative;
         box-shadow: 0 2px 12px 0 rgba(236, 60, 198, 0.4), 0 0 0 1px #F7A1E4;
-        background: $info-item-bg;
+
+        td {
+          background: $info-item-bg;
+        }
       }
 
       td {
