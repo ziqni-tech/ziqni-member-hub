@@ -51,6 +51,12 @@ const doFunction = () => {
   width: 290px;
   box-shadow: 0 2px 12px 0 rgba(64, 106, 140, 0.50);
 
+  position: absolute;
+  top: 61%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+
   .award-modal-title {
     margin: auto;
     font-size: 20px;
