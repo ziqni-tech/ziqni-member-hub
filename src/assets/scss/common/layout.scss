@@ -33,19 +33,18 @@
 
 
     .go-back-btn {
-      width: 36px;
-      height: 36px;
+      width: 40px;
+      height: 40px;
       border-radius: 5px;
       border: 1px solid $btn-border-grey;
       display: flex;
       align-items: center;
       justify-content: center;
       background: none;
-      color: $white-color-DM;
+      position: relative;
 
       > img {
-        width: 10px;
-        height: 14px;
+
       }
     }
   }
@@ -120,7 +119,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: none;
+        //background: none;
       }
     }
   }

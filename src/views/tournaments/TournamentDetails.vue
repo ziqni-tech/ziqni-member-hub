@@ -487,6 +487,7 @@ const goToCalendar = () => {
       width: 100%;
       padding-bottom: 30px;
       padding-right: 0;
+      padding-left: 0;
 
       &_header {
         width: 100%;
@@ -512,6 +513,7 @@ const goToCalendar = () => {
         display: flex;
         flex-direction: column;
         padding-right: 0;
+        padding-left: 0;
 
         &_header {
           width: 95%;

@@ -31,7 +31,7 @@
     </div>
     <div class="description" v-if="isInfo">
       <span class="description-title">Terms & Conditions</span>
-      <span class="description-text">{{ removeHTMLTags(achievement.termsAndConditions) }}</span>
+      <span class="description-value">{{ removeHTMLTags(achievement.termsAndConditions) }}</span>
     </div>
     <div class="bottom-section">
       <div class="prize-btn">

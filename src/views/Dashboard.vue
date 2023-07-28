@@ -13,7 +13,7 @@ import { useStore } from 'vuex';
 
 const store = useStore();
 const isClientConnected = computed(() => store.getters.getIsConnectedClient);
-
+console.warn('isClientConnected', isClientConnected);
 </script>
 
 <style lang="scss">

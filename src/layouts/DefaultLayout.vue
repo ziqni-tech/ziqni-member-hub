@@ -22,13 +22,13 @@
       :class="{'light-mode': !isDarkMode}"
   >
     <div class="mobile-header">
-      <button
+      <div
           class="go-back-btn"
           @click="$router.go(-1)"
           v-if="isGoBackBtn"
       >
-        <ArrowLeft :strokeColor="getIconStrokeColor()" />
-      </button>
+        <ArrowLeft :width="'40'" :height="'40'" :stroke-color="getIconStrokeColor()" />
+      </div>
       <div v-if="!isGoBackBtn" class="icon-btn">
         <NotificationIcon :width="'40'" :height="'40'" :stroke-color="getIconStrokeColor()" />
       </div>
@@ -73,7 +73,6 @@ const router = useRouter();
 const store = useStore();
 
 const isDarkMode = computed(() => store.getters.getTheme);
-
 const isClientConnected = computed(() => store.getters.getIsConnectedClient);
 const currentMember = reactive({});
 
@@ -143,7 +142,7 @@ const logOut = async () => {
   display: grid;
   grid-template-columns: 15% 85%;
   grid-template-areas: "nav main";
-  height: 100vh;
+  height: 100%;
 
   #nav-block {
     grid-area: nav;

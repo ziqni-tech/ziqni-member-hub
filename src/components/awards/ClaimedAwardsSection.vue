@@ -87,7 +87,11 @@ const getEntityRewards = async (ids) => {
           }
         }
         if (maxReward) {
-          award.rewardIconLink = maxReward.iconLink;
+          if (maxReward.iconLink !== 'https://first-space.cdn.ziqni.com/_id/5kBFW4cBEZSDWzgDFZ2O') {
+            award.rewardIconLink = maxReward.iconLink;
+          } else {
+            award.rewardIconLink = 'https://first-space.cdn.ziqni.com/Icons/book.png';
+          }
         }
       }
     }

@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center section">
+  <div class="text-center calendar-section">
     <div class="spinner-container" v-if="!isLoaded">
       <CSpinner color="dark"/>
     </div>
@@ -23,19 +23,20 @@
                   class="go-back"
                   @click="$router.go(-1)"
               >
-                <ArrowLeft :width="'30'" :height="'30'" :strokeColor="getIconStrokeColor()" />
+                <ArrowLeft :width="'30'" :height="'30'" :strokeColor="getIconStrokeColor()"/>
               </div>
               <div class="calendar-title">Competitions calendar</div>
               <div></div>
             </div>
             <div class="header-nav">
-              <div class="currentPeriod" >
+              <div class="currentPeriod">
                 <button class="previousPeriod" @click="setShowDate(headerProps.previousPeriod)">&lt;</button>
                 {{ headerProps.periodLabel }}
                 <button class="nextPeriod" @click="setShowDate(headerProps.nextPeriod)">&gt;</button>
               </div>
               <div>
-                <CFormSwitch reverse label="Week period:" id="formSwitchCheckDefault" @change="displayPeriodUpdate" :checked="isWeekPeriod"/>
+                <CFormSwitch reverse label="Week period:" id="formSwitchCheckDefault" @change="displayPeriodUpdate"
+                             :checked="isWeekPeriod"/>
               </div>
             </div>
           </div>
@@ -46,7 +47,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { CalendarView } from 'vue-simple-calendar';
@@ -57,7 +58,7 @@ import { ApiClientStomp, CompetitionRequest, CompetitionsApiWs } from '@ziqni-te
 import useMobileDevice from '@/hooks/useMobileDevice';
 
 import { CFormSwitch } from '@coreui/vue';
-import { CSpinner } from '@coreui/vue'
+import { CSpinner } from '@coreui/vue';
 import ArrowLeft from '@/shared/components/svg-icons/ArrowLeft.vue';
 
 const router = useRouter();
@@ -69,9 +70,9 @@ displayPeriod.value = 'month';
 
 const store = useStore();
 
-const isDarkMode = computed(() => store.getters.getTheme)
+const isDarkMode = computed(() => store.getters.getTheme);
 const getIconStrokeColor = () => {
-  return isDarkMode.value ? '#FFFFFF' : '#080D12'
+  return isDarkMode.value ? '#FFFFFF' : '#080D12';
 };
 // const isDarMode = true;
 const { isMobile } = useMobileDevice();
@@ -90,11 +91,25 @@ const setShowDate = (d) => {
 };
 
 const getCurrentMonthYear = (date) => {
-  const options = {month: 'long', year: 'numeric'};
+  const options = { month: 'long', year: 'numeric' };
   const formattedDate = date.toLocaleDateString('en-US', options);
   const [month, year] = formattedDate.split(' ');
   return `${ month }, ${ year }`;
 };
+
+// const sortedCompetitions = computed(() => {
+//   return competitions.value.sort((a, b) => {
+//     const statusOrder = ['Active', 'Ready', 'Finalised'];
+//     return statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status);
+//   });
+// })
+
+// watch(competitions, () => {
+//   sortedCompetitions.value = competitions.value.sort((a, b) => {
+//     const statusOrder = ['Active', 'Ready', 'Finalised'];
+//     return statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status);
+//   });
+// })
 
 onMounted(() => {
   getCompetitionsRequest();
@@ -107,7 +122,7 @@ const displayPeriodUpdate = () => {
   } else {
     displayPeriod.value = 'month';
   }
-}
+};
 
 const getCompetitionsRequest = async () => {
   const competitionRequest = CompetitionRequest.constructFromObject({
@@ -157,16 +172,43 @@ const getCompetitionsRequest = async () => {
           startDate: new Date(item.scheduledStartDate),
           endDate: new Date(item.scheduledEndDate),
           classes: ['competition', itemClass],
+          status: item.status
         };
       });
 
-      competitions.value = [...competitions.value, ...mappedCompetitions];
+      const active = []
+      const ready = []
+      const finalised = []
+
+      mappedCompetitions.forEach(item => {
+        if (item.status === 'Active') {
+          active.push(item)
+        } else if (item.status === 'Ready') {
+          ready.push(item)
+        } else if (item.status === 'Finalised') {
+          finalised.push(item)
+        }
+      })
+
+      competitions.value.sort((a, b) => {
+        const statusOrder = ['Active', 'Ready', 'Finalised'];
+        return statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status);
+      });
+
+      competitions.value = [...competitions.value, ...active, ...ready, ...finalised];
+
       totalFetched += competitionsData.length;
 
       if (totalFetched >= response.meta.totalRecordsFound || totalFetched >= limit.value) {
         moreDataAvailable = false;
       }
     }
+
+    competitions.value.sort((a, b) => {
+      const statusOrder = ['Active', 'Ready', 'Finalised'];
+      return statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status);
+    });
+    console.warn('competitions.value', competitions.value);
 
     isLoaded.value = true;
   } catch (e) {
@@ -187,10 +229,15 @@ const clickEvent = (val) => {
 <style lang="scss">
 @import 'src/assets/scss/_variables';
 
+.calendar-section {
+  padding: 20px;
+}
+
 .spinner-container {
   position: relative;
   width: 100%;
   height: 100vh;
+
   .spinner-border {
     position: absolute;
     top: 30%;
@@ -250,6 +297,7 @@ const clickEvent = (val) => {
           margin-top: 5px;
           color: #ffffff;
         }
+
         .form-check-input:checked {
           background-color: #8749DC;
           border-color: unset;
@@ -257,7 +305,7 @@ const clickEvent = (val) => {
       }
 
       .previousPeriod,
-      .nextPeriod{
+      .nextPeriod {
         border: 1px solid $border-dark;
       }
 
@@ -318,10 +366,12 @@ const clickEvent = (val) => {
     max-height: 500px;
     min-height: 500px;
     border-radius: $border-radius;
+
     .cv-header {
       .cv-header-nav {
         .header-title {
           align-items: center;
+
           .calendar-title {
             color: $text-color-white;
             font-size: 16px;
@@ -483,12 +533,13 @@ const clickEvent = (val) => {
 }
 
 .previousPeriod,
-.nextPeriod.lightMode  {
+.nextPeriod.lightMode {
   border: 1px solid $main-border-color-LM;
 }
 
 .cv-wrapper.lightMode {
   color: black;
+
   .cv-weeks {
     border-color: $main-border-color-LM;
   }
@@ -518,6 +569,7 @@ const clickEvent = (val) => {
           font-family: $medium;
           font-size: 14px;
         }
+
         .form-check-input:checked {
           background-color: #8749DC;
           border-color: unset;
@@ -532,6 +584,7 @@ const clickEvent = (val) => {
         height: 30px;
         border-radius: 5px;
       }
+
       .currentPeriod {
         color: #080D12 !important;
         font-size: 12px;
@@ -555,6 +608,7 @@ const clickEvent = (val) => {
     .cv-header-nav {
       .header-title {
         align-items: center;
+
         .calendar-title {
           color: $section-title-color-LM;
           font-size: 20px;
@@ -574,6 +628,7 @@ const clickEvent = (val) => {
 
   .cv-header-days {
     border-color: $main-border-color-LM;
+
     .cv-header-day {
       border-color: $main-border-color-LM;
       background-color: #B9CEDF !important;
@@ -586,21 +641,25 @@ const clickEvent = (val) => {
 
   .cv-weekdays {
     border-color: $main-border-color-LM;
+
     .cv-day {
       border-color: $main-border-color-LM;
       background-color: $bg-body-LM !important;
       font-size: 20px;
       font-family: $bold;
     }
+
     .today {
       background-color: $pagination-active-btn-bg !important;
       border: 2px solid $main-border-color-LM !important;
     }
+
     .outsideOfMonth {
-      background-color: $bg-secondary-LM  !important;
+      background-color: $bg-secondary-LM !important;
     }
   }
 }
+
 .theme-default .cv-item.continued::before, .theme-default .cv-item.toBeContinued::after {
   color: $purple;
   margin: 0 3px;

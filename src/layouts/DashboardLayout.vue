@@ -46,7 +46,7 @@
 
 <script setup>
 import { ApiClientStomp, MemberRequest, MembersApiWs } from '@ziqni-tech/member-api-client';
-import { computed, onMounted, ref, watch, watchEffect } from 'vue';
+import { computed, onBeforeMount, onMounted, ref, watch, watchEffect } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import TheSidebar from '@/components/sidebar/TheSidebar';
@@ -81,7 +81,7 @@ const closeProfileInfo = () => {
   isProfileInfo.value = false;
 }
 
-onMounted(async () => {
+onBeforeMount(async () => {
   ApiClientStomp.instance.client.debug = () => {};
   await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
   await store.dispatch('setIsConnectedClient', true);

@@ -242,40 +242,45 @@ watch(activeTabKey, (newValue) => {
 });
 
 const getAchievementsRequest = async () => {
-  isLoading.value = true;
-  const achievementsApiWsClient = new AchievementsApiWs(ApiClientStomp.instance);
+  try {
+    isLoading.value = true;
 
-  const achievementsRequest = AchievementRequest.constructFromObject({
-    achievementFilter: {
-      productTagsFilter: [],
-      ids: [],
-      status: [],
-      sortBy: [
-        {
-          queryField: 'created',
-          order: 'Desc'
+    const achievementsApiWsClient = new AchievementsApiWs(ApiClientStomp.instance);
+
+    const achievementsRequest = AchievementRequest.constructFromObject({
+      achievementFilter: {
+        productTagsFilter: [],
+        ids: [],
+        status: [],
+        sortBy: [
+          {
+            queryField: 'created',
+            order: 'Desc'
+          },
+        ],
+        skip: skip.value,
+        limit: limit.value,
+        statusCode: {
+          moreThan: 20,
+          lessThan: 30
         },
-      ],
-      skip: skip.value,
-      limit: limit.value,
-      statusCode: {
-        moreThan: 20,
-        lessThan: 30
+        constraints: []
       },
-      constraints: []
-    },
-  }, null);
+    }, null);
 
-  achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
-    totalRecords.value = res.meta.totalRecordsFound
-    const ids = res.data.map(item => item.id);
+    achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
+      totalRecords.value = res.meta.totalRecordsFound
+      const ids = res.data.map(item => item.id);
 
-    achievements.value = res.data;
+      achievements.value = res.data;
 
-    getOptInStatus(ids);
-    getEntityRewards(ids);
-    isLoading.value = false;
-  });
+      getOptInStatus(ids);
+      getEntityRewards(ids);
+      isLoading.value = false;
+    });
+  } catch (err) {
+    console.log('getAchievementsRequest error => ', err);
+  }
 };
 
 const getOptInStatus = async (ids) => {
@@ -489,7 +494,6 @@ onMounted(() => {
 
   @media screen and (max-width: 915px) {
     grid-template-columns: repeat(1, 1fr);
-    height: 100%;
   }
 }
 

@@ -404,7 +404,7 @@ watch(countdownResult, (value) => {
     }
   }
 }
-@media screen and (max-width: 420px) {
+@media screen and (max-width: 430px) {
   .award {
     max-width: 190px;
   }

@@ -200,7 +200,7 @@ const goToTournamentsDetailsPage = () => {
     }
   }
 }
-@media screen and (max-width: 420px) {
+@media screen and (max-width: 430px) {
   .t-card {
     .t-info {
       .tournament-name {

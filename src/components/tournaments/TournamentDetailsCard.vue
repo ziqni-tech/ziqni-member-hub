@@ -474,7 +474,7 @@ const goToInfo = () => {
       align-items: center;
       width: 100%;
       height: 100%;
-      padding: 20px 22px;
+      padding: 20px 10px;
 
       .tournament-info-grid {
         display: grid;
@@ -512,6 +512,12 @@ const goToInfo = () => {
         font-weight: 700;
         font-size: 12px;
         line-height: 14px;
+      }
+    }
+
+    &.light-mode {
+      .tournament-data-wrapper {
+        padding: 20px 10px;
       }
     }
   }

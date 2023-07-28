@@ -1,5 +1,5 @@
 <template>
-  <div class="section" :class="{'light-mode': !isDarkMode}">
+  <div class="section" :class="{'light-mode': !isDarkMode, 'dashboard': isDashboard}">
     <div class="tournaments-section-header-wrapper">
       <div class="tournaments-section-header">
         <h2 class="section-title">Current Tournaments</h2>
@@ -269,6 +269,7 @@ const pageChange = async (pageNumber) => {
 
 <style scoped lang="scss">
 @import "@/assets/scss/_variables";
+
 .section {
   padding: 20px 16px 20px 20px;
   min-height: 400px;
@@ -336,6 +337,10 @@ const pageChange = async (pageNumber) => {
       }
     }
   }
+}
+
+.section.dashboard {
+  padding: 20px 0;
 }
 
 @media screen and (max-width: 820px) {
