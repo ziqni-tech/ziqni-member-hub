@@ -47,7 +47,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { CalendarView } from 'vue-simple-calendar';
@@ -89,27 +89,6 @@ const isLoaded = ref(false);
 const setShowDate = (d) => {
   showDate.value = d;
 };
-
-const getCurrentMonthYear = (date) => {
-  const options = { month: 'long', year: 'numeric' };
-  const formattedDate = date.toLocaleDateString('en-US', options);
-  const [month, year] = formattedDate.split(' ');
-  return `${ month }, ${ year }`;
-};
-
-// const sortedCompetitions = computed(() => {
-//   return competitions.value.sort((a, b) => {
-//     const statusOrder = ['Active', 'Ready', 'Finalised'];
-//     return statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status);
-//   });
-// })
-
-// watch(competitions, () => {
-//   sortedCompetitions.value = competitions.value.sort((a, b) => {
-//     const statusOrder = ['Active', 'Ready', 'Finalised'];
-//     return statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status);
-//   });
-// })
 
 onMounted(() => {
   getCompetitionsRequest();
@@ -176,26 +155,12 @@ const getCompetitionsRequest = async () => {
         };
       });
 
-      const active = []
-      const ready = []
-      const finalised = []
-
-      mappedCompetitions.forEach(item => {
-        if (item.status === 'Active') {
-          active.push(item)
-        } else if (item.status === 'Ready') {
-          ready.push(item)
-        } else if (item.status === 'Finalised') {
-          finalised.push(item)
-        }
-      })
-
-      competitions.value.sort((a, b) => {
+      mappedCompetitions.sort((a, b) => {
         const statusOrder = ['Active', 'Ready', 'Finalised'];
         return statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status);
       });
 
-      competitions.value = [...competitions.value, ...active, ...ready, ...finalised];
+      competitions.value = [...competitions.value, ...mappedCompetitions];
 
       totalFetched += competitionsData.length;
 
