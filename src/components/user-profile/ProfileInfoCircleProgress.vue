@@ -110,23 +110,21 @@ watch(() => window.innerWidth, updateDiameter);
   }
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 890px) {
   .progress-value {
-    font-size: 16px;
+    font-size: 14px;
+
+    &.light-mode {
+      font-size: 14px;
+    }
   }
 
   .progress-title {
     font-size: 10px;
-  }
-}
 
-@media screen and (max-width: 890px) {
-  .progress-value {
-    font-size: 12px;
-  }
-
-  .progress-title {
-    font-size: 8px;
+    &.light-mode {
+      font-size: 10px;
+    }
   }
 }
 </style>
