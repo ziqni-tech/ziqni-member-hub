@@ -19,6 +19,25 @@ import { ApiClientStomp, AwardRequest, AwardsApiWs, EntityRequest, RewardsApiWs 
 
 import AwardCard from '@/components/awards/AwardCard.vue';
 import Pagination from '@/shared/components/Pagination.vue';
+import awardIcon_1 from '@/assets/icons/awards/award_1.svg'
+import awardIcon_2 from '@/assets/icons/awards/award_2.svg'
+import awardIcon_3 from '@/assets/icons/awards/award_3.svg'
+import awardIcon_4 from '@/assets/icons/awards/award_4.svg'
+import awardIcon_5 from '@/assets/icons/awards/award_5.svg'
+import awardIcon_6 from '@/assets/icons/awards/award_6.svg'
+import awardIcon_7 from '@/assets/icons/awards/award_7.svg'
+import awardIcon_8 from '@/assets/icons/awards/award_8.svg'
+
+const awardsImages = [
+  awardIcon_1,
+  awardIcon_2,
+  awardIcon_3,
+  awardIcon_4,
+  awardIcon_5,
+  awardIcon_6,
+  awardIcon_7,
+  awardIcon_8,
+]
 
 const awards = ref([]);
 const isLoaded = ref(false);
@@ -50,7 +69,15 @@ const getAwardsRequest = async () => {
     });
 
     awardsApiWsClient.getAwards(claimedAwardsRequest, async (res) => {
-      awards.value = res.data;
+      // awards.value = res.data;
+      awards.value = res.data.map((award, index) => {
+        const image = awardsImages[index % awardsImages.length]
+        return {
+          ...award,
+          rewardIconLink: image
+        }
+      });
+
       totalRecords.value = res.meta.totalRecordsFound;
       const rewardIds = res.data.map(item => item.rewardId);
       await getEntityRewards(rewardIds);
@@ -86,13 +113,13 @@ const getEntityRewards = async (ids) => {
             }
           }
         }
-        if (maxReward) {
-          if (maxReward.iconLink !== 'https://first-space.cdn.ziqni.com/_id/5kBFW4cBEZSDWzgDFZ2O') {
-            award.rewardIconLink = maxReward.iconLink;
-          } else {
-            award.rewardIconLink = 'https://first-space.cdn.ziqni.com/Icons/book.png';
-          }
-        }
+        // if (maxReward) {
+        //   if (maxReward.iconLink !== 'https://first-space.cdn.ziqni.com/_id/5kBFW4cBEZSDWzgDFZ2O') {
+        //     award.rewardIconLink = maxReward.iconLink;
+        //   } else {
+        //     award.rewardIconLink = 'https://first-space.cdn.ziqni.com/Icons/book.png';
+        //   }
+        // }
       }
     }
   });

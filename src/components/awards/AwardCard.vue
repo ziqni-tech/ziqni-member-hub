@@ -1,7 +1,7 @@
 <template>
   <div class="award" @click="goToAwardDetails" :class="{'light-mode': !isDarkMode}">
     <div class="award__icon">
-      <img :src="awardIcon" alt="">
+      <img class="award-img" :src="awardIcon" alt="">
     </div>
     <h3 class="award__name">{{ award.name }}</h3>
     <h5 class="award__type">{{ award.rewardType.key }}</h5>
@@ -113,7 +113,7 @@ watch(countdownResult, (value) => {
   &__icon {
     width: 136px;
     height: 136px;
-    padding: 23px;
+    //padding: 23px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -134,9 +134,9 @@ watch(countdownResult, (value) => {
       filter: blur(37.5px);
     }
 
-    & > img {
-      max-width: 100%;
-      max-height: 100%;
+    .award-img {
+      width: 160%;
+      height: 160%;
       object-fit: cover;
       border-radius: 50%;
     }
@@ -207,7 +207,7 @@ watch(countdownResult, (value) => {
     &__icon {
       width: 136px;
       height: 136px;
-      padding: 23px;
+      //padding: 23px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -226,13 +226,6 @@ watch(countdownResult, (value) => {
         background: radial-gradient(50% 50% at 50% 50%, #38ACCF 0%, rgba(56, 172, 207, 0) 100%);
         opacity: 0.5;
         filter: blur(37.5px);
-      }
-
-      & > img {
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: cover;
-        border-radius: 50%;
       }
     }
 
