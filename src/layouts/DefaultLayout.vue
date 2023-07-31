@@ -32,7 +32,7 @@
       <div v-if="!isGoBackBtn" class="icon-btn">
         <NotificationIcon :width="'40'" :height="'40'" :stroke-color="getIconStrokeColor()" />
       </div>
-      <span class="page-name">{{ router.currentRoute.value.name }}</span>
+      <span class="page-name">{{ splitCamelCaseToWords(router.currentRoute.value.name) }}</span>
       <div class="icon-btn person-icon" @click="openProfileInfo">
         <PersonIcon :width="'20'" :height="'20'" :stroke-color="getIconStrokeColor()" />
       </div>
@@ -68,6 +68,7 @@ import UserProfileMobile from '@/components/user-profile/UserProfileMobile.vue';
 import NotificationIcon from '@/shared/components/svg-icons/NotificationIcon.vue';
 import PersonIcon from '@/shared/components/svg-icons/PersonIcon.vue';
 import ArrowLeft from '@/shared/components/svg-icons/ArrowLeft.vue';
+import splitCamelCaseToWords from '../utils/splitCamelCaseToWords';
 
 const router = useRouter();
 const store = useStore();
