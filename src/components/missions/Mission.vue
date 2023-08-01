@@ -37,7 +37,6 @@ const props = defineProps({
   isDarkMode: Boolean
 });
 const missionItem = props.mission;
-console.warn('missionItem', missionItem);
 
 const countdownResult = useCountdown(missionItem.scheduling.endDate);
 

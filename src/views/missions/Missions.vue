@@ -1,14 +1,23 @@
 <template>
   <div class="missions">
-    <CurrentMissionsSection />
+    <CurrentMissionsSection/>
   </div>
-<!--  <FeaturedMissionsSection  />-->
 </template>
 
 <script setup>
-import FeaturedMissionsSection from '../../components/missions/FeaturedMissionsSection';
 import CurrentMissionsSection from '../../components/missions/CurrentMissionsSection';
+import { onBeforeMount } from 'vue';
+import { ApiClientStomp } from '@ziqni-tech/member-api-client';
+import { useStore } from 'vuex';
 
+const store = useStore();
+
+onBeforeMount(async () => {
+  ApiClientStomp.instance.client.debug = () => {
+  };
+  await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
+  await store.dispatch('setIsConnectedClient', true);
+});
 
 </script>
 
@@ -23,6 +32,7 @@ import CurrentMissionsSection from '../../components/missions/CurrentMissionsSec
     width: 0;
   }
 }
+
 @media screen and (max-width: 820px) {
   .missions {
     padding: 0;

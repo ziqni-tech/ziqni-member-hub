@@ -36,7 +36,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onBeforeMount, onMounted, ref } from 'vue';
 
 import Tournament from '@/components/tournaments/TournamentCard';
 import Loader from '../Loader';
@@ -89,6 +89,12 @@ const statusCode = {
   moreThan: 20,
   lessThan: 30
 };
+
+onBeforeMount(async () => {
+  ApiClientStomp.instance.client.debug = () => {};
+  await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
+  await store.dispatch('setIsConnectedClient', true);
+});
 
 onMounted(() => {
   getCompetitionsRequest();

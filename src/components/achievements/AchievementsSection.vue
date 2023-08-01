@@ -55,9 +55,7 @@
       </div>
     </div>
     <div class="content-wrapper">
-      <div class="spinner-wrapper-global" v-if="isLoading">
-        <CSpinner grow size="sm"/>
-      </div>
+      <Loader v-if="isLoading" :title="'Achievements are loading'" />
       <div :class="isDashboard ? 'achievements-dashboard-cards-grid' : 'achievements-cards-grid'">
         <div v-for="achievement in achievementsData" :key="achievement.id">
           <AchievementsCard
@@ -99,6 +97,7 @@ import { useCountdown } from '@/hooks/useCountdown';
 import AchievementsCard from './AchievementsCard';
 import expiresInIcon from '@/assets/icons/tournament/expires-in.png';
 import Pagination from '@/shared/components/Pagination.vue';
+import Loader from '@/components/Loader.vue';
 
 const store = useStore();
 

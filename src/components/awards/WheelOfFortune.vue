@@ -412,7 +412,7 @@ const createArrow = () => {
         .append('path')
         .attr('class', 'arrow-pointer')
         .attr('d', `M29.5015 34.8917C27.9007 36.9951 24.7362 36.9951 23.1354 34.8917L1.8143 6.87643C-0.18977 4.24313 1.68818 0.453968 4.99734 0.453968L47.6395 0.453968C50.9487 0.453968 52.8266 4.24313 50.8225 6.87642L29.5015 34.8917Z`)
-        .attr('transform', `translate(-26, -${ (wheelSize.value.height / 2) - 20 })`)
+        .attr('transform', `translate(-26, -${ (wheelSize.value.height / 2) - 17 })`)
         .attr('stroke', '#FFD400')
         .attr('fill', '#FFD400')
         .attr('stroke-linejoin', 'round')

@@ -34,15 +34,22 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, onBeforeMount, ref } from 'vue';
 import { CNav, CNavLink } from '@coreui/vue';
 import AvailableAwardsSection from '@/components/awards/AvailableAwardsSection.vue';
 import ClaimedAwardsSection from '@/components/awards/ClaimedAwardsSection.vue';
 import InstantWinsSection from '@/components/instant-wins/InstantWinsSection.vue';
 import { useStore } from "vuex";
+import { ApiClientStomp } from '@ziqni-tech/member-api-client';
 
 const activeTabKey = ref('available');
 const store = useStore();
+
+onBeforeMount(async () => {
+  ApiClientStomp.instance.client.debug = () => {};
+  await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
+  await store.dispatch('setIsConnectedClient', true);
+});
 
 const isDarkMode = computed(() => store.getters.getTheme);
 const updateActiveTab = (val) => {

@@ -1,4 +1,5 @@
 <template>
+  <Loader v-if="!isLoaded" />
   <div class="messages-wrapper" :class="{'light-mode': !isDarkMode}">
     <CListGroup v-for="message in messages" v-if="isLoaded">
       <CListGroupItem class="list-group-item" @click="goToMessageDetails(message)">
@@ -15,7 +16,6 @@
         </div>
       </CListGroupItem>
     </CListGroup>
-    <Loader v-else />
   </div>
 
 </template>
@@ -24,7 +24,7 @@
 <script setup>
 import { ApiClientStomp, MessagesApiWs } from '@ziqni-tech/member-api-client';
 import { CListGroup, CListGroupItem } from '@coreui/vue';
-import {computed, onMounted, ref} from 'vue';
+import { computed, onBeforeMount, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import Loader from '../../components/Loader.vue';
 import {useRouter} from "vue-router";
@@ -35,6 +35,12 @@ const isDarkMode = computed(() => store.getters.getTheme);
 const router = useRouter();
 
 const isLoaded = ref(false)
+
+onBeforeMount(async () => {
+  ApiClientStomp.instance.client.debug = () => {};
+  await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
+  await store.dispatch('setIsConnectedClient', true);
+});
 
 onMounted(() => {
   getMessagesRequest();

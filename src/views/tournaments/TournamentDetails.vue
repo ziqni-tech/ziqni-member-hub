@@ -29,7 +29,7 @@
 <script setup>
 import Leaderboard from '../../components/tournaments/LeaderboardTable.vue';
 import TournamentDetailsCard from '../../components/tournaments/TournamentDetailsCard';
-import { onUnmounted, ref, onMounted, computed } from 'vue';
+import { onUnmounted, ref, onMounted, computed, onBeforeMount } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import Loader from '../../components/Loader';
@@ -64,6 +64,12 @@ const tournamentRequestData = {
   skip: 0,
   ids
 };
+
+onBeforeMount(async () => {
+  ApiClientStomp.instance.client.debug = () => {};
+  await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
+  await store.dispatch('setIsConnectedClient', true);
+});
 
 const defLeaders = [];
 for (let i = 0; i < 14; i++) {

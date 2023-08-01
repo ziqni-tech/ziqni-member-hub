@@ -10,7 +10,7 @@
 
 <script setup>
 import { ApiClientStomp, MessagesApiWs } from '@ziqni-tech/member-api-client';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onBeforeMount, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import MessageDetailsCard from '@/components/messages/MessageDetailsCard.vue';
 import { useStore } from 'vuex';
@@ -22,6 +22,11 @@ const route = useRoute();
 const store = useStore();
 const isDarkMode = computed(() => store.getters.getTheme);
 
+onBeforeMount(async () => {
+  ApiClientStomp.instance.client.debug = () => {};
+  await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
+  await store.dispatch('setIsConnectedClient', true);
+});
 
 onMounted(() => {
   getMessagesRequest();

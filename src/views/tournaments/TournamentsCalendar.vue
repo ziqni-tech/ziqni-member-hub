@@ -47,7 +47,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onBeforeMount, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { CalendarView } from 'vue-simple-calendar';
@@ -74,7 +74,7 @@ const isDarkMode = computed(() => store.getters.getTheme);
 const getIconStrokeColor = () => {
   return isDarkMode.value ? '#FFFFFF' : '#080D12';
 };
-// const isDarMode = true;
+
 const { isMobile } = useMobileDevice();
 
 const statusCode = {
@@ -89,6 +89,12 @@ const isLoaded = ref(false);
 const setShowDate = (d) => {
   showDate.value = d;
 };
+
+onBeforeMount(async () => {
+  ApiClientStomp.instance.client.debug = () => {};
+  await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
+  await store.dispatch('setIsConnectedClient', true);
+});
 
 onMounted(() => {
   getCompetitionsRequest();

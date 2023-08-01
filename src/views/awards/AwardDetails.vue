@@ -11,7 +11,7 @@
 
 <script setup>
 
-import { computed, onMounted, ref } from 'vue';
+import { computed, onBeforeMount, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import {
@@ -39,6 +39,12 @@ const awards = ref(null);
 const award = ref(null);
 const store = useStore();
 const isDarkMode = computed(() => store.getters.getTheme);
+
+onBeforeMount(async () => {
+  ApiClientStomp.instance.client.debug = () => {};
+  await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
+  await store.dispatch('setIsConnectedClient', true);
+});
 
 onMounted(() => {
   getAwardsRequest()

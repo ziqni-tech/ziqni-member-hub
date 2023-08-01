@@ -1,8 +1,6 @@
 <template>
   <div class="content-wrapper">
-    <div class="spinner-wrapper-global" v-if="isLoading">
-      <CSpinner grow size="sm"/>
-    </div>
+    <Loader v-if="isLoading" :title="'Awards are loading'" />
     <div class="awards-cards-grid" v-if="isLoaded">
       <div v-for="award in awards">
         <AwardCard :award="award" @claimAward="claimAward" />
@@ -53,6 +51,7 @@ import awardIcon_5 from '@/assets/icons/awards/award_5.svg'
 import awardIcon_6 from '@/assets/icons/awards/award_6.svg'
 import awardIcon_7 from '@/assets/icons/awards/award_7.svg'
 import awardIcon_8 from '@/assets/icons/awards/award_8.svg'
+import Loader from '@/components/Loader.vue';
 
 const awardsImages = [
   awardIcon_1,

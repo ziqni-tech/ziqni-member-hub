@@ -3,7 +3,7 @@
     <div class="spinner-wrapper" >
       <img
           class="spinner-wrapper__spinner"
-          src="@/assets/icons/z-icon.png"
+          src="@/assets/icons/logo.svg"
           alt=""
       >
       <span class="spinner-wrapper__title" :class="color">
@@ -32,11 +32,11 @@ const color = computed(() => {
 @import '../assets/scss/utils/vars';
 
 .dark {
-  color: $txt-primary-blue;
+  color: #406A8C;
 }
 
 .light {
-  color: $txt-primary-violet;
+  color: #406A8C;
 }
 
 .loader {

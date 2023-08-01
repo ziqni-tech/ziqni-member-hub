@@ -96,6 +96,13 @@ const starSize = computed(() => isMobile.value ? 16 : 25);
 const images = ref(null);
 
 const missionCompleted = ref(null);
+const store = useStore();
+
+onBeforeMount(async () => {
+  ApiClientStomp.instance.client.debug = () => {};
+  await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
+  await store.dispatch('setIsConnectedClient', true);
+});
 
 const totalStars = 3;
 
@@ -217,8 +224,6 @@ const isLoaded = ref(false);
 const isGraphLoaded = ref(false);
 
 const selectedNodes = ref([]);
-
-const store = useStore();
 
 const layouts = reactive({
   nodes: {},
