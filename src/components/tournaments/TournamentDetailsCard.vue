@@ -447,7 +447,7 @@ const goToInfo = () => {
       .tournament-title {
         color: $text-color-white;
         font-size: 22px;
-        margin-bottom: 14px;
+        margin: 14px 0;
       }
 
       .countdown {
@@ -492,7 +492,7 @@ const goToInfo = () => {
         text-align: start;
 
         &_title {
-          font-weight: 700;
+          font-family: $bold;
           font-size: 16px;
           line-height: 14px;
         }
