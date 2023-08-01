@@ -134,7 +134,7 @@ export default {
 
       &_digits {
         display: flex;
-        font-family: $semi-bold;
+        font-family: $bold;
         font-size: 24px;
 
         &__digit {
@@ -143,7 +143,7 @@ export default {
           display: flex;
           align-items: center;
           justify-content: center;
-          border: 1px solid $purple-light;
+          border: 1px solid $btn-border-color-LM;
           border-radius: $border-radius-sm;
 
           &:first-child {
@@ -154,7 +154,7 @@ export default {
 
       &_text {
         font-family: $mainFont;
-        font-size: 16px;
+        font-size: 12px;
         margin-top: 5px;
       }
     }
@@ -179,8 +179,8 @@ export default {
 
         &_digits {
           display: flex;
-          font-weight: 700;
-          font-size: 20px;
+          font-family: $bold;
+          font-size: 24px;
           line-height: 24px;
 
           &__digit {
@@ -189,7 +189,7 @@ export default {
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid $purple-light;
+            border: 1px solid $btn-border-color-LM;
             border-radius: $border-radius-sm;
 
             &:first-child {
@@ -199,7 +199,54 @@ export default {
         }
 
         &_text {
-          font-weight: 400;
+          font-family: $mainFont;
+          font-size: 12px;
+          line-height: 14px;
+          margin-top: 5px;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 500px) {
+  .countdown {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    color: $text-color-white;
+
+    .indicator {
+      display: flex;
+
+      .indicator-block {
+        display: flex;
+        flex-direction: column;
+        margin-right: 16px;
+
+        &_digits {
+          display: flex;
+
+          .indicator-block_digits__digit {
+            width: 24px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid $btn-border-color-LM;
+            border-radius: $border-radius-sm;
+            font-family: $bold;
+            font-size: 20px;
+            line-height: 24px;
+
+            &:first-child {
+              margin-right: 5px;
+            }
+          }
+        }
+
+        .indicator-block_text {
+          font-family: $mainFont;
           font-size: 12px;
           line-height: 14px;
           margin-top: 5px;
