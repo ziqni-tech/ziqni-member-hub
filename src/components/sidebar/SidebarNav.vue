@@ -2,6 +2,7 @@
   <CNavItem
       v-for="(item, index) in navItems"
       :key="index"
+      @click="paginationClear"
   >
     <router-link :to="item.to" class="nav-item" :class="{'light-mode': !isDarkMode}">
       <div class="nav-item__icon-wrapper">
@@ -15,8 +16,9 @@
 <script setup>
 import { CNavItem } from '@coreui/vue';
 import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 const props = defineProps({ navItems: Array, isDarkMode: Boolean });
-
+const store = useStore()
 const route = useRoute();
 const getIconStrokeColor = (item) => {
   if (route.path.startsWith(item.to)) {
@@ -25,6 +27,11 @@ const getIconStrokeColor = (item) => {
     return props.isDarkMode ? '#FFFFFF' : '#141E28';
   }
 };
+
+const paginationClear = () => {
+  store.dispatch('setCurrentPage', 1)
+  store.dispatch('setCurrentTab', '')
+}
 
 </script>
 

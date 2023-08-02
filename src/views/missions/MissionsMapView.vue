@@ -17,7 +17,7 @@
           <circle cx="0.5" cy="0.5" r="0.5"/>
         </clipPath>
       </defs>
-      <template #override-node="{ nodeId, scale, config, ...slotProps }" >
+      <template #override-node="{ nodeId, scale, config, ...slotProps }">
         <!-- circle for filling background -->
         <circle
             class="face-circle"
@@ -99,7 +99,8 @@ const missionCompleted = ref(null);
 const store = useStore();
 
 onBeforeMount(async () => {
-  ApiClientStomp.instance.client.debug = () => {};
+  ApiClientStomp.instance.client.debug = () => {
+  };
   await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
   await store.dispatch('setIsConnectedClient', true);
 });
@@ -108,12 +109,12 @@ const totalStars = 3;
 
 const getStarAngle = () => {
   return 180;
-}
+};
 
 const getStarTransform = () => {
   const angle = getStarAngle();
-  return `rotate(${angle})`;
-}
+  return `rotate(${ angle })`;
+};
 
 const getStarX = (index, radius) => {
   if (index === 2) {
@@ -123,30 +124,21 @@ const getStarX = (index, radius) => {
   } else {
     return -radius + (radius / 2) - 3;
   }
-}
+};
 
 const getStarY = (index, radius) => {
   if (index === 2) {
     return radius + 10;
   } else {
-    return radius + 5
+    return radius + 5;
   }
-}
+};
 
 const router = useRouter();
-const goToMissionPage = (nodeId) => {
-  console.warn('goToMissionPage', nodeId)
-  router.push({
-    name: 'MissionDetails',
-    params: {
-      id: nodeId
-    }
-  });
-}
 
 const eventHandlers = {
-  "node:click": ({ node }) => {
-    const nodeId = result.value.nodesResult[node].id
+  'node:click': ({ node }) => {
+    const nodeId = result.value.nodesResult[node].id;
 
     router.push({
       name: 'MissionDetails',
@@ -155,7 +147,7 @@ const eventHandlers = {
       }
     });
   },
-}
+};
 
 const configs = computed(() => {
   return defineConfigs({
@@ -181,8 +173,8 @@ const configs = computed(() => {
       normal: {
         // color: edge => edge.color,
         color: '#B9CEDF',
-        width: 3,
-        dasharray: 8,
+        // width: 3,
+        dasharray: 4,
         linecap: 'round'
       },
       summarized: {
@@ -201,7 +193,7 @@ const configs = computed(() => {
         padding: 10,
         background: {
           // visible: false,
-          color: "#8749DC",
+          color: '#8749DC',
           padding: {
             vertical: 10,
             horizontal: 10,
@@ -212,7 +204,7 @@ const configs = computed(() => {
       type: 'curve',
     },
   });
-})
+});
 
 const graph = ref(null);
 
@@ -231,44 +223,48 @@ const layouts = reactive({
 
 const getStarFill = (index, percentageComplete) => {
   if (percentageComplete >= 1 && percentageComplete <= 33 && index === 1) {
-    return "#D7A321";
+    return '#D7A321';
   } else if (percentageComplete >= 34 && percentageComplete <= 77 && index === 2) {
-    return "#D7A321";
+    return '#D7A321';
   } else if (percentageComplete === 100 && index === 3) {
-    return "#D7A321";
+    return '#D7A321';
   } else {
-    return "#223241";
+    return '#223241';
   }
-}
+};
 
 const getMissionRequest = async () => {
-  const achievementsApiWsClient = new AchievementsApiWs(ApiClientStomp.instance);
+  try {
+    const achievementsApiWsClient = new AchievementsApiWs(ApiClientStomp.instance);
 
-  const achievementsRequest = AchievementRequest.constructFromObject({
-    achievementFilter: {
-      productTagsFilter: [],
-      ids: [route.params.id],
-      status: [],
-      sortBy: [
-        {
-          queryField: 'created',
-          order: 'Desc'
+    const achievementsRequest = AchievementRequest.constructFromObject({
+      achievementFilter: {
+        productTagsFilter: [],
+        ids: [route.params.id],
+        status: [],
+        sortBy: [
+          {
+            queryField: 'created',
+            order: 'Desc'
+          },
+        ],
+        skip: 0,
+        limit: 1,
+        statusCode: {
+          moreThan: 20,
+          lessThan: 30
         },
-      ],
-      skip: 0,
-      limit: 1,
-      statusCode: {
-        moreThan: 20,
-        lessThan: 30
+        constraints: ['mission']
       },
-      constraints: ['mission']
-    },
-  }, null);
+    }, null);
 
-  achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
-    mission.value = res.data[0];
-    isLoaded.value = true;
-  });
+    achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
+      mission.value = res.data[0];
+      isLoaded.value = true;
+    });
+  } catch (err) {
+    console.log('getMissionRequest error => ', err);
+  }
 };
 
 onBeforeMount(() => {
@@ -307,76 +303,84 @@ const getAchievementOrder = (nodes, edges) => {
   }
 
   for (const node of nodes) {
-    nodesResult[node.name] = {name: node.name, id: node.entityId};
+    nodesResult[node.name] = { name: node.name, id: node.entityId };
   }
   const selectedNode = nodes.find(n => n.entityId === route.params.id).name;
   // selectedNodes.value.push(selectedNode);
 
-  return {edgesResult, nodesResult};
+  return { edgesResult, nodesResult };
 };
 
 const getMissionGraphData = async () => {
-  const graphsApiWsClient = new GraphsApiWs(ApiClientStomp.instance);
-  const entityGraphRequest = EntityGraphRequest.constructFromObject({
-    ids: [route.params.id],
-    constraints: [],
-    languageKey: '',
-    includes: [],
-    entityType: 'Achievement'
-  }, null);
+  try {
+    const graphsApiWsClient = new GraphsApiWs(ApiClientStomp.instance);
+    const entityGraphRequest = EntityGraphRequest.constructFromObject({
+      ids: [route.params.id],
+      constraints: [],
+      languageKey: '',
+      includes: [],
+      entityType: 'Achievement'
+    }, null);
 
-  await graphsApiWsClient.getGraph(entityGraphRequest, async (res) => {
-    const nodes = res.data.nodes;
+    await graphsApiWsClient.getGraph(entityGraphRequest, async (res) => {
+      const nodes = res.data.nodes;
 
-    for (const node of nodes) {
-      const missionIcon = await getAchievementRequest(node.entityId);
-      node.icon = missionIcon ? missionIcon : 'https://first-space.cdn.ziqni.com/Icons/ball-2.png'
-    }
+      for (const node of nodes) {
+        const missionIcon = await getAchievementRequest(node.entityId);
+        node.icon = missionIcon ? missionIcon : 'https://first-space.cdn.ziqni.com/Icons/ball-2.png';
+      }
 
-    const icons = {};
-    for (const node of nodes) {
-      const key = node.name;
-      icons[key] = node.icon;
-    }
+      const icons = {};
+      for (const node of nodes) {
+        const key = node.name;
+        icons[key] = node.icon;
+      }
 
-    images.value = icons;
+      images.value = icons;
 
-    const edges = res.data.graphs[0].edges;
-    const ids = nodes.map(item => item.entityId);
-    await getOptInStatus(ids, nodes);
-    result.value = getAchievementOrder(nodes, edges);
-  });
+      const edges = res.data.graphs[0].edges;
+      const ids = nodes.map(item => item.entityId);
+      await getOptInStatus(ids, nodes);
+      result.value = getAchievementOrder(nodes, edges);
+    });
+  } catch (err) {
+    console.log('getMissionGraphData error => ', err);
+  }
 };
 
 const getAchievementRequest = async (entityId) => {
-  const achievementsApiWsClient = new AchievementsApiWs(ApiClientStomp.instance);
+  try {
+    const achievementsApiWsClient = new AchievementsApiWs(ApiClientStomp.instance);
 
-  const achievementsRequest = AchievementRequest.constructFromObject({
-    achievementFilter: {
-      productTagsFilter: [],
-      ids: [entityId],
-      status: [],
-      sortBy: [
-        {
-          queryField: 'created',
-          order: 'Desc'
+    const achievementsRequest = AchievementRequest.constructFromObject({
+      achievementFilter: {
+        productTagsFilter: [],
+        ids: [entityId],
+        status: [],
+        sortBy: [
+          {
+            queryField: 'created',
+            order: 'Desc'
+          },
+        ],
+        skip: 0,
+        limit: 1,
+        statusCode: {
+          moreThan: -5,
+          lessThan: 130
         },
-      ],
-      skip: 0,
-      limit: 1,
-      statusCode: {
-        moreThan: -5,
-        lessThan: 130
+        constraints: []
       },
-      constraints: []
-    },
-  }, null);
+    }, null);
 
-  return new Promise((resolve) => {
-    achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
-      resolve(res.data[0].iconLink);
+    return new Promise((resolve) => {
+      achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
+        resolve(res.data[0].iconLink);
+      });
     });
-  });
+  } catch (err) {
+    console.log('getAchievementRequest error => ', err);
+  }
 };
 
 const getOptInStatus = async (ids, nodes) => {
@@ -432,7 +436,7 @@ const layout = (direction) => {
   g.setDefaultEdgeLabel(() => ({}));
 
   Object.entries(result.value.nodesResult).forEach(([nodeId, node]) => {
-    g.setNode(nodeId, {label: node.name, width: nodeSize.value, height: nodeSize.value});
+    g.setNode(nodeId, { label: node.name, width: nodeSize.value, height: nodeSize.value });
   });
 
   Object.values(result.value.edgesResult).forEach(edge => {
@@ -446,7 +450,7 @@ const layout = (direction) => {
   g.nodes().forEach((nodeId) => {
     const x = g.node(nodeId).x;
     const y = g.node(nodeId).y;
-    layouts.nodes[nodeId] = {x, y};
+    layouts.nodes[nodeId] = { x, y };
 
     box.top = box.top ? Math.min(box.top, y) : y;
     box.bottom = box.bottom ? Math.max(box.bottom, y) : y;
@@ -498,12 +502,14 @@ const getNodeStyles = (nodeId) => {
 
 <style scoped lang="scss">
 @import "@/assets/scss/_variables";
+
 .mission-map-title {
   font-family: $mainFont;
   font-size: 24px;
   color: $body-text-white;
   margin: 20px auto 0;
 }
+
 .graph {
   width: 100%;
   height: 800px;

@@ -55,7 +55,7 @@
       </div>
     </div>
     <div class="content-wrapper">
-      <Loader v-if="isLoading" :title="'Achievements are loading'" />
+      <Loader v-if="isLoading" :title="'Achievements are loading'"/>
       <div :class="isDashboard ? 'achievements-dashboard-cards-grid' : 'achievements-cards-grid'">
         <div v-for="achievement in achievementsData" :key="achievement.id">
           <AchievementsCard
@@ -114,9 +114,12 @@ const achievementsData = ref([]);
 const limit = ref(computed(() => props.isDashboard ? 2 : 9));
 const isLoading = ref(false);
 const achievements = ref([]);
-const activeTabKey = ref('all');
 
-const currentPage = ref(1);
+const activeTabKey = computed(() => store.getters.getCurrentTab.length
+    ? store.getters.getCurrentTab
+    : 'all');
+
+const currentPage = computed(() => store.getters.getCurrentPage);
 const totalRecords = ref(0);
 const totalPages = computed(() => Math.ceil(totalRecords.value / limit.value));
 const skip = computed(() => (currentPage.value - 1) * limit.value);
@@ -137,6 +140,8 @@ const achievementsTitles = {
 
 const updateActiveTab = (val) => {
   activeTabKey.value = val;
+  store.dispatch('setCurrentTab', val);
+  store.dispatch('setCurrentPage', 1);
 };
 
 // daily
@@ -178,7 +183,7 @@ const getRemainingTimeUntilEndOfMonth = () => {
 
 const updateRemainingTimeUntilEndOfMonth = () => {
   const { remainingDays, remainingHours, remainingMinutes } = getRemainingTimeUntilEndOfMonth();
-  remainingTimeUntilEndOfMonth.value = `${remainingDays}d ${remainingHours}h ${remainingMinutes}m`;
+  remainingTimeUntilEndOfMonth.value = `${ remainingDays }d ${ remainingHours }h ${ remainingMinutes }m`;
 };
 
 
@@ -188,7 +193,7 @@ onMounted(() => {
     if (json && json.entityType === 'Achievement') {
       await getAchievementsRequest();
     }
-  })
+  });
 });
 watch(activeTabKey, (newValue) => {
   if (newValue === 'monthly') {
@@ -230,7 +235,7 @@ const getRemainingTimeUntilEndOfWeek = () => {
 
 const updateRemainingTimeUntilEndOfWeek = () => {
   const { remainingDays, remainingHours, remainingMinutes, remainingSeconds } = getRemainingTimeUntilEndOfWeek();
-  remainingTimeUntilEndOfWeek.value = `${remainingDays}d ${remainingHours}h ${remainingMinutes}m`;
+  remainingTimeUntilEndOfWeek.value = `${ remainingDays }d ${ remainingHours }h ${ remainingMinutes }m`;
 };
 
 onMounted(updateRemainingTimeUntilEndOfWeek);
@@ -268,7 +273,7 @@ const getAchievementsRequest = async () => {
     }, null);
 
     achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
-      totalRecords.value = res.meta.totalRecordsFound
+      totalRecords.value = res.meta.totalRecordsFound;
       const ids = res.data.map(item => item.id);
 
       achievements.value = res.data;
@@ -349,7 +354,7 @@ const getEntityRewards = async (ids) => {
       }
     }
   });
-}
+};
 
 const joinAchievement = async ({ id, name }) => {
   const optInApiWsClient = new OptInApiWs(ApiClientStomp.instance);
@@ -391,12 +396,13 @@ const leaveAchievement = async ({ id, name }) => {
 
 const pageChange = async (pageNumber) => {
   currentPage.value = pageNumber;
+  await store.dispatch('setCurrentPage', pageNumber);
   await getAchievementsRequest();
 };
 
 onMounted(() => {
   getAchievementsRequest();
-})
+});
 
 </script>
 

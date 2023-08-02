@@ -55,7 +55,6 @@ const claim = () => {
 };
 
 const closeModal = () => {
-  console.warn('RETURN');
   emit('closeModal');
   isShowModal.value = false;
 };

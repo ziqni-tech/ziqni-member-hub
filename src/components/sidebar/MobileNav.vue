@@ -3,6 +3,7 @@
     <CNavItem
         v-for="(item, index) in sidebarNav"
         :key="index"
+        @click="paginationClear"
     >
       <router-link :to="item.to" class="mob-nav-item">
         <div class="icon-wrapper">
@@ -19,11 +20,13 @@
 import { CNavItem } from '@coreui/vue';
 import sidebarNav from './sidebarNav';
 import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 
 const route = useRoute();
 const props = defineProps({
   isDarkMode: Boolean
 })
+const store = useStore()
 
 const getIconStrokeColor = (item) => {
   if (route.path.startsWith(item.to)) {
@@ -35,6 +38,11 @@ const getIconStrokeColor = (item) => {
 
 const isActive = (path) => {
   return route.path.startsWith(path)
+}
+
+const paginationClear = () => {
+  store.dispatch('setCurrentPage', 1)
+  store.dispatch('setCurrentTab', '')
 }
 
 </script>

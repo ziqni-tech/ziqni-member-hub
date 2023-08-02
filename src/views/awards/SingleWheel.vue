@@ -98,7 +98,6 @@ const claim = () => {
 };
 
 const closeModal = () => {
-  console.warn('RETURN');
   rerenderKey.value += 1;
   isShowModal.value = false;
 };

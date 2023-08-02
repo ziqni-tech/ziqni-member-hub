@@ -10,6 +10,8 @@ import featureMissions from './modules/missions/featureMissions';
 import theme from './modules/themeModule';
 import achievements from './modules/achievementsModule'
 import awards from './modules/awardsModule'
+import currentPage from './modules/currentPageModule'
+import currentTab from './modules/currentTabModule'
 
 const store = createStore(
   {
@@ -24,7 +26,9 @@ const store = createStore(
       featureMissions,
       theme,
       achievements,
-      awards
+      awards,
+      currentPage,
+      currentTab
     }
   });
 

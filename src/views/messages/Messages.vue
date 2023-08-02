@@ -53,7 +53,6 @@ onMounted(() => {
 })
 
 const goToMessageDetails = (message) => {
-  console.warn('Message click', message)
   router.push({
     name: 'MessageDetails',
     params: {

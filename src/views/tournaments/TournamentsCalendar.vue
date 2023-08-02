@@ -179,7 +179,6 @@ const getCompetitionsRequest = async () => {
       const statusOrder = ['Active', 'Ready', 'Finalised'];
       return statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status);
     });
-    console.warn('competitions.value', competitions.value);
 
     isLoaded.value = true;
   } catch (e) {
@@ -493,8 +492,8 @@ const clickEvent = (val) => {
     }
 
     .today {
-      background-color: $today !important;
-      border: 2px solid $blue !important;
+      background-color: #304F69 !important;
+      border: 1px solid #223241 !important;
     }
 
     .outsideOfMonth {
@@ -622,7 +621,7 @@ const clickEvent = (val) => {
 
     .today {
       background-color: $pagination-active-btn-bg !important;
-      border: 2px solid $main-border-color-LM !important;
+      border: 1px solid $main-border-color-LM !important;
     }
 
     .outsideOfMonth {
@@ -632,8 +631,7 @@ const clickEvent = (val) => {
 }
 
 .theme-default .cv-item.continued::before, .theme-default .cv-item.toBeContinued::after {
-  color: $purple;
-  margin: 0 3px;
+  display: none;
 }
 
 .theme-default .cv-item.continued, .theme-default .cv-item.toBeContinued {
@@ -657,18 +655,22 @@ const clickEvent = (val) => {
   cursor: pointer !important;
   color: #141E28;
   font-family: $bold;
+  border: none;
 
 
   &-active {
     background-color: $active-tournament !important;
+    color: #141E28
   }
 
   &-ready {
     background-color: $future-tournament !important;
+    color: #141E28;
   }
 
   &-finalised {
     background-color: $finished-tournament !important;
+    color: #CCC
   }
 }
 

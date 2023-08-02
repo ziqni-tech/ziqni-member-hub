@@ -115,7 +115,6 @@ const layouts = reactive({
 });
 
 const getEdgeLabelColor = (label) => {
-  console.warn('lab', label);
   const edgeLabelColors = {
     MUST: '#6FCF97',
     SHOULD: '#F2994A',

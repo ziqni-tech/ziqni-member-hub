@@ -114,11 +114,11 @@ const routes = [
         name: 'Messages',
         component: () => import('@/layouts/DefaultLayout'),
         children: [
-            {
-          path: '',
-          name: 'Messages',
-          component: () => import('@/views/messages/Messages'),
-        },
+          {
+            path: '',
+            name: 'Messages',
+            component: () => import('@/views/messages/Messages'),
+          },
           {
             path: 'details/:id',
             name: 'MessageDetails',

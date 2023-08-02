@@ -1,6 +1,6 @@
 <template>
   <div class="content-wrapper">
-    <Loader v-if="!isLoaded" :title="'Awards are loading'" />
+    <Loader v-if="!isLoaded" :title="'Awards are loading'"/>
     <div class="awards-cards-grid" v-if="isLoaded">
       <div v-for="award in awards">
         <AwardCard :award="award"/>
@@ -20,15 +20,16 @@ import { ApiClientStomp, AwardRequest, AwardsApiWs, EntityRequest, RewardsApiWs 
 
 import AwardCard from '@/components/awards/AwardCard.vue';
 import Pagination from '@/shared/components/Pagination.vue';
-import awardIcon_1 from '@/assets/icons/awards/award_1.svg'
-import awardIcon_2 from '@/assets/icons/awards/award_2.svg'
-import awardIcon_3 from '@/assets/icons/awards/award_3.svg'
-import awardIcon_4 from '@/assets/icons/awards/award_4.svg'
-import awardIcon_5 from '@/assets/icons/awards/award_5.svg'
-import awardIcon_6 from '@/assets/icons/awards/award_6.svg'
-import awardIcon_7 from '@/assets/icons/awards/award_7.svg'
-import awardIcon_8 from '@/assets/icons/awards/award_8.svg'
+import awardIcon_1 from '@/assets/icons/awards/award_1.svg';
+import awardIcon_2 from '@/assets/icons/awards/award_2.svg';
+import awardIcon_3 from '@/assets/icons/awards/award_3.svg';
+import awardIcon_4 from '@/assets/icons/awards/award_4.svg';
+import awardIcon_5 from '@/assets/icons/awards/award_5.svg';
+import awardIcon_6 from '@/assets/icons/awards/award_6.svg';
+import awardIcon_7 from '@/assets/icons/awards/award_7.svg';
+import awardIcon_8 from '@/assets/icons/awards/award_8.svg';
 import Loader from '@/components/Loader.vue';
+import { useStore } from 'vuex';
 
 const awardsImages = [
   awardIcon_1,
@@ -39,11 +40,12 @@ const awardsImages = [
   awardIcon_6,
   awardIcon_7,
   awardIcon_8,
-]
-
+];
+const store = useStore()
 const awards = ref([]);
 const isLoaded = ref(false);
-const currentPage = ref(1);
+
+const currentPage = computed(() => store.getters.getCurrentPage);
 const totalRecords = ref(0);
 const limit = ref(8);
 
@@ -73,11 +75,13 @@ const getAwardsRequest = async () => {
     awardsApiWsClient.getAwards(claimedAwardsRequest, async (res) => {
       // awards.value = res.data;
       awards.value = res.data.map((award, index) => {
-        const image = awardsImages[index % awardsImages.length]
+        const image = awardsImages[index % awardsImages.length];
+
         return {
           ...award,
-          rewardIconLink: image
-        }
+          rewardIconLink: image,
+          imageIdx: index % awardsImages.length
+        };
       });
 
       totalRecords.value = res.meta.totalRecordsFound;
@@ -86,7 +90,7 @@ const getAwardsRequest = async () => {
       isLoaded.value = true;
     });
   } catch (err) {
-    console.log('getAwardsRequest error =>', err)
+    console.log('getAwardsRequest error =>', err);
   }
 };
 
@@ -125,17 +129,18 @@ const getEntityRewards = async (ids) => {
       }
     }
   });
-}
+};
 
 
 const pageChange = async (pageNumber) => {
   currentPage.value = pageNumber;
+  await store.dispatch('setCurrentPage', pageNumber);
   await getAwardsRequest();
-}
+};
 
 onMounted(() => {
   getAwardsRequest();
-})
+});
 </script>
 
 <style scoped lang="scss">

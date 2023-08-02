@@ -26,9 +26,9 @@
         Instant wins
       </CNavLink>
     </CNav>
-    <AvailableAwardsSection v-if="activeTabKey === 'available'" @setIsAvailableAwards="setIsAvailableAwards" />
-    <ClaimedAwardsSection v-if="activeTabKey === 'claimed'" />
-    <InstantWinsSection v-if="activeTabKey === 'instantWins'" />
+    <AvailableAwardsSection v-if="activeTabKey === 'available'" @setIsAvailableAwards="setIsAvailableAwards"/>
+    <ClaimedAwardsSection v-if="activeTabKey === 'claimed'"/>
+    <InstantWinsSection v-if="activeTabKey === 'instantWins'"/>
   </div>
 
 </template>
@@ -39,14 +39,17 @@ import { CNav, CNavLink } from '@coreui/vue';
 import AvailableAwardsSection from '@/components/awards/AvailableAwardsSection.vue';
 import ClaimedAwardsSection from '@/components/awards/ClaimedAwardsSection.vue';
 import InstantWinsSection from '@/components/instant-wins/InstantWinsSection.vue';
-import { useStore } from "vuex";
+import { useStore } from 'vuex';
 import { ApiClientStomp } from '@ziqni-tech/member-api-client';
 
-const activeTabKey = ref('available');
+const activeTabKey = computed(() => store.getters.getCurrentTab.length
+    ? store.getters.getCurrentTab
+    : 'available');
 const store = useStore();
 
 onBeforeMount(async () => {
-  ApiClientStomp.instance.client.debug = () => {};
+  ApiClientStomp.instance.client.debug = () => {
+  };
   await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
   await store.dispatch('setIsConnectedClient', true);
 });
@@ -54,13 +57,14 @@ onBeforeMount(async () => {
 const isDarkMode = computed(() => store.getters.getTheme);
 const updateActiveTab = (val) => {
   activeTabKey.value = val;
+  store.dispatch('setCurrentTab', val);
+  store.dispatch('setCurrentPage', 1);
 };
 
 const isAvailableAwardsActive = ref(true);
 const setIsAvailableAwards = () => {
   isAvailableAwardsActive.value = false;
-  activeTabKey.value = 'claimed'
-}
+};
 
 </script>
 

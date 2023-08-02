@@ -52,6 +52,7 @@ import awardIcon_6 from '@/assets/icons/awards/award_6.svg'
 import awardIcon_7 from '@/assets/icons/awards/award_7.svg'
 import awardIcon_8 from '@/assets/icons/awards/award_8.svg'
 import Loader from '@/components/Loader.vue';
+import { useStore } from 'vuex';
 
 const awardsImages = [
   awardIcon_1,
@@ -64,11 +65,12 @@ const awardsImages = [
   awardIcon_8,
 ]
 
+const store = useStore()
 const emit = defineEmits(['setIsAvailableAwards']);
 
 const awards = ref([]);
 const isLoaded = ref(false);
-const currentPage = ref(1);
+const currentPage = computed(() => store.getters.getCurrentPage);
 const totalRecords = ref(0);
 const limit = ref(8);
 
@@ -103,6 +105,7 @@ const getAwardsRequest = async () => {
     awardsApiWsClient.getAwards(availableAwardsRequest, async (res) => {
       if (res.data && !res.data.length) {
         emit('setIsAvailableAwards');
+        await store.dispatch('setCurrentTab', 'claimed')
       }
 
       // awards.value = res.data;
@@ -111,7 +114,8 @@ const getAwardsRequest = async () => {
         const image = awardsImages[index % awardsImages.length]
         return {
           ...award,
-          rewardIconLink: image
+          rewardIconLink: image,
+          imageIdx: index % awardsImages.length
         }
       });
 
@@ -162,6 +166,7 @@ const getEntityRewards = async (ids) => {
 }
 const pageChange = async (pageNumber) => {
   currentPage.value = pageNumber;
+  await store.dispatch('setCurrentPage', pageNumber)
   await getAwardsRequest();
 };
 
