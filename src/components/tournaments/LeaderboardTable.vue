@@ -339,7 +339,7 @@ const setPlace = computed(() => (place) => {
 
       .table-row {
         display: grid;
-        grid-template-columns: 80px minmax(100px, 1fr) 0.5fr 0.2fr;
+        grid-template-columns: 70px minmax(100px, 1fr) 0.5fr 0.2fr;
         font-family: $medium;
         font-size: 10px;
         line-height: 16px;
@@ -418,7 +418,7 @@ const setPlace = computed(() => (place) => {
       .table-body {
         .table-row {
           display: grid;
-          grid-template-columns: 80px minmax(100px, 1fr) 0.5fr 0.2fr;
+          grid-template-columns: 70px minmax(100px, 1fr) 0.5fr 0.2fr;
           font-family: $medium;
           font-size: 12px;
           line-height: 16px;

@@ -202,7 +202,7 @@ const goToInfo = () => {
       color: $white-color-DM;
       font-size: 20px;
       font-family: $bold;
-      margin: 30px 0;
+      margin-bottom: 30px;
     }
 
     .countdown {
@@ -324,7 +324,7 @@ const goToInfo = () => {
       .tournament-title {
         color: $text-color-white-LM;
         font-size: 20px;
-        margin: 30px 0;
+        margin-bottom: 30px;
       }
     }
 
@@ -447,7 +447,7 @@ const goToInfo = () => {
       .tournament-title {
         color: $text-color-white;
         font-size: 22px;
-        margin: 14px 0;
+        margin-bottom: 14px;
       }
 
       .countdown {
@@ -516,9 +516,50 @@ const goToInfo = () => {
     }
 
     &.light-mode {
+      .card-banner {
+        position: relative;
+        border-radius: $border-radius $border-radius 0 0;
+
+        width: 100%;
+        height: 35%;
+
+        .tournament-main-data {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }
+
+        > img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .tournament-title {
+          color: $text-color-white;
+          font-size: 22px;
+          margin-bottom: 14px;
+        }
+
+        .countdown {
+          width: 50%;
+
+          .title-medium {
+            max-width: 100px;
+            padding-bottom: 10px;
+            margin-right: 65px;
+          }
+        }
+      }
       .tournament-data-wrapper {
         padding: 20px 10px;
       }
+
     }
   }
 }
