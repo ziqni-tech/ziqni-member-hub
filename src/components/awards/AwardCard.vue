@@ -58,12 +58,14 @@ const isLoading = ref(false);
 const store = useStore();
 const isDarkMode = computed(() => store.getters.getTheme);
 
-
 const goToAwardDetails = () => {
   router.push({
     name: 'AwardDetails',
     params: {
       id: award.value.id,
+    },
+    query: {
+      idx: award.value.imageIdx
     }
   })
 }

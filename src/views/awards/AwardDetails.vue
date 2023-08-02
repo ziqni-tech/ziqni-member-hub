@@ -29,6 +29,14 @@ import {
   RewardsApiWs,
 } from '@ziqni-tech/member-api-client';
 import AwardDetailsCard from '@/components/awards/AwardDetailsCard.vue';
+import awardIcon_1 from '@/assets/icons/awards/award_1.svg';
+import awardIcon_2 from '@/assets/icons/awards/award_2.svg';
+import awardIcon_3 from '@/assets/icons/awards/award_3.svg';
+import awardIcon_4 from '@/assets/icons/awards/award_4.svg';
+import awardIcon_5 from '@/assets/icons/awards/award_5.svg';
+import awardIcon_6 from '@/assets/icons/awards/award_6.svg';
+import awardIcon_7 from '@/assets/icons/awards/award_7.svg';
+import awardIcon_8 from '@/assets/icons/awards/award_8.svg';
 
 const router = useRouter()
 
@@ -39,6 +47,17 @@ const awards = ref(null);
 const award = ref(null);
 const store = useStore();
 const isDarkMode = computed(() => store.getters.getTheme);
+
+const awardsImages = [
+  awardIcon_1,
+  awardIcon_2,
+  awardIcon_3,
+  awardIcon_4,
+  awardIcon_5,
+  awardIcon_6,
+  awardIcon_7,
+  awardIcon_8,
+];
 
 onBeforeMount(async () => {
   ApiClientStomp.instance.client.debug = () => {};
@@ -110,7 +129,9 @@ const getEntityRewards = async (ids) => {
           }
         }
         if (maxReward) {
-          award.rewardIconLink = maxReward.iconLink;
+          const image = awardsImages[route.query.idx];
+          award.rewardIconLink = image;
+          // award.rewardIconLink = maxReward.iconLink;
         }
       }
     }

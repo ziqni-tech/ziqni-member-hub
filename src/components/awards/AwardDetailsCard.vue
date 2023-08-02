@@ -42,11 +42,14 @@ import { computed, ref, toRef, watch } from 'vue';
 import { CSpinner } from '@coreui/vue';
 import defaultAwardIcon from '@/assets/icons/awards/bottle.svg';
 import { removeHTMLTags } from '@/utils/removeHTMLTags';
+import { useRoute } from 'vue-router';
 
 const props = defineProps({
   award: Object,
   isDarkMode: Boolean
 });
+
+const route = useRoute()
 
 const emit = defineEmits(['claimAward']);
 
@@ -55,8 +58,8 @@ const award = toRef(props, 'award');
 const icon = ref(null);
 const awardIcon = computed(() => {
   return props.award.rewardIconLink
-      ? props.award.rewardIconLink
-      : defaultAwardIcon
+      // ? props.award.rewardIconLink
+      // : defaultAwardIcon
 })
 
 const isLoading = ref(false);
@@ -133,8 +136,8 @@ const handleButtonClick = async () => {
     }
 
     & > img {
-      max-width: 100%;
-      max-height: 100%;
+      max-width: 200%;
+      max-height: 200%;
       object-fit: cover;
       border-radius: 50%;
     }
@@ -257,8 +260,8 @@ const handleButtonClick = async () => {
       }
 
       & > img {
-        max-width: 100%;
-        max-height: 100%;
+        max-width: 200%;
+        max-height: 200%;
         object-fit: cover;
         border-radius: 50%;
       }
@@ -368,8 +371,8 @@ const handleButtonClick = async () => {
       }
 
       & > img {
-        max-width: 100%;
-        max-height: 100%;
+        max-width: 200%;
+        max-height: 200%;
         object-fit: cover;
         border-radius: 50%;
       }
