@@ -42,6 +42,12 @@
           </div>
         </div>
       </template>
+      <template #dayContent="{ day }">
+        <div class="mobile-event-dots-container">
+          <div v-for="dot in getEventDotsForDay(day)" class="mobile-event-dot"
+               :style="{ backgroundColor: dot.color }"></div>
+        </div>
+      </template>
     </calendar-view>
   </div>
 </template>
@@ -57,8 +63,7 @@ import { useStore } from 'vuex';
 import { ApiClientStomp, CompetitionRequest, CompetitionsApiWs } from '@ziqni-tech/member-api-client';
 import useMobileDevice from '@/hooks/useMobileDevice';
 
-import { CFormSwitch } from '@coreui/vue';
-import { CSpinner } from '@coreui/vue';
+import { CFormSwitch, CSpinner } from '@coreui/vue';
 import ArrowLeft from '@/shared/components/svg-icons/ArrowLeft.vue';
 
 const router = useRouter();
@@ -73,6 +78,29 @@ const store = useStore();
 const isDarkMode = computed(() => store.getters.getTheme);
 const getIconStrokeColor = () => {
   return isDarkMode.value ? '#FFFFFF' : '#080D12';
+};
+
+const getEventDotsForDay = (date) => {
+  const eventsForDay = competitions.value.filter(item => {
+    const startDate = item.startDate;
+    const endDate = item.endDate;
+    return startDate <= date && endDate >= date;
+  });
+
+  const eventDots = eventsForDay.map((event) => {
+    switch (event.status) {
+      case 'Active':
+        return { color: '#7ED4E7' };
+      case 'Ready':
+        return { color: '#F372D7' };
+      case 'Finalised':
+        return { color: '#666' };
+    }
+  });
+
+  return eventDots.filter((dot, index, self) => {
+    return dot && index === self.findIndex((d) => d && d.color === dot.color)
+  });
 };
 
 const { isMobile } = useMobileDevice();
@@ -91,7 +119,8 @@ const setShowDate = (d) => {
 };
 
 onBeforeMount(async () => {
-  ApiClientStomp.instance.client.debug = () => {};
+  ApiClientStomp.instance.client.debug = () => {
+  };
   await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
   await store.dispatch('setIsConnectedClient', true);
 });
@@ -250,8 +279,8 @@ const clickEvent = (val) => {
         }
 
         .calendar-title {
-          color: $text-color-white;
-          font-size: 37px;
+          color: $white-color-DM;
+          font-size: 20px;
         }
       }
 
@@ -266,11 +295,17 @@ const clickEvent = (val) => {
           margin-bottom: 0;
           margin-top: 5px;
           color: #ffffff;
+          font-size: 14px;
         }
 
         .form-check-input:checked {
-          background-color: #8749DC;
+          background-color: #304F69;
           border-color: unset;
+        }
+
+        .form-check-input:focus {
+          border-color: #223241;
+          outline: 0;
         }
       }
 
@@ -280,7 +315,7 @@ const clickEvent = (val) => {
       }
 
       .currentPeriod {
-        font-size: 16px;
+        font-size: 14px;
       }
     }
 
@@ -291,7 +326,7 @@ const clickEvent = (val) => {
       .nextPeriod,
       .nextYear {
         border-radius: 10px;
-        margin-right: 3px;
+        margin-right: 1px;
         color: $text-color-white !important;
       }
     }
@@ -351,7 +386,6 @@ const clickEvent = (val) => {
           .go-back {
             border-radius: $border-radius-sm;
             border: 1px solid $border-dark;
-            //padding: 5px 10px;
             cursor: pointer;
           }
         }
@@ -417,15 +451,64 @@ const clickEvent = (val) => {
   }
 }
 
-@media screen and (max-width: 380px) {
+@media screen and (max-width: 450px) {
   .cv-wrapper {
+    min-height: 290px;
     .cv-header {
       .currentPeriod {
         display: flex;
         flex-wrap: nowrap;
         align-items: center;
       }
+    }
+    .competition {
+      display: none;
+    }
 
+    .cv-weeks {
+      height: 54px;
+      overflow: hidden;
+    }
+
+    .cv-day {
+      position: relative;
+      border: none;
+      height: 54px;
+
+      .cv-day-number {
+        position: absolute;
+        top: 2px;
+        left: 50%;
+        transform: translate(-50%);
+        font-size: 12px;
+      }
+      .mobile-event-dots-container {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+
+        .mobile-event-dot {
+          width: 5px;
+          height: 5px;
+          border-radius: 50%;
+          margin-right: 3px;
+        }
+      }
+    }
+
+    .today {
+      border-radius: 10px;
+    }
+
+    .cv-header .cv-header-nav .header-nav {
+      .form-label.form-check-label, .currentPeriod {
+        font-size: 12px;
+      }
     }
   }
 }
@@ -434,19 +517,19 @@ const clickEvent = (val) => {
   color: $body-text-color;
 
   .cv-header {
-    background-color: $light-grey !important;
+    background-color: #141E28 !important;
     border-radius: 20px 20px 0 0;
     color: $body-text-color;
     display: flex;
     flex-direction: row-reverse;
 
     .periodLabel {
-      background-color: $light-grey !important;
+      background-color: #141E28 !important;
       color: $text-color-white;
     }
 
     .cv-header-nav {
-      background-color: $light-grey !important;
+      background-color: #141E28 !important;
 
 
       .previousYear,
@@ -455,7 +538,7 @@ const clickEvent = (val) => {
       .nextPeriod,
       .nextYear {
         color: $body-text-color;
-        background-color: $light-grey;
+        background-color: #141E28;
       }
     }
 
@@ -473,10 +556,11 @@ const clickEvent = (val) => {
     background-color: $light-grey !important;
 
     .cv-header-day {
-      background-color: $light-grey !important;
+      background-color: $secondary-bg-DM !important;
       font-size: 14px;
       font-family: $medium;
       padding: 12px 0;
+      color: #999;
     }
   }
 
@@ -540,9 +624,18 @@ const clickEvent = (val) => {
           font-size: 14px;
         }
 
+        .form-check-input {
+          border-color: #B9CEDF;
+        }
+
         .form-check-input:checked {
-          background-color: #8749DC;
+          background-color: #BEE9F3;
           border-color: unset;
+        }
+
+        .form-check-input:focus {
+          border-color: #B9CEDF;
+          outline: 0;
         }
       }
 
@@ -577,7 +670,7 @@ const clickEvent = (val) => {
   .cv-header {
     .cv-header-nav {
       .header-title {
-        align-items: center;
+        //align-items: center;
 
         .calendar-title {
           color: $section-title-color-LM;
@@ -673,6 +766,7 @@ const clickEvent = (val) => {
     color: #CCC
   }
 }
+
 
 @media screen and (max-width: $tableWidth) {
   .competition {
