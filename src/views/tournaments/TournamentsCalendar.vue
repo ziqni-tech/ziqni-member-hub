@@ -99,7 +99,7 @@ const getEventDotsForDay = (date) => {
   });
 
   return eventDots.filter((dot, index, self) => {
-    return dot && index === self.findIndex((d) => d && d.color === dot.color)
+    return dot && index === self.findIndex((d) => d && d.color === dot.color);
   });
 };
 
@@ -451,68 +451,6 @@ const clickEvent = (val) => {
   }
 }
 
-@media screen and (max-width: 450px) {
-  .cv-wrapper {
-    min-height: 290px;
-    .cv-header {
-      .currentPeriod {
-        display: flex;
-        flex-wrap: nowrap;
-        align-items: center;
-      }
-    }
-    .competition {
-      display: none;
-    }
-
-    .cv-weeks {
-      height: 54px;
-      overflow: hidden;
-    }
-
-    .cv-day {
-      position: relative;
-      border: none;
-      height: 54px;
-
-      .cv-day-number {
-        position: absolute;
-        top: 2px;
-        left: 50%;
-        transform: translate(-50%);
-        font-size: 12px;
-      }
-      .mobile-event-dots-container {
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translate(-50%);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-
-        .mobile-event-dot {
-          width: 5px;
-          height: 5px;
-          border-radius: 50%;
-          margin-right: 3px;
-        }
-      }
-    }
-
-    .today {
-      border-radius: 10px;
-    }
-
-    .cv-header .cv-header-nav .header-nav {
-      .form-label.form-check-label, .currentPeriod {
-        font-size: 12px;
-      }
-    }
-  }
-}
-
 .cv-wrapper.darkMode {
   color: $body-text-color;
 
@@ -784,6 +722,85 @@ const clickEvent = (val) => {
 
     &-finalised {
       background-color: $finished-tournament !important;
+    }
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .cv-wrapper.lightMode .cv-header .cv-header-nav .header-title .calendar-title {
+    font-size: 14px;
+  }
+
+  .cv-wrapper {
+    min-height: 290px;
+
+    .cv-header {
+      .cv-header-nav .header-title .calendar-title {
+        font-size: 14px;
+        color: $text-color-white;
+
+      }
+
+      .currentPeriod {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+      }
+    }
+
+    .competition {
+      display: none;
+    }
+
+    .cv-weeks {
+      height: 54px;
+      overflow: hidden;
+    }
+
+    .cv-day {
+      position: relative;
+      border: none;
+      height: 54px;
+
+      .cv-day-number {
+        position: absolute;
+        top: 2px;
+        left: 50%;
+        transform: translate(-50%);
+        font-size: 12px;
+      }
+
+      .mobile-event-dots-container {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+
+        .mobile-event-dot {
+          width: 5px;
+          height: 5px;
+          border-radius: 50%;
+          margin-right: 3px;
+        }
+      }
+    }
+
+    .today {
+      border-radius: 10px;
+    }
+
+    .cv-header .cv-header-nav .header-nav {
+      .form-label.form-check-label, .currentPeriod {
+        font-size: 12px;
+      }
+    }
+
+    .cv-wrapper.lightMode .cv-header .cv-header-nav .header-nav .form-label.form-check-label {
+      font-size: 12px;
     }
   }
 }
