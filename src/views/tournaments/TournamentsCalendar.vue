@@ -54,6 +54,35 @@
       </template>
     </calendar-view>
   </div>
+  <div class="competitions-list-wrapper" :class="isDarkMode ? 'darkMode' : 'lightMode'">
+    <div class="competitions-list" v-for="comp of activeCompetitions">
+      <div class="competition-item" @click="clickEvent(comp)">
+        <div class="dot" :class="'active'"></div>
+        <div class="competition-item_data">
+          <div class="competition-item-date">{{ formatDateRange(comp.startDate, comp.endDate) }}</div>
+          <div class="competition-item-name">{{ comp.title }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="competitions-list" v-for="comp of readyCompetitions">
+      <div class="competition-item" @click="clickEvent(comp)">
+        <div class="dot" :class="'ready'"></div>
+        <div class="competition-item_data">
+          <div class="competition-item-date">{{ formatDateRange(comp.startDate, comp.endDate) }}</div>
+          <div class="competition-item-name">{{ comp.title }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="competitions-list" v-for="comp of finalisedCompetitions">
+      <div class="competition-item" @click="clickEvent(comp)">
+        <div class="dot" :class="'finalised'"></div>
+        <div class="competition-item_data">
+          <div class="competition-item-date">{{ formatDateRange(comp.startDate, comp.endDate) }}</div>
+          <div class="competition-item-name">{{ comp.title }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -81,6 +110,24 @@ const isDarkMode = computed(() => store.getters.getTheme);
 const getIconStrokeColor = () => {
   return isDarkMode.value ? '#FFFFFF' : '#080D12';
 };
+
+const formatDateRange = (startDate, endDate) => {
+  const formatStartDate = formatCompetitionDate(startDate);
+  const formatEndDate = formatCompetitionDate(endDate);
+  return `${formatStartDate} - ${formatEndDate}`;
+}
+function formatCompetitionDate(dateString) {
+  const months = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+
+  const date = new Date(dateString);
+  const day = date.getDate();
+  const month = months[date.getMonth()];
+
+  return `${day} ${month}`;
+}
 
 const getEventDotsForDay = (date) => {
   const eventsForDay = competitions.value.filter(item => {
@@ -292,14 +339,14 @@ const clickEvent = (val) => {
 <style lang="scss">
 @import 'src/assets/scss/_variables';
 
-.competitions-list {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  overflow-y: scroll;
+.competitions-list-wrapper {
+  display: none;
+  padding-left: 20px;
+  padding-bottom: 5px;
 }
+
 .calendar-section {
-  padding: 20px;
+  padding: 10px 20px 20px;
 }
 
 .spinner-container {
@@ -344,7 +391,6 @@ const clickEvent = (val) => {
         .go-back {
           border-radius: $border-radius-sm;
           border: 1px solid $border-dark;
-          //padding: 7px 12px;
           cursor: pointer;
         }
 
@@ -678,7 +724,6 @@ const clickEvent = (val) => {
   .cv-header {
     .cv-header-nav {
       .header-title {
-        //align-items: center;
 
         .calendar-title {
           color: $section-title-color-LM;
@@ -690,7 +735,6 @@ const clickEvent = (val) => {
         .go-back {
           border-radius: $border-radius-sm;
           border: 1px solid $main-border-color-LM;
-          //padding: 5px 10px;
           cursor: pointer;
         }
       }
@@ -777,6 +821,14 @@ const clickEvent = (val) => {
 
 
 @media screen and (max-width: $tableWidth) {
+  //.cv-week {
+  //  .cv-weekdays {
+  //    overflow-y: scroll;
+  //  }
+  //}
+  .cv-weeks {
+    padding: 0;
+  }
   .competition {
     font-size: 0.55em !important;
     cursor: pointer !important;
@@ -871,6 +923,111 @@ const clickEvent = (val) => {
 
     .cv-wrapper.lightMode .cv-header .cv-header-nav .header-nav .form-label.form-check-label {
       font-size: 12px;
+    }
+  }
+
+  .competitions-list-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    &::-webkit-scrollbar {
+      width: 0;
+    }
+
+    .competitions-list {
+      display: flex;
+
+      .competition-item {
+        display: flex;
+        .dot {
+          width: 4px;
+          height: 4px;
+          border-radius: 2px;
+          margin: 6px 7px;
+
+          &.active {
+            background-color: $active-tournament;
+          }
+
+          &.ready {
+            background-color: $future-tournament;
+          }
+
+          &.finalised {
+            background-color: $finished-tournament;
+          }
+        }
+
+        &_data {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+
+          .competition-item-date {
+            font-size: 10px;
+            font-family: $mainFont;
+            color: #CCC;
+          }
+
+          .competition-item-name {
+            font-size: 12px;
+            font-family: $bold;
+            color: #FFF;
+          }
+        }
+      }
+    }
+  }
+
+
+  .lightMode.competitions-list-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .competitions-list {
+      display: flex;
+
+      .competition-item {
+        display: flex;
+        .dot {
+          width: 4px;
+          height: 4px;
+          border-radius: 2px;
+          margin: 6px 7px;
+
+          &.active {
+            background-color: $active-tournament;
+          }
+
+          &.ready {
+            background-color: $future-tournament;
+          }
+
+          &.finalised {
+            background-color: $finished-tournament;
+          }
+        }
+
+        &_data {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+
+          .competition-item-date {
+            font-size: 10px;
+            font-family: $mainFont;
+            color: #223241;
+          }
+
+          .competition-item-name {
+            font-size: 12px;
+            font-family: $bold;
+            color: #080D12;
+          }
+        }
+      }
     }
   }
 }
