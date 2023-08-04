@@ -35,8 +35,12 @@
                 <button class="nextPeriod" @click="setShowDate(headerProps.nextPeriod)">&gt;</button>
               </div>
               <div>
-                <CFormSwitch reverse label="Week period:" id="formSwitchCheckDefault" @change="displayPeriodUpdate"
-                             :checked="isWeekPeriod"/>
+                <CFormSwitch
+                    reverse label="Week period:"
+                    id="formSwitchCheckDefault"
+                    @change="displayPeriodUpdate"
+                    :checked="isWeekPeriod"
+                />
               </div>
             </div>
           </div>
@@ -53,7 +57,7 @@
 </template>
 
 <script setup>
-import { computed, onBeforeMount, onMounted, ref } from 'vue';
+import { computed, onBeforeMount, onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { CalendarView } from 'vue-simple-calendar';
@@ -68,10 +72,8 @@ import ArrowLeft from '@/shared/components/svg-icons/ArrowLeft.vue';
 
 const router = useRouter();
 const showDate = ref(new Date());
-const displayPeriod = ref(null);
+const displayPeriod = ref('month');
 let isWeekPeriod = false;
-
-displayPeriod.value = 'month';
 
 const store = useStore();
 
@@ -214,6 +216,68 @@ const getCompetitionsRequest = async () => {
     console.log('ERROR', e);
   }
 };
+
+// Отфильтрованные соревнования для выбранного периода (месяц или неделя)
+const filteredCompetitions = ref([]);
+
+const activeCompetitions = computed(() =>
+    filteredCompetitions.value.filter((competition) => competition.status === 'Active')
+);
+
+const readyCompetitions = computed(() =>
+    filteredCompetitions.value.filter((competition) => competition.status === 'Ready')
+);
+
+const finalisedCompetitions = computed(() =>
+    filteredCompetitions.value.filter((competition) => competition.status === 'Finalised')
+);
+
+watch([competitions, displayPeriod, showDate], () => {
+  updateFilteredCompetitions();
+});
+
+const updateFilteredCompetitions = () => {
+  if (displayPeriod.value === 'month') {
+    const startOfMonth = new Date(showDate.value.getFullYear(), showDate.value.getMonth(), 1);
+    const endOfMonth = new Date(showDate.value.getFullYear(), showDate.value.getMonth() + 1, 0);
+    filteredCompetitions.value = competitions.value.filter((competition) => {
+      const startsBeforeEndsAfter =
+          competition.startDate <= startOfMonth && competition.endDate >= endOfMonth;
+      const startsBeforeEndsInBetween =
+          competition.startDate >= startOfMonth && competition.startDate <= endOfMonth;
+      const startsInBetweenEndsAfter =
+          competition.endDate >= startOfMonth && competition.endDate <= endOfMonth;
+
+      return startsBeforeEndsAfter || startsBeforeEndsInBetween || startsInBetweenEndsAfter;
+    });
+
+  } else if (displayPeriod.value === 'week') {
+    const startOfWeek = new Date(showDate.value);
+    startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
+    const endOfWeek = new Date(showDate.value);
+    endOfWeek.setDate(endOfWeek.getDate() - endOfWeek.getDay() + 7);
+
+    filteredCompetitions.value = competitions.value.filter((competition) => {
+      if (competition.startDate >= startOfWeek && competition.endDate <= endOfWeek) {
+        return true;
+      }
+
+      if (competition.startDate <= startOfWeek && competition.endDate >= endOfWeek) {
+        return true;
+      }
+
+      if (competition.startDate <= startOfWeek && competition.endDate >= startOfWeek && competition.endDate <= endOfWeek) {
+        return true;
+      }
+
+      return competition.startDate >= startOfWeek && competition.startDate <= endOfWeek && competition.endDate >= endOfWeek;
+    });
+    console.warn('WEEK', filteredCompetitions.value);
+  } else {
+    filteredCompetitions.value = [];
+  }
+};
+
 const clickEvent = (val) => {
   router.push({
     name: 'TournamentDetails',
@@ -228,6 +292,12 @@ const clickEvent = (val) => {
 <style lang="scss">
 @import 'src/assets/scss/_variables';
 
+.competitions-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+}
 .calendar-section {
   padding: 20px;
 }
