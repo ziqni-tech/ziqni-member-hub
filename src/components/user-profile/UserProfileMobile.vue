@@ -31,7 +31,7 @@
         <ProfileInfoCircleProgress
             :color="'#8749DC'"
             :title="'Points'"
-            :completed-steps="1200"
+            :completed-steps="totalPoints"
             :total-steps="10000"
             :is-dark-mode="isDarkMode"
         />
@@ -107,8 +107,10 @@ const logOut = () => {
 const member = computed(() => store.getters.getMember);
 
 const totalGames = ref(0);
+const totalPoints = ref(0);
 const wins = ref(0);
 const losses = ref(0);
+const achievements = ref([]);
 
 const winPercentage = computed(() => {
   if (totalGames.value === 0) {
@@ -158,6 +160,7 @@ const getAchievementsRequest = async () => {
 
   achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
     // totalGames.value = res.meta.totalRecordsFound;
+    achievements.value = res.data;
     const ids = res.data.map(item => item.id);
     getOptInStatus(ids);
   });
@@ -182,13 +185,25 @@ const getOptInStatus = async (ids) => {
   await optInApiWsClient.optInStates(optInStateRequest, res => {
     if (res.data && res.data.length) {
       totalGames.value = res.data.length;
-      res.data.forEach((item) => {
-        if (item.percentageComplete === 100) {
-          wins.value++;
-        } else {
-          losses.value++;
-        }
-      });
+      totalPoints.value = res.data.reduce((acc, item) => {
+        return acc + item.points
+      }, 0)
+
+      for (const achievement of achievements.value) {
+
+          const percentage = res.data.find(item => item.entityId === achievement.id)?.percentageComplete;
+          achievement.percentageComplete = percentage ? percentage : 0;
+
+          const isFinished = achievement.status === 'Finished' || achievement.status === 'Finishing';
+          const isWinner = achievement.percentageComplete === 100;
+
+          if (isWinner) {
+            wins.value++;
+          } else if (isFinished && !isWinner) {
+            losses.value++;
+          }
+
+      }
     }
   });
 };

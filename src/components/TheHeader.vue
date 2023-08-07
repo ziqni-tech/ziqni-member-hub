@@ -9,7 +9,7 @@
     </div>
     <div class="user-actions">
       <div class="header-btns">
-        <button class="btn">
+        <button class="btn" @click="openNotifications">
           <NotificationIcon
               :strokeColor="getIconStrokeColor()"
               :width="'40'"
@@ -45,6 +45,12 @@ import NotificationIcon from "@/shared/components/svg-icons/NotificationIcon.vue
 const store = useStore();
 const member = computed(() => store.getters.getMember);
 const isDarkMode = computed(() => store.getters.getTheme);
+
+const emit = defineEmits(['openNotifications'])
+
+const openNotifications = () => {
+  emit('openNotifications')
+}
 
 const getIconStrokeColor = () => {
   return isDarkMode.value ? '#FFFFFF' : '#080D12'

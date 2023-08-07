@@ -5,14 +5,19 @@
       :class="{'light-mode': !isDarkMode}"
   >
     <div id="nav-block">
-      <TheSidebar @logOut="logOut" />
+      <TheSidebar @logOut="logOut"/>
     </div>
     <div class="content">
-      <TheHeader />
+      <TheHeader @openNotifications="openNotifications" />
       <div id="main-block">
         <div v-if="isClientConnected" class="main-block_content">
-          <router-view />
+          <router-view/>
         </div>
+        <Notifications
+            v-if="isNotificationsList"
+            @closeNotifications="closeNotifications"
+            class="notificationsList"
+        />
       </div>
     </div>
   </div>
@@ -27,22 +32,22 @@
           @click="$router.go(-1)"
           v-if="isGoBackBtn"
       >
-        <ArrowLeft :width="'40'" :height="'40'" :stroke-color="getIconStrokeColor()" />
+        <ArrowLeft :width="'40'" :height="'40'" :stroke-color="getIconStrokeColor()"/>
       </div>
       <div v-if="!isGoBackBtn" class="icon-btn">
-        <NotificationIcon :width="'40'" :height="'40'" :stroke-color="getIconStrokeColor()" />
+        <NotificationIcon :width="'40'" :height="'40'" :stroke-color="getIconStrokeColor()"/>
       </div>
       <span class="page-name">{{ splitCamelCaseToWords(router.currentRoute.value.name) }}</span>
       <div class="icon-btn person-icon" @click="openProfileInfo">
-        <PersonIcon :width="'20'" :height="'20'" :stroke-color="getIconStrokeColor()" />
+        <PersonIcon :width="'20'" :height="'20'" :stroke-color="getIconStrokeColor()"/>
       </div>
     </div>
     <div id="mobile-layout-main-block">
       <div v-if="isClientConnected">
-        <router-view />
+        <router-view/>
       </div>
     </div>
-    <MobileNav :isDarkMode="isDarkMode" />
+    <MobileNav :isDarkMode="isDarkMode"/>
     <UserProfileMobile
         v-if="isClientConnected"
         @closeProfileInfo="closeProfileInfo"
@@ -69,6 +74,7 @@ import NotificationIcon from '@/shared/components/svg-icons/NotificationIcon.vue
 import PersonIcon from '@/shared/components/svg-icons/PersonIcon.vue';
 import ArrowLeft from '@/shared/components/svg-icons/ArrowLeft.vue';
 import splitCamelCaseToWords from '../utils/splitCamelCaseToWords';
+import Notifications from '@/components/notifications/Notifications.vue';
 
 const router = useRouter();
 const store = useStore();
@@ -76,6 +82,7 @@ const store = useStore();
 const isDarkMode = computed(() => store.getters.getTheme);
 const isClientConnected = computed(() => store.getters.getIsConnectedClient);
 const currentMember = reactive({});
+const isNotificationsList = ref(false);
 
 const { isMobile } = useMobileDevice();
 
@@ -88,21 +95,29 @@ const isGoBackBtn = computed(() => {
 const isProfileInfo = ref(false);
 
 const getIconStrokeColor = () => {
-  return isDarkMode.value ? '#FFFFFF' : '#080D12'
+  return isDarkMode.value ? '#FFFFFF' : '#080D12';
 };
 
 
 const openProfileInfo = () => {
   isProfileInfo.value = true;
-}
+};
 
 const closeProfileInfo = () => {
   isProfileInfo.value = false;
-}
+};
 
+const openNotifications = () => {
+  isNotificationsList.value = true;
+};
+
+const closeNotifications = () => {
+  isNotificationsList.value = false;
+};
 
 onMounted(async () => {
-  ApiClientStomp.instance.client.debug = () => {};
+  ApiClientStomp.instance.client.debug = () => {
+  };
   await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
   await store.dispatch('setIsConnectedClient', true);
 });
@@ -170,6 +185,13 @@ const logOut = async () => {
         left: 0;
         width: 100%;
         height: calc(100% - 80px);
+      }
+
+      .notificationsList {
+        position: fixed;
+        top: 0;
+        right: 0;
+        z-index: 10;
       }
 
       &::-webkit-scrollbar {

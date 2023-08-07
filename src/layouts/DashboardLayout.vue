@@ -1,16 +1,18 @@
 <template>
-  <div id="app-layout"
-       v-if="!isMobile && isDarkMode !== null"
-       :class="{'light-mode': !isDarkMode}"
+  <div
+      id="app-layout"
+      v-if="!isMobile && isDarkMode !== null"
+      :class="{'light-mode': !isDarkMode}"
   >
     <div id="nav-block">
-      <TheSidebar @logOut="logOut" />
+      <TheSidebar @logOut="logOut"/>
     </div>
-    <div id="main-block" >
-      <Dashboard />
+    <div id="main-block">
+      <Dashboard/>
     </div>
     <div id="user-profile-block">
-      <UserProfile v-if="isClientConnected"/>
+      <UserProfile v-if="isClientConnected && !isNotificationsList" @openNotifications="openNotifications"/>
+      <Notifications v-if="isNotificationsList" @closeNotifications="closeNotifications"/>
     </div>
     <div class="spinner-wrapper-global" v-if="isDarkMode === null">
       <CSpinner grow size="sm"/>
@@ -23,17 +25,17 @@
   >
     <div class="mobile-header">
       <div class="icon-btn">
-        <NotificationIcon :width="'40'" :height="'40'" :stroke-color="getIconStrokeColor()" />
+        <NotificationIcon :width="'40'" :height="'40'" :stroke-color="getIconStrokeColor()"/>
       </div>
       <span class="page-name">{{ router.currentRoute.value.name }}</span>
       <div class="icon-btn person-icon" @click="openProfileInfo">
-        <PersonIcon :width="'20'" :height="'20'" :stroke-color="getIconStrokeColor()" />
+        <PersonIcon :width="'20'" :height="'20'" :stroke-color="getIconStrokeColor()"/>
       </div>
     </div>
     <div id="mobile-layout-main-block">
-      <Dashboard />
+      <Dashboard/>
     </div>
-    <MobileNav :isDarkMode="isDarkMode" />
+    <MobileNav :isDarkMode="isDarkMode"/>
   </div>
   <UserProfileMobile
       v-if="isClientConnected"
@@ -55,9 +57,10 @@ import Dashboard from '@/views/Dashboard';
 import useMobileDevice from '@/hooks/useMobileDevice';
 import MobileNav from '@/components/sidebar/MobileNav.vue';
 import UserProfileMobile from '@/components/user-profile/UserProfileMobile.vue';
-import { CSpinner } from "@coreui/vue";
+import { CSpinner } from '@coreui/vue';
 import NotificationIcon from '@/shared/components/svg-icons/NotificationIcon.vue';
 import PersonIcon from '@/shared/components/svg-icons/PersonIcon.vue';
+import Notifications from '@/components/notifications/Notifications.vue';
 
 const router = useRouter();
 
@@ -68,21 +71,31 @@ const message = ref(null);
 const isDarkMode = computed(() => store.getters.getTheme);
 const isClientConnected = computed(() => store.getters.getIsConnectedClient);
 const isProfileInfo = ref(false);
+const isNotificationsList = ref(false);
 
 const getIconStrokeColor = () => {
-  return isDarkMode.value ? '#FFFFFF' : '#080D12'
+  return isDarkMode.value ? '#FFFFFF' : '#080D12';
 };
 
 const openProfileInfo = () => {
   isProfileInfo.value = true;
-}
+};
 
 const closeProfileInfo = () => {
   isProfileInfo.value = false;
-}
+};
+
+const openNotifications = () => {
+  isNotificationsList.value = true;
+};
+
+const closeNotifications = () => {
+  isNotificationsList.value = false;
+};
 
 onBeforeMount(async () => {
-  ApiClientStomp.instance.client.debug = () => {};
+  ApiClientStomp.instance.client.debug = () => {
+  };
   await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
   await store.dispatch('setIsConnectedClient', true);
 });

@@ -2,14 +2,14 @@
   <div id="user-profile">
     <div class="background-block" :style="{ 'background-image': `url(${require('@/assets/images/user/cover.png')})` }">
       <div class="buttons">
-        <button class="btn">
+        <button class="btn" @click="openNotifications" >
           <NotificationIcon
               :strokeColor="'#FFFFFF'"
               :width="'40'"
               :height="'40'"
           />
         </button>
-        <ToggleTheme class="btn" :iconSize="'40'" :stroke-color="'#FFFFFF'" />
+        <ToggleTheme class="btn" :iconSize="'40'" :stroke-color="'#FFFFFF'"/>
       </div>
     </div>
     <div class="user-info">
@@ -31,7 +31,7 @@
         <ProfileInfoCircleProgress
             :color="'#8749DC'"
             :title="'Points'"
-            :completed-steps="1200"
+            :completed-steps="totalPoints"
             :total-steps="10000"
             :is-dark-mode="isDarkMode"
         />
@@ -57,7 +57,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import ProfileInfoCircleProgress from './ProfileInfoCircleProgress';
 import ToggleTheme from '@/shared/components/ToggleTheme.vue';
@@ -68,23 +68,25 @@ import {
   OptInApiWs,
   OptInStatesRequest
 } from '@ziqni-tech/member-api-client';
-import NotificationIcon from "@/shared/components/svg-icons/NotificationIcon.vue";
-import memberDefaultIcon from "@/assets/images/user/avatar.png";
+import NotificationIcon from '@/shared/components/svg-icons/NotificationIcon.vue';
+import memberDefaultIcon from '@/assets/images/user/avatar.png';
 
 const store = useStore();
 const isDarkMode = computed(() => store.getters.getTheme);
 const member = computed(() => store.getters.getMember);
-const achievements = ref([])
+const achievements = ref([]);
 const totalGames = ref(0);
+const totalPoints = ref(0);
 const wins = ref(0);
 const losses = ref(0);
-console.warn('MEMBER', member.value)
+
+const emit = defineEmits(['openNotifications'])
+
 const winPercentage = computed(() => {
   if (totalGames.value === 0) {
     return 0;
   }
   const percentage = (wins.value / totalGames.value) * 100;
-  console.warn('WIN', percentage)
   return Math.round(percentage);
 });
 
@@ -93,47 +95,55 @@ const lossPercentage = computed(() => {
     return 0;
   }
   const percentage = (losses.value / totalGames.value) * 100;
-  console.warn('LOSE', percentage)
   return Math.round(percentage);
 });
 
+const openNotifications = () => {
+  emit('openNotifications')
+}
+
 onMounted(() => {
   getAchievementsRequest();
-})
+});
 
 
 const getAchievementsRequest = async () => {
-  const achievementsApiWsClient = new AchievementsApiWs(ApiClientStomp.instance);
+  try {
+    const achievementsApiWsClient = new AchievementsApiWs(ApiClientStomp.instance);
 
-  const achievementsRequest = AchievementRequest.constructFromObject({
-    achievementFilter: {
-      productTagsFilter: [],
-      ids: [],
-      tags: ['dashboard'],
-      status: [],
-      sortBy: [
-        {
-          queryField: 'created',
-          order: 'Desc'
+    const achievementsRequest = AchievementRequest.constructFromObject({
+      achievementFilter: {
+        productTagsFilter: [],
+        ids: [],
+        tags: ['dashboard'],
+        status: [],
+        sortBy: [
+          {
+            queryField: 'created',
+            order: 'Desc'
+          },
+        ],
+        skip: 0,
+        limit: 20,
+        statusCode: {
+          moreThan: 0,
+          lessThan: 40
         },
-      ],
-      skip: 0,
-      limit: 20,
-      statusCode: {
-        moreThan: 0,
-        lessThan: 40
+        constraints: []
       },
-      constraints: []
-    },
-  }, null);
+    }, null);
 
-  achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
-    console.warn('RES', res.data)
-    achievements.value = res.data;
-    // totalGames.value = res.meta.totalRecordsFound;
-    const ids = res.data.map(item => item.id);
-    getOptInStatus(ids);
-  });
+    achievementsApiWsClient.getAchievements(achievementsRequest, async (res) => {
+      console.warn('RES', res.data);
+      achievements.value = res.data;
+      totalGames.value = res.meta.totalRecordsFound;
+      const ids = res.data.map(item => item.id);
+      await getOptInStatus(ids);
+
+    });
+  } catch (err) {
+
+  }
 };
 
 const getOptInStatus = async (ids) => {
@@ -153,11 +163,14 @@ const getOptInStatus = async (ids) => {
   }, null);
 
   await optInApiWsClient.optInStates(optInStateRequest, res => {
-    if (res.data && res.data.length) {
-      console.warn('OPT RES', res.data)
-      totalGames.value = res.data.length;
+    totalGames.value = res.data.length;
 
-      for (const achievement of achievements.value) {
+    totalPoints.value = res.data.reduce((acc, item) => {
+      return acc + item.points
+    }, 0)
+
+    for (const achievement of achievements.value) {
+      if (res.data.length) {
         const percentage = res.data.find(item => item.entityId === achievement.id)?.percentageComplete;
         achievement.percentageComplete = percentage ? percentage : 0;
 
@@ -174,8 +187,8 @@ const getOptInStatus = async (ids) => {
   });
 
   await ApiClientStomp.instance.sendSys('', {}, async (res, headers) => {
-    console.warn()
-  })
+    console.warn();
+  });
 };
 </script>
 
