@@ -7,6 +7,19 @@
     </div>
     <div class="notifications-block_list">
       <span class="title">Notification</span>
+      <div class="items">
+        <NotificationItem :isDarkMode="isDarkMode" />
+        <NotificationItem :isDarkMode="isDarkMode" />
+        <NotificationItem :isDarkMode="isDarkMode" />
+        <NotificationItem :isDarkMode="isDarkMode" />
+        <NotificationItem :isDarkMode="isDarkMode" />
+        <NotificationItem :isDarkMode="isDarkMode" />
+        <NotificationItem :isDarkMode="isDarkMode" />
+        <NotificationItem :isDarkMode="isDarkMode" />
+        <NotificationItem :isDarkMode="isDarkMode" />
+        <NotificationItem :isDarkMode="isDarkMode" />
+        <NotificationItem :isDarkMode="isDarkMode" />
+      </div>
     </div>
   </div>
 </template>
@@ -16,6 +29,7 @@
 import ArrowLeft from '@/shared/components/svg-icons/ArrowLeft.vue';
 import { useStore } from 'vuex';
 import { computed } from 'vue';
+import NotificationItem from '@/components/notifications/NotificationItem.vue';
 
 const store = useStore();
 const isDarkMode = computed(() => store.getters.getTheme);
@@ -41,14 +55,13 @@ const getIconStrokeColor = () => {
   background-color: $secondary-bg-DM;
   width: 100%;
   height: 100%;
-  max-width: 370px;
-
+  padding: 0 12px;
 
   &_header {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding: 12px;
+    padding: 12px 0;
 
     .close-btn {
       display: flex;
@@ -64,13 +77,27 @@ const getIconStrokeColor = () => {
   &_list {
     display: flex;
     flex-direction: column;
-    padding: 2px 12px;
+    padding: 2px 0;
     align-items: flex-start;
 
     .title {
       font-size: 20px;
       font-family: $bold;
       color: $white-color-DM;
+      padding-bottom: 20px;
+    }
+
+    .items {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+      height: 100vh;
+      overflow-y: scroll;
+
+      &::-webkit-scrollbar {
+        width: 0;
+      }
     }
   }
 

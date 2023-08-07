@@ -8,15 +8,15 @@
       <TheSidebar @logOut="logOut"/>
     </div>
     <div class="content">
-      <TheHeader @openNotifications="openNotifications" />
+      <TheHeader @openNotifications="openNotifications"/>
       <div id="main-block">
         <div v-if="isClientConnected" class="main-block_content">
           <router-view/>
         </div>
         <Notifications
-            v-if="isNotificationsList"
             @closeNotifications="closeNotifications"
             class="notificationsList"
+            :class="{ open: isNotificationsList }"
         />
       </div>
     </div>
@@ -34,7 +34,7 @@
       >
         <ArrowLeft :width="'40'" :height="'40'" :stroke-color="getIconStrokeColor()"/>
       </div>
-      <div v-if="!isGoBackBtn" class="icon-btn">
+      <div v-if="!isGoBackBtn" class="icon-btn" @click="openNotifications">
         <NotificationIcon :width="'40'" :height="'40'" :stroke-color="getIconStrokeColor()"/>
       </div>
       <span class="page-name">{{ splitCamelCaseToWords(router.currentRoute.value.name) }}</span>
@@ -54,6 +54,11 @@
         @logOut="logOut"
         :class="{ open: isProfileInfo }"
         :isProfileInfo="isProfileInfo"
+    />
+    <Notifications
+        @closeNotifications="closeNotifications"
+        class="notificationsList-mobile"
+        :class="{ open: isNotificationsList }"
     />
   </div>
 </template>
@@ -188,10 +193,16 @@ const logOut = async () => {
       }
 
       .notificationsList {
+        max-width: 270px;
         position: fixed;
         top: 0;
-        right: 0;
+        right: -270px;
         z-index: 10;
+        transition: right 0.3s ease-in-out;
+      }
+
+      .notificationsList.open {
+        right: 0;
       }
 
       &::-webkit-scrollbar {
@@ -217,6 +228,17 @@ const logOut = async () => {
       background-color: $bg-secondary-LM;
     }
   }
+}
 
+.notificationsList-mobile {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  z-index: 11;
+  transition: right 0.3s ease-in-out;
+}
+
+.notificationsList-mobile.open {
+  right: 0;
 }
 </style>

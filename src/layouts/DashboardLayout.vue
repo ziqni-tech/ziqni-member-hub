@@ -12,7 +12,10 @@
     </div>
     <div id="user-profile-block">
       <UserProfile v-if="isClientConnected && !isNotificationsList" @openNotifications="openNotifications"/>
-      <Notifications v-if="isNotificationsList" @closeNotifications="closeNotifications"/>
+      <Notifications
+          class="notificationsList"
+          v-if="isNotificationsList"
+          @closeNotifications="closeNotifications"/>
     </div>
     <div class="spinner-wrapper-global" v-if="isDarkMode === null">
       <CSpinner grow size="sm"/>
@@ -24,7 +27,7 @@
       :class="{'light-mode': !isDarkMode}"
   >
     <div class="mobile-header">
-      <div class="icon-btn">
+      <div class="icon-btn" @click="openNotifications">
         <NotificationIcon :width="'40'" :height="'40'" :stroke-color="getIconStrokeColor()"/>
       </div>
       <span class="page-name">{{ router.currentRoute.value.name }}</span>
@@ -43,6 +46,12 @@
       @logOut="logOut"
       :class="{ open: isProfileInfo }"
       :isProfileInfo="isProfileInfo"
+  />
+  <Notifications
+      v-if="isMobile"
+      @closeNotifications="closeNotifications"
+      class="notificationsList-mobile"
+      :class="{ open: isNotificationsList }"
   />
 </template>
 
@@ -216,5 +225,16 @@ html, body {
 
 .app-spinner {
   height: 100vh;
+}
+
+.notificationsList-mobile {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  z-index: 11;
+  transition: right 0.3s ease-in-out;
+}
+.notificationsList-mobile.open {
+  right: 0;
 }
 </style>
