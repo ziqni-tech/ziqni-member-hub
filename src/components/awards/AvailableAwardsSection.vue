@@ -165,7 +165,6 @@ const getEntityRewards = async (ids) => {
   });
 }
 const pageChange = async (pageNumber) => {
-  currentPage.value = pageNumber;
   await store.dispatch('setCurrentPage', pageNumber)
   await getAwardsRequest();
 };

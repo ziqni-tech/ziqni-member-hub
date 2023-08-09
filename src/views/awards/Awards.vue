@@ -56,7 +56,6 @@ onBeforeMount(async () => {
 
 const isDarkMode = computed(() => store.getters.getTheme);
 const updateActiveTab = (val) => {
-  activeTabKey.value = val;
   store.dispatch('setCurrentTab', val);
   store.dispatch('setCurrentPage', 1);
 };

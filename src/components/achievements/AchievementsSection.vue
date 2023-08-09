@@ -139,7 +139,6 @@ const achievementsTitles = {
 };
 
 const updateActiveTab = (val) => {
-  activeTabKey.value = val;
   store.dispatch('setCurrentTab', val);
   store.dispatch('setCurrentPage', 1);
 };
@@ -395,7 +394,6 @@ const leaveAchievement = async ({ id, name }) => {
 };
 
 const pageChange = async (pageNumber) => {
-  currentPage.value = pageNumber;
   await store.dispatch('setCurrentPage', pageNumber);
   await getAchievementsRequest();
 };
