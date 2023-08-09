@@ -42,7 +42,7 @@ const router = useRouter();
 
 const goToTournamentsDetailsPage = () => {
   router.push({
-    name: 'TournamentDetails',
+    name: 'TournamentsBracket',
     params: {
       id: cardItem.id,
     }

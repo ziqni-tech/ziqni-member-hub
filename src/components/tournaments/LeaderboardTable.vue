@@ -119,6 +119,10 @@ const setPlace = computed(() => (place) => {
   .table-body {
     overflow-y: auto;
     padding: 6px;
+    &::-webkit-scrollbar {
+      width: 0;
+    }
+
 
     .table-row {
       display: grid;
