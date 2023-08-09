@@ -158,6 +158,7 @@ const getEntityContests = async () => {
       startDate: null,
       endDate: null,
       ids: [],
+      limit: 20,
       competitionIds: ids,
       constraints: [],
       statusCode: {
@@ -193,12 +194,16 @@ const getEntityContests = async () => {
           }
         }
       }
-
-      const activeContests = contests.filter(contest => contest.status === 'Active');
+      console.warn('contests', contests);
+      console.warn('route', route.params.contestId);
+      // const activeContests = contests.filter(contest => contest.status === 'Active');
+      const activeContests = contests.filter(contest => contest.id === route.params.contestId);
+      console.warn('activeContests', activeContests);
       contest.value = activeContests[0];
+      // contest.value = route.params.contestId;
 
       if (contest.value && contest.value.status === 'Active') {
-        await getEntityLeaderboard(contest.value.id);
+        await getEntityLeaderboard(route.params.contestId);
       } else {
         leaderboardEntries.value = defLeaders;
       }
