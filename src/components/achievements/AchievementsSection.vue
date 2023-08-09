@@ -507,6 +507,7 @@ onMounted(() => {
   height: 100%;
   grid-gap: 15px;
   margin-bottom: 30px;
+  transition: opacity 0.5s ease-in-out;
 
   @media screen and (max-width: $tableWidth) {
     grid-template-columns: repeat(1, 1fr);
