@@ -1,7 +1,7 @@
 <template>
   <div class="data-row" :class="{'light-mode': !isDarkMode}">
     <div class="label">
-      <div class="icon">
+      <div class="icon" v-if="icon">
         <img :src="icon" alt="">
       </div>
       {{ label }}
@@ -20,7 +20,12 @@ const props = defineProps({
   label: String,
   value: String,
   isDate: Boolean,
-  isDarkMode: Boolean
+  isDarkMode: Boolean,
+  isSecondsShow: {
+    type: Boolean,
+    default: true
+  }
+
 });
 import { useCountdown } from '@/hooks/useCountdown';
 
@@ -30,7 +35,11 @@ const date = ref('');
 watch(countdownResult, (value) => {
   if (value) {
     const { days, hours, minutes, seconds, expired } = value;
-    date.value = `${ days }d ${ hours }h ${ minutes }m ${ seconds }s`;
+    if (props.isSecondsShow) {
+      date.value = `${ days }d ${ hours }h ${ minutes }m ${ seconds }s`;
+    } else {
+      date.value = `${ days }d ${ hours }h ${ minutes }m`;
+    }
   }
 });
 </script>
