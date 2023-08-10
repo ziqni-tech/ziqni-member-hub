@@ -1,5 +1,8 @@
 <template>
-  <div class="data-row" :class="{'light-mode': !isDarkMode}">
+  <div
+      class="data-row"
+      :class="{'light-mode': !isDarkMode, 'mobile-flex-column': isMobileFlexColumn}"
+  >
     <div class="label">
       <div class="icon" v-if="icon">
         <img :src="icon" alt="">
@@ -24,8 +27,11 @@ const props = defineProps({
   isSecondsShow: {
     type: Boolean,
     default: true
+  },
+  isMobileFlexColumn: {
+    type: Boolean,
+    default: true
   }
-
 });
 import { useCountdown } from '@/hooks/useCountdown';
 
@@ -64,6 +70,7 @@ watch(countdownResult, (value) => {
 
     .icon {
       margin-right: 5px;
+
       > img {
         margin-bottom: 10px;
       }
@@ -78,7 +85,6 @@ watch(countdownResult, (value) => {
   }
 
   &.light-mode {
-
     .label {
       color: $card-text-color-LM;
     }
@@ -90,12 +96,17 @@ watch(countdownResult, (value) => {
   }
 }
 
+.mobile-flex-column {
+  @media screen and (max-width: $tableWidth) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
 @media screen and (max-width: $tableWidth) {
   .data-row {
     width: 100%;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
     font-weight: 500;
     font-size: 12px;
     line-height: 12px;
@@ -105,7 +116,6 @@ watch(countdownResult, (value) => {
       display: flex;
       align-items: center;
       text-transform: capitalize;
-      color: $body-text-color;
 
       .icon {
         margin-right: 5px;
@@ -116,6 +126,37 @@ watch(countdownResult, (value) => {
       height: 10px;
       text-align: right;
       color: $text-color-white;
+      margin-left: 17px;
+
+      &::before {
+        content: '\00a0';
+        visibility: hidden;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .data-row {
+    width: 100%;
+    display: flex;
+    font-weight: 500;
+    font-size: 10px;
+    margin: 5px 0;
+
+    .label {
+      display: flex;
+      align-items: center;
+      text-transform: capitalize;
+
+      .icon {
+        margin-right: 5px;
+      }
+    }
+
+    .value {
+      height: 10px;
+      text-align: right;
       margin-left: 17px;
 
       &::before {

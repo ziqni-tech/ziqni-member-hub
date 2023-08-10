@@ -43,7 +43,7 @@
       </div>
     </div>
     <div id="mobile-layout-main-block">
-      <div v-if="isClientConnected">
+      <div v-if="isClientConnected" :style="{height: '100%', width: '100%', padding: 0, margin: 0}">
         <router-view/>
       </div>
     </div>

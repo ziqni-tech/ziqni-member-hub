@@ -1,39 +1,57 @@
 <template>
-  <div class="section-title" :class="{'light-mode': !isDarkMode}">Tournaments bracket</div>
-  <div class="connections-table" :class="{'light-mode': !isDarkMode}">
-    <div v-if="roundsCount">
-      <div class="connections-table_round-number">
-<!--        <div v-for="(roundNumber) in roundsCount" :key="roundNumber" class="connections-table_round-label">-->
-<!--          Round: {{ roundNumber }}-->
-<!--        </div>-->
+  <div class="tournaments-bracket">
+    <div class="section-title" :class="{'light-mode': !isDarkMode}">
+      <span>Tournaments bracket</span>
+      <div v-if="isMobilePhone" class="info-btn" @click="showInfoHandler">
+        <InfoCircle :strokeColor="getIconStrokeColor()" :width="'15'" :height="'15'"/>
+        <div class="info" :class="{'show-info': isShowInfo}">
+          <div class="info-item" v-for="item in infoItems">
+            <div class="dot" :style="{ backgroundColor: item.color }"></div>
+            <span class="info-item_title">{{ item.title }}</span>
+          </div>
+        </div>
       </div>
-      <div class="connections-table_rounds" ref="rounds">
-        <div v-for="(roundNumber) in roundsCount" :key="roundNumber" class="connections-table_round">
-          <div v-if="Object.keys(contestsByRounds[roundNumber]).length" class="connections-table_round-block">
-            <div
-                v-for="(item) in contestsByRounds[roundNumber]"
-                :key="item.id"
-                class="connections-table_round-item"
-                :class="[{hasEntrants: item.entrantsFromContest && item.entrantsFromContest.length}, item.status.toLowerCase()]"
-                :data-connect-id="item.id"
-                @click="goToDetails(item)"
-            >
-              <div :data-contest-id="item.id" class="connections-table_round-item-name">
-                {{ item.name }}
+    </div>
+    <div class="connections-table" :class="{'light-mode': !isDarkMode}">
+      <div v-if="roundsCount">
+        <div class="connections-table_round-number">
+          <!--        <div v-for="(roundNumber) in roundsCount" :key="roundNumber" class="connections-table_round-label">-->
+          <!--          Round: {{ roundNumber }}-->
+          <!--        </div>-->
+        </div>
+        <div class="connections-table_rounds" ref="rounds">
+          <div v-for="(roundNumber) in roundsCount" :key="roundNumber" class="connections-table_round">
+            <div v-if="Object.keys(contestsByRounds[roundNumber]).length" class="connections-table_round-block">
+              <div
+                  v-for="(item) in contestsByRounds[roundNumber]"
+                  :key="item.id"
+                  class="connections-table_round-item"
+                  :class="[{hasEntrants: item.entrantsFromContest && item.entrantsFromContest.length}, item.status.toLowerCase()]"
+                  :data-connect-id="item.id"
+                  @click="goToDetails(item)"
+              >
+                <div :data-contest-id="item.id" class="connections-table_round-item-name">
+                  {{ item.name }}
+                </div>
+                <TournamentDataRow
+                    :label="contestTimeLabel(item)"
+                    :value="contestTimeValue(item)"
+                    :is-date="true"
+                    :is-dark-mode="isDarkMode"
+                    :is-seconds-show="false"
+                    :is-mobile-flex-column="false"
+                />
               </div>
-              <TournamentDataRow
-                  :label="contestTimeLabel(item)"
-                  :value="contestTimeValue(item)"
-                  :is-date="true"
-                  :is-dark-mode="isDarkMode"
-                  :is-seconds-show="false"
-              />
-<!--              <div-->
-<!--                  class="action-btn"-->
-<!--                  :class="{ 'leave': isEntrant(item) }"-->
-<!--              >{{ 'Join' }}</div>-->
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+    <div v-if="!isMobilePhone" class="tournaments-bracket-footer" :class="{'light-mode': !isDarkMode}">
+      <div class="inner-wrapper">
+        <div class="footer-info-item" v-for="item in infoItems">
+          <div class="dot" :style="{ backgroundColor: item.color }"></div>
+          <span class="info-item_title">{{ item.title }}</span>
         </div>
       </div>
     </div>
@@ -52,6 +70,8 @@ import {
 import { useRoute, useRouter } from 'vue-router';
 import TournamentDataRow from '@/components/tournaments/TournamentDataRow.vue';
 import { useStore } from 'vuex';
+import InfoCircle from '@/shared/components/svg-icons/InfoCircle.vue';
+import useMobilePhoneDevice from '@/hooks/useMobilePhoneDevice';
 
 const isReady = ref(false);
 const isShowModal = ref(false);
@@ -64,24 +84,33 @@ const contestsEntrantsMap = ref({});
 const roundsCount = ref(0);
 const contestsByRounds = ref({});
 const elementPairs = ref([]);
+const isShowInfo = ref(false);
 
-const store = useStore()
+const store = useStore();
 const route = useRoute();
 const isDarkMode = computed(() => store.getters.getTheme);
 
+const showInfoHandler = () => {
+  isShowInfo.value = !isShowInfo.value;
+};
+
+const { isMobilePhone } = useMobilePhoneDevice();
+const infoItems = [
+  { name: 'ready', title: 'Ready', color: '#2F80ED' },
+  { name: 'active', title: 'Active', color: '#6FCF97' },
+  { name: 'finishing', title: 'Finishing', color: '#F2994A' },
+  { name: 'finalised', title: 'Finalised', color: '#CCC' },
+  { name: 'cancelled', title: 'Cancelled', color: '#666' },
+];
+
 const contestTimeLabel = (item) => {
-  const { status } = item
-  return status === 'Ready' ? 'Start' : 'End'
-}
+  const { status } = item;
+  return status === 'Ready' ? 'Start' : 'End';
+};
 
 const contestTimeValue = (item) => {
-  const { status,  scheduledStartDate, scheduledEndDate } = item
-  return status === 'Ready' ? scheduledStartDate : scheduledEndDate
-}
-
-const isEntrant = (item) => {
-  const entrantStatus = item.entrantStatus;
-  return entrantStatus === 'Entrant' || entrantStatus === 'Entering';
+  const { status, scheduledStartDate, scheduledEndDate } = item;
+  return status === 'Ready' ? scheduledStartDate : scheduledEndDate;
 };
 
 onMounted(() => {
@@ -109,51 +138,13 @@ const getEntityContests = async () => {
 
   await contestApiWsClient.getContests(contestRequest, async (res) => {
     contests.value = res.data;
-    const ids = res.data.map(item => item.id);
-    await getOptInStatus(ids);
+
     if (res.data.length) {
       roundsCount.value = res.data.reduce((max, current) => {
-        return current.round > max ? current.round : max
-      }, 0)
+        return current.round > max ? current.round : max;
+      }, 0);
     }
-    await setContestsByRounds()
-
-  });
-};
-
-const getOptInStatus = async (ids) => {
-  const optInApiWsClient = new OptInApiWs(ApiClientStomp.instance);
-
-  const optInStateRequest = OptInStatesRequest.constructFromObject({
-    optinStatesFilter: {
-      entityTypes: ['Contest'],
-      ids: ids,
-      statusCodes: {
-        gt: -5,
-        lt: 40
-      },
-      skip: 0,
-      limit: 20
-    }
-  }, null);
-
-  await optInApiWsClient.optInStates(optInStateRequest, res => {
-    console.warn('optInStateRequest', optInStateRequest);
-    console.warn('OPT RES', res);
-    for (const contest of contests.value) {
-      if (res.data.length) {
-        const status = res.data.find(item => item.entityId === contest.id)?.status;
-        // const percentage = res.data.find(item => item.entityId === contest.id)?.percentageComplete;
-
-        contest.entrantStatus = status ? status : '';
-        // contest.percentageComplete = percentage ? percentage : 0;
-      } else {
-        // contest.percentageComplete = 0;
-        contest.entrantStatus = '';
-      }
-    }
-    // console.warn('contests', contests.value);
-    // achievementsData.value = achievements.value;
+    await setContestsByRounds();
 
   });
 };
@@ -178,7 +169,7 @@ const setContestsByRounds = () => {
       contestsByRounds.value[i] = contests.value.filter(c => c.round === i);
     }
   }
-  setElementPairs()
+  setElementPairs();
 };
 const setElementPairs = async () => {
   if (contests.value.length) {
@@ -234,7 +225,6 @@ const sortContests = () => {
 };
 
 const drawConnectionLines = () => {
-
   let coordinatesArr = [];
   if (elementPairs.value.length) {
     elementPairs.value.forEach(pair => {
@@ -282,7 +272,7 @@ const drawLine = (x1, y1, x2, y2, /*pair*/) => {
 
 };
 
-const router = useRouter()
+const router = useRouter();
 
 const goToDetails = (item) => {
   console.warn('item', item);
@@ -293,14 +283,31 @@ const goToDetails = (item) => {
       contestId: item.id
     }
   });
-}
+};
+
+const getIconStrokeColor = () => {
+  return isDarkMode.value ? '#FFFFFF' : '#080D12';
+};
 
 </script>
 
 <style scoped lang="scss">
 @import "src/assets/scss/_variables";
 
+.tournaments-bracket {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow: hidden;
+}
+
 .section-title {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 20px;
   color: #FFF;
   font-size: 24px;
@@ -308,19 +315,78 @@ const goToDetails = (item) => {
   margin-bottom: 10px;
 }
 
+.tournaments-bracket-footer {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .inner-wrapper {
+    border-top: 1px solid #B9CEDF;
+    margin: 0 66px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .footer-info-item {
+      display: flex;
+      align-items: center;
+      margin-right: 30px;
+
+      .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 4px;
+      }
+
+      .info-item_title {
+        font-size: 12px;
+        font-family: $mainFont;
+        color: #FFFFFF;
+      }
+    }
+  }
+
+
+  &.light-mode {
+    .footer-info-item {
+      display: flex;
+      align-items: center;
+      margin-right: 30px;
+
+      .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 4px;
+      }
+
+      .info-item_title {
+        font-size: 12px;
+        font-family: $mainFont;
+        color: #080D12;
+      }
+    }
+  }
+}
 .section-title.light-mode {
   padding: 20px;
   color: #080D12;
   font-size: 24px;
   font-family: $bold;
 }
+
 .card-body {
   overflow: auto;
 }
 
 .connections-table {
-  padding-bottom: 150px;
-  height: 100vh;
+  //padding-bottom: 150px;
+  width: 100%;
+  height: 75vh;
   padding-top: 20px;
   overflow: auto;
 
@@ -395,7 +461,6 @@ const goToDetails = (item) => {
           top: 20px;
           width: 25px;
           height: 1px;
-          //background-color: #ddd;
         }
       }
 
@@ -408,11 +473,11 @@ const goToDetails = (item) => {
       }
 
       &.finishing {
-        border-color:  #F2994A;
+        border-color: #F2994A;
       }
 
       &.finalised {
-        background-color: #CCC; // #F2994A
+        background-color: #CCC;
       }
 
       &.cancelled {
@@ -430,7 +495,7 @@ const goToDetails = (item) => {
 }
 
 .connections-table.light-mode {
-  padding-bottom: 180px;
+  //padding-bottom: 180px;
 
   &_rounds {
     display: flex;
@@ -506,7 +571,6 @@ const goToDetails = (item) => {
           top: 20px;
           width: 25px;
           height: 1px;
-          //background-color: #ddd;
         }
       }
 
@@ -519,11 +583,11 @@ const goToDetails = (item) => {
       }
 
       &.finishing {
-        border-color:  #F2994A;
+        border-color: #F2994A;
       }
 
       &.finalised {
-        background-color: #CCC; // #F2994A
+        background-color: #CCC;
       }
 
       &.cancelled {
@@ -536,6 +600,331 @@ const goToDetails = (item) => {
       flex-direction: column;
       justify-content: space-around;
       height: 100%;
+    }
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .section-title {
+    padding: 10px 0;
+    color: #FFF;
+    font-size: 14px;
+    font-family: $bold;
+    margin-bottom: 10px;
+    //position: fixed;
+    //top: 50px;
+    //left: 0;
+
+    .info-btn {
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 5px;
+      border: 1px solid rgba(230, 230, 230, 0.20);
+      position: relative;
+
+      .info.show-info {
+        display: flex;
+      }
+
+      .info {
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px;
+        font-size: 10px;
+        font-family: $mainFont;
+        background-color: $modal-bg-DM;
+        border-radius: 5px;
+        position: absolute;
+        bottom: -105px;
+        right: 0;
+        z-index: 5;
+
+        .info-item {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+
+          .dot {
+            height: 8px;
+            width: 8px;
+            border-radius: 50%;
+            margin-right: 4px;
+          }
+
+          .info-item_title {
+            color: #FFF;
+          }
+        }
+      }
+    }
+  }
+
+  .info.show-info {
+    display: flex;
+  }
+
+  .section-title.light-mode {
+    color: #080D12;
+    font-size: 14px;
+    padding: 10px 0;
+
+    .info-btn {
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 5px;
+      border: 1px solid #B9CEDF;
+
+      .info.show-info {
+        display: flex;
+      }
+
+      .info {
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        background-color: #DCE6EF;
+        border-radius: 5px;
+        position: absolute;
+        bottom: -105px;
+        right: 0;
+        z-index: 5;
+
+        .info-item {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+
+          .dot {
+            height: 8px;
+            width: 8px;
+            border-radius: 50%;
+          }
+
+          .info-item_title {
+            color: $btn-secondary-color-LM;
+          }
+        }
+      }
+    }
+  }
+
+  .connections-table {
+    padding-bottom: 0;
+    height: 70vh;
+    padding-top: 0;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+      width: 0;
+    }
+
+    &_rounds {
+      display: flex;
+      position: relative;
+    }
+
+    &_round {
+      &-number {
+        display: flex;
+      }
+
+      &-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 5px;
+        padding: 9px 10px;
+        margin: 0 44px 9px 0;
+        border: 1px solid;
+        background-color: $secondary-bg-DM;
+
+        .action-btn {
+          width: 100%;
+          display: flex;
+          padding: 5px;
+          justify-content: center;
+          align-items: center;
+          border: 1px solid #EE3EC8;
+          border-radius: 10px;
+
+          font-size: 12px;
+          font-family: $bold;
+          text-transform: capitalize;
+
+          margin-top: 10px;
+        }
+
+        &-name {
+          width: 100%;
+          font-size: 14px;
+          font-family: $bold;
+          color: #FFF;
+
+          &:hover {
+            & + .connections-table_round-item-description {
+              display: block;
+            }
+          }
+        }
+
+        &-actions {
+          &:after {
+            content: '\2807';
+            font-size: 15px;
+            cursor: pointer;
+          }
+        }
+
+        &.hasEntrants {
+          &:before {
+            content: '';
+            display: block;
+            position: absolute;
+            left: -25px;
+            top: 20px;
+            width: 25px;
+            height: 1px;
+          }
+        }
+
+        &.active {
+          border-color: #6FCF97;
+        }
+
+        &.ready {
+          border-color: #2F80ED;
+        }
+
+        &.finishing {
+          border-color: #F2994A;
+        }
+
+        &.finalised {
+          background-color: #CCC;
+        }
+
+        &.cancelled {
+          border-color: #666;
+        }
+      }
+
+      &-block {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        height: 100%;
+      }
+    }
+  }
+
+  .connections-table.light-mode {
+    padding-bottom: 0;
+    height: 70vh;
+    padding-top: 0;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+      width: 0;
+    }
+
+    &_rounds {
+      display: flex;
+      position: relative;
+    }
+
+    .connections-table_round {
+      &-number {
+        display: flex;
+      }
+
+      .connections-table_round-item {
+        padding: 9px 10px;
+        margin: 0 44px 9px 0;
+        border: 1px solid;
+
+        .action-btn {
+          width: 100%;
+          display: flex;
+          padding: 5px;
+          justify-content: center;
+          align-items: center;
+          border: 1px solid #EE3EC8;
+          border-radius: 10px;
+
+          font-size: 12px;
+          font-family: $bold;
+          text-transform: capitalize;
+
+          margin-top: 10px;
+        }
+
+        .connections-table_round-item-name {
+          width: 100%;
+          font-size: 14px;
+          font-family: $bold;
+          color: #080D12;
+
+          &:hover {
+            & + .connections-table_round-item-description {
+              display: block;
+            }
+          }
+        }
+
+        &-actions {
+          &:after {
+            content: '\2807';
+            font-size: 15px;
+            cursor: pointer;
+          }
+        }
+
+        &.hasEntrants {
+          &:before {
+            content: '';
+            display: block;
+            position: absolute;
+            left: -25px;
+            top: 20px;
+            width: 25px;
+            height: 1px;
+          }
+        }
+
+        &.active {
+          border-color: #6FCF97;
+        }
+
+        &.ready {
+          border-color: #2F80ED;
+        }
+
+        &.finishing {
+          border-color: #F2994A;
+        }
+
+        &.finalised {
+          background-color: #CCC;
+        }
+
+        &.cancelled {
+          border-color: #666;
+        }
+      }
+
+      &-block {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        height: 100%;
+      }
     }
   }
 }
