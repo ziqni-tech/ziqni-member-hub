@@ -87,6 +87,7 @@ const props = defineProps({ tournament: Object, isDarkMode: Boolean });
 const emit = defineEmits(['joinTournament', 'leaveTournament']);
 
 const tournament = toRef(props, 'tournament');
+console.warn('tournament', tournament.value);
 
 const leaveModal = ref(false);
 const isLoading = ref(false);

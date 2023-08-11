@@ -3,7 +3,7 @@
   <div v-else  class="tournament-details" :class="{'light-mode': !isDarkMode}">
     <div class="leaderboard-section">
       <div class="leaderboard-section_header">
-        <h1 class="section-title">{{ currentTournament.name }}</h1>
+        <h1 class="section-title">{{ contest.name }}</h1>
       </div>
       <div class="leaderboard-table" v-if="leaderboardEntries">
         <Leaderboard
@@ -16,7 +16,7 @@
     <div class="details">
       <TournamentDetailsCard
         v-if="isLoaded"
-        :tournament="currentTournament"
+        :tournament="contest"
         @joinTournament="joinTournament"
         @leaveTournament="leaveTournament"
         :isDarkMode="isDarkMode"
@@ -194,13 +194,11 @@ const getEntityContests = async () => {
           }
         }
       }
-      console.warn('contests', contests);
-      console.warn('route', route.params.contestId);
+
       // const activeContests = contests.filter(contest => contest.status === 'Active');
       const activeContests = contests.filter(contest => contest.id === route.params.contestId);
-      console.warn('activeContests', activeContests);
+
       contest.value = activeContests[0];
-      // contest.value = route.params.contestId;
 
       if (contest.value && contest.value.status === 'Active') {
         await getEntityLeaderboard(route.params.contestId);

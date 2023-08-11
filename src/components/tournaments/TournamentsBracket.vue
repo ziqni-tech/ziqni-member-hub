@@ -12,15 +12,15 @@
         </div>
       </div>
     </div>
-    <div class="connections-table" :class="{'light-mode': !isDarkMode}">
+    <div class="connections-table" :class="{'light-mode': !isDarkMode}" >
       <div v-if="roundsCount">
         <div class="connections-table_round-number">
           <!--        <div v-for="(roundNumber) in roundsCount" :key="roundNumber" class="connections-table_round-label">-->
           <!--          Round: {{ roundNumber }}-->
           <!--        </div>-->
         </div>
-        <div class="connections-table_rounds" ref="rounds">
-          <div v-for="(roundNumber) in roundsCount" :key="roundNumber" class="connections-table_round">
+        <div class="connections-table_rounds" ref="rounds" @click="handleActions($event)">
+          <div v-for="(roundNumber) in roundsCount" :key="roundNumber" class="connections-table_round" @click="() => console.log(`click ${roundNumber}`)">
             <div v-if="Object.keys(contestsByRounds[roundNumber]).length" class="connections-table_round-block">
               <div
                   v-for="(item) in contestsByRounds[roundNumber]"
@@ -28,7 +28,6 @@
                   class="connections-table_round-item"
                   :class="[{hasEntrants: item.entrantsFromContest && item.entrantsFromContest.length}, item.status.toLowerCase()]"
                   :data-connect-id="item.id"
-                  @click="goToDetails(item)"
               >
                 <div :data-contest-id="item.id" class="connections-table_round-item-name">
                   {{ item.name }}
@@ -46,6 +45,7 @@
           </div>
         </div>
       </div>
+      <div v-else class="empty-message" :class="{'light-mode': !isDarkMode}">This competition has no contests</div>
     </div>
     <div v-if="!isMobilePhone" class="tournaments-bracket-footer" :class="{'light-mode': !isDarkMode}">
       <div class="inner-wrapper">
@@ -64,23 +64,17 @@ import {
   ApiClientStomp,
   ContestRequest,
   ContestsApiWs,
-  OptInApiWs,
-  OptInStatesRequest
+
 } from '@ziqni-tech/member-api-client';
 import { useRoute, useRouter } from 'vue-router';
 import TournamentDataRow from '@/components/tournaments/TournamentDataRow.vue';
 import { useStore } from 'vuex';
 import InfoCircle from '@/shared/components/svg-icons/InfoCircle.vue';
 import useMobilePhoneDevice from '@/hooks/useMobilePhoneDevice';
+import { deepClone } from '@/utils/deepClone';
 
 const isReady = ref(false);
-const isShowModal = ref(false);
-const selectedId = ref(null);
-const messageGeneral = ref('');
-const modalTitle = ref('');
 const contests = ref([]);
-const contestsIds = ref([]);
-const contestsEntrantsMap = ref({});
 const roundsCount = ref(0);
 const contestsByRounds = ref({});
 const elementPairs = ref([]);
@@ -88,6 +82,7 @@ const isShowInfo = ref(false);
 
 const store = useStore();
 const route = useRoute();
+const router = useRouter();
 const isDarkMode = computed(() => store.getters.getTheme);
 
 const showInfoHandler = () => {
@@ -102,6 +97,24 @@ const infoItems = [
   { name: 'finalised', title: 'Finalised', color: '#CCC' },
   { name: 'cancelled', title: 'Cancelled', color: '#666' },
 ];
+
+const handleActions = (event) => {
+  const clickedElement = event.target
+  const closestElement = clickedElement.closest('[data-connect-id]')
+
+  if (closestElement) {
+    const contestId = closestElement.getAttribute('data-connect-id')
+
+    router.push({
+      name: 'TournamentDetails',
+      params: {
+        id: route.params.id,
+        contestId: contestId
+      }
+    });
+  }
+}
+
 
 const contestTimeLabel = (item) => {
   const { status } = item;
@@ -149,20 +162,6 @@ const getEntityContests = async () => {
   });
 };
 
-const getItemDescription = (item) => {
-  const status = item.status;
-  const startDate = item.actualStartDate ?? item.scheduledStartDate;
-  const endDate = item.actualEndDate ?? item.scheduledEndDate;
-  const entrants = contestsEntrantsMap.value[item.id] ?? 0;
-
-  const statusElement = '<h5>' + status + '</h5>';
-  const startDateElement = `<p><b>Start Date: </b>${ startDate }</p>`;
-  const endDateElement = `<p><b>End Date: </b>${ endDate }</p>`;
-  const entrantsElement = `<p><b>Entrants: </b>${ entrants }</p>`;
-
-  return (statusElement + startDateElement + endDateElement + entrantsElement);
-};
-
 const setContestsByRounds = () => {
   if (contests.value.length) {
     for (let i = 1; i <= roundsCount.value; i++) {
@@ -175,14 +174,13 @@ const setElementPairs = async () => {
   if (contests.value.length) {
     elementPairs.value = [];
     contests.value.forEach(c => {
-      console.warn('C', c);
       if (c.entrantsFromContest && c.entrantsFromContest.length) {
         c.entrantsFromContest.forEach(e => elementPairs.value.push([c.id, e]));
       }
     });
     elementPairs.value = [...new Set(elementPairs.value)];
   }
-  console.warn('elementPairs.value', elementPairs.value);
+
   sortContests();
 
   isReady.value = true;
@@ -192,13 +190,14 @@ const setElementPairs = async () => {
   });
 };
 
+
 const sortContests = () => {
   let sorted = {};
   if (Object.keys(contestsByRounds.value).length && elementPairs.value.length) {
-    sorted[roundsCount.value] = contestsByRounds.value[roundsCount.value];
-    let tmp = contestsByRounds.value;
+    sorted[roundsCount.value] = deepClone(contestsByRounds.value[roundsCount.value]);
+    let tmp = deepClone(contestsByRounds.value);
     for (let round = roundsCount.value - 1; round > 0; round--) {
-      if (!sorted[round]) sorted[round] = [];
+      if (!sorted[round]) sorted[round] = deepClone([]);
       contestsByRounds.value[round + 1].forEach(contest => {
         if (contest.entrantsFromContest && contest.entrantsFromContest.length) {
           contest.entrantsFromContest.forEach(entrant => {
@@ -210,7 +209,7 @@ const sortContests = () => {
           });
         }
 
-        contestsByRounds.value[round] = sorted[round];
+        contestsByRounds.value[round] = deepClone(sorted[round]);
       });
     }
 
@@ -229,20 +228,20 @@ const drawConnectionLines = () => {
   if (elementPairs.value.length) {
     elementPairs.value.forEach(pair => {
       let firsPoint = document.querySelector(`[data-connect-id="${ pair[0] }"]`);
-      let firsPointCoordinates = { left: firsPoint.offsetLeft, top: firsPoint.offsetTop + 20 };
+      let firsPointCoordinates = { left: firsPoint.offsetLeft - 10, top: firsPoint.offsetTop + 30 };
+
       let secondPoint = document.querySelector(`[data-connect-id="${ pair[1] }"]`);
-      let secondPointCoordinates = { left: secondPoint.offsetLeft + 150, top: secondPoint.offsetTop + 20 };
+      let secondPointCoordinates = { left: secondPoint.offsetLeft + 140, top: secondPoint.offsetTop + 30 };
+
       coordinatesArr.push([firsPointCoordinates, secondPointCoordinates, /*pair*/]);
     });
   }
   if (coordinatesArr.length) {
     coordinatesArr.forEach(c => drawLine(c[0].left, c[0].top, c[1].left, c[1].top, /*c[2]*/));
   }
-
 };
 
-const drawLine = (x1, y1, x2, y2, /*pair*/) => {
-  // const contest = this.contests.find(c => c.id === pair[1]);
+const drawLine = (x1, y1, x2, y2) => {
   if (x2 < x1) {
     let tmp;
     tmp = x2;
@@ -255,34 +254,16 @@ const drawLine = (x1, y1, x2, y2, /*pair*/) => {
   let container = document.querySelector('.connections-table_rounds');
   let width = Math.abs(x2 - x1) / 2;
   let height = Math.abs(y2 - y1);
-  let border = 'border-top: solid 1px #ddd';
+
+  let border = `border-top: solid 1px #96B5CF`;
   let lineClass = 'top-line';
   if (y1 > y2) {
     lineClass = 'bottom-line';
     y1 = y2;
-    border = 'border-bottom: solid 1px #ddd';
+    border = `border-bottom: solid 1px #96B5CF`;
   }
 
-  // let description = '';
-  // if (contest.description) {
-  //   description = "<div class='bracket-description'>" + contest.description + "</div>";
-  // }
-
-  container.innerHTML += '<div class=\'bracket ' + lineClass + '\' style=\'width: ' + width + 'px; height: ' + height + 'px; ' + border + '; border-right: solid 1px #ddd; position: absolute; top: ' + y1 + 'px; left: ' + x1 + 'px;\'></div>';
-
-};
-
-const router = useRouter();
-
-const goToDetails = (item) => {
-  console.warn('item', item);
-  router.push({
-    name: 'TournamentDetails',
-    params: {
-      id: item.competitionId,
-      contestId: item.id
-    }
-  });
+  container.innerHTML += '<div class=\'bracket ' + lineClass + '\' style=\'width: ' + width + 'px; height: ' + height + 'px; ' + border + '; border-right: solid 1px #96B5CF; position: absolute; top: ' + y1 + 'px; left: ' + x1 + 'px;\'></div>';
 };
 
 const getIconStrokeColor = () => {
@@ -293,6 +274,20 @@ const getIconStrokeColor = () => {
 
 <style scoped lang="scss">
 @import "src/assets/scss/_variables";
+
+.empty-message {
+  color: #FFF;
+  font-size: 20px;
+  font-family: $medium;
+  margin-top: 100px;
+}
+
+.empty-message.light-mode {
+  color: #080D12;
+  font-size: 20px;
+  font-family: $medium;
+  margin-top: 100px;
+}
 
 .tournaments-bracket {
   width: 100%;
@@ -330,6 +325,7 @@ const getIconStrokeColor = () => {
     display: flex;
     align-items: center;
     justify-content: center;
+
     .footer-info-item {
       display: flex;
       align-items: center;
@@ -372,6 +368,7 @@ const getIconStrokeColor = () => {
     }
   }
 }
+
 .section-title.light-mode {
   padding: 20px;
   color: #080D12;
@@ -384,7 +381,6 @@ const getIconStrokeColor = () => {
 }
 
 .connections-table {
-  //padding-bottom: 150px;
   width: 100%;
   height: 75vh;
   padding-top: 20px;
@@ -414,6 +410,8 @@ const getIconStrokeColor = () => {
       margin: 0 44px 25px;
       border: 1px solid;
       background-color: $secondary-bg-DM;
+      position: relative;
+      cursor: pointer;
 
       .action-btn {
         width: 100%;
@@ -436,20 +434,6 @@ const getIconStrokeColor = () => {
         font-size: 14px;
         font-family: $bold;
         color: #FFF;
-
-        &:hover {
-          & + .connections-table_round-item-description {
-            display: block;
-          }
-        }
-      }
-
-      &-actions {
-        &:after {
-          content: '\2807';
-          font-size: 15px;
-          cursor: pointer;
-        }
       }
 
       &.hasEntrants {
@@ -457,10 +441,11 @@ const getIconStrokeColor = () => {
           content: '';
           display: block;
           position: absolute;
-          left: -25px;
-          top: 20px;
-          width: 25px;
+          left: -50px;
+          top: 29px;
+          width: 48px;
           height: 1px;
+          background-color: #96B5CF;
         }
       }
 
@@ -495,7 +480,6 @@ const getIconStrokeColor = () => {
 }
 
 .connections-table.light-mode {
-  //padding-bottom: 180px;
 
   &_rounds {
     display: flex;
@@ -546,20 +530,6 @@ const getIconStrokeColor = () => {
         font-size: 14px;
         font-family: $bold;
         color: #080D12;
-
-        &:hover {
-          & + .connections-table_round-item-description {
-            display: block;
-          }
-        }
-      }
-
-      &-actions {
-        &:after {
-          content: '\2807';
-          font-size: 15px;
-          cursor: pointer;
-        }
       }
 
       &.hasEntrants {
@@ -567,10 +537,11 @@ const getIconStrokeColor = () => {
           content: '';
           display: block;
           position: absolute;
-          left: -25px;
-          top: 20px;
-          width: 25px;
+          left: -50px;
+          top: 29px;
+          width: 48px;
           height: 1px;
+          background-color: #96B5CF;
         }
       }
 
@@ -611,9 +582,6 @@ const getIconStrokeColor = () => {
     font-size: 14px;
     font-family: $bold;
     margin-bottom: 10px;
-    //position: fixed;
-    //top: 50px;
-    //left: 0;
 
     .info-btn {
       width: 30px;
@@ -725,6 +693,11 @@ const getIconStrokeColor = () => {
       width: 0;
     }
 
+    &::-webkit-scrollbar-thumb {
+      width: 0;
+      border-radius: 3px;
+    }
+
     &_rounds {
       display: flex;
       position: relative;
@@ -766,20 +739,6 @@ const getIconStrokeColor = () => {
           font-size: 14px;
           font-family: $bold;
           color: #FFF;
-
-          &:hover {
-            & + .connections-table_round-item-description {
-              display: block;
-            }
-          }
-        }
-
-        &-actions {
-          &:after {
-            content: '\2807';
-            font-size: 15px;
-            cursor: pointer;
-          }
         }
 
         &.hasEntrants {
@@ -787,9 +746,9 @@ const getIconStrokeColor = () => {
             content: '';
             display: block;
             position: absolute;
-            left: -25px;
-            top: 20px;
-            width: 25px;
+            left: -28px;
+            top: 29px;
+            width: 27px;
             height: 1px;
           }
         }
@@ -870,20 +829,6 @@ const getIconStrokeColor = () => {
           font-size: 14px;
           font-family: $bold;
           color: #080D12;
-
-          &:hover {
-            & + .connections-table_round-item-description {
-              display: block;
-            }
-          }
-        }
-
-        &-actions {
-          &:after {
-            content: '\2807';
-            font-size: 15px;
-            cursor: pointer;
-          }
         }
 
         &.hasEntrants {

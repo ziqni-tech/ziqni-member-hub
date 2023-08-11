@@ -164,6 +164,16 @@ watch(countdownResult, (value) => {
         visibility: hidden;
       }
     }
+
+    &.light-mode {
+      .label {
+        color: $card-text-color-LM;
+      }
+
+      .value {
+        color: $section-title-color-LM;
+      }
+    }
   }
 }
 
