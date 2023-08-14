@@ -6,10 +6,10 @@
           src="@/assets/icons/logo.svg"
           alt=""
       >
-      <span class="spinner-wrapper__title" :class="color">
-        {{ title }}
-        <span class="loader-dots" :class="color"></span>
-      </span>
+<!--      <span class="spinner-wrapper__title" :class="color">-->
+<!--        {{ title }}-->
+<!--        <span class="loader-dots" :class="color"></span>-->
+<!--      </span>-->
     </div>
   </div>
 </template>
@@ -40,24 +40,23 @@ const color = computed(() => {
 }
 
 .loader {
-  height: 100%;
-  min-height: 200px;
+  height: 100vh;
+  //min-height: 200px;
   width: 100%;
   position: relative;
   background-color: inherit;
 
   .spinner-wrapper {
     position: absolute;
-    top: 30%;
+    top: 20%;
     left: 50%;
     transform: translate(-50%);
     display: flex;
     flex-direction: column;
     align-items: center;
 
-    @media screen and (max-width: $phoneWidth) {
-      left: 0;
-      transform: translate(0);
+    @media screen and (max-width: 450px) {
+      top: 40%;
     }
 
     &__spinner {

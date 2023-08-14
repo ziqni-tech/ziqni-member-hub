@@ -55,8 +55,8 @@
       </div>
     </div>
     <div class="content-wrapper">
-      <Loader v-if="isLoading" :title="'Achievements are loading'"/>
-      <div :class="isDashboard ? 'achievements-dashboard-cards-grid' : 'achievements-cards-grid'">
+      <Loader v-if="isLoading"   class="loading" :title="'Achievements are loading'"/>
+      <div v-if="!isLoading" :class="isDashboard ? 'achievements-dashboard-cards-grid' : 'achievements-cards-grid'">
         <div v-for="achievement in achievementsData" :key="achievement.id">
           <AchievementsCard
               :key="achievement.id"
@@ -68,7 +68,7 @@
         </div>
       </div>
       <Pagination
-          v-if="!isDashboard"
+          v-if="!isDashboard && !isLoading"
           :current-page="currentPage"
           :total-pages="totalPages"
           @pageChange="pageChange"

@@ -31,7 +31,7 @@
         <ProfileInfoCircleProgress
             :color="'#8749DC'"
             :title="'Points'"
-            :completed-steps="totalPoints"
+            :completed-steps="Math.round(totalPoints)"
             :total-steps="10000"
             :is-dark-mode="isDarkMode"
         />
@@ -132,38 +132,76 @@ onMounted(() => {
   getAchievementsRequest();
 });
 
-
 const getAchievementsRequest = async () => {
-  const achievementsApiWsClient = new AchievementsApiWs(ApiClientStomp.instance);
+  try {
+    const achievementsApiWsClient = new AchievementsApiWs(ApiClientStomp.instance);
+    let totalFetched = 0;
+    let moreDataAvailable = true;
 
-  const achievementsRequest = AchievementRequest.constructFromObject({
-    achievementFilter: {
-      productTagsFilter: [],
-      ids: [],
-      tags: ['dashboard'],
-      status: [],
-      sortBy: [
-        {
-          queryField: 'created',
-          order: 'Desc'
+    while (moreDataAvailable) {
+      const achievementsRequest = AchievementRequest.constructFromObject({
+        achievementFilter: {
+          productTagsFilter: [],
+          ids: [],
+          tags: ['dashboard'],
+          status: [],
+          sortBy: [
+            {
+              queryField: 'created',
+              order: 'Desc'
+            },
+          ],
+          skip: totalFetched,
+          limit: 20,
+          statusCode: {
+            moreThan: 0,
+            lessThan: 40
+          },
+          constraints: []
         },
-      ],
-      skip: 0,
-      limit: 20,
-      statusCode: {
-        moreThan: 0,
-        lessThan: 40
-      },
-      constraints: []
-    },
-  }, null);
+      }, null);
 
-  achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
-    // totalGames.value = res.meta.totalRecordsFound;
-    achievements.value = res.data;
-    const ids = res.data.map(item => item.id);
-    getOptInStatus(ids);
-  });
+      const response = await new Promise((resolve, reject) => {
+        achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
+          resolve(res);
+        });
+      });
+
+      const achievementsData = response.data
+
+      totalGames.value = response.meta.totalRecordsFound
+
+      const ids = response.data.map(item => item.id);
+      const statusData = await getOptInStatus(ids);
+
+      for (const status of statusData.data) {
+        for (const achievement of achievementsData) {
+          if (status.entityId === achievement.id) {
+            totalPoints.value += status.points || 0
+
+            const isFinished = achievement.status === 'Finished' || achievement.status === 'Finishing';
+            const isWinner = status.percentageComplete === 100;
+
+            if (isWinner) {
+              wins.value++;
+            } else if (isFinished && !isWinner) {
+              losses.value++;
+            }
+          }
+        }
+      }
+
+      achievements.value = [...achievements.value, ...response.data];
+      totalFetched += response.data.length;
+
+
+      if (totalFetched >= response.meta.totalRecordsFound) {
+        moreDataAvailable = false; // Terminate the loop if limits are reached
+      }
+    }
+  } catch (err) {
+
+  }
 };
 
 const getOptInStatus = async (ids) => {
@@ -172,39 +210,22 @@ const getOptInStatus = async (ids) => {
   const optInStateRequest = OptInStatesRequest.constructFromObject({
     optinStatesFilter: {
       entityTypes: ['Achievement'],
-      ids,
+      ids: ids,
       statusCodes: {
         gt: -5,
         lt: 40
       },
       skip: 0,
-      limit: 10
+      limit: 20
     }
   }, null);
 
-  await optInApiWsClient.optInStates(optInStateRequest, res => {
-    if (res.data && res.data.length) {
-      totalGames.value = res.data.length;
-      totalPoints.value = res.data.reduce((acc, item) => {
-        return acc + item.points
-      }, 0)
-
-      for (const achievement of achievements.value) {
-
-          const percentage = res.data.find(item => item.entityId === achievement.id)?.percentageComplete;
-          achievement.percentageComplete = percentage ? percentage : 0;
-
-          const isFinished = achievement.status === 'Finished' || achievement.status === 'Finishing';
-          const isWinner = achievement.percentageComplete === 100;
-
-          if (isWinner) {
-            wins.value++;
-          } else if (isFinished && !isWinner) {
-            losses.value++;
-          }
-
-      }
-    }
+  return await new Promise((resolve, reject) => {
+    optInApiWsClient.optInStates(optInStateRequest, res => {
+      resolve(res);
+    }, err => {
+      reject(err);
+    });
   });
 };
 
