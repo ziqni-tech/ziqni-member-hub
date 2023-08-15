@@ -85,7 +85,7 @@ let leaveModal = ref(false);
 const achievement = props.achievement;
 const entrantStatus = ref('');
 
-const isEntrant = computed(() => entrantStatus.value === 'Entrant' || entrantStatus.value === 'Entering');
+const isEntrant = computed(() => entrantStatus.value !== 'NotEntered' && entrantStatus.value !== 'Processing');
 
 watch(() => store.getters.getAchievements, (newValue) => {
   const newArr = newValue.filter(item => item.id === achievement.id);
@@ -111,7 +111,6 @@ const leave = () => {
 };
 
 const goToAchievementDetails = () => {
-
   router.push({
     name: 'AchievementDetails',
     params: {

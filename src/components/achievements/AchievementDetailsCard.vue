@@ -1,7 +1,7 @@
 <template>
   <div class="achievements-details-card" :class="{'light-mode': !isDarkMode}">
     <div class="spinner-wrapper-global" v-if="isLoading">
-      <CSpinner grow size="sm"/>
+      <Loader class="loader"/>
     </div>
     <button class="info-btn" @click="goToInfo">
       i
@@ -73,7 +73,7 @@ import { computed, ref, toRef, watch } from 'vue';
 import Modal from '@/shared/components/Modal.vue';
 import diamondIcon from '@/assets/icons/achievements/diamond.png';
 import { removeHTMLTags } from '@/utils/removeHTMLTags';
-import { CSpinner } from "@coreui/vue";
+import Loader from '@/components/Loader.vue';
 
 const props = defineProps({
   achievement: Object,
@@ -95,9 +95,8 @@ const achievementIconLink = computed(() => {
 
 const isEntrant = computed(() => {
   const entrantStatus = achievement.value.entrantStatus;
-  return entrantStatus === 'Entrant' || entrantStatus === 'Entering';
+  return entrantStatus !== 'NotEntered' && entrantStatus !== 'Processing';
 });
-
 
 watch(achievement, (newVal) => {
   isLoading.value = false;
@@ -152,7 +151,10 @@ const goToInfo = () => {
 
 <style lang="scss" scoped>
 @import '@/assets/scss/_variables';
-
+.loader {
+  top: 45%;
+  z-index: 10;
+}
 .achievements-details-card {
   max-width: 840px;
   background-color: $card-bg-DM;

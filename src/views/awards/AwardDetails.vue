@@ -38,7 +38,7 @@ import awardIcon_6 from '@/assets/icons/awards/award_6.svg';
 import awardIcon_7 from '@/assets/icons/awards/award_7.svg';
 import awardIcon_8 from '@/assets/icons/awards/award_8.svg';
 
-const router = useRouter()
+const router = useRouter();
 
 const route = useRoute();
 const ids = [route.params.id];
@@ -60,14 +60,15 @@ const awardsImages = [
 ];
 
 onBeforeMount(async () => {
-  ApiClientStomp.instance.client.debug = () => {};
+  ApiClientStomp.instance.client.debug = () => {
+  };
   await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
   await store.dispatch('setIsConnectedClient', true);
 });
 
 onMounted(() => {
-  getAwardsRequest()
-})
+  getAwardsRequest();
+});
 const getAwardsRequest = async () => {
   const awardsApiWsClient = new AwardsApiWs(ApiClientStomp.instance);
 
@@ -119,6 +120,9 @@ const getEntityRewards = async (ids) => {
 
   await rewardsApiWsClient.getRewards(rewardRequest, async (res) => {
     for (const award of awards.value) {
+      const image = awardsImages[route.query.idx];
+      award.rewardIconLink = image;
+
       if (res.data.length) {
         let maxReward = null;
         for (const reward of res.data) {
@@ -136,13 +140,13 @@ const getEntityRewards = async (ids) => {
       }
     }
   });
-}
+};
 
 const getEntityTermAndConditions = async (entityType, entityId) => {
   if (entityType === 'Achievement') await getAchievementsRequest(entityId);
   if (entityType === 'Contest') await getContestRequest(entityId);
   if (entityType === 'Competition') await getCompetitionRequest(entityId);
-}
+};
 
 const getAchievementsRequest = async (id) => {
   const achievementsApiWsClient = new AchievementsApiWs(ApiClientStomp.instance);
@@ -201,8 +205,8 @@ const getContestRequest = async (id) => {
     } else {
       award.value.termsAndConditions = null;
     }
-  })
-}
+  });
+};
 
 const getCompetitionRequest = async (id) => {
   const competitionsApiWsClient = new CompetitionsApiWs(ApiClientStomp.instance);
@@ -230,7 +234,7 @@ const getCompetitionRequest = async (id) => {
       award.value.termsAndConditions = null;
     }
   });
-}
+};
 
 const claimAward = async () => {
   const awardsApiWsClient = new AwardsApiWs(ApiClientStomp.instance);
@@ -240,11 +244,6 @@ const claimAward = async () => {
   });
 
   awardsApiWsClient.claimAwards(claimAwardRequest, (res) => {
-    if (res.data && res.data.length) {
-      setTimeout(async () => {
-        await getAwardsRequest();
-      }, 5000);
-    }
   });
 };
 

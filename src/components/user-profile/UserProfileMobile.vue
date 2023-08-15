@@ -25,14 +25,14 @@
             :color="'#BEE9F3'"
             :title="'Total game'"
             :completed-steps="totalGames"
-            :total-steps="100"
+            :total-steps="50 + totalGames"
             :is-dark-mode="isDarkMode"
         />
         <ProfileInfoCircleProgress
             :color="'#8749DC'"
             :title="'Points'"
             :completed-steps="Math.round(totalPoints)"
-            :total-steps="10000"
+            :total-steps="80 + totalPoints"
             :is-dark-mode="isDarkMode"
         />
         <ProfileInfoCircleProgress

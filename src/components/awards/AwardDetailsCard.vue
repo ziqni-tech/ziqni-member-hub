@@ -1,10 +1,13 @@
 <template>
   <div class="award-details-card" :class="{'light-mode': !isDarkMode}">
+    <div class="spinner-wrapper-global" v-if="isLoading">
+      <Loader class="loader"/>
+    </div>
     <div class="title">
       {{ award.name }}
     </div>
     <div class="icon">
-      <img :src="awardIcon" alt="" >
+      <img :src="awardIcon" alt="">
     </div>
     <div class="prize">
       <span v-if="award.rewardType.uomSymbol">{{ award.rewardType.uomSymbol }}</span>
@@ -24,53 +27,62 @@
     </div>
     <div class="bottom-section">
       <button
-          v-if="award.status !== 'Claimed'"
+          v-if="!isClaimed"
           class="action-btn"
           @click="handleButtonClick"
           :disabled="isLoading"
           :class="{ 'disabled-btn': isLoading }"
       >
-        <CSpinner v-if="isLoading" grow size="sm"/>
-        <span v-else>Claim</span>
+        <span>Claim</span>
       </button>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed, ref, toRef, watch } from 'vue';
-import { CSpinner } from '@coreui/vue';
+import { computed, onMounted, ref, toRef } from 'vue';
 import defaultAwardIcon from '@/assets/icons/awards/bottle.svg';
 import { removeHTMLTags } from '@/utils/removeHTMLTags';
 import { useRoute } from 'vue-router';
+import Loader from '@/components/Loader.vue';
+import { ApiClientStomp } from '@ziqni-tech/member-api-client';
 
 const props = defineProps({
   award: Object,
   isDarkMode: Boolean
 });
 
-const route = useRoute()
+const route = useRoute();
 
 const emit = defineEmits(['claimAward']);
 
 const award = toRef(props, 'award');
+const isClaimed = ref(award.value.status === 'Claimed');
 
 const icon = ref(null);
 const awardIcon = computed(() => {
-  return props.award.rewardIconLink
-      // ? props.award.rewardIconLink
-      // : defaultAwardIcon
-})
+  return props.award.rewardIconLink;
+  // ? props.award.rewardIconLink
+  // : defaultAwardIcon
+});
 
 const isLoading = ref(false);
 
-watch(award, (value) => {
-  if (value) isLoading.value = false;
-});
 
 const claimAward = () => {
   emit('claimAward');
 };
+
+onMounted(() => {
+  ApiClientStomp.instance.sendSys('', {}, async (json, headers) => {
+    if (json && json.entityType === 'Award') {
+      if (json.entityId === award.value.id) {
+        isClaimed.value = json.metadata.claimed;
+        isLoading.value = false;
+      }
+    }
+  });
+});
 
 const handleButtonClick = async () => {
   if (isLoading.value) {
@@ -89,6 +101,10 @@ const handleButtonClick = async () => {
 
 <style lang="scss" scoped>
 @import '@/assets/scss/_variables';
+
+.loader {
+  z-index: 15;
+}
 
 .award-details-card {
   max-width: 840px;

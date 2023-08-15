@@ -462,7 +462,7 @@ const getIconStrokeColor = () => {
       }
 
       &.finalised {
-        background-color: #CCC;
+        border-color: #CCC;
       }
 
       &.cancelled {
@@ -558,7 +558,7 @@ const getIconStrokeColor = () => {
       }
 
       &.finalised {
-        background-color: #CCC;
+        border-color: #CCC;
       }
 
       &.cancelled {
@@ -766,7 +766,7 @@ const getIconStrokeColor = () => {
         }
 
         &.finalised {
-          background-color: #CCC;
+          border-color: #CCC;
         }
 
         &.cancelled {
@@ -836,9 +836,9 @@ const getIconStrokeColor = () => {
             content: '';
             display: block;
             position: absolute;
-            left: -25px;
-            top: 20px;
-            width: 25px;
+            left: -28px;
+            top: 29px;
+            width: 27px;
             height: 1px;
           }
         }
@@ -856,7 +856,7 @@ const getIconStrokeColor = () => {
         }
 
         &.finalised {
-          background-color: #CCC;
+          border-color: #CCC;
         }
 
         &.cancelled {

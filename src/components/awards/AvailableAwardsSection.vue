@@ -111,12 +111,13 @@ const getAwardsRequest = async () => {
       // awards.value = res.data;
 
       awards.value = res.data.map((award, index) => {
-        const image = awardsImages[index % awardsImages.length]
+        const image = awardsImages[index % awardsImages.length];
+
         return {
           ...award,
           rewardIconLink: image,
           imageIdx: index % awardsImages.length
-        }
+        };
       });
 
       totalRecords.value = res.meta.totalRecordsFound;

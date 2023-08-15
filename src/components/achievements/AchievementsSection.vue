@@ -316,7 +316,8 @@ const getOptInStatus = async (ids) => {
       }
     }
     achievementsData.value = achievements.value;
-    store.dispatch('setAchievements', achievements.value);
+
+    store.dispatch('setAchievements', achievementsData.value);
   });
 };
 

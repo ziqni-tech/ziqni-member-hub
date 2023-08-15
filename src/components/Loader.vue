@@ -44,7 +44,7 @@ const color = computed(() => {
   //min-height: 200px;
   width: 100%;
   position: relative;
-  background-color: inherit;
+  //background-color: inherit;
 
   .spinner-wrapper {
     position: absolute;
@@ -64,6 +64,7 @@ const color = computed(() => {
       height: 45px;
       opacity: 0.7;
       animation: rotation 2.5s linear infinite normal;
+      z-index: 10;
 
       @keyframes rotation {
         from {
