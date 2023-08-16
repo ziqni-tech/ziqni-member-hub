@@ -96,13 +96,13 @@ const isTermsAndConditions = ref(false);
 const description = computed(() => {
   return tournament.value.description
       ? tournament.value.description
-      : 'Description not specified';
+      : 'No Description provided';
 })
 
 const termsAndConditions = computed(() => {
   return tournament.value.termsAndConditions
       ? tournament.value.termsAndConditions
-      : 'Terms and conditions are not specified';
+      : 'No Terms and conditions provided';
 })
 
 const isEntrant = computed(() => {

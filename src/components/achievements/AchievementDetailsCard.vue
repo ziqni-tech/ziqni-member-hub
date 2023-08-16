@@ -26,12 +26,12 @@
     <div class="description" v-if="!isInfo">
       <span class="description-title">Description</span>
       <span class="description-value">
-        {{ achievement.description ? removeHTMLTags(achievement.description) : testDescription }}
+        {{ removeHTMLTags(description) }}
       </span>
     </div>
     <div class="description" v-if="isInfo">
       <span class="description-title">Terms & Conditions</span>
-      <span class="description-value">{{ removeHTMLTags(achievement.termsAndConditions) }}</span>
+      <span class="description-value">{{ removeHTMLTags(termsAndConditions) }}</span>
     </div>
     <div class="bottom-section">
       <div class="prize-btn">
@@ -97,6 +97,18 @@ const isEntrant = computed(() => {
   const entrantStatus = achievement.value.entrantStatus;
   return entrantStatus !== 'NotEntered' && entrantStatus !== 'Processing';
 });
+
+const description = computed(() => {
+  return achievement.value.description
+      ? achievement.value.description
+      : 'No Description provided';
+})
+
+const termsAndConditions = computed(() => {
+  return achievement.value.termsAndConditions
+      ? achievement.value.termsAndConditions
+      : 'No Terms and conditions provided';
+})
 
 watch(achievement, (newVal) => {
   isLoading.value = false;

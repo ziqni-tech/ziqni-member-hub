@@ -3,6 +3,9 @@
     <div class="spinner-wrapper-global" v-if="isLoading">
       <Loader class="loader"/>
     </div>
+    <button class="info-btn" @click="goToInfo">
+      i
+    </button>
     <div class="title">
       {{ award.name }}
     </div>
@@ -13,16 +16,16 @@
       <span v-if="award.rewardType.uomSymbol">{{ award.rewardType.uomSymbol }}</span>
       {{ award.rewardValue }}
     </div>
-    <div class="description" v-if="award.termsAndConditions">
+    <div class="description" v-if="isInfo">
       <span class="description-title">Terms and conditions</span>
       <span class="description-value">
-        {{ removeHTMLTags(award.termsAndConditions) }}
+        {{ removeHTMLTags(termsAndConditions) }}
       </span>
     </div>
-    <div class="description" v-if="award.description">
+    <div class="description" v-if="!isInfo">
       <span class="description-title">Description</span>
       <span class="description-value">
-        {{ removeHTMLTags(award.description) }}
+        {{ removeHTMLTags(description) }}
       </span>
     </div>
     <div class="bottom-section">
@@ -67,6 +70,24 @@ const awardIcon = computed(() => {
 });
 
 const isLoading = ref(false);
+
+const description = computed(() => {
+  return award.value.description
+      ? award.value.description
+      : 'No Description provided';
+});
+
+const termsAndConditions = computed(() => {
+  return award.value.termsAndConditions
+      ? award.value.termsAndConditions
+      : 'No Terms and conditions provided';
+});
+
+const isInfo = ref(false);
+
+const goToInfo = () => {
+  isInfo.value = !isInfo.value;
+};
 
 
 const claimAward = () => {
@@ -115,6 +136,23 @@ const handleButtonClick = async () => {
   flex-direction: column;
   align-items: center;
   margin: auto;
+  position: relative;
+
+  .info-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: $border-radius-sm;
+    background: none;
+    border: 1px solid $info-item-icon-bg-DM;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    color: $white-color-DM
+  }
 
 
   .title {

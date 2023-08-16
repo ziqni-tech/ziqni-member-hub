@@ -239,11 +239,6 @@ const getCompetitionsRequest = async () => {
         };
       });
 
-      mappedCompetitions.sort((a, b) => {
-        const statusOrder = ['Active', 'Ready', 'Finalised'];
-        return statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status);
-      });
-
       competitions.value = [...competitions.value, ...mappedCompetitions];
 
       totalFetched += competitionsData.length;
@@ -287,6 +282,7 @@ const updateFilteredCompetitions = () => {
   if (displayPeriod.value === 'month') {
     const startOfMonth = new Date(showDate.value.getFullYear(), showDate.value.getMonth(), 1);
     const endOfMonth = new Date(showDate.value.getFullYear(), showDate.value.getMonth() + 1, 0);
+
     filteredCompetitions.value = competitions.value.filter((competition) => {
       const startsBeforeEndsAfter =
           competition.startDate <= startOfMonth && competition.endDate >= endOfMonth;
@@ -301,6 +297,7 @@ const updateFilteredCompetitions = () => {
   } else if (displayPeriod.value === 'week') {
     const startOfWeek = new Date(showDate.value);
     startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
+
     const endOfWeek = new Date(showDate.value);
     endOfWeek.setDate(endOfWeek.getDate() - endOfWeek.getDay() + 7);
 
@@ -319,7 +316,6 @@ const updateFilteredCompetitions = () => {
 
       return competition.startDate >= startOfWeek && competition.startDate <= endOfWeek && competition.endDate >= endOfWeek;
     });
-    console.warn('WEEK', filteredCompetitions.value);
   } else {
     filteredCompetitions.value = [];
   }

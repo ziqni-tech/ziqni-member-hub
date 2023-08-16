@@ -5,7 +5,7 @@
         <CrossIcon v-if="!isInfo" :width="'30'" :height="'30'" :stroke-color="getIconStrokeColor()" />
         <ArrowLeft v-if="isInfo" :width="'20'" :height="'20'" :stroke-color="getIconStrokeColor()" />
       </div>
-      <button class="info-btn" @click="goToInfo">
+      <button v-if="!isInfo" class="info-btn" @click="goToInfo">
         i
       </button>
     </div>
@@ -20,7 +20,7 @@
         <h2 class="mission-data__title">{{ mission.name }}</h2>
         <div v-if="!isInfo" class="mission-data__description read-more">
           <span class="description_title">Description </span>
-          <span class="description_text">{{ removeHTMLTags(mission.description) }}</span>
+          <span class="description_text">{{ removeHTMLTags(description) }}</span>
         </div>
         <div class="prize_data" v-if="!isInfo">
           prize:
@@ -29,7 +29,7 @@
         </div>
         <div class="mission-data__description" v-if="isInfo">
           <span class="description_title">Terms & Conditions</span>
-          <span class="description_text">{{ removeHTMLTags(mission.termsAndConditions) }}</span>
+          <span class="description_text">{{ removeHTMLTags(termsAndConditions) }}</span>
         </div>
       </div>
     </div>
@@ -173,6 +173,18 @@ let leaveModal = ref(false);
 const missions = ref(null);
 const mission = ref(null);
 const isLoaded = ref(false);
+
+const description = computed(() => {
+  return mission.value.description
+      ? mission.value.description
+      : 'No Description provided';
+})
+
+const termsAndConditions = computed(() => {
+  return mission.value.termsAndConditions
+      ? mission.value.termsAndConditions
+      : 'No Terms and conditions provided';
+})
 
 const getMissionRequest = async () => {
   try {

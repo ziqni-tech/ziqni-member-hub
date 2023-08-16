@@ -292,7 +292,6 @@ const addImage = () => {
     const imageRadius = radius - imageSize.value / 2;
 
     const x = (centroid[0] + Math.cos(angle) * imageRadius);
-
     const y = (centroid[1] + Math.sin(angle) * imageRadius);
 
     let rotate;
