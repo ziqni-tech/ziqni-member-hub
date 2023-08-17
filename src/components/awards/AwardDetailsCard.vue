@@ -280,6 +280,21 @@ const handleButtonClick = async () => {
     align-items: center;
     margin: auto;
 
+    .info-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: $border-radius-sm;
+      background: none;
+      border: 1px solid $main-border-color-LM;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      color: $card-text-color-LM;
+    }
 
     .title {
       color: $section-title-color-LM;
