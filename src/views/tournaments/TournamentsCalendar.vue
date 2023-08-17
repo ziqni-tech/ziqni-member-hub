@@ -323,7 +323,7 @@ const updateFilteredCompetitions = () => {
 
 const clickEvent = (val) => {
   router.push({
-    name: 'TournamentDetails',
+    name: 'TournamentsBracket',
     params: {
       id: val.id,
     },
