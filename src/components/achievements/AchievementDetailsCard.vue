@@ -208,11 +208,11 @@ const goToInfo = () => {
   .icon {
     width: 150px;
     height: 150px;
-    padding-top: 20px;
     border-radius: $border-radius-round;
     position: relative;
     overflow: hidden;
     border: 1px solid $btn-border-grey;
+    box-sizing: border-box;
 
     &::before {
       content: '';
@@ -234,6 +234,8 @@ const goToInfo = () => {
       transform: translate(-50%, -50%);
       width: 90%;
       height: 90%;
+      border-radius: $border-radius-round;
+      object-fit: cover;
     }
   }
 
@@ -395,11 +397,12 @@ const goToInfo = () => {
     .icon {
       width: 150px;
       height: 150px;
-      padding-top: 20px;
+      //padding-top: 20px;
       border-radius: $border-radius-round;
       position: relative;
       overflow: hidden;
       border: 1px solid $main-border-color-LM;
+      object-fit: cover;
 
       &::before {
         content: '';
@@ -418,6 +421,7 @@ const goToInfo = () => {
         position: absolute;
         top: 50%;
         left: 50%;
+        border-radius: $border-radius-round;
         transform: translate(-50%, -50%);
         width: 90%;
         height: 90%;

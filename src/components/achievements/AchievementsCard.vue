@@ -168,7 +168,7 @@ const goToAchievementDetails = () => {
         width: 100%;
         height: 100%;
         border-radius: $border-radius-round;
-        object-fit: contain;
+        object-fit: cover;
       }
     }
   }
@@ -290,7 +290,7 @@ const goToAchievementDetails = () => {
           width: 100%;
           height: 100%;
           border-radius: $border-radius-round;
-          object-fit: contain;
+          object-fit: cover;
         }
       }
     }

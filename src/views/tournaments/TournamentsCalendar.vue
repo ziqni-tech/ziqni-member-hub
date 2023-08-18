@@ -1,7 +1,7 @@
 <template>
   <div class="text-center calendar-section">
     <div class="spinner-container" v-if="!isLoaded">
-      <CSpinner color="dark"/>
+      <Loader />
     </div>
     <calendar-view
         v-if="isLoaded"
@@ -96,8 +96,9 @@ import { useStore } from 'vuex';
 import { ApiClientStomp, CompetitionRequest, CompetitionsApiWs } from '@ziqni-tech/member-api-client';
 import useMobileDevice from '@/hooks/useMobileDevice';
 
-import { CFormSwitch, CSpinner } from '@coreui/vue';
+import { CFormSwitch } from '@coreui/vue';
 import ArrowLeft from '@/shared/components/svg-icons/ArrowLeft.vue';
+import Loader from '@/components/Loader.vue';
 
 const router = useRouter();
 const showDate = ref(new Date());
