@@ -70,38 +70,42 @@ onMounted(() => {
   getAwardsRequest();
 });
 const getAwardsRequest = async () => {
-  const awardsApiWsClient = new AwardsApiWs(ApiClientStomp.instance);
+  try {
+    const awardsApiWsClient = new AwardsApiWs(ApiClientStomp.instance);
 
-  const awardRequest = AwardRequest.constructFromObject({
-    awardFilter: {
-      ids,
-      productIds: [],
-      statusCode: {
-        moreThan: 0,
-        lessThan: 100
+    const awardRequest = AwardRequest.constructFromObject({
+      awardFilter: {
+        ids,
+        productIds: [],
+        statusCode: {
+          moreThan: 0,
+          lessThan: 100
+        },
+        sortBy: [{
+          queryField: 'created',
+          order: 'Desc'
+        }],
+        skip: 0,
+        limit: 20
       },
-      sortBy: [{
-        queryField: 'created',
-        order: 'Desc'
-      }],
-      skip: 0,
-      limit: 20
-    },
-    currencyKey: ''
-  });
+      currencyKey: ''
+    });
 
-  awardsApiWsClient.getAwards(awardRequest, async (res) => {
-    awards.value = res.data;
-    award.value = awards.value[0];
+    awardsApiWsClient.getAwards(awardRequest, async (res) => {
+      awards.value = res.data;
+      award.value = awards.value[0];
 
-    const rewardIds = res.data.map(item => item.rewardId);
-    await getEntityRewards(rewardIds);
+      const rewardIds = res.data.map(item => item.rewardId);
+      await getEntityRewards(rewardIds);
 
-    const { entityType, entityId } = res.data[0];
-    await getEntityTermAndConditions(entityType, entityId);
+      const { entityType, entityId } = res.data[0];
+      await getEntityTermAndConditions(entityType, entityId);
 
-    isLoaded.value = true;
-  });
+      isLoaded.value = true;
+    });
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 const getEntityRewards = async (ids) => {

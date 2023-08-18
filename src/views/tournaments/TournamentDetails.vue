@@ -98,55 +98,59 @@ onMounted(async () => {
 })
 
 const getCompetition = async () => {
-  const competitionsApiWsClient = new CompetitionsApiWs(ApiClientStomp.instance);
-  const { statusCode, limit, skip, ids } = tournamentRequestData;
+  try {
+    const competitionsApiWsClient = new CompetitionsApiWs(ApiClientStomp.instance);
+    const { statusCode, limit, skip, ids } = tournamentRequestData;
 
-  const competitionRequest = CompetitionRequest.constructFromObject({
-    competitionFilter: {
-      statusCode,
-      sortBy: [{
-        queryField: 'created',
-        order: 'Desc'
-      }],
-      limit,
-      skip,
-      ids
-    }
-  }, null);
+    const competitionRequest = CompetitionRequest.constructFromObject({
+      competitionFilter: {
+        statusCode,
+        sortBy: [{
+          queryField: 'created',
+          order: 'Desc'
+        }],
+        limit,
+        skip,
+        ids
+      }
+    }, null);
 
-  await competitionsApiWsClient.getCompetitions(competitionRequest, async (res) => {
-    const competitions = res.data;
+    await competitionsApiWsClient.getCompetitions(competitionRequest, async (res) => {
+      const competitions = res.data;
 
-    const competitionsIds = competitions.map(item => item.id);
+      const competitionsIds = competitions.map(item => item.id);
 
-    const rewards = await getEntityRewards('Competition', competitionsIds);
+      const rewards = await getEntityRewards('Competition', competitionsIds);
 
-    for (const competition of competitions) {
-      if (rewards.length) {
-        let maxReward = null;
-        for (const reward of rewards) {
-          if (reward.entityId === competition.id) {
-            if (!maxReward || reward.rewardValue > maxReward.rewardValue) {
-              maxReward = reward;
+      for (const competition of competitions) {
+        if (rewards.length) {
+          let maxReward = null;
+          for (const reward of rewards) {
+            if (reward.entityId === competition.id) {
+              if (!maxReward || reward.rewardValue > maxReward.rewardValue) {
+                maxReward = reward;
+              }
             }
           }
+          if (maxReward) {
+            competition.rewardValue = maxReward.rewardValue;
+            competition.rewardType = maxReward.rewardType.key;
+          }
+        } else {
+          competition.rewardValue = null;
+          competition.rewardType = '';
         }
-        if (maxReward) {
-          competition.rewardValue = maxReward.rewardValue;
-          competition.rewardType = maxReward.rewardType.key;
-        }
-      } else {
-        competition.rewardValue = null;
-        competition.rewardType = '';
       }
-    }
 
-    tournaments.value = competitions;
+      tournaments.value = competitions;
 
-    await getOptInStatus();
+      await getOptInStatus();
 
-    isLoaded.value = true;
-  });
+      isLoaded.value = true;
+    });
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 const getEntityContests = async () => {

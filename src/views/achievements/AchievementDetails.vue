@@ -50,35 +50,39 @@ onMounted(() => {
   getAchievementsRequest()
 })
 const getAchievementsRequest = async () => {
-  const achievementsApiWsClient = new AchievementsApiWs(ApiClientStomp.instance);
+  try {
+    const achievementsApiWsClient = new AchievementsApiWs(ApiClientStomp.instance);
 
-  const achievementsRequest = AchievementRequest.constructFromObject({
-    achievementFilter: {
-      productTagsFilter: [],
-      ids,
-      status: [],
-      sortBy: [
-        {
-          queryField: 'created',
-          order: 'Desc'
+    const achievementsRequest = AchievementRequest.constructFromObject({
+      achievementFilter: {
+        productTagsFilter: [],
+        ids,
+        status: [],
+        sortBy: [
+          {
+            queryField: 'created',
+            order: 'Desc'
+          },
+        ],
+        skip: 0,
+        limit: 1,
+        statusCode: {
+          moreThan: 0,
+          lessThan: 100
         },
-      ],
-      skip: 0,
-      limit: 1,
-      statusCode: {
-        moreThan: 0,
-        lessThan: 100
+        constraints: []
       },
-      constraints: []
-    },
-  }, null);
+    }, null);
 
-  achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
-    achievements.value = res.data;
-    getOptInStatus();
-    getEntityRewards()
-    isLoaded.value = true;
-  });
+    achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
+      achievements.value = res.data;
+      getOptInStatus();
+      getEntityRewards()
+      isLoaded.value = true;
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const getOptInStatus = async () => {

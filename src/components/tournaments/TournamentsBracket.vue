@@ -20,7 +20,7 @@
           <!--        </div>-->
         </div>
         <div class="connections-table_rounds" ref="rounds" @click="handleActions($event)">
-          <div v-for="(roundNumber) in roundsCount" :key="roundNumber" class="connections-table_round" @click="() => console.log(`click ${roundNumber}`)">
+          <div v-for="(roundNumber) in roundsCount" :key="roundNumber" class="connections-table_round">
             <div v-if="Object.keys(contestsByRounds[roundNumber]).length" class="connections-table_round-block">
               <div
                   v-for="(item) in contestsByRounds[roundNumber]"
@@ -131,35 +131,38 @@ onMounted(() => {
 });
 
 const getEntityContests = async () => {
-  const contestApiWsClient = new ContestsApiWs(ApiClientStomp.instance);
-  const contestRequest = ContestRequest.constructFromObject({
-    contestFilter: {
-      productIds: [],
-      tags: [],
-      startDate: null,
-      endDate: null,
-      ids: [],
-      competitionIds: [route.params.id],
-      constraints: [],
-      statusCode: {
-        moreThan: 5,
-        lessThan: 100
-      },
-      limit: 20
-    }
-  }, null);
+  try {
+    const contestApiWsClient = new ContestsApiWs(ApiClientStomp.instance);
+    const contestRequest = ContestRequest.constructFromObject({
+      contestFilter: {
+        productIds: [],
+        tags: [],
+        startDate: null,
+        endDate: null,
+        ids: [],
+        competitionIds: [route.params.id],
+        constraints: [],
+        statusCode: {
+          moreThan: 5,
+          lessThan: 100
+        },
+        limit: 20
+      }
+    }, null);
 
-  await contestApiWsClient.getContests(contestRequest, async (res) => {
-    contests.value = res.data;
+    await contestApiWsClient.getContests(contestRequest, async (res) => {
+      contests.value = res.data;
 
-    if (res.data.length) {
-      roundsCount.value = res.data.reduce((max, current) => {
-        return current.round > max ? current.round : max;
-      }, 0);
-    }
-    await setContestsByRounds();
-
-  });
+      if (res.data.length) {
+        roundsCount.value = res.data.reduce((max, current) => {
+          return current.round > max ? current.round : max;
+        }, 0);
+      }
+      await setContestsByRounds();
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const setContestsByRounds = () => {
