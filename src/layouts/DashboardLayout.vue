@@ -1,7 +1,7 @@
 <template>
   <div
       id="app-layout"
-      v-if="!isMobile && isDarkMode !== null"
+      v-if="!isMobile"
       :class="{'light-mode': !isDarkMode}"
   >
     <div id="nav-block">
@@ -16,9 +16,6 @@
           class="notificationsList"
           v-if="isNotificationsList"
           @closeNotifications="closeNotifications"/>
-    </div>
-    <div class="spinner-wrapper-global" v-if="isDarkMode === null">
-      <CSpinner grow size="sm"/>
     </div>
   </div>
   <div

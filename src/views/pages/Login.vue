@@ -31,6 +31,7 @@ import { useStore } from 'vuex';
 
 const router = useRouter();
 const memberRefId = ref('Player-1');
+// const apiKey = ref('2c2e6068adf46a46cba8d24a7ba88f6b');
 const apiKey = ref('25f99a84a166da4c67abe90a30801c41');
 const expires = 36000;
 
@@ -89,7 +90,7 @@ if (isLoggedIn) {
   position: relative;
   width: 100vw;
   height: 100vh;
-  background: $dark-grey;
+  background: $bg-secondary-LM;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -105,12 +106,15 @@ if (isLoggedIn) {
       padding-bottom: 15px;
 
       .form-control {
-        background-color: $light-grey;
-        color: $text-color-white;
+        background-color: $bg-body-LM;
+        color: $card-text-color-LM;
       }
 
       .form-label {
         margin-right: 10px;
+        color: $card-text-color-LM;
+        font-size: 16px;
+        font-family: $mainFont;
       }
     }
   }
@@ -118,7 +122,7 @@ if (isLoggedIn) {
   .login-btn {
     margin-top: 25px;
     width: 100%;
-    background-color: $purple;
+    background-color: $btn-primary-bg-color-LM;
     border-radius: $border-radius;
   }
 }

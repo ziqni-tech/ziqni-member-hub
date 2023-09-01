@@ -4,6 +4,7 @@
         v-for="(item, index) in sidebarNav"
         :key="index"
         @click="paginationClear"
+        :class="{active: isActive(item.to)}"
     >
       <router-link :to="item.to" class="mob-nav-item">
         <div class="icon-wrapper">
@@ -30,8 +31,6 @@ const store = useStore()
 
 const getIconStrokeColor = (item) => {
   if (route.path.startsWith(item.to)) {
-    return '#FFFFFF';
-  } else {
     return props.isDarkMode ? '#FFFFFF' : '#141E28';
   }
 };
@@ -62,6 +61,10 @@ const paginationClear = () => {
       background: $btn-primary-bg-color-LM;
       border-radius: 8px;
     }
+  }
+
+  .nav-item.active {
+    background: $btn-primary-bg-color-LM;
   }
 
   .mob-nav-item {

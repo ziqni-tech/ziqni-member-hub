@@ -30,20 +30,19 @@ const props = defineProps({
   moonSize: String
 })
 
+const darkThemeStoreValue = computed(() => store.getters.getTheme)
+
 onBeforeMount(() => {
-  if (!localStorage.getItem('theme')) {
-    localStorage.setItem('theme', 'dark-mode');
-  } else if (localStorage.getItem('theme')) {
-    isDarkTheme.value = localStorage.getItem('theme') === 'dark-mode';
-    store.dispatch('setTheme', isDarkTheme.value);
+  if (darkThemeStoreValue.value) {
+    isDarkTheme.value = darkThemeStoreValue.value
   }
 })
-
+console.log('darkThemeValue', darkThemeStoreValue.value);
 const toggleTheme = () => {
   isDarkTheme.value = !isDarkTheme.value;
 
   store.dispatch('setTheme', isDarkTheme.value);
-  localStorage.setItem('theme', themeClass.value);
+  // localStorage.setItem('theme', themeClass.value);
 };
 
 const themeClass = computed(() => {

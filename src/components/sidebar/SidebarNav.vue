@@ -3,6 +3,7 @@
       v-for="(item, index) in navItems"
       :key="index"
       @click="paginationClear"
+      :class="{active: isActive(item.to)}"
   >
     <router-link :to="item.to" class="nav-item" :class="{'light-mode': !isDarkMode}">
       <div class="nav-item__icon-wrapper">
@@ -22,11 +23,13 @@ const store = useStore()
 const route = useRoute();
 const getIconStrokeColor = (item) => {
   if (route.path.startsWith(item.to)) {
-    return '#FFFFFF';
-  } else {
-    return props.isDarkMode ? '#FFFFFF' : '#141E28';
+    return props.isDarkMode ? '#FFFFFF' : '#141E28'
   }
 };
+
+const isActive = (path) => {
+  return route.path.startsWith(path)
+}
 
 const paginationClear = () => {
   store.dispatch('setCurrentPage', 1)
@@ -96,6 +99,10 @@ const paginationClear = () => {
       transform: rotate(90deg);
     }
   }
+}
+
+.nav-item.active {
+  background: $btn-primary-bg-color-LM;
 }
 
 @media screen and (max-width: 1200px) {
