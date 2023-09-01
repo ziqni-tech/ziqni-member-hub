@@ -41,12 +41,22 @@ const cardItem = props.card;
 const router = useRouter();
 
 const goToTournamentsDetailsPage = () => {
-  router.push({
-    name: 'TournamentsBracket',
-    params: {
-      id: cardItem.id,
-    }
-  });
+  if (cardItem.contestsCount > 1 || !cardItem.singleContestId.length) {
+    router.push({
+      name: 'TournamentsBracket',
+      params: {
+        id: cardItem.id,
+      }
+    });
+  } else {
+    router.push({
+      name: 'TournamentDetails',
+      params: {
+        id: cardItem.id,
+        contestId: cardItem.singleContestId
+      }
+    });
+  }
 };
 
 </script>

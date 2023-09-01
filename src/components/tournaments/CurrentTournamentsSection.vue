@@ -45,7 +45,7 @@ import { useStore } from 'vuex';
 import {
   ApiClientStomp,
   CompetitionRequest,
-  CompetitionsApiWs,
+  CompetitionsApiWs, ContestRequest, ContestsApiWs,
   EntityRequest,
   RewardsApiWs
 } from '@ziqni-tech/member-api-client';
@@ -132,6 +132,17 @@ const getCompetitionsRequest = async () => {
       const rewards = await getEntityRewards(compIds);
 
       for (const competition of competitionsData) {
+
+        const contests = await getEntityContests(competition.id);
+        competition.contestsCount = contests.data.length;
+
+        if (contests.data.length) {
+          competition.singleContestId = contests.data[0].id;
+        } else {
+          competition.singleContestId = '';
+        }
+
+
         if (rewards.length) {
           let maxReward = null;
           for (const reward of rewards) {
@@ -165,6 +176,36 @@ const getCompetitionsRequest = async () => {
     console.log('ERROR', e);
   }
 }
+
+const getEntityContests = async (competitionId) => {
+  try {
+    const contestApiWsClient = new ContestsApiWs(ApiClientStomp.instance);
+    const contestRequest = ContestRequest.constructFromObject({
+      contestFilter: {
+        productIds: [],
+        tags: [],
+        startDate: null,
+        endDate: null,
+        ids: [],
+        competitionIds: [competitionId],
+        constraints: [],
+        statusCode: {
+          moreThan: 5,
+          lessThan: 100
+        },
+        limit: 20
+      }
+    }, null);
+
+    return await new Promise((resolve, reject) => {
+      contestApiWsClient.getContests(contestRequest, (res) => {
+        resolve(res);
+      });
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 const getEntityRewards = async (ids) => {
   const rewardsApiWsClient = await new RewardsApiWs(ApiClientStomp.instance);
@@ -234,6 +275,15 @@ const seeAll = async () => {
       const rewards = await getEntityRewards(compIds);
 
       for (const competition of competitionsData) {
+        const contests = await getEntityContests(competition.id);
+        competition.contestsCount = contests.data.length;
+
+        if (contests.data.length) {
+          competition.singleContestId = contests.data[0].id;
+        } else {
+          competition.singleContestId = '';
+        }
+
         if (rewards.length) {
           let maxReward = null;
           for (const reward of rewards) {
