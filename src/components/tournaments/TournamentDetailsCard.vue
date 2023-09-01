@@ -2,7 +2,7 @@
   <div class="tournament-details-card" :class="{'light-mode': !isDarkMode}">
     <div class="card-banner">
       <div class="tournament-main-data">
-        <span class="tournament-title">{{ tournament.name }}</span>
+        <span class="tournament-title">{{ contest.name }}</span>
         <Countdown
           v-if="tournament && tournament.scheduledEndDate"
           :date="tournament.scheduledEndDate"
@@ -49,6 +49,7 @@
         <p class="tournament-description_description">{{ removeHTMLTags(termsAndConditions) }}</p>
       </div>
       <button
+          v-if="isOptinRequiredForEntrants"
           class="m-btn register-btn"
           @click="handleButtonClick"
           :class="{ 'join-button': !isEntrant, 'leave-button': isEntrant }"
@@ -83,24 +84,31 @@ import DiamondIcon from "@/shared/components/svg-icons/DiamondIcon.vue";
 import StarIcon from "@/shared/components/svg-icons/StarIcon.vue";
 import { removeHTMLTags } from '@/utils/removeHTMLTags';
 
-const props = defineProps({ tournament: Object, isDarkMode: Boolean });
+const props = defineProps({
+  tournament: Object,
+  contest: Object,
+  isDarkMode: Boolean
+});
 const emit = defineEmits(['joinTournament', 'leaveTournament']);
 
 const tournament = toRef(props, 'tournament');
+const contest = toRef(props, 'contest');
+
+const isOptinRequiredForEntrants = computed(() => tournament.value.constraints.includes('optinRequiredForEntrants'))
 
 const leaveModal = ref(false);
 const isLoading = ref(false);
 const isTermsAndConditions = ref(false);
 
 const description = computed(() => {
-  return tournament.value.description
-      ? tournament.value.description
+  return contest.value.description
+      ? contest.value.description
       : 'No Description provided';
 })
 
 const termsAndConditions = computed(() => {
-  return tournament.value.termsAndConditions
-      ? tournament.value.termsAndConditions
+  return contest.value.termsAndConditions
+      ? contest.value.termsAndConditions
       : 'No Terms and conditions provided';
 })
 

@@ -16,7 +16,9 @@
     <div class="details">
       <TournamentDetailsCard
         v-if="isLoaded"
-        :tournament="contest"
+        :key="updateKey"
+        :tournament="currentTournament"
+        :contest="contest"
         @joinTournament="joinTournament"
         @leaveTournament="leaveTournament"
         :isDarkMode="isDarkMode"
@@ -64,6 +66,8 @@ const tournamentRequestData = {
   skip: 0,
   ids
 };
+
+const updateKey = ref(0);
 
 onBeforeMount(async () => {
   ApiClientStomp.instance.client.debug = () => {};
@@ -117,7 +121,6 @@ const getCompetition = async () => {
 
     await competitionsApiWsClient.getCompetitions(competitionRequest, async (res) => {
       const competitions = res.data;
-
       const competitionsIds = competitions.map(item => item.id);
 
       const rewards = await getEntityRewards('Competition', competitionsIds);
@@ -353,6 +356,7 @@ const joinTournament = async () => {
 
       setTimeout(async () => {
         await getCompetition();
+        updateKey.value++
       }, 3500);
     }
   })
@@ -374,6 +378,7 @@ const leaveTournament= async () => {
 
       setTimeout(async () => {
         await getCompetition();
+        updateKey.value++
       }, 3500);
     }
   })
