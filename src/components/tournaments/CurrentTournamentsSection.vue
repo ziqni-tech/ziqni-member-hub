@@ -2,7 +2,8 @@
   <div class="section" :class="{'light-mode': !isDarkMode, 'dashboard': isDashboard}">
     <div class="tournaments-section-header-wrapper">
       <div class="tournaments-section-header">
-        <h2 class="section-title">Current Tournaments</h2>
+        <h2 class="section-title" v-if="isDashboard && competitions.length">Current Tournaments</h2>
+        <h2 class="section-title" v-if="!isDashboard">Current Tournaments</h2>
         <div
             v-if="isSeeAll"
             class="see-all-btn"

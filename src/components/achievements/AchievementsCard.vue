@@ -165,10 +165,9 @@ const goToAchievementDetails = () => {
       }
 
       > img {
-        width: 100%;
-        height: 100%;
+        width: 90%;
+        height: 90%;
         border-radius: $border-radius-round;
-        object-fit: cover;
       }
     }
   }
@@ -287,10 +286,9 @@ const goToAchievementDetails = () => {
         }
 
         > img {
-          width: 100%;
-          height: 100%;
+          width: 90%;
+          height: 90%;
           border-radius: $border-radius-round;
-          object-fit: cover;
         }
       }
     }

@@ -34,8 +34,11 @@
     </CNav>
     <div class="section-header">
       <div>
-        <h2 class="section-title">
-          {{ isDashboard ? 'Achievements' : achievementsTitles[activeTabKey] }}
+        <h2 class="section-title" v-if="isDashboard && achievementsData.length">
+          {{ 'Achievements' }}
+        </h2>
+        <h2 class="section-title" v-if="!isDashboard">
+          {{ achievementsTitles[activeTabKey] }}
         </h2>
         <p v-if="!isDashboard" class="section-description">
           {{ descriptions[activeTabKey] }}
@@ -56,7 +59,7 @@
     </div>
     <div class="content-wrapper">
       <Loader v-if="isLoading"   class="loading" :title="'Achievements are loading'"/>
-      <div v-if="!isLoading" :class="isDashboard ? 'achievements-dashboard-cards-grid' : 'achievements-cards-grid'">
+      <div v-if="!isLoading " :class="isDashboard ? 'achievements-dashboard-cards-grid' : 'achievements-cards-grid'">
         <div v-for="achievement in achievementsData" :key="achievement.id">
           <AchievementsCard
               :key="achievement.id"
@@ -250,7 +253,7 @@ const getAchievementsRequest = async () => {
 
     const achievementsApiWsClient = new AchievementsApiWs(ApiClientStomp.instance);
 
-    const achievementsRequest = AchievementRequest.constructFromObject({
+    achievementsApiWsClient.getAchievements({
       achievementFilter: {
         productTagsFilter: [],
         ids: [],
@@ -269,9 +272,7 @@ const getAchievementsRequest = async () => {
         },
         constraints: []
       },
-    }, null);
-
-    achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
+    }, (res) => {
       totalRecords.value = res.meta.totalRecordsFound;
       const ids = res.data.map(item => item.id);
 
