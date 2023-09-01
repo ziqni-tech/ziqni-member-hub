@@ -772,6 +772,10 @@ const clickEvent = (val) => {
   }
 }
 
+.theme-default .cv-item.continued, .theme-default .cv-item.toBeContinued {
+  margin-top: 10px;
+}
+
 .theme-default .cv-item.continued::before, .theme-default .cv-item.toBeContinued::after {
   display: none;
 }
