@@ -1,53 +1,5 @@
 <template>
   <div class="section">
-    <CNav variant="pills" layout="fill" class="achievements-tabs" v-if="!isDashboard">
-      <CNavLink
-          :active="activeTabKey === 'all'"
-          @click="() => updateActiveTab('all')"
-      >
-        All
-      </CNavLink>
-      <CNavLink
-          :active="activeTabKey === 'daily'"
-          @click="() => updateActiveTab('daily')"
-      >
-        Daily
-      </CNavLink>
-      <CNavLink
-          :active="activeTabKey === 'weekly'"
-          @click="() => updateActiveTab('weekly')"
-      >
-        Weekly
-      </CNavLink>
-      <CNavLink
-          :active="activeTabKey === 'monthly'"
-          @click="() => updateActiveTab('monthly')"
-      >
-        Monthly
-      </CNavLink>
-    </CNav>
-    <div class="section-header">
-      <div>
-        <h2 class="section-title">
-          {{ isDashboard ? 'Achievements' : achievementsTitles[activeTabKey] }}
-        </h2>
-        <p v-if="!isDashboard" class="section-description">
-          {{ descriptions[activeTabKey] }}
-        </p>
-      </div>
-      <div class="until-the-next-day" v-if="!isDashboard && activeTabKey === 'daily'">
-        <img :src="expiresInIcon" alt="">
-        {{ dailyTimeLeft }} left
-      </div>
-      <div class="until-the-next-day" v-if="!isDashboard && activeTabKey === 'weekly'">
-        <img :src="expiresInIcon" alt="">
-        {{ remainingTimeUntilEndOfWeek }} left
-      </div>
-      <div class="until-the-next-day" v-if="!isDashboard && activeTabKey === 'monthly'">
-        <img :src="expiresInIcon" alt="">
-        {{ remainingTimeUntilEndOfMonth }} left
-      </div>
-    </div>
     <div class="content-wrapper">
       <div class="spinner-wrapper-global" v-if="isLoading">
         <CSpinner grow size="sm"/>
