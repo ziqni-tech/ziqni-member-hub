@@ -258,6 +258,7 @@ const getAchievementsRequest = async () => {
         productTagsFilter: [],
         ids: [],
         status: [],
+        scheduleTypes: [], // "Monthly"
         sortBy: [
           {
             queryField: 'created',

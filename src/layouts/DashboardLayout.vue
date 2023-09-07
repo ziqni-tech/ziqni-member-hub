@@ -54,7 +54,7 @@
 
 <script setup>
 import { ApiClientStomp, MemberRequest, MembersApiWs } from '@ziqni-tech/member-api-client';
-import { computed, onBeforeMount, onMounted, ref, watch, watchEffect } from 'vue';
+import { computed, onBeforeMount, ref, watch, watchEffect } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import TheSidebar from '@/components/sidebar/TheSidebar';
@@ -63,10 +63,10 @@ import Dashboard from '@/views/Dashboard';
 import useMobileDevice from '@/hooks/useMobileDevice';
 import MobileNav from '@/components/sidebar/MobileNav.vue';
 import UserProfileMobile from '@/components/user-profile/UserProfileMobile.vue';
-import { CSpinner } from '@coreui/vue';
 import NotificationIcon from '@/shared/components/svg-icons/NotificationIcon.vue';
 import PersonIcon from '@/shared/components/svg-icons/PersonIcon.vue';
 import Notifications from '@/components/notifications/Notifications.vue';
+
 
 const router = useRouter();
 
@@ -100,6 +100,14 @@ const closeNotifications = () => {
 };
 
 onBeforeMount(async () => {
+  const token = localStorage.getItem('token')
+  // try {
+  //   const decodeToken = jwt.decode(token)
+  //   const expirationDate = new Date(decodeToken.exp * 1000)
+  //   console.log('expirationDate', expirationDate);
+  // } catch (e) {
+  //
+  // }
   ApiClientStomp.instance.client.debug = () => {
   };
   await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });

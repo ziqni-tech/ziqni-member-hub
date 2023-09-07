@@ -1,5 +1,12 @@
 <template>
   <div class="login-page">
+    <div class="login-page-loader" v-if="isLoading">
+      <img
+          class="spinner"
+          src="@/assets/icons/logo.svg"
+          alt=""
+      >
+    </div>
     <div class="login-form">
       <div class="form-row">
         <CFormInput
@@ -28,16 +35,18 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router'
 import { ApiClientStomp } from '@ziqni-tech/member-api-client';
 import { useStore } from 'vuex';
+import Loader from '@/components/Loader.vue';
 
 const router = useRouter();
 const memberRefId = ref('Player-1');
-// const apiKey = ref('2c2e6068adf46a46cba8d24a7ba88f6b');
+// const apiKey = ref('18289fd2aa4c7a43c5abb14abe83009f');
 const apiKey = ref('25f99a84a166da4c67abe90a30801c41');
-const expires = 36000;
-
+const expires = 144000;
+const isLoading = ref(false)
 const store = useStore()
 
 const generateUserToken = async () => {
+  isLoading.value = true
   try {
     const memberTokenRequest = {
       member: memberRefId.value,
@@ -66,7 +75,12 @@ const generateUserToken = async () => {
       await store.dispatch('setIsConnectedClient', true);
 
       // await router.push({ name: 'Dashboard' }).catch(() => {});
-      window.location.reload()
+
+      setTimeout(() => {
+        isLoading.value = false
+        window.location.reload()
+      }, 2000)
+
 
     } else {
       console.error('Member Token Error', body.errors[0].message);
@@ -95,6 +109,30 @@ if (isLoggedIn) {
   align-items: center;
   justify-content: center;
   color: $body-text-color;
+
+  .login-page-loader {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+
+    .spinner {
+      width: 47px;
+      height: 45px;
+      opacity: 0.7;
+      animation: rotation 2.5s linear infinite normal;
+
+      @keyframes rotation {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(359deg);
+        }
+      }
+    }
+  }
 
   .login-form {
     position: absolute;

@@ -70,7 +70,10 @@ module.exports = {
             '@':  path.resolve(__dirname, '../src')
         },
         extensions: ['*', '.js', '.vue', '.json'],
-        fallback: {'querystring': require.resolve('querystring-es3')}
+        fallback: {
+            'querystring': require.resolve('querystring-es3'),
+            "url": require.resolve("url/")
+        }
     },
     devServer: {
         historyApiFallback: true,

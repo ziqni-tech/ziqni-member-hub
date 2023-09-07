@@ -196,6 +196,29 @@ const createArc = () => {
         let newArc = firstArcSection
             .exec(d3.select(this).attr('d'))[1]
             .replace(/,/g, ' ');
+
+      //   const patternId = 'pattern-' + i;
+      //
+      //   const pattern = vis.value
+      //       .append('defs')
+      //       .append('pattern')
+      //       .attr('id', patternId)
+      //       .attr('x', 0)
+      //       .attr('y', 0)
+      //       .attr('width', 1)
+      //       .attr('height', 1);
+      //
+      //   pattern
+      //       .append('image')
+      //       .attr('x', 0)
+      //       .attr('y', 0)
+      //       .attr('width', '100%')
+      //       .attr('height', '100%')
+      //       .attr('xlink:href', d.data.bg)
+      // .attr('transform', `rotate(${d.endAngle > (90 * Math.PI) / 180})`);
+      //
+      //   d3.select(this).attr('fill', `url(#${ patternId })`);
+
         if (d.endAngle > (90 * Math.PI) / 180) {
           const startLoc = /M(.*?)A/;
           const middleLoc = /A(.*?)0 0 1/;
@@ -398,10 +421,10 @@ const createOuterCircle = () => {
 
 watch(isDarkMode, (value) => {
   if (container.value) {
-    const outerBorder = container.value.selectAll('.outer-border')
-    outerBorder.attr('stroke', value ? '#2F0426' : '#BEE9F3')
+    const outerBorder = container.value.selectAll('.outer-border');
+    outerBorder.attr('stroke', value ? '#2F0426' : '#BEE9F3');
   }
-})
+});
 
 const createArrow = () => {
   if (container.value) {
@@ -440,8 +463,9 @@ const createWheel = () => {
 };
 
 watch(isDarkMode, (value) => {
-  if (value) {}
-})
+  if (value) {
+  }
+});
 
 let isStopped = false;
 
