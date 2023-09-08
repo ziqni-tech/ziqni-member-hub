@@ -92,7 +92,7 @@ const getRemainingTimeUntilEndOfWeek = () => {
   const daysToNextMonday = 8 - dayOfWeek;
   const endOfWeek = new Date(now);
   endOfWeek.setDate(now.getDate() + daysToNextMonday);
-  endOfWeek.setHours(23, 59, 59, 999); // Устанавливаем время на конец дня
+  endOfWeek.setHours(23, 59, 59, 999);
 
   const remainingTime = endOfWeek.getTime() - now.getTime();
   const remainingSeconds = Math.floor(remainingTime / 1000) % 60;
@@ -175,7 +175,6 @@ const getOptInStatus = async (ids) => {
 
     await optInApiWsClient.optInStates(optInStateRequest, res => {
       for (const achievement of achievements.value) {
-        console.log(res.data);
         if (res.data.length) {
           const status = res.data.find(item => item.entityId === achievement.id)?.status;
           const percentage = res.data.find(item => item.entityId === achievement.id)?.percentageComplete;
