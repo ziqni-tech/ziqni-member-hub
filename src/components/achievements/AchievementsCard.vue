@@ -43,6 +43,7 @@
     :messageGeneral="'Are you sure you want to leave this achievement?'"
     :title="'Leave the achievement'"
     :successBtnLabel="'Leave'"
+    :isDarkMode="isDarkMode"
     @doFunction="leave"
     @closeModal="closeModal"
     v-on:toggle-modal="leaveModal = false"
@@ -50,14 +51,13 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, ref, toRef } from 'vue';
 import { useStore } from 'vuex';
 
 import Modal from '@/shared/components/Modal.vue';
 import defaultIcon from '@/assets/icons/achievements/book.svg'
 import router from '@/router';
 import diamondIcon from '@/assets/icons/achievements/diamond.png';
-
 
 const props = defineProps({
   achievement: { type: Object, required: true },
@@ -82,15 +82,9 @@ const emit = defineEmits(['joinAchievement', 'leaveAchievement']);
 
 let leaveModal = ref(false);
 
-const achievement = props.achievement;
-const entrantStatus = ref('');
+const achievement = toRef(props, 'achievement');
 
-const isEntrant = computed(() => entrantStatus.value !== 'NotEntered' && entrantStatus.value !== 'Processing');
-
-watch(() => store.getters.getAchievements, (newValue) => {
-  const newArr = newValue.filter(item => item.id === achievement.id);
-  entrantStatus.value = newArr[0].entrantStatus;
-}, { immediate: true });
+const isEntrant = computed(() => achievement.value.entrantStatus === 'Entrant');
 
 const openModal = () => {
   leaveModal.value = true;
@@ -102,11 +96,11 @@ const closeModal = () => {
 
 
 const join = () => {
-  emit('joinAchievement', { id: achievement.id, name: achievement.name });
+  emit('joinAchievement', { id: achievement.value.id, name: achievement.value.name });
 };
 
 const leave = () => {
-  emit('leaveAchievement', { id: achievement.id, name: achievement.name });
+  emit('leaveAchievement', { id: achievement.value.id, name: achievement.value.name });
   leaveModal.value = false;
 };
 
