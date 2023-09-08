@@ -1,61 +1,9 @@
 <template>
   <div class="section" :class="{'light-mode': !isDarkMode}">
-    <CNav
-        v-if="!isDashboard"
-        variant="pills"
-        layout="fill"
-        class="achievements-tabs"
-        :class="{'light-mode': !isDarkMode}"
-    >
-      <CNavLink
-          :active="activeTabKey === 'all'"
-          @click="() => updateActiveTab('all')"
-      >
-        All
-      </CNavLink>
-      <CNavLink
-          :active="activeTabKey === 'daily'"
-          @click="() => updateActiveTab('daily')"
-      >
-        Daily
-      </CNavLink>
-      <CNavLink
-          :active="activeTabKey === 'weekly'"
-          @click="() => updateActiveTab('weekly')"
-      >
-        Weekly
-      </CNavLink>
-      <CNavLink
-          :active="activeTabKey === 'monthly'"
-          @click="() => updateActiveTab('monthly')"
-      >
-        Monthly
-      </CNavLink>
-    </CNav>
     <div class="section-header">
-      <div>
-        <h2 class="section-title" v-if="isDashboard && achievementsData.length">
-          {{ 'Achievements' }}
-        </h2>
-        <h2 class="section-title" v-if="!isDashboard">
-          {{ achievementsTitles[activeTabKey] }}
-        </h2>
-        <p v-if="!isDashboard" class="section-description">
-          {{ descriptions[activeTabKey] }}
-        </p>
-      </div>
-      <div class="until-the-next-day" v-if="!isDashboard && activeTabKey === 'daily'">
-        <img :src="expiresInIcon" alt="">
-        {{ dailyTimeLeft }} left
-      </div>
-      <div class="until-the-next-day" v-if="!isDashboard && activeTabKey === 'weekly'">
-        <img :src="expiresInIcon" alt="">
-        {{ remainingTimeUntilEndOfWeek }} left
-      </div>
-      <div class="until-the-next-day" v-if="!isDashboard && activeTabKey === 'monthly'">
-        <img :src="expiresInIcon" alt="">
-        {{ remainingTimeUntilEndOfMonth }} left
-      </div>
+      <h2 class="section-title" v-if="achievementsData.length">
+        {{ 'Achievements' }}
+      </h2>
     </div>
     <div class="content-wrapper">
       <Loader v-if="isLoading"   class="loading" :title="'Achievements are loading'"/>
@@ -70,22 +18,14 @@
           />
         </div>
       </div>
-      <Pagination
-          v-if="!isDashboard && !isLoading"
-          :current-page="currentPage"
-          :total-pages="totalPages"
-          @pageChange="pageChange"
-      />
     </div>
-
   </div>
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import {
-  AchievementRequest,
   AchievementsApiWs,
   ApiClientStomp,
   EntityRequest,
@@ -94,12 +34,8 @@ import {
   OptInStatesRequest,
   RewardsApiWs
 } from '@ziqni-tech/member-api-client';
-import { CNav, CNavLink, CSpinner } from '@coreui/vue';
 
-import { useCountdown } from '@/hooks/useCountdown';
 import AchievementsCard from './AchievementsCard';
-import expiresInIcon from '@/assets/icons/tournament/expires-in.png';
-import Pagination from '@/shared/components/Pagination.vue';
 import Loader from '@/components/Loader.vue';
 
 const store = useStore();
@@ -118,133 +54,19 @@ const limit = ref(computed(() => props.isDashboard ? 2 : 9));
 const isLoading = ref(false);
 const achievements = ref([]);
 
-const activeTabKey = computed(() => store.getters.getCurrentTab.length
-    ? store.getters.getCurrentTab
-    : 'all');
+
 
 const currentPage = computed(() => store.getters.getCurrentPage);
 const totalRecords = ref(0);
-const totalPages = computed(() => Math.ceil(totalRecords.value / limit.value));
+
 const skip = computed(() => (currentPage.value - 1) * limit.value);
 
-const descriptions = {
-  daily: 'List of daily achievements that refresh every day.',
-  weekly: 'List of weekly achievements that refresh every week.',
-  all: 'List of all once and repeatedly achievements.',
-  monthly: 'List of monthly achievements that refresh every month.',
-};
-
-const achievementsTitles = {
-  daily: 'Daily achievements',
-  weekly: 'Weekly achievements',
-  all: 'All achievements',
-  monthly: 'Monthly achievements',
-};
-
-const updateActiveTab = (val) => {
-  store.dispatch('setCurrentTab', val);
-  store.dispatch('setCurrentPage', 1);
-};
-
-// daily
-const dailyTimeLeft = ref('');
-
-const getNextDayStart = () => {
-  const currentDate = new Date();
-  currentDate.setDate(currentDate.getDate() + 1);
-  currentDate.setHours(0, 0, 0, 0);
-
-  return currentDate;
-};
-
-const nextDayStart = getNextDayStart();
-const dailyCountdownResult = useCountdown(nextDayStart);
-
-const remainingTimeUntilEndOfMonth = ref('');
-
-const getRemainingTimeUntilEndOfMonth = () => {
-  const now = new Date();
-  const currentMonth = now.getMonth();
-  const nextMonth = currentMonth + 1;
-  const nextMonthFirstDay = new Date(now.getFullYear(), nextMonth, 1);
-  const endOfMonth = new Date(nextMonthFirstDay - 1);
-
-  const remainingTime = endOfMonth.getTime() - now.getTime();
-  const remainingDays = Math.floor(remainingTime / (1000 * 3600 * 24));
-  const remainingHours = Math.floor((remainingTime % (1000 * 3600 * 24)) / (1000 * 3600));
-  const remainingMinutes = Math.floor((remainingTime % (1000 * 3600)) / (1000 * 60));
-  const remainingSeconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
-
-  return {
-    remainingDays,
-    remainingHours,
-    remainingMinutes,
-    remainingSeconds,
-  };
-};
-
-const updateRemainingTimeUntilEndOfMonth = () => {
-  const { remainingDays, remainingHours, remainingMinutes } = getRemainingTimeUntilEndOfMonth();
-  remainingTimeUntilEndOfMonth.value = `${ remainingDays }d ${ remainingHours }h ${ remainingMinutes }m`;
-};
-
-
 onMounted(() => {
-  updateRemainingTimeUntilEndOfMonth();
   ApiClientStomp.instance.sendSys('', {}, async (json, headers) => {
     if (json && json.entityType === 'Achievement') {
       await getAchievementsRequest();
     }
   });
-});
-watch(activeTabKey, (newValue) => {
-  if (newValue === 'monthly') {
-    updateRemainingTimeUntilEndOfMonth();
-  }
-});
-
-watch(dailyCountdownResult, value => {
-  if (value) {
-    const { hours, minutes } = dailyCountdownResult;
-    return dailyTimeLeft.value = `${ hours }h ${ minutes }m`;
-  }
-
-}, { immediate: true });
-
-const remainingTimeUntilEndOfWeek = ref('');
-
-const getRemainingTimeUntilEndOfWeek = () => {
-  const now = new Date();
-  const dayOfWeek = now.getDay();
-  const daysToNextMonday = 8 - dayOfWeek;
-  const endOfWeek = new Date(now);
-  endOfWeek.setDate(now.getDate() + daysToNextMonday);
-  endOfWeek.setHours(23, 59, 59, 999); // Устанавливаем время на конец дня
-
-  const remainingTime = endOfWeek.getTime() - now.getTime();
-  const remainingSeconds = Math.floor(remainingTime / 1000) % 60;
-  const remainingMinutes = Math.floor(remainingTime / 1000 / 60) % 60;
-  const remainingHours = Math.floor(remainingTime / 1000 / 60 / 60) % 24;
-  const remainingDays = Math.floor(remainingTime / 1000 / 60 / 60 / 24);
-
-  return {
-    remainingDays,
-    remainingHours,
-    remainingMinutes,
-    remainingSeconds
-  };
-};
-
-const updateRemainingTimeUntilEndOfWeek = () => {
-  const { remainingDays, remainingHours, remainingMinutes, remainingSeconds } = getRemainingTimeUntilEndOfWeek();
-  remainingTimeUntilEndOfWeek.value = `${ remainingDays }d ${ remainingHours }h ${ remainingMinutes }m`;
-};
-
-onMounted(updateRemainingTimeUntilEndOfWeek);
-watch(activeTabKey, (newValue) => {
-  if (newValue === 'weekly') {
-    updateRemainingTimeUntilEndOfWeek();
-  }
 });
 
 const getAchievementsRequest = async () => {
@@ -258,7 +80,7 @@ const getAchievementsRequest = async () => {
         productTagsFilter: [],
         ids: [],
         status: [],
-        scheduleTypes: [], // "Monthly"
+        scheduleTypes: [],
         sortBy: [
           {
             queryField: 'created',
