@@ -4,7 +4,7 @@
       <div class="logo-wrapper">
         <img
             class="logo"
-            :src="require(`../../assets/icons/${logoName}.svg`)"
+            :src="logoName"
             alt="logo"
         />
       </div>
@@ -22,6 +22,7 @@ import { computed } from 'vue';
 import sidebarNav from './sidebarNav';
 import SidebarNav from '@/components/sidebar/SidebarNav.vue';
 import LogoutItem from '@/components/sidebar/LogoutItem';
+import config from '@/config/siteConfig.json'
 
 const router = useRouter();
 const store = useStore();
@@ -30,8 +31,8 @@ const isDarkMode = computed(() => store.getters.getTheme);
 
 const logoName = computed(() => {
   return isDarkMode.value
-      ? 'logo-dark'
-      : 'logo-light';
+      ? config.logos.dark.icon
+      : config.logos.light.icon;
 });
 
 const logOut = () => emit('logOut');

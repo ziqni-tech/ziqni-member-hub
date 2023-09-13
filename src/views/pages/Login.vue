@@ -41,7 +41,7 @@ const router = useRouter();
 const memberRefId = ref('Player-1');
 // const apiKey = ref('18289fd2aa4c7a43c5abb14abe83009f');
 const apiKey = ref('25f99a84a166da4c67abe90a30801c41');
-const expires = 144000;
+const expires = 1440;
 const isLoading = ref(false)
 const store = useStore()
 
@@ -74,8 +74,6 @@ const generateUserToken = async () => {
       await ApiClientStomp.instance.connect({ token: token });
       await store.dispatch('setIsConnectedClient', true);
 
-      // await router.push({ name: 'Dashboard' }).catch(() => {});
-
       setTimeout(() => {
         isLoading.value = false
         window.location.reload()
@@ -93,7 +91,7 @@ const generateUserToken = async () => {
 const isLoggedIn = !!localStorage.getItem('token');
 
 if (isLoggedIn) {
-  router.push({ name: 'Dashboard' });
+  router.push('/dashboard');
 }
 </script>
 

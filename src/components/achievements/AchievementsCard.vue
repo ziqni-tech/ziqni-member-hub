@@ -22,20 +22,14 @@
             {{ achievement.percentageComplete }}%
           </div>
         </div>
+        <button
+            class="btn leave-button"
+            :class="{'join-btn': !isEntrant}"
+            @click.stop="isEntrant ? openModal() : join()"
+        >
+          {{ isEntrant ? 'Leave' : 'Join' }}
+        </button>
       </div>
-    </div>
-    <div class="bottom-section">
-      <div class="btn prize">
-        <img :src="rewardIcon" alt="">
-        {{ achievement.rewardValue }}
-      </div>
-      <button
-        class="btn leave-button"
-        :class="{'join-btn': !isEntrant}"
-        @click.stop="isEntrant ? openModal() : join()"
-      >
-        {{ isEntrant ? 'Leave' : 'Join' }}
-      </button>
     </div>
   </div>
   <Modal
@@ -108,7 +102,7 @@ const goToAchievementDetails = () => {
   router.push({
     name: 'AchievementDetails',
     params: {
-      id: achievement.id,
+      id: achievement.value.id,
     }
   })
 }
@@ -121,22 +115,20 @@ const goToAchievementDetails = () => {
   width: 100%;
   background-color: $card-bg-DM;
   border-radius: $border-radius;
-  padding: 10px 16px 14px;
+  padding: 14px 10px;
 
   cursor: pointer;
 
   .top-section {
     display: flex;
-    border-bottom: 1px solid $border-color-DM;
-    padding-bottom: 14px;
   }
 
   .left-section {
-    width: 20%;
+    width: 84px;
 
     .icon {
-      width: 74px;
-      height: 74px;
+      width: 84px;
+      height: 84px;
       border-radius: $border-radius-round;
       border: 1px solid $btn-border-grey;
       display: flex;
@@ -171,7 +163,7 @@ const goToAchievementDetails = () => {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 10px 0 0 20px;
+    padding: 10px 0 0 8px;
 
     .title {
       font-family: $bold;
@@ -209,12 +201,6 @@ const goToAchievementDetails = () => {
         color: $white-color-DM;
       }
     }
-  }
-
-  .bottom-section {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
 
     .btn {
       width: 108px;
@@ -222,6 +208,7 @@ const goToAchievementDetails = () => {
       align-items: center;
       justify-content: center;
       border-radius: $border-radius;
+      margin-top: 10px;
 
       font-size: 14px;
       font-family: $bold;
@@ -240,25 +227,13 @@ const goToAchievementDetails = () => {
     .join-btn {
       background: $btn-primary-bg-color-LM;
     }
-
-    .prize {
-      color: $prize-btn-color-DM;
-      background-color: $prize-btn-bg-DM;
-      cursor: default;
-      border: none;
-
-      > img {
-        max-width: 36px;
-        height: 18px;
-      }
-    }
   }
 
   &.light-mode {
     background-color: $card-bg-LM;
 
     .top-section {
-      border-bottom: 1px solid $main-border-color-LM;
+      //border-bottom: 1px solid $main-border-color-LM;
     }
 
     .left-section {
@@ -292,7 +267,7 @@ const goToAchievementDetails = () => {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      padding: 10px 0 0 20px;
+      padding: 10px 0 0 8px;
 
       .title {
         font-family: $bold;
@@ -327,6 +302,33 @@ const goToAchievementDetails = () => {
           line-height: 16px;
           color: $card-text-color-LM;
         }
+      }
+      .btn {
+        width: 108px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: $border-radius;
+        margin-top: 10px;
+
+        font-size: 14px;
+        font-family: $bold;
+        color: $white-color-DM;
+
+        > img {
+          margin-right: 5px;
+        }
+      }
+
+      .leave-button {
+        background: none;
+        border: 1px solid $btn-border-color-LM;
+        color: #202B38;
+      }
+
+      .join-btn {
+        background: $btn-primary-bg-color-LM;
+        color: white;
       }
     }
 

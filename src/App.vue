@@ -3,7 +3,12 @@
 </template>
 
 <script setup>
+import config from '@/config/siteConfig.json'
 
+document.title = config.title
+
+const favicon = document.querySelector('link[rel="icon"]')
+favicon.href = config.favicon
 </script>
 
 <style lang="scss">

@@ -22,7 +22,7 @@ const props = defineProps({
   },
   strokeColor: {
     type: String,
-    default: '#8B96BE'
+    default: '#4A6382'
   }
 });
 </script>

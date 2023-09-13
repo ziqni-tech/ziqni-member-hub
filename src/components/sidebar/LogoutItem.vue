@@ -16,7 +16,7 @@ const props = defineProps({
 });
 
 const getIconStrokeColor = () => {
-  return props.isDarkMode ? '#FFFFFF' : '#141E28';
+  return props.isDarkMode ? '#FFFFFF' : '#4A6382';
 };
 const handleLogout = () => {
   emit('logOut');
@@ -72,7 +72,7 @@ const handleLogout = () => {
 
   &.light-mode {
     .logout-item__title {
-      color: #141E28;
+      color: $nav-item-color-LM;
     }
   }
 }

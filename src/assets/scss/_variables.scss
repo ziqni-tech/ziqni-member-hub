@@ -59,35 +59,37 @@ $section-description-color-LM:    #223241;
 $card-title-color-LM:       #141E28;
 $card-text-color-LM:        #223241;
 
-$nav-item-color-LM:         #141E28;
+$nav-item-color-LM:         #4A6382;
 $nav-active-item-color-LM:  #FFFFFF;
 $text-color-white-LM:       #FFFFFF;
 $prize-name-LM:             #304F69;
 
 $info-name-color:           #304F69;
+$tab-item-text-LM:          #253241;
 // borders
-$main-border-color-LM:      #B9CEDF;
+$main-border-color-LM:      #D2F0F9;
 $info-item-bg:              #BEE9F3;
 $border-pink:               #F7A1E4;
 
 // card
-$card-bg-LM:                #DCE6EF;
+$card-bg-LM:                #EFF2F6;
 $expires-in-bg:             #8D0C71;
 
 // button
-$btn-primary-bg-color-LM:   #EE3EC8;
-$btn-border-color-LM:       #EE3EC8;
+$btn-primary-bg-color-LM:   linear-gradient(180deg, #F0047F 0%, #A14B9D 100%);
+$btn-border-color-LM:       #F0047F;
 $btn-prize-bg-color-LM:     #EDF3F7;
 
 $btn-primary-color-LM:      #FFFFFF;
 $btn-secondary-color-LM:    #080D12;
 $btn-prize-color-LM:        #223241;
 
-$pagination-active-btn-bg:  #BEE9F3;
-$pagination-btn-border:     #CCCCCC;
+$pagination-active-btn-bg:  #199EC7;
+$pagination-btn-border:     #D2F0F9;
 
 // progress
-$blue-gradient:             linear-gradient(90deg, rgba(64,106,140,1) 35%, rgba(115,157,191,1) 100%);
+$blue-gradient:             linear-gradient(180deg, #41B2A1 0%, #199FC7 100%);
+;
 // dark mode
 $main-bg-DM:                #0F1921;
 $secondary-bg-DM:           #223241;
@@ -101,7 +103,7 @@ $card-bg-DM:                #141E28;
 
 $modal-bg-DM:               #141E28;
 
-$tabs-bg-DM:                #223241;
+$tabs-bg-DM:                #E8F8FC;
 $active-tab-bg_DM:          #2F0426;
 
 $white-color-DM:            #FFF;

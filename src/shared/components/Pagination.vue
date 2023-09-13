@@ -116,7 +116,7 @@ function changePage(pageNumber) {
 
   .page-item {
     margin: 0 3px;
-    border: 1px solid #333333;
+    border: 1px solid $btn-border-color-LM;
     width: 55px;
     height: 40px;
     display: flex;
@@ -130,9 +130,8 @@ function changePage(pageNumber) {
   }
 
   .active {
-    background: $active-tab-bg_DM;
-    border: 1px solid $border-color-DM;
-    box-shadow: 0 2px 12px 0 rgba(64, 106, 140, 0.50);
+    background: $btn-primary-bg-color-LM;
+    border: 1px solid $btn-border-color-LM;
   }
 
   button[disabled] {
@@ -164,8 +163,8 @@ function changePage(pageNumber) {
 
     .active {
       background: $pagination-active-btn-bg;
-      border: 1px solid var(--primary-pink-200, #F7A1E4);
-      box-shadow: 0 2px 12px 0 rgba(238, 62, 200, 0.40);
+      border: 1px solid $pagination-active-btn-bg;
+      color: white;
     }
 
     button[disabled] {

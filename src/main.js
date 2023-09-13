@@ -10,15 +10,14 @@ import './assets/scss/main.scss';
 import VNetworkGraph from 'v-network-graph';
 import 'v-network-graph/lib/style.css';
 
+const app = createApp(App);
 
-
-createApp({
-            extends: App,
-          })
+app
   .use(router)
   .use(CoreuiVue)
   .use(VNetworkGraph)
   .use(store)
-  .component('AppLayout', AppLayout)
-  .mount('#app');
+  .component('AppLayout', AppLayout);
+
+app.mount('#app');
 

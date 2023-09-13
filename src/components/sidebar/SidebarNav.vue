@@ -5,9 +5,14 @@
       @click="paginationClear"
       :class="{active: isActive(item.to)}"
   >
-    <router-link :to="item.to" class="nav-item" :class="{'light-mode': !isDarkMode}">
+    <router-link :to="item.to" class="nav-item" :class="{'light-mode': !isDarkMode, disabled: !item.enabled}" >
       <div class="nav-item__icon-wrapper">
-        <component class="icon" :is="item.icon" :strokeColor="getIconStrokeColor(item)"/>
+        <component
+            class="icon"
+            :is="item.icon"
+            :strokeColor="isActive(item.to) ? '#FFFFFF' : (isDarkMode ? '#FFFFFF' : '#4A6382')"
+        />
+<!--        <img class="icon" :src="item.icon" alt=""/>-->
       </div>
       <span class="nav-item__title" :class="{'light-mode': !isDarkMode}">{{ item.name }}</span>
     </router-link>
@@ -21,11 +26,7 @@ import { useStore } from 'vuex';
 const props = defineProps({ navItems: Array, isDarkMode: Boolean });
 const store = useStore()
 const route = useRoute();
-const getIconStrokeColor = (item) => {
-  if (route.path.startsWith(item.to)) {
-    return props.isDarkMode ? '#FFFFFF' : '#141E28'
-  }
-};
+
 
 const isActive = (path) => {
   return route.path.startsWith(path)
@@ -82,7 +83,7 @@ const paginationClear = () => {
   > .router-link-active {
     color: $text-color-white;
     font-family: $semi-bold;
-    background-color: $btn-primary-bg-color-LM;
+    //background: linear-gradient(180deg, #F0047F 0%, #A14B9D 100%);
 
     &.light-mode {
       color: $nav-active-item-color-LM;
@@ -102,7 +103,12 @@ const paginationClear = () => {
 }
 
 .nav-item.active {
-  background: $btn-primary-bg-color-LM;
+  background: linear-gradient(180deg, #F0047F 0%, #A14B9D 100%);
+}
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 @media screen and (max-width: 1200px) {

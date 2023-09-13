@@ -8,7 +8,11 @@
     >
       <router-link :to="item.to" class="mob-nav-item">
         <div class="icon-wrapper">
-          <component class="icon" :is="item.icon" :strokeColor="getIconStrokeColor(item)" />
+          <component
+              class="icon"
+              :is="item.icon"
+              :strokeColor="isActive(item.to) ? '#FFFFFF' : (isDarkMode ? '#FFFFFF' : '#4A6382')"
+          />
         </div>
         <span v-if="isActive(item.to)" class="item-name">{{ item.name }}</span>
       </router-link>
@@ -22,18 +26,13 @@ import { CNavItem } from '@coreui/vue';
 import sidebarNav from './sidebarNav';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import { computed } from 'vue';
 
 const route = useRoute();
 const props = defineProps({
   isDarkMode: Boolean
 })
 const store = useStore()
-
-const getIconStrokeColor = (item) => {
-  if (route.path.startsWith(item.to)) {
-    return props.isDarkMode ? '#FFFFFF' : '#141E28';
-  }
-};
 
 const isActive = (path) => {
   return route.path.startsWith(path)
@@ -56,15 +55,16 @@ const paginationClear = () => {
   .nav-item {
     flex-grow: 1;
     display: flex;
+    border-radius: 8px;
 
     > .router-link-active {
-      background: $btn-primary-bg-color-LM;
+      background: linear-gradient(180deg, #F0047F 0%, #A14B9D 100%);
       border-radius: 8px;
     }
   }
 
   .nav-item.active {
-    background: $btn-primary-bg-color-LM;
+    background: linear-gradient(180deg, #F0047F 0%, #A14B9D 100%);
   }
 
   .mob-nav-item {
@@ -106,7 +106,7 @@ const paginationClear = () => {
       display: flex;
 
       > .router-link-active {
-        background: $btn-primary-bg-color-LM;
+        background: linear-gradient(180deg, #F0047F 0%, #A14B9D 100%);
         border-radius: 8px;
       }
     }

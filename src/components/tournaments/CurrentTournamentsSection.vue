@@ -125,6 +125,7 @@ const getCompetitionsRequest = async () => {
 
     await competitionsApiWsClient.getCompetitions(competitionRequest, async (res) => {
       const competitionsData = res.data;
+
       totalRecords.value = res.meta.totalRecordsFound
 
       const compIds = competitionsData.map(item => item.id);

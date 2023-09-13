@@ -5,37 +5,28 @@ import Messages from './svg-icons/Messages';
 import Achievements from './svg-icons/Achievements';
 import Awards from './svg-icons/Awards';
 
-const sidebarNav = [
-    {
-        name: 'Dashboard',
-        to: '/dashboard',
-        icon: Dashboard,
-    },
-    {
-        name: 'Tournaments',
-        to: '/tournaments',
-        icon: Tournaments,
-    },
-    {
-        name: 'Achievements',
-        to: '/achievements',
-        icon: Achievements,
-    },
-    {
-        name: 'Awards',
-        to: '/awards',
-        icon: Awards,
-    },
-    {
-        name: 'Messages',
-        to: '/messages',
-        icon: Messages,
-    },
-    {
-        name: 'Missions',
-        to: '/missions',
-        icon: Missions,
-    },
-];
+const icons = {
+    dashboard: Dashboard,
+    tournaments: Tournaments,
+    achievements: Achievements,
+    awards: Awards,
+    messages: Messages,
+    missions: Missions
+}
+
+import config from '@/config/siteConfig.json'
+
+const sidebarNav = []
+
+for (const menuItem of config.mainMenu.items) {
+    const menuObject =      {
+        name: menuItem.text,
+        to: menuItem.url,
+        icon: icons[menuItem.key],
+        enabled: menuItem.enabled
+        // icon: menuItem.images.icon,
+    }
+    sidebarNav.push(menuObject)
+}
 
 export default sidebarNav;

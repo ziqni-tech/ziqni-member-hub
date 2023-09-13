@@ -138,7 +138,7 @@ const formattedTime = (dateString) => {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 40px;
+      min-width: 40px;
       height: 40px;
       border-radius: $border-radius-round;
 
@@ -165,7 +165,7 @@ const formattedTime = (dateString) => {
         font-size: 12px;
         color: $description-color-DM;
         font-family: $mainFont;
-        max-width: 650px;
+        max-width: 800px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -239,6 +239,45 @@ const formattedTime = (dateString) => {
 
         .date {
           text-align: right;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1505px) {
+  .messages-wrapper {
+    .list-group-item {
+      .message-body {
+
+        &__body {
+          max-width: 600px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1265px) {
+  .messages-wrapper {
+    .list-group-item {
+      .message-body {
+
+        &__body {
+          max-width: 500px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1150px) {
+  .messages-wrapper {
+    .list-group-item {
+      .message-body {
+
+        &__body {
+          max-width: 400px;
         }
       }
     }

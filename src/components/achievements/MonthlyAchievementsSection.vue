@@ -315,7 +315,7 @@ onMounted(() => {
   max-width: 90%;
   display: flex;
   align-items: center;
-  background-color: $tabs-bg-DM;
+  background-color: $card-bg-DM;
   border-radius: $border-radius;
   margin: 0 auto;
   font-family: $medium;
@@ -331,7 +331,7 @@ onMounted(() => {
   }
 
   &.light-mode {
-    background-color: $card-bg-LM;
+    background-color: $tabs-bg-DM;
   }
 }
 
@@ -351,19 +351,16 @@ onMounted(() => {
 }
 
 .light-mode .nav-pills .nav-link {
-  color: $card-text-color-LM;
+  color: $tab-item-text-LM;
 }
 
 .nav-pills .nav-link.active {
-  background: $active-tab-bg_DM;
-  box-shadow: 0 2px 12px 0 rgba(64, 106, 140, 0.50);
-  border: 1px solid var(--secondary-dark-blue-600, #406A8C);
+  background: $btn-primary-bg-color-LM;
 }
 
 .light-mode .nav-pills .nav-link.active {
   background: $pagination-active-btn-bg;
-  border: 1px solid $border-pink;
-  box-shadow: 0 2px 12px 0 rgba(238, 62, 200, 0.40);
+  border: none;
 }
 
 .achievements-dashboard-cards-grid {

@@ -5,20 +5,14 @@
     </div>
     <div class="t-info">
       <div class="tournament-name">{{ cardItem.name }}</div>
-      <TournamentDataRow
-          :icon="expiresInIcon"
-          :label="'Ends'"
-          :value="cardItem.scheduledEndDate"
-          :is-date="true"
-          :is-dark-mode="isDarkMode"
-      />
-      <TournamentDataRow
-          :icon="prizeIcon"
-          :label="'prize'"
-          :value="cardItem.rewardValue"
-          :is-dark-mode="isDarkMode"
-      />
+      <div class="schedule">
+        {{ formatDateRange(cardItem.scheduledStartDate, cardItem.scheduledEndDate) }}
+      </div>
+
       <div class="see-more-btn-wrapper" >
+
+        <div class="prize"><TrophyIcon />
+          {{ cardItem.rewardValue}}</div>
         <button class="see-more-btn" @click="goToTournamentsDetailsPage">See more</button>
       </div>
     </div>
@@ -27,9 +21,7 @@
 
 <script setup>
 import { useRouter } from 'vue-router';
-import TournamentDataRow from './TournamentDataRow';
-import prizeIcon from '@/assets/icons/tournament/prize.png';
-import expiresInIcon from '@/assets/icons/tournament/expires-in.png';
+import TrophyIcon from '@/shared/components/svg-icons/TrophyIcon.vue';
 
 const props = defineProps({
   card: Object,
@@ -37,6 +29,24 @@ const props = defineProps({
 });
 
 const cardItem = props.card;
+
+function formatDateRange(startDateStr, endDateStr) {
+  const months = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  ];
+
+  const startDate = new Date(startDateStr);
+  const endDate = new Date(endDateStr);
+
+  const startMonth = months[startDate.getMonth()];
+  const endMonth = months[endDate.getMonth()];
+
+  const formattedStartDate = `${startMonth} ${startDate.getDate()}`;
+  const formattedEndDate = `${endMonth} ${endDate.getDate()}, ${endDate.getFullYear()}`;
+
+  return `${formattedStartDate} - ${formattedEndDate}`;
+}
 
 const router = useRouter();
 
@@ -83,6 +93,13 @@ const goToTournamentsDetailsPage = () => {
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 
+    .schedule {
+      color: #202B38;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 400;
+    }
+
     .tournament-name {
       font-size: 14px;
       font-family: $bold;
@@ -104,23 +121,31 @@ const goToTournamentsDetailsPage = () => {
     .see-more-btn-wrapper {
       width: 100%;
       margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .prize {
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 700;
+        color: #41B2A1;
+      }
 
       .see-more-btn {
-        width: 100%;
-        margin-top: 18px;
-
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 10px 57px;
+        padding: 10px ;
 
         background: $btn-primary-bg-color-LM;
         border-radius: $border-radius;
         border: 1px solid $btn-border-color-LM;
 
-        font-size: 14px;
-        font-family: $bold;
-        color: $white-color-DM;
+
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 600;
       }
     }
   }
