@@ -11,7 +11,7 @@
       <Dashboard/>
     </div>
     <div id="user-profile-block">
-      <UserProfile v-if="isClientConnected && !isNotificationsList" @openNotifications="openNotifications"/>
+      <UserProfile v-if="!isNotificationsList" @openNotifications="openNotifications"/>
       <Notifications
           class="notificationsList"
           v-if="isNotificationsList"
@@ -27,7 +27,7 @@
       <div class="icon-btn" @click="openNotifications">
         <NotificationIcon :width="'40'" :height="'40'" :stroke-color="getIconStrokeColor()"/>
       </div>
-      <span class="page-name">{{ router.currentRoute.value.name }}</span>
+      <img src="@/assets/icons/taveo-logo.svg" alt="">
       <div class="icon-btn person-icon" @click="openProfileInfo">
         <PersonIcon :width="'20'" :height="'20'" :stroke-color="getIconStrokeColor()"/>
       </div>
@@ -38,7 +38,6 @@
     <MobileNav :isDarkMode="isDarkMode"/>
   </div>
   <UserProfileMobile
-      v-if="isClientConnected"
       @closeProfileInfo="closeProfileInfo"
       @logOut="logOut"
       :class="{ open: isProfileInfo }"

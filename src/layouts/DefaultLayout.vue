@@ -37,7 +37,7 @@
       <div v-if="!isGoBackBtn" class="icon-btn" @click="openNotifications">
         <NotificationIcon :width="'40'" :height="'40'" :stroke-color="getIconStrokeColor()"/>
       </div>
-      <span class="page-name">{{ splitCamelCaseToWords(router.currentRoute.value.name) }}</span>
+      <img src="@/assets/icons/taveo-logo.svg" alt="">
       <div class="icon-btn person-icon" @click="openProfileInfo">
         <PersonIcon :width="'20'" :height="'20'" :stroke-color="getIconStrokeColor()"/>
       </div>

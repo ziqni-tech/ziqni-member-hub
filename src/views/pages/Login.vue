@@ -22,7 +22,7 @@
             v-model="apiKey"
         />
       </div>
-      <button class="m-btn login-btn" @click="generateUserToken">
+      <button class="login-btn" @click="generateUserToken">
         Log In
       </button>
     </div>
@@ -157,9 +157,11 @@ if (isLoggedIn) {
 
   .login-btn {
     margin-top: 25px;
+    padding: 5px 10px;
     width: 100%;
-    background-color: $btn-primary-bg-color-LM;
+    background: $btn-primary-bg-color-LM;
     border-radius: $border-radius;
+    color: white;
   }
 }
 </style>

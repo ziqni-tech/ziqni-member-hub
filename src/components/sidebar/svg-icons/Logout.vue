@@ -10,11 +10,11 @@
 const props = defineProps({
   width: {
     type: String,
-    default: '20'
+    default: '24'
   },
   height: {
     type: String,
-    default: '20'
+    default: '24'
   },
   fill: {
     type: String,
@@ -22,7 +22,7 @@ const props = defineProps({
   },
   strokeColor: {
     type: String,
-    default: '#4A6382'
+    default: '#F0047E'
   }
 });
 </script>

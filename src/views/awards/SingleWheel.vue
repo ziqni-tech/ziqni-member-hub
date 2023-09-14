@@ -17,7 +17,13 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import {
+  ApiClientStomp,
+  InstantWinRequest,
+  InstantWinsApiWs
+} from '@ziqni-tech/member-api-client'
+
+import { computed, onMounted, ref } from 'vue';
 import WheelOfFortune from '@/components/awards/WheelOfFortune.vue';
 import { useStore } from 'vuex';
 
@@ -28,6 +34,24 @@ const message = ref('');
 const rerenderKey = ref(0);
 const store = useStore();
 const isDarkMode = computed(() => store.getters.getTheme);
+
+onMounted(() => {
+  getInstantWinsRequest();
+});
+const getInstantWinsRequest = async () => {
+  const instantWinsApiWsClient = new InstantWinsApiWs(ApiClientStomp.instance)
+
+  instantWinsApiWsClient.listInstantWins({
+    instantWinFilter : {
+      ids: [],
+      instantWinTypes: [1],
+      limit: 20,
+      skip: 0
+    }
+  }, (res) => {
+    console.log('inst res', res);
+  })
+}
 
 const data = ref([
   {

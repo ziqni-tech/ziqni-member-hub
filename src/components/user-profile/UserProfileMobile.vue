@@ -1,6 +1,6 @@
 <template>
   <div id="user-profile-mobile" :class="{ open: isProfileInfo, 'light-mode': !isDarkMode }">
-    <div class="background-block" :style="{ 'background-image': `url(${require('@/assets/images/user/cover.png')})` }">
+    <div class="background-block" >
       <div class="buttons">
         <ToggleTheme
             class="theme-btn"
@@ -11,55 +11,47 @@
           <CrossIcon :width="'40'" :height="'40'" :stroke-color="getIconStrokeColor()"/>
         </div>
       </div>
-    </div>
-    <div class="user-info">
-      <div class="user-image-wrapper">
-        <div class="user-image">
-          <img :src="member.iconLink ? member.iconLink : memberDefaultIcon" alt="">
+
+      <div class="greetings">
+        Hi,
+        <img class="user-avatar" :src="member.iconLink ? member.iconLink : memberDefaultIcon" alt="">
+         <span v-if="isClientConnected">{{ member.name }}!</span>
+      </div>
+      <div class="recent-trips">
+        <span>Recent trips</span>
+        <div class="trips-block">
+          <TripCard class="trip-card" />
+          <TripCard class="trip-card"  />
+          <TripCard class="trip-card"  />
+          <TripCard class="trip-card"  />
+          <TripCard class="trip-card"  />
         </div>
       </div>
-      <div class="user-name">{{ member.name }}</div>
-      <div class="pro-label">pro</div>
-      <div class="info-block">
-        <ProfileInfoCircleProgress
-            :color="'#BEE9F3'"
-            :title="'Total game'"
-            :completed-steps="totalGames"
-            :total-steps="50 + totalGames"
-            :is-dark-mode="isDarkMode"
-        />
-        <ProfileInfoCircleProgress
-            :color="'#8749DC'"
-            :title="'Points'"
-            :completed-steps="Math.round(totalPoints)"
-            :total-steps="80 + totalPoints"
-            :is-dark-mode="isDarkMode"
-        />
-        <ProfileInfoCircleProgress
-            :color="'#6FCF97'"
-            :title="'win'"
-            :completed-steps="winPercentage"
-            :total-steps="100"
-            :is-percents="true"
-            :is-dark-mode="isDarkMode"
-        />
-        <ProfileInfoCircleProgress
-            :color="'#EB5757'"
-            :title="'lose'"
-            :completed-steps="lossPercentage"
-            :total-steps="100"
-            :is-percents="true"
-            :is-dark-mode="isDarkMode"
-        />
-      </div>
     </div>
-    <div class="border-block"></div>
-    <button
-        class="logout-mobile-btn"
-        @click="logOut"
-    >
-      logout
-    </button>
+
+    <div class="menu-block">
+      <ul class="user-menu">
+        <li class="menu-item">
+          <img src="@/assets/icons/user-info/message.svg" alt="">
+          Start a chart
+        </li>
+        <li class="menu-item">
+          <img src="@/assets/icons/user-info/shield-tick.svg" alt="">
+          Renew your policy
+        </li>
+        <li class="menu-item">
+          <img src="@/assets/icons/user-info/info-circle.svg" alt="">
+          Had a crash? Get help
+        </li>
+        <li class="menu-item logout" @click="logOut">
+          <Logout />
+          logout
+        </li>
+      </ul>
+
+    </div>
+
+
   </div>
 </template>
 
@@ -78,10 +70,13 @@ import {
 } from '@ziqni-tech/member-api-client';
 import memberDefaultIcon from '@/assets/images/user/avatar.png';
 import CrossIcon from '@/shared/components/svg-icons/CrossIcon.vue';
+import TripCard from '@/components/dashboard/TripCard.vue';
+import Logout from '@/components/sidebar/svg-icons/Logout.vue';
 
 const store = useStore();
 const { isMobile } = useMobileDevice();
 const emit = defineEmits(['closeProfileInfo', 'logOut']);
+const isClientConnected = computed(() => store.getters.getIsConnectedClient);
 
 const props = defineProps({
   isProfileInfo: {
@@ -237,7 +232,7 @@ const getOptInStatus = async (ids) => {
 #user-profile-mobile {
   display: flex;
   flex-direction: column;
-  background-color: $secondary-bg-DM;
+  background-color: $bg-secondary-LM;
   position: fixed;
   top: 0;
   right: -100%;
@@ -247,23 +242,41 @@ const getOptInStatus = async (ids) => {
   z-index: 10;
 
   .background-block {
+    padding: 12px;
     display: flex;
     flex-direction: column;
     position: relative;
-    height: 24%;
+    height: 54%;
     overflow: hidden;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
+    background: linear-gradient(180deg, #41B2A1 0%, #199FC7 100%);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+
+    .greetings {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      margin-top: 25px;
+      text-align: left;
+      color: #FFF;
+
+      font-size: 22px;
+      font-style: normal;
+      font-weight: 700;
+
+      .user-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        margin: 0 5px;
+      }
+    }
 
     .buttons {
-      position: absolute;
-      top: 0;
-      left: 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
       width: 100%;
-      padding: 12px;
 
       .theme-btn {
         background-color: inherit;
@@ -286,83 +299,74 @@ const getOptInStatus = async (ids) => {
         justify-content: center;
       }
     }
-  }
 
-  .user-info {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 42px;
-
-    .user-image-wrapper {
-      position: absolute;
-      top: -68px;
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      border: 4px solid #7ED4E7;
-      background: none;
+    .recent-trips {
       display: flex;
-      align-items: center;
-      justify-content: center;
+      flex-direction: column;
+      align-items: flex-start;
+      color: #FFF;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 600;
+      margin-top: 30px;
 
-      .user-image {
-        width: 92px;
-        height: 92px;
+      .trips-block {
+        width: 100%;
+        margin-top: 15px;
         display: flex;
         align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        //border: 4px solid $border-dark;
-        //background-color: $body-text-color;
-        background: none;
-        overflow: hidden;
+        flex-wrap: nowrap;
+        overflow-x: scroll;
 
-        > img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
+        &::-webkit-scrollbar {
+          width: 0;
+        }
+
+        .trip-card {
+          width: 80%;
+          margin-right: 10px;
         }
       }
     }
+  }
 
-    .user-name {
-      font-style: normal;
-      font-family: $bold;
-      font-size: 12px;
-      line-height: 17px;
-      color: $white-color-DM;
-    }
+  .menu-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    padding-top: 30px;
 
-    .pro-label {
-      margin-top: 5px;
-      border-radius: 5px;
-      text-transform: uppercase;
-      background: #7ED4E7;
-      color: #223241;
-      padding: 0 10px;
-      font-family: $bold;
-      font-size: 8px;
-      line-height: 12px;
-    }
+    .user-menu {
+      width: 100%;
+      padding: 0 12px;
 
-    .info-block {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: repeat(2, minmax(0, 1fr));
-      gap: 41px 16px;
-      margin-top: 50px;
-      margin-bottom: 20px;
+      .menu-item {
+        text-align: start;
+        color: #253241;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+
+        & > img {
+          margin-right: 5px;
+        }
+      }
+
+      .menu-item.logout {
+        color: #F0047E;
+        & > svg {
+          margin-right: 5px;
+        }
+      }
+
+      .menu-item:not(:last-child) {
+        margin-bottom: 30px;
+      }
     }
   }
 
-  .border-block {
-    height: 0;
-    width: 90%;
-    margin: auto;
-    border-bottom: 1px solid $card-bg-DM;
-  }
+
 
   .logout-mobile-btn {
     width: 320px;

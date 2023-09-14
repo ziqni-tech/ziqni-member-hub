@@ -94,7 +94,7 @@ const goToTournamentsDetailsPage = () => {
     border-bottom-right-radius: 10px;
 
     .schedule {
-      color: #202B38;
+      color: white;
       font-size: 12px;
       font-style: normal;
       font-weight: 400;
@@ -141,7 +141,7 @@ const goToTournamentsDetailsPage = () => {
         background: $btn-primary-bg-color-LM;
         border-radius: $border-radius;
         border: 1px solid $btn-border-color-LM;
-
+        color: white;
 
         font-size: 12px;
         font-style: normal;
@@ -163,6 +163,13 @@ const goToTournamentsDetailsPage = () => {
         max-height: 24px;
       }
 
+      .schedule {
+        color: #202B38;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+      }
+
 
       .see-more-btn-wrapper {
         width: 100%;
@@ -173,7 +180,7 @@ const goToTournamentsDetailsPage = () => {
           border-radius: $border-radius;
           border: 1px solid $btn-border-color-LM;
 
-          font-size: 14px;
+          font-size: 12px;
           color: $text-color-white;
         }
       }
