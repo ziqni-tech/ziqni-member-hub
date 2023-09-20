@@ -2,7 +2,7 @@
   <div class="m-card" :class="{'light-mode': !isDarkMode}">
     <div class="expires-in">{{ date }}</div>
     <div class="m-card-image">
-      <img :src="missionItem.iconLink ? missionItem.iconLink : missionImage" alt="">
+      <img :src="missionBannerLink" alt="">
 <!--      <div class="expires-in">{{ date }}</div>-->
     </div>
     <div class="m-info">
@@ -29,8 +29,8 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import { useCountdown } from '@/hooks/useCountdown';
-import missionImage from '@/assets/images/missions/mission.svg';
-import { ref, watch } from 'vue';
+import defaultBanner from '@/assets/images/missions/mission.svg';
+import { computed, ref, watch } from 'vue';
 
 const props = defineProps({
   mission: Object,
@@ -41,6 +41,18 @@ const missionItem = props.mission;
 const countdownResult = useCountdown(missionItem.scheduling.endDate);
 
 const date = ref('');
+
+const missionBannerLink = computed(() => {
+  if (missionItem.bannerLink) {
+    return missionItem.bannerLink
+  } else if (!missionItem.bannerLink && missionItem.bannerHighResolutionLink) {
+    return missionItem.bannerHighResolutionLink
+  } else if (!missionItem.bannerLink && !missionItem.bannerHighResolutionLink && missionItem.bannerLowResolutionLink) {
+    return missionItem.bannerLowResolutionLink
+  } else {
+    return defaultBanner
+  }
+});
 
 watch(countdownResult, (value) => {
   if (value) {
@@ -93,6 +105,18 @@ const goToMissionsMapPage = () => {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     overflow: hidden;
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+
+    @media screen and (max-width: $tableWidth) {
+      height: 140px;
+      > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
 
     > img {
       width: 100%;
@@ -220,6 +244,17 @@ const goToMissionsMapPage = () => {
 
     .m-card-image {
       position: relative;
+      height: 230px;
+      object-fit: cover;
+
+      @media screen and (max-width: $tableWidth) {
+        height: 140px;
+        > img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
 
       > img {
         width: 100%;

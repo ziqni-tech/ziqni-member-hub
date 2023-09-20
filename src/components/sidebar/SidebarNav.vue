@@ -7,7 +7,11 @@
   >
     <router-link :to="item.to" class="nav-item" :class="{'light-mode': !isDarkMode}">
       <div class="nav-item__icon-wrapper">
-        <component class="icon" :is="item.icon" :strokeColor="getIconStrokeColor(item)"/>
+        <component
+            class="icon"
+            :is="item.icon"
+            :strokeColor="isActive(item.to) ? '#FFFFFF' : (isDarkMode ? '#FFFFFF' : '#141E28')"
+        />
       </div>
       <span class="nav-item__title" :class="{'light-mode': !isDarkMode}">{{ item.name }}</span>
     </router-link>

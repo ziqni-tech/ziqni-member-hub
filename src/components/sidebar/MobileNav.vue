@@ -8,7 +8,11 @@
     >
       <router-link :to="item.to" class="mob-nav-item">
         <div class="icon-wrapper">
-          <component class="icon" :is="item.icon" :strokeColor="getIconStrokeColor(item)" />
+          <component
+              class="icon"
+              :is="item.icon"
+              :strokeColor="isActive(item.to) ? '#FFFFFF' : (isDarkMode ? '#FFFFFF' : '#141E28')"
+          />
         </div>
         <span v-if="isActive(item.to)" class="item-name">{{ item.name }}</span>
       </router-link>
@@ -56,6 +60,7 @@ const paginationClear = () => {
   .nav-item {
     flex-grow: 1;
     display: flex;
+    border-radius: 8px;
 
     > .router-link-active {
       background: $btn-primary-bg-color-LM;
@@ -104,6 +109,7 @@ const paginationClear = () => {
     .nav-item {
       flex-grow: 1;
       display: flex;
+      border-radius: 8px;
 
       > .router-link-active {
         background: $btn-primary-bg-color-LM;

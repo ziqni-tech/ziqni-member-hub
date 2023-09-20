@@ -108,7 +108,7 @@ const goToAchievementDetails = () => {
   router.push({
     name: 'AchievementDetails',
     params: {
-      id: achievement.id,
+      id: achievement.value.id,
     }
   })
 }

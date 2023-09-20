@@ -1,7 +1,7 @@
 <template>
   <div class="t-card" :class="{'light-mode': !isDarkMode}">
     <div class="t-card-image">
-      <img :src="cardItem.image" alt="">
+      <img :src="cardBannerLink" alt="">
     </div>
     <div class="t-info">
       <div class="tournament-name">{{ cardItem.name }}</div>
@@ -30,6 +30,7 @@ import { useRouter } from 'vue-router';
 import TournamentDataRow from './TournamentDataRow';
 import prizeIcon from '@/assets/icons/tournament/prize.png';
 import expiresInIcon from '@/assets/icons/tournament/expires-in.png';
+import { computed } from 'vue';
 
 const props = defineProps({
   card: Object,
@@ -37,8 +38,20 @@ const props = defineProps({
 });
 
 const cardItem = props.card;
-
+console.log('cardItem', cardItem);
 const router = useRouter();
+
+const cardBannerLink = computed(() => {
+  if (cardItem.bannerLink) {
+    return cardItem.bannerLink
+  } else if (!cardItem.bannerLink && cardItem.bannerLowResolutionLink) {
+    return cardItem.bannerLowResolutionLink
+  } else if (!cardItem.bannerLink && !cardItem.bannerLowResolutionLink && cardItem.bannerHighResolutionLink) {
+    return cardItem.bannerHighResolutionLink
+  } else {
+    return cardItem.image
+  }
+});
 
 const goToTournamentsDetailsPage = () => {
   if (cardItem.contestsCount > 1 || !cardItem.singleContestId.length) {
@@ -70,7 +83,7 @@ const goToTournamentsDetailsPage = () => {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     width: 100%;
-    height: 100%;
+    height: 170px;
     object-fit: cover;
   }
 
@@ -168,7 +181,7 @@ const goToTournamentsDetailsPage = () => {
   .t-card {
     .t-card-image > img {
       width: 100%;
-      height: 100%;
+      height: 150px;
       object-fit: cover;
     }
 

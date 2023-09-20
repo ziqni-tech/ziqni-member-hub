@@ -9,7 +9,7 @@
           class="countdown"
         />
       </div>
-      <img :src="cardImage" alt="">
+      <img :src="contestBannerLink" alt="">
     </div>
     <div class="tournament-data-wrapper">
       <div class="tournament-info-grid">
@@ -78,7 +78,7 @@ import Countdown from '../Countdown';
 import Modal from '../../shared/components/Modal';
 import InfoItem from '../../shared/components/InfoItem';
 
-import cardImage from '@/assets/images/tournaments/tournament_details_bg.svg';
+import defaultBanner from '@/assets/images/tournaments/tournament_details_bg.svg';
 import TrophyIcon from "@/shared/components/svg-icons/TrophyIcon.vue";
 import DiamondIcon from "@/shared/components/svg-icons/DiamondIcon.vue";
 import StarIcon from "@/shared/components/svg-icons/StarIcon.vue";
@@ -93,6 +93,18 @@ const emit = defineEmits(['joinTournament', 'leaveTournament']);
 
 const tournament = toRef(props, 'tournament');
 const contest = toRef(props, 'contest');
+
+const contestBannerLink = computed(() => {
+  if (contest.value.bannerLink) {
+    return contest.value.bannerLink
+  } else if (!contest.value.bannerLink && contest.value.bannerHighResolutionLink) {
+    return contest.value.bannerHighResolutionLink
+  } else if (!contest.value.bannerLink && !contest.value.bannerHighResolutionLink && contest.value.bannerLowResolutionLink) {
+    return contest.value.bannerLowResolutionLink
+  } else {
+    return defaultBanner
+  }
+});
 
 const isOptinRequiredForEntrants = computed(() => tournament.value.constraints.includes('optinRequiredForEntrants'))
 
@@ -187,7 +199,8 @@ const goToInfo = () => {
     border-radius: $border-radius $border-radius 0 0;
 
     width: 100%;
-    height: 35%;
+    height: 200px;
+    object-fit: cover;
 
     .tournament-main-data {
       position: absolute;
@@ -202,7 +215,7 @@ const goToInfo = () => {
 
     > img {
       width: 100%;
-      height: 100%;
+      height: 200px;
       object-fit: cover;
     }
 
@@ -433,7 +446,8 @@ const goToInfo = () => {
       border-radius: $border-radius $border-radius 0 0;
 
       width: 100%;
-      height: 35%;
+      height: 140px;
+      object-fit: cover;
 
       .tournament-main-data {
         position: absolute;
@@ -448,7 +462,7 @@ const goToInfo = () => {
 
       > img {
         width: 100%;
-        height: 100%;
+        height: 140px;
         object-fit: cover;
       }
 
@@ -529,7 +543,8 @@ const goToInfo = () => {
         border-radius: $border-radius $border-radius 0 0;
 
         width: 100%;
-        height: 35%;
+        height: 140px;
+        object-fit: cover;
 
         .tournament-main-data {
           position: absolute;
@@ -544,7 +559,7 @@ const goToInfo = () => {
 
         > img {
           width: 100%;
-          height: 100%;
+          height: 140px;
           object-fit: cover;
         }
 
