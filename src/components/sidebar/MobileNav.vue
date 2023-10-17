@@ -23,15 +23,30 @@
 
 <script setup>
 import { CNavItem } from '@coreui/vue';
-import sidebarNav from './sidebarNav';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import { computed, onMounted, ref, watch } from 'vue';
+import getSidebarNav from './sidebarNav';
 
 const route = useRoute();
 const props = defineProps({
   isDarkMode: Boolean
 })
 const store = useStore()
+
+const configFile = computed(() => store.getters.getConfigFile);
+const sidebarNav = ref([])
+
+watch(configFile, (val) => {
+  sidebarNav.value = getSidebarNav(val)
+})
+
+
+onMounted(() => {
+  if (!sidebarNav.value.length && configFile.value) {
+    sidebarNav.value = getSidebarNav(configFile.value);
+  }
+})
 
 const getIconStrokeColor = (item) => {
   if (route.path.startsWith(item.to)) {

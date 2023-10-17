@@ -12,6 +12,7 @@ import achievements from './modules/achievementsModule'
 import awards from './modules/awardsModule'
 import currentPage from './modules/currentPageModule'
 import currentTab from './modules/currentTabModule'
+import configFile from './modules/configFileModule'
 
 const store = createStore(
   {
@@ -28,7 +29,8 @@ const store = createStore(
       achievements,
       awards,
       currentPage,
-      currentTab
+      currentTab,
+      configFile
     }
   });
 

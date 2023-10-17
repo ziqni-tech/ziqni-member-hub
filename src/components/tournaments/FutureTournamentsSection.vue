@@ -175,6 +175,9 @@ const getCompetitionsRequest = async () => {
     });
   } catch (e) {
     console.log('ERROR', e);
+    setTimeout(async () => {
+      await getCompetitionsRequest()
+    }, 1500)
   }
 };
 

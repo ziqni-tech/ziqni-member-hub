@@ -38,7 +38,7 @@ const props = defineProps({
 });
 
 const cardItem = props.card;
-console.log('cardItem', cardItem);
+
 const router = useRouter();
 
 const cardBannerLink = computed(() => {

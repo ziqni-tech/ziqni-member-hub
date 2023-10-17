@@ -53,7 +53,7 @@
 </template>
 
 <script setup>
-import { ApiClientStomp, MemberRequest, MembersApiWs } from '@ziqni-tech/member-api-client';
+import { ApiClientStomp, FilesApiWs, MemberRequest, MembersApiWs } from '@ziqni-tech/member-api-client';
 import { computed, onBeforeMount, ref, watch, watchEffect } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
@@ -112,7 +112,40 @@ onBeforeMount(async () => {
   };
   await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
   await store.dispatch('setIsConnectedClient', true);
+  await getSiteConfigFile()
 });
+
+const getSiteConfigFile = async () => {
+  try {
+    const fileApiWsClient = new FilesApiWs(ApiClientStomp.instance);
+
+    const fileRequest = {
+      ids: [],
+      limit: 1,
+      skip: 0,
+      repositoryId: '2-96p4YBpKc9QvJXz3fr'
+    };
+
+
+    await fileApiWsClient.getFiles(fileRequest, async (res) => {
+      const configFile = res.data.find(item => item.name === 'siteConfig.json')
+
+      await fetch(configFile.uri)
+          .then((data) => {
+            return data.json();
+          })
+          .then((data) => {
+            store.dispatch('setConfigFile', data)
+          })
+          .catch((err) => console.log(err));
+    });
+  } catch (err) {
+    setTimeout(async () => {
+      await getSiteConfigFile()
+    }, 1000)
+  }
+}
+
 
 const getMemberRequest = async () => {
   const memberRequest = MemberRequest.constructFromObject(

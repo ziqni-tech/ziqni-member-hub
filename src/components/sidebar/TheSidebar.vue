@@ -9,7 +9,7 @@
         />
       </div>
     </div>
-    <SidebarNav :nav-items="sidebarNav" :isDarkMode="isDarkMode" />
+    <SidebarNav v-if="configFile && sidebarNav.length" :nav-items="sidebarNav" :isDarkMode="isDarkMode" />
     <LogoutItem class="logout" :isDarkMode="isDarkMode" @logOut="logOut" />
   </div>
 </template>
@@ -17,9 +17,10 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { computed } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 
-import sidebarNav from './sidebarNav';
+import getSidebarNav from '@/components/sidebar/sidebarNav';
+
 import SidebarNav from '@/components/sidebar/SidebarNav.vue';
 import LogoutItem from '@/components/sidebar/LogoutItem';
 
@@ -33,6 +34,39 @@ const logoName = computed(() => {
       ? 'logo-dark'
       : 'logo-light';
 });
+
+import Dashboard from './svg-icons/Dashboard';
+import Tournaments from './svg-icons/Tournaments';
+import Missions from './svg-icons/Missions';
+import Messages from './svg-icons/Messages';
+import Achievements from './svg-icons/Achievements';
+import Awards from './svg-icons/Awards';
+
+const icons = {
+  dashboard: Dashboard,
+  tournaments: Tournaments,
+  achievements: Achievements,
+  awards: Awards,
+  messages: Messages,
+  missions: Missions
+}
+
+const favicon = document.querySelector('link[rel="icon"]')
+const configFile = computed(() => store.getters.getConfigFile);
+
+const sidebarNav = ref([])
+
+watch(configFile, (val) => {
+  favicon.href = store.getters.getConfigFile.favicon
+  sidebarNav.value = getSidebarNav(val)
+})
+
+
+onMounted(() => {
+  if (!sidebarNav.value.length && configFile.value) {
+    sidebarNav.value = getSidebarNav(configFile.value);
+  }
+})
 
 const logOut = () => emit('logOut');
 
