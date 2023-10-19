@@ -2,10 +2,15 @@
   <div
       class="default-layout"
       v-if="!isMobile"
-      :class="{'light-mode': !isDarkMode}"
+      :class="{'light-mode': !isDarkMode, 'sidebar-narrow': isSidebarNarrow}"
   >
-    <div id="nav-block">
+    <div id="nav-block" :class="{'sidebar-narrow': isSidebarNarrow}">
       <TheSidebar @logOut="logOut"/>
+    </div>
+    <div class="sidebar-narrow-btn" :class="{'sidebar-narrow': isSidebarNarrow}" @click="toggleSidebar">
+      <div class="arrow-box">
+        <div class="arrow"></div>
+      </div>
     </div>
     <div class="content">
       <TheHeader @openNotifications="openNotifications"/>
@@ -70,7 +75,7 @@ import { useRouter } from 'vue-router';
 
 import TheSidebar from '../components/sidebar/TheSidebar';
 import TheHeader from '../components/TheHeader';
-import { computed, onMounted, reactive, ref, watch } from 'vue';
+import { computed, onBeforeMount, onMounted, reactive, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import MobileNav from '@/components/sidebar/MobileNav';
 import useMobileDevice from '@/hooks/useMobileDevice';
@@ -180,6 +185,19 @@ const getSiteConfigFile = async () => {
   }
 }
 
+const isSidebarNarrow = ref(false)
+const isSidebarNarrowValue = computed(() => store.getters.getIsSidebarNarrow)
+
+onBeforeMount(() => {
+  if (isSidebarNarrowValue.value) {
+    isSidebarNarrow.value = isSidebarNarrowValue.value
+  }
+})
+const toggleSidebar = () => {
+  isSidebarNarrow.value = !isSidebarNarrow.value
+  store.dispatch('setIsSidebarNarrow', isSidebarNarrow.value)
+}
+
 
 const logOut = async () => {
   await ApiClientStomp.instance.disconnect();
@@ -196,6 +214,88 @@ const logOut = async () => {
   grid-template-columns: 15% 85%;
   grid-template-areas: "nav main";
   height: 100%;
+  width: 100%;
+
+  &.sidebar-narrow {
+    grid-template-columns: 5% 95%;
+  }
+
+  .sidebar-narrow-btn {
+    opacity: 0;
+    cursor: pointer;
+    background: #FFFFFF;
+    height: 25px;
+    width: 25px;
+    text-align: center;
+    transform: translateX(3px) rotate(45deg);
+    left: 14%;
+    top: 59px;
+    border-radius: 5px;
+    border: 3px solid #FFFFFF;
+    transition: 0.3s;
+    z-index: 100;
+    position: absolute;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .arrow-box {
+      width: 100%;
+      height: 100%;
+      background: #B9CEDF;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3px;
+
+      .arrow {
+        width: 100%;
+        height: 100%;
+        border-bottom-left-radius: 5px;
+        border-left: 3px solid #FFFFFF;
+        border-bottom: 3px solid #FFFFFF;
+      }
+
+      .arrow {
+        width: 100%;
+        height: 100%;
+        border-bottom-left-radius: 5px;
+        border-left: 3px solid #FFFFFF;
+        border-bottom: 3px solid #FFFFFF;
+      }
+    }
+
+    &.sidebar-narrow {
+      left: 4%;
+
+      .arrow-box {
+
+        .arrow {
+          width: 100%;
+          height: 100%;
+          border-bottom-left-radius: 5px;
+          border-left: none;
+          border-bottom: none;
+          border-right: 3px solid #FFFFFF;
+          border-top: 3px solid #FFFFFF;
+        }
+      }
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &__visible {
+      opacity: 1;
+    }
+  }
+
+  #nav-block:hover + .sidebar-narrow-btn {
+    opacity: 1;
+  }
 
   #nav-block {
     grid-area: nav;
@@ -204,6 +304,10 @@ const logOut = async () => {
     height: 100%;
     overflow: auto;
     width: 15%;
+  }
+
+  #nav-block.sidebar-narrow {
+    width: 5%;
   }
 
   .content {

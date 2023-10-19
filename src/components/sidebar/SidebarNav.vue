@@ -13,7 +13,13 @@
             :strokeColor="isActive(item.to) ? '#FFFFFF' : (isDarkMode ? '#FFFFFF' : '#141E28')"
         />
       </div>
-      <span class="nav-item__title" :class="{'light-mode': !isDarkMode}">{{ item.name }}</span>
+      <span
+          class="nav-item__title"
+          :class="{'light-mode': !isDarkMode}"
+          v-if="!isSidebarNarrow"
+      >
+        {{ item.name }}
+      </span>
     </router-link>
   </CNavItem>
 </template>
@@ -22,7 +28,11 @@
 import { CNavItem } from '@coreui/vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
-const props = defineProps({ navItems: Array, isDarkMode: Boolean });
+const props = defineProps({
+  navItems: Array,
+  isDarkMode: Boolean,
+  isSidebarNarrow: Boolean
+});
 const store = useStore()
 const route = useRoute();
 const getIconStrokeColor = (item) => {
@@ -50,7 +60,7 @@ const paginationClear = () => {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 100%;
+  //width: 100%;
   padding: 11px 13px;
   border-radius: 10px;
 
@@ -86,7 +96,6 @@ const paginationClear = () => {
   > .router-link-active {
     color: $text-color-white;
     font-family: $semi-bold;
-    background-color: $btn-primary-bg-color-LM;
 
     &.light-mode {
       color: $nav-active-item-color-LM;

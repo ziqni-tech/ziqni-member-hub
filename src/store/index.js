@@ -13,6 +13,7 @@ import awards from './modules/awardsModule'
 import currentPage from './modules/currentPageModule'
 import currentTab from './modules/currentTabModule'
 import configFile from './modules/configFileModule'
+import sidebarNarrow from './modules/sidebarNarrowModule'
 
 const store = createStore(
   {
@@ -30,7 +31,8 @@ const store = createStore(
       awards,
       currentPage,
       currentTab,
-      configFile
+      configFile,
+      sidebarNarrow
     }
   });
 

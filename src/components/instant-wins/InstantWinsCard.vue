@@ -80,6 +80,9 @@ const play = () => {
       font-family: $mainFont;
       text-align: start;
       margin-top: 10px;
+      max-height: 36px;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .play-btn {

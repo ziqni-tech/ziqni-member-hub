@@ -2,10 +2,15 @@
   <div
       id="app-layout"
       v-if="!isMobile"
-      :class="{'light-mode': !isDarkMode}"
+      :class="{'light-mode': !isDarkMode, 'sidebar-narrow': isSidebarNarrow}"
   >
-    <div id="nav-block">
+    <div id="nav-block" :class="{'sidebar-narrow': isSidebarNarrow}">
       <TheSidebar @logOut="logOut"/>
+    </div>
+    <div class="sidebar-narrow-btn" :class="{'sidebar-narrow': isSidebarNarrow}" @click="toggleSidebar">
+      <div class="arrow-box">
+        <div class="arrow"></div>
+      </div>
     </div>
     <div id="main-block">
       <Dashboard/>
@@ -100,7 +105,7 @@ const closeNotifications = () => {
 };
 
 onBeforeMount(async () => {
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem('token');
   // try {
   //   const decodeToken = jwt.decode(token)
   //   const expirationDate = new Date(decodeToken.exp * 1000)
@@ -112,7 +117,7 @@ onBeforeMount(async () => {
   };
   await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
   await store.dispatch('setIsConnectedClient', true);
-  await getSiteConfigFile()
+  await getSiteConfigFile();
 });
 
 const getSiteConfigFile = async () => {
@@ -128,23 +133,23 @@ const getSiteConfigFile = async () => {
 
 
     await fileApiWsClient.getFiles(fileRequest, async (res) => {
-      const configFile = res.data.find(item => item.name === 'siteConfig.json')
+      const configFile = res.data.find(item => item.name === 'siteConfig.json');
 
       await fetch(configFile.uri)
           .then((data) => {
             return data.json();
           })
           .then((data) => {
-            store.dispatch('setConfigFile', data)
+            store.dispatch('setConfigFile', data);
           })
           .catch((err) => console.log(err));
     });
   } catch (err) {
     setTimeout(async () => {
-      await getSiteConfigFile()
-    }, 1000)
+      await getSiteConfigFile();
+    }, 1000);
   }
-}
+};
 
 
 const getMemberRequest = async () => {
@@ -177,6 +182,19 @@ const logOut = async () => {
 watchEffect(() => {
   // if (message.value) console.warn('MESSAGE', message.value);
 });
+
+const isSidebarNarrow = ref(false)
+const isSidebarNarrowValue = computed(() => store.getters.getIsSidebarNarrow)
+
+onBeforeMount(() => {
+  if (isSidebarNarrowValue.value) {
+    isSidebarNarrow.value = isSidebarNarrowValue.value
+  }
+})
+const toggleSidebar = () => {
+  isSidebarNarrow.value = !isSidebarNarrow.value
+  store.dispatch('setIsSidebarNarrow', isSidebarNarrow.value)
+}
 </script>
 
 <style lang="scss">
@@ -194,10 +212,91 @@ html, body {
 #app-layout {
   display: grid;
   grid-template-columns: 15% 1fr 20%;
-  grid-template-rows: 1fr;
+  grid-template-rows: 100%;
   grid-template-areas: "nav main user-profile";
   height: 100%;
   margin: 0;
+
+  &.sidebar-narrow {
+    grid-template-columns: 5% 1fr 20%;
+  }
+
+  .sidebar-narrow-btn {
+    opacity: 0;
+    cursor: pointer;
+    background: #0F1921;
+    height: 25px;
+    width: 25px;
+    text-align: center;
+    transform: translateX(3px) rotate(45deg);
+    left: 14%;
+    top: 59px;
+    border-radius: 5px;
+    border: 3px solid #0F1921;
+    transition: 0.3s;
+    //z-index: 100;
+    position: absolute;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .arrow-box {
+      width: 100%;
+      height: 100%;
+      background: #8B96BE;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3px;
+
+      .arrow {
+        width: 100%;
+        height: 100%;
+        border-bottom-left-radius: 5px;
+        border-left: 3px solid #FDFDFF;
+        border-bottom: 3px solid #FDFDFF;
+      }
+
+      .arrow {
+        width: 100%;
+        height: 100%;
+        border-bottom-left-radius: 5px;
+        border-left: 3px solid #FDFDFF;
+        border-bottom: 3px solid #FDFDFF;
+      }
+    }
+
+    &.sidebar-narrow {
+      left: 4%;
+
+      .arrow-box {
+
+        .arrow {
+          width: 100%;
+          height: 100%;
+          border-bottom-left-radius: 5px;
+          border-left: none;
+          border-bottom: none;
+          border-right: 3px solid #FDFDFF;
+          border-top: 3px solid #FDFDFF;
+        }
+      }
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &__visible {
+      opacity: 1;
+    }
+  }
+
+  #nav-block:hover + .sidebar-narrow-btn {
+    opacity: 1;
+  }
 
   #nav-block {
     grid-area: nav;
@@ -206,6 +305,10 @@ html, body {
     height: 100%;
     overflow: auto;
     width: 15%;
+  }
+
+  #nav-block.sidebar-narrow {
+    width: 5%;
   }
 
   #main-block {
@@ -230,6 +333,26 @@ html, body {
   }
 
   &.light-mode {
+
+    .sidebar-narrow-btn {
+      background: #FFFFFF;
+      border: 3px solid #FFFFFF;
+
+      .arrow-box {
+        background: #B9CEDF;
+      }
+
+      &.sidebar-narrow {
+        .arrow-box {
+          .arrow {
+            border-right: 3px solid #FFFFFF;
+            border-top: 3px solid #FFFFFF;
+          }
+        }
+      }
+
+    }
+
     #nav-block {
       background-color: $bg-secondary-LM;
     }
@@ -272,6 +395,7 @@ html, body {
   z-index: 11;
   transition: right 0.3s ease-in-out;
 }
+
 .notificationsList-mobile.open {
   right: 0;
 }

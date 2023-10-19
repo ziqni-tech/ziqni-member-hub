@@ -3,7 +3,7 @@
     <div class="logout-item__icon-wrapper">
       <Logout class="icon" :strokeColor="getIconStrokeColor()"/>
     </div>
-    <span class="logout-item__title">logout</span>
+    <span v-if="!isSidebarNarrow" class="logout-item__title">logout</span>
   </div>
 </template>
 
@@ -12,7 +12,8 @@ import Logout from '@/components/sidebar/svg-icons/Logout';
 
 const emit = defineEmits(['logOut']);
 const props = defineProps({
-  isDarkMode: Boolean
+  isDarkMode: Boolean,
+  isSidebarNarrow: Boolean
 });
 
 const getIconStrokeColor = () => {
