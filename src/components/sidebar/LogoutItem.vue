@@ -1,6 +1,6 @@
 <template>
   <div class="logout-item" @click="handleLogout" :class="{'light-mode': !isDarkMode}">
-    <div class="logout-item__icon-wrapper">
+    <div class="logout-item__icon-wrapper" :class="{'sidebar-narrow': isSidebarNarrow}">
       <Logout class="icon" :strokeColor="getIconStrokeColor()"/>
     </div>
     <span v-if="!isSidebarNarrow" class="logout-item__title">logout</span>
@@ -33,6 +33,10 @@ const handleLogout = () => {
   justify-content: flex-start;
   align-items: center;
   cursor: pointer;
+
+  &.sidebar-narrow {
+    justify-content: center;
+  }
 
   &__icon-wrapper {
     width: 18px;

@@ -125,8 +125,8 @@ const getSiteConfigFile = async () => {
     const fileApiWsClient = new FilesApiWs(ApiClientStomp.instance);
 
     const fileRequest = {
-      ids: [],
-      limit: 1,
+      ids: ['cnqCN4sBRTh4mVYAXO-d'],
+      limit: 20,
       skip: 0,
       repositoryId: '2-96p4YBpKc9QvJXz3fr'
     };
@@ -218,7 +218,7 @@ html, body {
   margin: 0;
 
   &.sidebar-narrow {
-    grid-template-columns: 5% 1fr 20%;
+    grid-template-columns: 4.5% 1fr 20%;
   }
 
   .sidebar-narrow-btn {
@@ -229,7 +229,7 @@ html, body {
     width: 25px;
     text-align: center;
     transform: translateX(3px) rotate(45deg);
-    left: 14%;
+    left: 14.2%;
     top: 59px;
     border-radius: 5px;
     border: 3px solid #0F1921;
@@ -269,7 +269,7 @@ html, body {
     }
 
     &.sidebar-narrow {
-      left: 4%;
+      left: 3.7%;
 
       .arrow-box {
 
@@ -305,10 +305,12 @@ html, body {
     height: 100%;
     overflow: auto;
     width: 15%;
+    padding: 0 12px;
   }
 
   #nav-block.sidebar-narrow {
-    width: 5%;
+    width: 4.5%;
+    padding: 0 5px;
   }
 
   #main-block {
@@ -316,6 +318,7 @@ html, body {
     padding: 20px 34px 0 20px;
     background-color: $main-bg-DM;
     height: 100%;
+    overflow-y: auto;
 
     &::-webkit-scrollbar {
       width: 0;

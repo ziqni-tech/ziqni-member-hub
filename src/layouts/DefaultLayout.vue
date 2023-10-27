@@ -217,21 +217,21 @@ const logOut = async () => {
   width: 100%;
 
   &.sidebar-narrow {
-    grid-template-columns: 5% 95%;
+    grid-template-columns: 4.5% 95.5%;
   }
 
   .sidebar-narrow-btn {
     opacity: 0;
     cursor: pointer;
-    background: #FFFFFF;
+    background: #0F1921;
     height: 25px;
     width: 25px;
     text-align: center;
     transform: translateX(3px) rotate(45deg);
-    left: 14%;
+    left: 14.2%;
     top: 59px;
     border-radius: 5px;
-    border: 3px solid #FFFFFF;
+    border: 3px solid #0F1921;
     transition: 0.3s;
     z-index: 100;
     position: absolute;
@@ -243,7 +243,7 @@ const logOut = async () => {
     .arrow-box {
       width: 100%;
       height: 100%;
-      background: #B9CEDF;
+      background: #8B96BE;
       border-radius: 5px;
       display: flex;
       align-items: center;
@@ -254,21 +254,21 @@ const logOut = async () => {
         width: 100%;
         height: 100%;
         border-bottom-left-radius: 5px;
-        border-left: 3px solid #FFFFFF;
-        border-bottom: 3px solid #FFFFFF;
+        border-left: 3px solid #FDFDFF;
+        border-bottom: 3px solid #FDFDFF;
       }
 
       .arrow {
         width: 100%;
         height: 100%;
         border-bottom-left-radius: 5px;
-        border-left: 3px solid #FFFFFF;
-        border-bottom: 3px solid #FFFFFF;
+        border-left: 3px solid #FDFDFF;
+        border-bottom: 3px solid #FDFDFF;
       }
     }
 
     &.sidebar-narrow {
-      left: 4%;
+      left: 3.7%;
 
       .arrow-box {
 
@@ -278,8 +278,8 @@ const logOut = async () => {
           border-bottom-left-radius: 5px;
           border-left: none;
           border-bottom: none;
-          border-right: 3px solid #FFFFFF;
-          border-top: 3px solid #FFFFFF;
+          border-right: 3px solid #FDFDFF;
+          border-top: 3px solid #FDFDFF;
         }
       }
     }
@@ -304,10 +304,13 @@ const logOut = async () => {
     height: 100%;
     overflow: auto;
     width: 15%;
+    z-index: 0;
+    padding: 0 12px;
   }
 
   #nav-block.sidebar-narrow {
-    width: 5%;
+    width: 4.5%;
+    padding: 0 5px;
   }
 
   .content {
@@ -348,6 +351,25 @@ const logOut = async () => {
   }
 
   &.light-mode {
+    .sidebar-narrow-btn {
+      background: #FFFFFF;
+      border: 3px solid #FFFFFF;
+
+      .arrow-box {
+        background: #B9CEDF;
+      }
+
+      &.sidebar-narrow {
+        .arrow-box {
+          .arrow {
+            border-right: 3px solid #FFFFFF;
+            border-top: 3px solid #FFFFFF;
+          }
+        }
+      }
+
+    }
+
     #nav-block {
       background-color: $bg-secondary-LM;
     }

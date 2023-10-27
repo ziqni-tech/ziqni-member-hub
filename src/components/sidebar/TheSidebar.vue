@@ -3,14 +3,27 @@
     <div class="brand">
       <div class="logo-wrapper">
         <img
+            v-if="logoName"
             class="logo"
-            :src="require(`../../assets/icons/${logoName}.svg`)"
+            :class="{'small-logo': isSidebarNarrow}"
+            :src="logoName"
             alt="logo"
         />
       </div>
     </div>
-    <SidebarNav v-if="configFile && sidebarNav.length" :nav-items="sidebarNav" :isDarkMode="isDarkMode" />
-    <LogoutItem class="logout" :isDarkMode="isDarkMode" @logOut="logOut" />
+    <SidebarNav
+        v-if="configFile && sidebarNav.length"
+        :nav-items="sidebarNav"
+        :isDarkMode="isDarkMode"
+        :isSidebarNarrow="isSidebarNarrow"
+    />
+    <LogoutItem
+        class="logout"
+        :class="{'sidebar-narrow': isSidebarNarrow}"
+        :isDarkMode="isDarkMode"
+        :isSidebarNarrow="isSidebarNarrow"
+        @logOut="logOut"
+    />
   </div>
 </template>
 
@@ -28,12 +41,7 @@ const router = useRouter();
 const store = useStore();
 const emit = defineEmits(['logOut']);
 const isDarkMode = computed(() => store.getters.getTheme);
-
-const logoName = computed(() => {
-  return isDarkMode.value
-      ? 'logo-dark'
-      : 'logo-light';
-});
+const isSidebarNarrow = computed(() => store.getters.getIsSidebarNarrow)
 
 import Dashboard from './svg-icons/Dashboard';
 import Tournaments from './svg-icons/Tournaments';
@@ -59,12 +67,42 @@ const sidebarNav = ref([])
 watch(configFile, (val) => {
   favicon.href = store.getters.getConfigFile.favicon
   sidebarNav.value = getSidebarNav(val)
+  if (isSidebarNarrow.value) {
+    logoName.value = isDarkMode.value ? val.logos.dark.small : val.logos.light.small;
+  } else {
+    logoName.value = isDarkMode.value ? val.logos.dark.icon : val.logos.light.icon;
+  }
+})
+
+const logoName = ref('')
+
+watch(isDarkMode, (val) => {
+  if (isSidebarNarrow.value) {
+    logoName.value = val ? configFile.value.logos.dark.small : configFile.value.logos.light.small;
+  } else {
+    logoName.value = val ? configFile.value.logos.dark.icon : configFile.value.logos.light.icon;
+  }
+})
+
+watch(isSidebarNarrow, (value) => {
+  if (value) {
+    logoName.value = isDarkMode.value ? configFile.value.logos.dark.small : configFile.value.logos.light.small;
+  } else {
+    logoName.value = isDarkMode.value ? configFile.value.logos.dark.icon : configFile.value.logos.light.icon;
+  }
 })
 
 
 onMounted(() => {
   if (!sidebarNav.value.length && configFile.value) {
     sidebarNav.value = getSidebarNav(configFile.value);
+  }
+  if (!logoName.value.length && configFile.value) {
+    if (isSidebarNarrow.value) {
+      logoName.value = isDarkMode.value ? configFile.value.logos.dark.small : configFile.value.logos.light.small;
+    } else {
+      logoName.value = isDarkMode.value ? configFile.value.logos.dark.icon : configFile.value.logos.light.icon;
+    }
   }
 })
 
@@ -99,6 +137,12 @@ const logOut = () => emit('logOut');
         margin-right: 15px;
       }
 
+      .logo.small-logo {
+        height: 50px;
+        width: 100px;
+        margin: auto;
+      }
+
       .logo-name {
         height: 20px;
       }
@@ -108,7 +152,12 @@ const logOut = () => emit('logOut');
 
   .logout {
     margin-top: auto;
-    padding: 16px 16px 25px;
+    padding: 16px 16px 25px 25px;
+
+    &.sidebar-narrow {
+      padding: 16px 0 25px;
+
+    }
   }
 }
 

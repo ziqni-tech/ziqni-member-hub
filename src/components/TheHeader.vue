@@ -1,5 +1,5 @@
 <template>
-  <div id="app-header" :class="{'light-mode': !isDarkMode}">
+  <div id="app-header" :class="{'light-mode': !isDarkMode, 'is-sidebar-narrow': isSidebarNarrowValue}">
     <div
         class="go-back"
         @click="$router.go(-1)"
@@ -45,6 +45,7 @@ import NotificationIcon from "@/shared/components/svg-icons/NotificationIcon.vue
 const store = useStore();
 const member = computed(() => store.getters.getMember);
 const isDarkMode = computed(() => store.getters.getTheme);
+const isSidebarNarrowValue = computed(() => store.getters.getIsSidebarNarrow);
 
 const emit = defineEmits(['openNotifications'])
 
@@ -75,6 +76,10 @@ const isGoBackBtn = computed(() => {
   border-bottom: 1px solid $border-color-DM;
   position: fixed;
   z-index: 5;
+
+  &.is-sidebar-narrow {
+    width: 95.5%;
+  }
 
   display: flex;
   align-items: center;
