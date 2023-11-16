@@ -2,21 +2,21 @@
   <div class="tournament-details-card" :class="{'light-mode': !isDarkMode}">
     <div class="card-banner">
       <div class="tournament-main-data">
-        <span class="tournament-title">{{ tournament.name }}</span>
+                <span class="tournament-title">{{ contest.name }}</span>
         <Countdown
-          v-if="tournament && tournament.scheduledEndDate"
-          :date="tournament.scheduledEndDate"
-          class="countdown"
+            v-if="tournament && tournament.scheduledEndDate"
+            :date="tournament.scheduledEndDate"
+            class="countdown"
         />
       </div>
-      <img v-if="tournamentBannerLink" :src="tournamentBannerLink" alt="">
+      <img v-if="contestBannerLink" :src="contestBannerLink" alt="">
     </div>
     <div class="tournament-data-wrapper">
       <div class="tournament-info-grid">
         <InfoItem
             :icon="TrophyIcon"
             :title="'prize'"
-            :data="tournament.rewardValue"
+            :data="contest.rewardValue"
             :isDarkMode="isDarkMode"
         />
         <InfoItem
@@ -60,13 +60,13 @@
     </div>
   </div>
   <Modal
-    :modalShow="leaveModal"
-    :messageGeneral="'Are you sure you want to leave this tournament?'"
-    :title="'Leave the tournament'"
-    :successBtnLabel="'Leave'"
-    @doFunction="leave"
-    @closeModal="closeModal"
-    v-on:toggle-modal="leaveModal = false"
+      :modalShow="leaveModal"
+      :messageGeneral="'Are you sure you want to leave this tournament?'"
+      :title="'Leave the tournament'"
+      :successBtnLabel="'Leave'"
+      @doFunction="leave"
+      @closeModal="closeModal"
+      v-on:toggle-modal="leaveModal = false"
   />
 </template>
 
@@ -86,43 +86,45 @@ import { removeHTMLTags } from '@/utils/removeHTMLTags';
 
 const props = defineProps({
   tournament: Object,
+  contest: Object,
   isDarkMode: Boolean
 });
 const emit = defineEmits(['joinTournament', 'leaveTournament']);
 
 const tournament = toRef(props, 'tournament');
+const contest = toRef(props, 'contest');
 
-const tournamentBannerLink = computed(() => {
-  if (tournament.value) {
-    if (tournament.value.bannerLink) {
-      return tournament.value.bannerLink
-    } else if (!tournament.value.bannerLink && tournament.value.bannerHighResolutionLink) {
-      return tournament.value.bannerHighResolutionLink
-    } else if (!tournament.value.bannerLink && !tournament.value.bannerHighResolutionLink && tournament.value.bannerLowResolutionLink) {
-      return tournament.value.bannerLowResolutionLink
+console.log('CONTEST', contest.value);
+
+const contestBannerLink = computed(() => {
+  if (contest.value) {
+    if (contest.value.bannerLink) {
+      return contest.value.bannerLink
+    } else if (!contest.value.bannerLink && contest.value.bannerHighResolutionLink) {
+      return contest.value.bannerHighResolutionLink
+    } else if (!contest.value.bannerLink && !contest.value.bannerHighResolutionLink && contest.value.bannerLowResolutionLink) {
+      return contest.value.bannerLowResolutionLink
     } else {
       return defaultBanner
     }
   }
 });
 
-const isOptinRequiredForEntrants = computed(() => {
-  if (tournament.value) return tournament.value.constraints.includes('optinRequiredForEntrants');
-})
+const isOptinRequiredForEntrants = computed(() => tournament.value.constraints.includes('optinRequiredForEntrants'))
 
 const leaveModal = ref(false);
 const isLoading = ref(false);
 const isTermsAndConditions = ref(false);
 
 const description = computed(() => {
-  return tournament.value.description
-      ? tournament.value.description
+  return contest.value.description
+      ? contest.value.description
       : 'No Description provided';
 })
 
 const termsAndConditions = computed(() => {
-  return tournament.value.termsAndConditions
-      ? tournament.value.termsAndConditions
+  return contest.value.termsAndConditions
+      ? contest.value.termsAndConditions
       : 'No Terms and conditions provided';
 })
 

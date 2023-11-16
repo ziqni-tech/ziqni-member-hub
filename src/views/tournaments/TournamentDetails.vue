@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="details">
-      <TournamentDetailsCard
+      <ContestDetailsCard
         v-if="isLoaded"
         :key="updateKey"
         :tournament="currentTournament"
@@ -30,7 +30,7 @@
 
 <script setup>
 import Leaderboard from '../../components/tournaments/LeaderboardTable.vue';
-import TournamentDetailsCard from '../../components/tournaments/TournamentDetailsCard';
+import ContestDetailsCard from '@/components/tournaments/ContestDetailsCard';
 import { onUnmounted, ref, onMounted, computed, onBeforeMount } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';

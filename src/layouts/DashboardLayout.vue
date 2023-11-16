@@ -133,7 +133,7 @@ const getSiteConfigFile = async () => {
 
 
     await fileApiWsClient.getFiles(fileRequest, async (res) => {
-      const configFile = res.data.find(item => item.name === 'siteConfig.json');
+      const configFile = await res.data.find(item => item.name === 'siteConfig.json');
 
       await fetch(configFile.uri)
           .then((data) => {

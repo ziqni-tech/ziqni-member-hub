@@ -33,7 +33,8 @@ const routes = [
           {
             path: ':id',
             name: 'TournamentsBracket',
-            component: () => import('@/components/tournaments/TournamentsBracket'),
+            component: () => import('@/views/tournaments/TournamentsBracketView'),
+            // component: () => import('@/components/tournaments/TournamentsBracket'),
           },
           {
             path: ':id/contest/:contestId',

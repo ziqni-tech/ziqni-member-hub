@@ -5,7 +5,7 @@
       <div v-if="isMobilePhone" class="info-btn" @click="showInfoHandler">
         <InfoCircle :strokeColor="getIconStrokeColor()" :width="'15'" :height="'15'"/>
         <div class="info" :class="{'show-info': isShowInfo}">
-          <div class="info-item" v-for="item in infoItems">
+          <div class="contest-info-item" v-for="item in infoItems">
             <div class="dot" :style="{ backgroundColor: item.color }"></div>
             <span class="info-item_title">{{ item.title }}</span>
           </div>
@@ -612,9 +612,9 @@ const getIconStrokeColor = () => {
         position: absolute;
         bottom: -105px;
         right: 0;
-        z-index: 5;
+        z-index: 15;
 
-        .info-item {
+        .contest-info-item {
           display: flex;
           align-items: center;
           justify-content: flex-start;
@@ -667,7 +667,7 @@ const getIconStrokeColor = () => {
         right: 0;
         z-index: 5;
 
-        .info-item {
+        .contest-info-item {
           display: flex;
           align-items: center;
           justify-content: flex-start;

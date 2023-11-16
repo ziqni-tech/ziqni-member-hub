@@ -88,12 +88,10 @@ import Notifications from '@/components/notifications/Notifications.vue';
 
 const router = useRouter();
 const store = useStore();
-
 const isDarkMode = computed(() => store.getters.getTheme);
 const isClientConnected = computed(() => store.getters.getIsConnectedClient);
 const currentMember = reactive({});
 const isNotificationsList = ref(false);
-
 const { isMobile } = useMobileDevice();
 
 const isGoBackBtn = computed(() => {
@@ -159,16 +157,14 @@ const getSiteConfigFile = async () => {
     const fileApiWsClient = new FilesApiWs(ApiClientStomp.instance);
 
     const fileRequest = {
-      ids: [],
-      limit: 1,
+      ids: ['cnqCN4sBRTh4mVYAXO-d'],
+      limit: 20,
       skip: 0,
       repositoryId: '2-96p4YBpKc9QvJXz3fr'
     };
 
-
     await fileApiWsClient.getFiles(fileRequest, async (res) => {
       const configFile = res.data.find(item => item.name === 'siteConfig.json')
-
       await fetch(configFile.uri)
           .then((data) => {
             return data.json();

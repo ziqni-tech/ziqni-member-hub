@@ -130,7 +130,11 @@ export default {
     .indicator-block {
       display: flex;
       flex-direction: column;
-      margin-right: 20px;
+
+      &:not(:last-child) {
+        margin-right: 20px;
+      }
+
 
       &_digits {
         display: flex;

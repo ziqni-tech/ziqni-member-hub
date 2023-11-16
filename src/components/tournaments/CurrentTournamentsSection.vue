@@ -55,6 +55,7 @@ import cardImage1 from '@/assets/images/tournaments/tournament_1.svg';
 import cardImage2 from '@/assets/images/tournaments/tournament_2.svg';
 import cardImage3 from '@/assets/images/tournaments/tournament_3.svg';
 import cardImage4 from '@/assets/images/tournaments/tournament_4.svg';
+import useMobilePhoneDevice from '@/hooks/useMobilePhoneDevice';
 const images = [
   cardImage1,
   cardImage2,
@@ -78,7 +79,18 @@ const isDarkMode = computed(() => store.getters.getTheme);
 const getIconStrokeColor = () => {
   return isDarkMode.value ? '#FFFFFF' : '#080D12'
 };
-const limit = ref(computed(() => props.isDashboard ? 3 : 4));
+
+const { isMobilePhone } = useMobilePhoneDevice();
+
+const limit = ref(computed(() => {
+  if (isMobilePhone.value && props.isDashboard) {
+    return 2;
+  } else if (!isMobilePhone.value && props.isDashboard) {
+    return 3;
+  } else {
+    return 4;
+  }
+}));
 
 const isLoading = ref(false);
 const competitions = ref([]);
