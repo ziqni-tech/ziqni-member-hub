@@ -10,6 +10,7 @@
             :leaders="leaderboardEntries"
             :prize="contest && contest.rewardValue ? contest.rewardValue : 0"
             :isDarkMode="isDarkMode"
+            :rewards="rewardsArr"
         />
       </div>
     </div>
@@ -44,27 +45,29 @@ import {
 } from '@ziqni-tech/member-api-client';
 
 const router = useRouter()
-
 const route = useRoute();
-const ids = [route.params.id];
+const contestId = route.params.contestId
+const competitionId = [route.params.id];
 const statusCode = {
   moreThan: 5,
   lessThan: 100
 };
 
+const rewardsArr = ref([])
+
 const store = useStore();
 const contests = ref(null);
 const contest = ref(null);
-const isLoaded = ref(false)
+const isLoaded = ref(false);
 const leaderboardEntries = ref([]);
-const tournaments = ref(null)
+const tournaments = ref(null);
 const currentTournament = ref(null);
 const isDarkMode = computed(() => store.getters.getTheme);
 const tournamentRequestData = {
   statusCode,
   limit: 1,
   skip: 0,
-  ids
+  ids: competitionId
 };
 
 const updateKey = ref(0);
@@ -166,7 +169,7 @@ const getEntityContests = async () => {
       endDate: null,
       ids: [],
       limit: 20,
-      competitionIds: ids,
+      competitionIds: competitionId,
       constraints: [],
       statusCode: {
         moreThan: 10,
@@ -178,10 +181,9 @@ const getEntityContests = async () => {
   await contestApiWsClient.getContests(contestRequest, async (res) => {
     if (res.data && res.data.length) {
       const contests = res.data;
-      const contestIds = contests.map(item => item.id);
+      const rewards = await getEntityRewards('Contest', [contestId])
 
-      const rewards = await getEntityRewards('Contest', contestIds)
-
+      rewardsArr.value = rewards
       for (const contest of contests) {
         if (res.data.length) {
           let maxReward = null;
@@ -208,7 +210,7 @@ const getEntityContests = async () => {
       contest.value = activeContests[0];
 
       if (contest.value && contest.value.status === 'Active') {
-        await getEntityLeaderboard(route.params.contestId);
+        await getEntityLeaderboard(contestId);
       } else {
         leaderboardEntries.value = defLeaders;
       }
@@ -291,7 +293,7 @@ const getOptInStatus = async () => {
   const optInStateRequest = OptInStatesRequest.constructFromObject({
     optinStatesFilter: {
       entityTypes: ['Competition'],
-      ids: ids,
+      ids: competitionId,
       statusCodes: {
         gt: -5,
         lt: 40

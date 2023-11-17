@@ -110,7 +110,7 @@ const handleActions = (event) => {
     const contestId = closestElement.getAttribute('data-connect-id')
 
     router.push({
-      name: 'TournamentDetails',
+      name: 'ContestDetails',
       params: {
         id: route.params.id,
         contestId: contestId

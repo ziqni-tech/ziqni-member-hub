@@ -38,8 +38,8 @@ const routes = [
           },
           {
             path: ':id/contest/:contestId',
-            name: 'TournamentDetails',
-            component: () => import('@/views/tournaments/TournamentDetails'),
+            name: 'ContestDetails',
+            component: () => import('@/views/tournaments/ContestDetails'),
           },
           {
             path: '/tournaments/calendar',

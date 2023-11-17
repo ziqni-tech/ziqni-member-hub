@@ -23,7 +23,7 @@
           </div>
         </div>
         <div class="points">{{ leader.score }}</div>
-        <div class="prize">{{ prize }}</div>
+        <div class="prize">{{ getRewardValue(leader.rank) }}</div>
       </div>
     </div>
   </div>
@@ -37,6 +37,7 @@ const store = useStore();
 
 const props = defineProps({
   leaders: Array,
+  rewards: Array,
   prize: Number,
   isDarkMode: Boolean
 });
@@ -45,6 +46,34 @@ const member = computed(() => store.getters.getMember);
 
 const isCurrentUser = (item) => {
   return item.members.some(m => m.memberRefId === member.value.memberRefId);
+};
+
+const getRewardValue = (rank) => {
+  let prizeValue = '-';
+
+  props.rewards.forEach(reward => {
+    if (reward.rewardRank.indexOf('-') !== -1 || reward.rewardRank.indexOf(',') !== -1) {
+      const rewardRankArr = reward.rewardRank.split(',');
+
+      rewardRankArr.forEach(r => {
+        const idx = r.indexOf('-');
+
+        if (idx !== -1) {
+          const start = parseInt(r);
+          const end = parseInt(r.substring(idx + 1));
+
+          if (rank >= start && rank <= end) {
+            prizeValue = reward.rewardValue;
+          }
+        } else if (parseInt(r) === rank) {
+          prizeValue = reward.rewardValue;
+        }
+      });
+    } else if (rank !== 0 && parseInt(reward.rewardRank) === rank) {
+      prizeValue = reward.rewardValue;
+    }
+  });
+  return prizeValue;
 };
 
 const memberName = (item) => {
@@ -119,6 +148,7 @@ const setPlace = computed(() => (place) => {
   .table-body {
     overflow-y: auto;
     padding: 6px;
+
     &::-webkit-scrollbar {
       width: 0;
     }

@@ -63,7 +63,7 @@ const goToTournamentsDetailsPage = () => {
     });
   } else {
     router.push({
-      name: 'TournamentDetails',
+      name: 'ContestDetails',
       params: {
         id: cardItem.id,
         contestId: cardItem.singleContestId

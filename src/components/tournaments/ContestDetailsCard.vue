@@ -2,10 +2,10 @@
   <div class="tournament-details-card" :class="{'light-mode': !isDarkMode}">
     <div class="card-banner">
       <div class="tournament-main-data">
-                <span class="tournament-title">{{ contest.name }}</span>
+        <span class="tournament-title">{{ contest.name }}</span>
         <Countdown
-            v-if="tournament && tournament.scheduledEndDate"
-            :date="tournament.scheduledEndDate"
+            v-if="contest && contest.scheduledEndDate"
+            :date="contest.scheduledEndDate"
             class="countdown"
         />
       </div>
@@ -93,8 +93,6 @@ const emit = defineEmits(['joinTournament', 'leaveTournament']);
 
 const tournament = toRef(props, 'tournament');
 const contest = toRef(props, 'contest');
-
-console.log('CONTEST', contest.value);
 
 const contestBannerLink = computed(() => {
   if (contest.value) {
