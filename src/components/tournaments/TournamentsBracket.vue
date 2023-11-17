@@ -59,12 +59,11 @@
 </template>
 
 <script setup>
-import { computed, nextTick, onMounted, ref } from 'vue';
+import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import {
   ApiClientStomp,
   ContestRequest,
   ContestsApiWs,
-
 } from '@ziqni-tech/member-api-client';
 import { useRoute, useRouter } from 'vue-router';
 import TournamentDataRow from '@/components/tournaments/TournamentDataRow.vue';
@@ -79,11 +78,16 @@ const roundsCount = ref(0);
 const contestsByRounds = ref({});
 const elementPairs = ref([]);
 const isShowInfo = ref(false);
+const rerenderKey = ref(0)
 
 const store = useStore();
 const route = useRoute();
 const router = useRouter();
 const isDarkMode = computed(() => store.getters.getTheme);
+
+watch(isDarkMode, (newVal) => {
+  rerenderKey.value++
+})
 
 const showInfoHandler = () => {
   isShowInfo.value = !isShowInfo.value;

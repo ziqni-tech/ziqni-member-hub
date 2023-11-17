@@ -50,7 +50,7 @@ watch(countdownResult, (value) => {
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@/assets/scss/_variables';
 
 .data-row {
@@ -91,7 +91,6 @@ watch(countdownResult, (value) => {
 
     .value {
       color: $section-title-color-LM;
-
     }
   }
 }

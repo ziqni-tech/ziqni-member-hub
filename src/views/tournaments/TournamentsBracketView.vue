@@ -1,7 +1,7 @@
 <template>
   <Loader v-if="!currentTournament" :title="'Loading'" />
   <div v-else class="tournaments-bracket-view">
-    <TournamentsBracket class="bracket-view" />
+    <TournamentsBracket class="bracket-view" :key="rerenderBracket" />
     <div class="details">
       <TournamentDetailsCard
           v-if="isLoaded"
@@ -26,7 +26,7 @@ import {
   EntityRequest, ManageOptinRequest, OptInApiWs, OptInStatesRequest,
   RewardsApiWs
 } from '@ziqni-tech/member-api-client';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import Loader from '@/components/Loader.vue';
@@ -52,6 +52,11 @@ const tournamentRequestData = {
   ids
 };
 const updateKey = ref(0);
+const rerenderBracket = ref(0);
+
+watch(isDarkMode, (newVal) => {
+  rerenderBracket.value++
+})
 
 
 onMounted(async () => {
@@ -224,9 +229,8 @@ const leaveTournament= async () => {
 }
 @media screen and (max-width: $tableWidth) {
   .tournaments-bracket-view {
-    height: 760px;
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     align-items: center;
     overflow-y: scroll;
 
@@ -236,12 +240,14 @@ const leaveTournament= async () => {
 
     .bracket-view {
       min-height: 300px;
+      order: 2;
     }
 
     .details {
       height: auto;
       width: 100%;
       padding-right: 0;
+      order: 1;
     }
   }
 }
