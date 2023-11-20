@@ -4,8 +4,15 @@
       <div class="tournaments-section-header">
         <h2 class="section-title" v-if="isDashboard && competitions.length">Current Tournaments</h2>
         <h2 class="section-title" v-if="!isDashboard">Current Tournaments</h2>
+        <router-link to="/tournaments" >
+          <div
+              v-if="isDashboard"
+              class="see-all-btn">
+            see all
+          </div>
+        </router-link>
         <div
-            v-if="isSeeAll"
+            v-if="isSeeAll && !isDashboard"
             class="see-all-btn"
             @click="seeAll">
           see all

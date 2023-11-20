@@ -4,6 +4,13 @@
       <h2 class="section-title" v-if="achievementsData.length">
         {{ 'Achievements' }}
       </h2>
+      <router-link to="/achievements" >
+        <div
+            v-if="isDashboard"
+            class="see-all-btn">
+          see all
+        </div>
+      </router-link>
     </div>
     <div class="content-wrapper">
       <Loader v-if="isLoading"   class="loading" :title="'Achievements are loading'"/>
@@ -231,6 +238,25 @@ onMounted(() => {
 
 <style lang="scss">
 @import '@/assets/scss/_variables';
+
+.see-all-btn {
+  font-size: 16px;
+  font-family: $semi-bold;
+  color: $text-color-white;
+  cursor: pointer;
+}
+
+.light-mode {
+  .section-header {
+    .see-all-btn {
+      font-size: 16px;
+      font-family: $semi-bold;
+      color: $btn-secondary-color-LM;
+      cursor: pointer;
+    }
+  }
+
+}
 
 .until-the-next-day {
   background-color: $light-grey;
