@@ -6,7 +6,7 @@
       </h2>
       <router-link to="/achievements" >
         <div
-            v-if="isDashboard"
+            v-if="isDashboard && achievementsData.length"
             class="see-all-btn">
           see all
         </div>

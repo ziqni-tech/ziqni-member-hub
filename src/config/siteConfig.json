@@ -111,18 +111,18 @@
   "constraints": null,
   "logos": {
     "dark": {
-      "small": "string",
+      "small": "@/assets/icons/logo-small-dark.svg",
       "medium": "string",
       "large": "string",
       "extraLarge": "string",
-      "icon": "@/assets/icons/taveo-logo.svg"
+      "icon": "@/assets/icons/logo-dark.svg"
     },
     "light": {
-      "small": "string",
+      "small": "/src/assets/icons/logo-small-light.svg",
       "medium": "string",
       "large": "string",
       "extraLarge": "string",
-      "icon": "@/assets/icons/taveo-logo.svg"
+      "icon": "./src/assets/icons/logo-light.svg"
     }
     },
   "translations": {

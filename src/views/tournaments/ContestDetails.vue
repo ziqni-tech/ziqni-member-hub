@@ -233,7 +233,7 @@ const getRewardIcon = async (id) => {
 
   return new Promise((resolve) => {
     fileApiWsClient.getFiles(fileRequest, (res) => {
-      resolve(res.data[0].uri);
+      // resolve(res.data[0].uri);
     });
   });
 }

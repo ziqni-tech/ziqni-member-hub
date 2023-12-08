@@ -3,10 +3,10 @@
       v-for="(item, index) in navItems"
       :key="index"
       @click="paginationClear"
-      :class="{active: isActive(item.to)}"
+      :class="{active: isActive(item.to), 'narrow': isSidebarNarrow}"
   >
     <router-link :to="item.to" class="nav-item" :class="{'light-mode': !isDarkMode}">
-      <div class="nav-item__icon-wrapper">
+      <div class="nav-item__icon-wrapper" :class="{'narrow': isSidebarNarrow}">
         <component
             class="icon"
             :is="item.icon"
@@ -64,6 +64,10 @@ const paginationClear = () => {
   padding: 11px 13px;
   border-radius: 10px;
 
+  &.narrow {
+    justify-content: center;
+  }
+
   & a {
     text-decoration: none;
     color: $nav-active-item-color-LM;
@@ -81,6 +85,10 @@ const paginationClear = () => {
     align-items: center;
     object-fit: cover;
     margin-right: 11px;
+
+    &.narrow {
+      margin-right: 0;
+    }
 
     .icon {
       width: inherit;

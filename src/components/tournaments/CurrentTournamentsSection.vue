@@ -6,7 +6,7 @@
         <h2 class="section-title" v-if="!isDashboard">Current Tournaments</h2>
         <router-link to="/tournaments" >
           <div
-              v-if="isDashboard"
+              v-if="isDashboard && competitions.length"
               class="see-all-btn">
             see all
           </div>

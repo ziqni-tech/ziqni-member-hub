@@ -64,6 +64,8 @@ const configFile = computed(() => store.getters.getConfigFile);
 
 const sidebarNav = ref([])
 
+const logoName = ref('')
+
 watch(configFile, (val) => {
   favicon.href = store.getters.getConfigFile.favicon
   sidebarNav.value = getSidebarNav(val)
@@ -73,8 +75,6 @@ watch(configFile, (val) => {
     logoName.value = isDarkMode.value ? val.logos.dark.icon : val.logos.light.icon;
   }
 })
-
-const logoName = ref('')
 
 watch(isDarkMode, (val) => {
   if (isSidebarNarrow.value) {
