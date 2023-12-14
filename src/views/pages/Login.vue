@@ -40,7 +40,7 @@ import Loader from '@/components/Loader.vue';
 const router = useRouter();
 const memberRefId = ref('Player-1');
 // const apiKey = ref('18289fd2aa4c7a43c5abb14abe83009f');
-const apiKey = ref('25f99a84a166da4c67abe90a30801c41');
+const apiKey = ref('eyJhbGciOiJIUzUxMiJ9.eyJhcGlfa2V5X2lkIjoiRXc1OTBvc0J5bURMYjNQdHJvbEciLCJtZW1iZXJfcmVmZXJlbmNlX2lkIjoiWEFQSSIsImFjY291bnRfaWQiOiJGN204ZEh3QnN3LU9IM01Fb1cyMyIsInNwYWNlX25hbWUiOiJmaXJzdC1zcGFjZSIsIm5hbWUiOiJYQVBJIiwibWVtYmVyX3R5cGUiOiJYQVBJIiwibWVtYmVyX2lkIjoiZGQxNDdkYzItNzdmZS00ZDFiLTg4ZTUtYmQ1M2Y2NWY1NWIyIiwicmVzb3VyY2VfYWNjZXNzIjp7InppcW5pLWFhcGkiOnsicm9sZXMiOlsiQ3JlYXRlTWVtYmVyVG9rZW4iXX19LCJ0eXAiOiJ4LWFwaS1rZXkiLCJzdWIiOiJkZDE0N2RjMi03N2ZlLTRkMWItODhlNS1iZDUzZjY1ZjU1YjIiLCJqdGkiOiJkZmNjODI5MC02OTg4LTQwZjQtYWNjMi02MWQ1NTMyYmI5NDkiLCJpYXQiOjE3MDAwNDM1MzMsImV4cCI6MTczMTU3OTUzMywiYXpwIjoiZmlyc3Qtc3BhY2UuemlxbmkuYXBwIn0.M7f5eafAxhFhpN2FEfpvbKRJiwltzrF-wx9N-SgNeIPOsECl2lBz_ucR3AdFzaj_CaZgL94xXAuIg-CaksSM6A');
 const expires = 144000;
 const isLoading = ref(false)
 const store = useStore()
