@@ -43,12 +43,10 @@ const countdownResult = useCountdown(missionItem.scheduling.endDate);
 const date = ref('');
 
 const missionBannerLink = computed(() => {
-  if (missionItem.bannerLink) {
-    return missionItem.bannerLink
-  } else if (!missionItem.bannerLink && missionItem.bannerHighResolutionLink) {
-    return missionItem.bannerHighResolutionLink
-  } else if (!missionItem.bannerLink && !missionItem.bannerHighResolutionLink && missionItem.bannerLowResolutionLink) {
+  if (missionItem.bannerLowResolutionLink) {
     return missionItem.bannerLowResolutionLink
+  } else if (missionItem.bannerLink && !missionItem.bannerLowResolutionLink) {
+    return missionItem.bannerLink
   } else {
     return defaultBanner
   }
@@ -106,15 +104,15 @@ const goToMissionsMapPage = () => {
     border-top-right-radius: 10px;
     overflow: hidden;
     width: 100%;
-    height: 230px;
-    object-fit: cover;
+    //height: 230px;
+    object-fit: contain;
 
     @media screen and (max-width: $tableWidth) {
-      height: 140px;
+      //height: 140px;
       > img {
         width: 100%;
-        height: 100%;
-        object-fit: cover;
+        //height: 100%;
+        object-fit: contain;
       }
     }
 
@@ -248,7 +246,7 @@ const goToMissionsMapPage = () => {
       object-fit: cover;
 
       @media screen and (max-width: $tableWidth) {
-        height: 140px;
+        //height: 140px;
         > img {
           width: 100%;
           height: 100%;
