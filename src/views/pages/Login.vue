@@ -46,7 +46,11 @@ const isLoading = ref(false)
 const store = useStore()
 
 const generateUserToken = async () => {
-  isLoading.value = true
+  await ApiClientStomp.instance.disconnect();
+  localStorage.removeItem('token');
+
+  isLoading.value = true;
+
   try {
     const memberTokenRequest = {
       member: memberRefId.value,
@@ -69,17 +73,15 @@ const generateUserToken = async () => {
 
     if (body.data && body.data.jwtToken) {
       const token = body.data.jwtToken;
-      localStorage.setItem('token', token);
 
       await ApiClientStomp.instance.connect({ token: token });
       await store.dispatch('setIsConnectedClient', true);
-
-      // await router.push({ name: 'Dashboard' }).catch(() => {});
+      localStorage.setItem('token', token);
 
       setTimeout(() => {
         isLoading.value = false
         window.location.reload()
-      }, 2000)
+      }, 3000)
 
 
     } else {

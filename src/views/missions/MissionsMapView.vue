@@ -1,5 +1,5 @@
 <template>
-  <h1 class="mission-map-title">Mission map</h1>
+  <h1 class="mission-map-title" :class="{'light-mode': !isDarkMode}">Mission map</h1>
   <div class="graph-wrapper">
     <v-network-graph
         ref="graph"
@@ -97,6 +97,7 @@ const images = ref(null);
 
 const missionCompleted = ref(null);
 const store = useStore();
+const isDarkMode = computed(() => store.getters.getTheme);
 
 onBeforeMount(async () => {
   ApiClientStomp.instance.client.debug = () => {
@@ -152,7 +153,9 @@ const eventHandlers = {
 const configs = computed(() => {
   return defineConfigs({
     view: {
-      zoomEnabled: false,
+      zoomEnabled: true,
+      minZoomLevel: 0.1,
+      maxZoomLevel: 16,
       // panEnabled: false
     },
     node: {
@@ -164,15 +167,15 @@ const configs = computed(() => {
       },
       label: {
         direction: 'south',
-        color: '#FDFDFF',
+        color: isDarkMode.value ? '#FFFFFF' : '#304F69',
         fontFamily: 'Syne-Medium',
         fontSize: 16
       },
     },
     edge: {
       normal: {
-        // color: edge => edge.color,
-        color: '#B9CEDF',
+        color: edge => edge.color,
+        // color: '#B9CEDF',
         // width: 3,
         dasharray: 4,
         linecap: 'round'

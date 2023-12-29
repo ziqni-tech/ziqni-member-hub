@@ -39,7 +39,6 @@
     "core-js": "^3.25.5",
     "d3": "^7.8.4",
     "dagre": "^0.8.5",
-    "jsonwebtoken": "^9.0.2",
     "v-network-graph": "^0.8.1",
     "vue": "^3.2.41",
     "vue-router": "^4.1.5",

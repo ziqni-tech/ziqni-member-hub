@@ -5,7 +5,6 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    beforeEnter: AuthGuard,
     redirect: '/dashboard',
     children: [
       {
@@ -148,5 +147,7 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes,
 });
+
+router.beforeEach(AuthGuard);
 
 export default router;
