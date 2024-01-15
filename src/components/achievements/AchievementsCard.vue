@@ -174,6 +174,7 @@ const goToAchievementDetails = () => {
     padding: 10px 0 0 20px;
 
     .title {
+      max-width: 235px;
       font-family: $bold;
       font-size: 14px;
       color: $white-color-DM;

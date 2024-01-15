@@ -1,11 +1,19 @@
+import { Base64 } from 'js-base64';
+
 const isAuthenticated = localStorage.getItem('token');
 
 function base64UrlDecode(str) {
-  const base64 = str.replace(/-/g, '+').replace(/_/g, '/');
-  const padding = base64.length % 4;
-  const padded = padding ? base64 + '==='.slice(padding) : base64;
-  return atob(padded);
+  try {
+    const base64 = str.replace(/-/g, '+').replace(/_/g, '/');
+    const padding = base64.length % 4;
+    const padded = padding ? base64 + '==='.slice(padding) : base64;
+    return Base64.decode(padded);
+  } catch (error) {
+    console.error('base64UrlDecode error:', error.message);
+    throw error;
+  }
 }
+
 
 function decodeJwt(token) {
   const [header, payload, signature] = token.split('.');
