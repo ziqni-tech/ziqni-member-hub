@@ -1,0 +1,26 @@
+.section-title {
+  font-family: $mainFont;
+  font-size: 24px;
+  text-align: start;
+  color: $text-color-white;
+  letter-spacing: -0.5px;
+
+  @media screen and (max-width: $tableWidth) {
+    font-size: 22px;
+
+    padding-bottom: 5px;
+  }
+}
+
+.section-description {
+  font-size: 16px;
+  color: $text-color-white;
+
+  @media screen and (max-width: $tableWidth) {
+    max-width: 150px;
+    text-align: start;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+  }
+}

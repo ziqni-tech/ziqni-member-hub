@@ -1,0 +1,415 @@
+<template>
+  <div id="user-profile-mobile" :class="{ open: isProfileInfo, 'light-mode': !isDarkMode }">
+    <div class="background-block" :style="{ 'background-image': `url(${require('@/assets/images/user/cover.png')})` }">
+      <div class="buttons">
+        <ToggleTheme
+            class="theme-btn"
+            :stroke-color="getIconStrokeColor()"
+            :iconSize="'40'"
+        />
+        <div class="cross-btn" v-if="isMobile" @click="closeProfileInfo">
+          <CrossIcon :width="'40'" :height="'40'" :stroke-color="getIconStrokeColor()"/>
+        </div>
+      </div>
+    </div>
+    <div class="user-info">
+      <div class="user-image-wrapper">
+        <div class="user-image">
+          <img :src="member.iconLink ? member.iconLink : memberDefaultIcon" alt="">
+        </div>
+      </div>
+      <div class="user-name">{{ member.name }}</div>
+      <div class="pro-label">pro</div>
+      <div class="info-block">
+        <ProfileInfoCircleProgress
+            :color="'#BEE9F3'"
+            :title="'Total game'"
+            :completed-steps="totalGames"
+            :total-steps="50 + totalGames"
+            :is-dark-mode="isDarkMode"
+        />
+        <ProfileInfoCircleProgress
+            :color="'#8749DC'"
+            :title="'Points'"
+            :completed-steps="Math.round(totalPoints)"
+            :total-steps="80 + totalPoints"
+            :is-dark-mode="isDarkMode"
+        />
+        <ProfileInfoCircleProgress
+            :color="'#6FCF97'"
+            :title="'win'"
+            :completed-steps="winPercentage"
+            :total-steps="100"
+            :is-percents="true"
+            :is-dark-mode="isDarkMode"
+        />
+        <ProfileInfoCircleProgress
+            :color="'#EB5757'"
+            :title="'lose'"
+            :completed-steps="lossPercentage"
+            :total-steps="100"
+            :is-percents="true"
+            :is-dark-mode="isDarkMode"
+        />
+      </div>
+    </div>
+    <div class="border-block"></div>
+    <button
+        class="logout-mobile-btn"
+        @click="logOut"
+    >
+      logout
+    </button>
+  </div>
+</template>
+
+<script setup>
+import { computed, onMounted, ref } from 'vue';
+import { useStore } from 'vuex';
+import ProfileInfoCircleProgress from './ProfileInfoCircleProgress';
+import ToggleTheme from '@/shared/components/ToggleTheme.vue';
+import useMobileDevice from '@/hooks/useMobileDevice';
+import {
+  AchievementRequest,
+  AchievementsApiWs,
+  ApiClientStomp,
+  OptInApiWs,
+  OptInStatesRequest
+} from '@ziqni-tech/member-api-client';
+import memberDefaultIcon from '@/assets/images/user/avatar.png';
+import CrossIcon from '@/shared/components/svg-icons/CrossIcon.vue';
+
+const store = useStore();
+const { isMobile } = useMobileDevice();
+const emit = defineEmits(['closeProfileInfo', 'logOut']);
+
+const props = defineProps({
+  isProfileInfo: {
+    type: Boolean,
+    default: false
+  }
+});
+
+const isDarkMode = computed(() => store.getters.getTheme);
+
+const getIconStrokeColor = () => {
+  return '#FFFFFF';
+};
+
+const closeProfileInfo = () => {
+  emit('closeProfileInfo');
+};
+
+const logOut = () => {
+  emit('logOut');
+};
+
+const member = computed(() => store.getters.getMember);
+
+const totalGames = ref(0);
+const totalPoints = ref(0);
+const wins = ref(0);
+const losses = ref(0);
+const achievements = ref([]);
+
+const winPercentage = computed(() => {
+  if (totalGames.value === 0) {
+    return 0;
+  }
+  const percentage = (wins.value / totalGames.value) * 100;
+  return Math.round(percentage);
+});
+
+const lossPercentage = computed(() => {
+  if (totalGames.value === 0) {
+    return 0;
+  }
+  const percentage = (losses.value / totalGames.value) * 100;
+  return Math.round(percentage);
+});
+
+onMounted(() => {
+  getAchievementsRequest();
+});
+
+const getAchievementsRequest = async () => {
+  try {
+    const achievementsApiWsClient = new AchievementsApiWs(ApiClientStomp.instance);
+    let totalFetched = 0;
+    let moreDataAvailable = true;
+
+    while (moreDataAvailable) {
+      const achievementsRequest = AchievementRequest.constructFromObject({
+        achievementFilter: {
+          productTagsFilter: [],
+          ids: [],
+          tags: ['dashboard'],
+          status: [],
+          sortBy: [
+            {
+              queryField: 'created',
+              order: 'Desc'
+            },
+          ],
+          skip: totalFetched,
+          limit: 20,
+          statusCode: {
+            moreThan: 0,
+            lessThan: 40
+          },
+          constraints: []
+        },
+      }, null);
+
+      const response = await new Promise((resolve, reject) => {
+        achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
+          resolve(res);
+        });
+      });
+
+      const achievementsData = response.data
+
+      totalGames.value = response.meta.totalRecordsFound
+
+      const ids = response.data.map(item => item.id);
+      const statusData = await getOptInStatus(ids);
+
+      for (const status of statusData.data) {
+        for (const achievement of achievementsData) {
+          if (status.entityId === achievement.id) {
+            totalPoints.value += status.points || 0
+
+            const isFinished = achievement.status === 'Finished' || achievement.status === 'Finishing';
+            const isWinner = status.percentageComplete === 100;
+
+            if (isWinner) {
+              wins.value++;
+            } else if (isFinished && !isWinner) {
+              losses.value++;
+            }
+          }
+        }
+      }
+
+      achievements.value = [...achievements.value, ...response.data];
+      totalFetched += response.data.length;
+
+
+      if (totalFetched >= response.meta.totalRecordsFound) {
+        moreDataAvailable = false; // Terminate the loop if limits are reached
+      }
+    }
+  } catch (err) {
+
+  }
+};
+
+const getOptInStatus = async (ids) => {
+  const optInApiWsClient = new OptInApiWs(ApiClientStomp.instance);
+
+  const optInStateRequest = OptInStatesRequest.constructFromObject({
+    optinStatesFilter: {
+      entityTypes: ['Achievement'],
+      ids: ids,
+      statusCodes: {
+        gt: -5,
+        lt: 40
+      },
+      skip: 0,
+      limit: 20
+    }
+  }, null);
+
+  return await new Promise((resolve, reject) => {
+    optInApiWsClient.optInStates(optInStateRequest, res => {
+      resolve(res);
+    }, err => {
+      reject(err);
+    });
+  });
+};
+
+</script>
+
+<style lang="scss">
+@import "src/assets/scss/_variables";
+
+#user-profile-mobile {
+  display: flex;
+  flex-direction: column;
+  background-color: $secondary-bg-DM;
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 100%;
+  height: 100%;
+  transition: right 0.3s ease-in-out;
+  z-index: 10;
+
+  .background-block {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 24%;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+
+    .buttons {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 12px;
+
+      .theme-btn {
+        background-color: inherit;
+        border-radius: 5px;
+        border: 1px solid rgba(230, 230, 230, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+
+      }
+
+      .cross-btn {
+        padding: 0;
+        background-color: inherit;
+        border-radius: 5px;
+        border: 1px solid rgba(230, 230, 230, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+
+  .user-info {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 42px;
+
+    .user-image-wrapper {
+      position: absolute;
+      top: -68px;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 4px solid #7ED4E7;
+      background: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .user-image {
+        width: 92px;
+        height: 92px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        //border: 4px solid $border-dark;
+        //background-color: $body-text-color;
+        background: none;
+        overflow: hidden;
+
+        > img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+    }
+
+    .user-name {
+      font-style: normal;
+      font-family: $bold;
+      font-size: 12px;
+      line-height: 17px;
+      color: $white-color-DM;
+    }
+
+    .pro-label {
+      margin-top: 5px;
+      border-radius: 5px;
+      text-transform: uppercase;
+      background: #7ED4E7;
+      color: #223241;
+      padding: 0 10px;
+      font-family: $bold;
+      font-size: 8px;
+      line-height: 12px;
+    }
+
+    .info-block {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, minmax(0, 1fr));
+      gap: 41px 16px;
+      margin-top: 50px;
+      margin-bottom: 20px;
+    }
+  }
+
+  .border-block {
+    height: 0;
+    width: 90%;
+    margin: auto;
+    border-bottom: 1px solid $card-bg-DM;
+  }
+
+  .logout-mobile-btn {
+    width: 320px;
+    margin: 0 auto 20px;
+    padding: 10px;
+    border-radius: $border-radius;
+    border: 1px solid #EB5757;
+    background: none;
+
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 14px;
+
+    color: $text-color-white;
+  }
+
+  &.light-mode {
+    background-color: $bg-secondary-LM;
+
+    .user-info {
+      .user-name {
+        color: $section-title-color-LM;
+      }
+    }
+
+    .border-block {
+      border-bottom: 1px solid $main-border-color-LM;
+    }
+
+    .logout-mobile-btn {
+      width: 320px;
+      margin: 0 auto 20px;
+      padding: 10px;
+      border-radius: $border-radius;
+      border: 1px solid #EB5757;
+      background: none;
+
+      font-weight: 700;
+      font-size: 12px;
+      line-height: 14px;
+
+      color: $card-title-color-LM;
+    }
+  }
+}
+
+#user-profile-mobile.open {
+  right: 0;
+}
+</style>

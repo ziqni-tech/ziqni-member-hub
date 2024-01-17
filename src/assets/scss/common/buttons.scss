@@ -1,0 +1,135 @@
+.b-btn {
+  display: flex;
+  align-items: center;
+  padding: 13px 28px 13px 26px;
+  gap: 8px;
+
+  background: $btn-gradient-color;
+  border-radius: 5px;
+
+  @media screen and (max-width: $desktopWidth) {
+    padding: 8px 10px;
+  }
+
+  @media screen and (max-width: $tableWidth) and (min-width: $smTableWidth) {
+    padding: 3px 5px;
+    margin-top: 10px;
+  }
+
+
+  &:hover {
+    background: $btn-gradient-color;
+    border-color: $purple;
+  }
+
+  &__text {
+    font-size: 16px;
+    font-family: $semi-bold;
+    color: $text-color-white;
+    display: flex;
+    align-items: center;
+
+  }
+  & > img {
+    margin-left: 18px;
+    @media screen and (max-width: $desktopWidth) {
+      margin-left: 5px;
+    }
+    @media screen and (max-width: $tableWidth) {
+      margin-left: 0;
+    }
+  }
+}
+
+.m-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  //width: 205px;
+  height: 34px;
+  border-radius: 5px;
+
+  font-size: 16px;
+  font-family: $semi-bold;
+  color: $text-color-white;
+  text-align: center;
+
+  & > img {
+    margin-left: 10px;
+    @media screen and (max-width: $desktopWidth) {
+      margin-left: 5px;
+    }
+    @media screen and (max-width: $tableWidth) {
+      margin-left: 5px;
+    }
+  }
+
+  //&:hover {
+  //  background: $btn-gradient-color;
+  //  border-color: $purple;
+  //}
+}
+
+.s-btn {
+  padding: 3px 22px;
+  background: $btn-gradient-color;
+  border-color: $purple;
+  border-radius: 3px;
+  font-size: 11px;
+  font-family: $semi-bold;
+  color: $text-color-white;
+
+  &:hover {
+    background: $btn-gradient-color;
+    border-color: $purple;
+  }
+}
+
+.r-btn {
+  border-radius: 50%;
+  padding: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $btn-gradient-color;
+  margin-right: 16px;
+
+  @media screen and (max-width: $phoneWidth) {
+    padding: 4px;
+    object-fit: cover;
+  }
+
+  @media screen and (max-width: $tableWidth) {
+    padding: 4px;
+    object-fit: cover;
+  }
+
+  &:hover {
+    border-color: $btn-bg-hover-violet;
+    background: $btn-bg-hover-violet;
+  }
+}
+
+.dd-btn {
+  background: $medium-blue;
+  color: #FFFFFF;
+
+  &::after {
+    margin-left: 28px;
+  }
+}
+
+.show-more-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $border-radius;
+
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 17px;
+
+  border: 1px solid $purple;
+  color: $text-color-white;
+  background-color: $light-grey;
+}

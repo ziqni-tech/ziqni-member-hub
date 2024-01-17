@@ -1,0 +1,126 @@
+// Font
+
+$mainDarkFontColor       : #101010;
+$mainWhiteFontColor      : #FFFFFF;
+$mainFontSize            : 18px;
+$mainFontWeight          : 500;
+$mainLineHeight          : 1.4;
+
+$lgDesktopWidth          : 1400px;
+$desktopWidth            : 1280px;
+$smDesktopWidth          : 1024px;
+$tableWidth              : 768px;
+$smTableWidth            : 640px;
+$phoneWidth              : 480px;
+$smPhoneWidth            : 320px;
+
+// helpers
+$g-0    : #ffffff;
+$g-999  : #000000;
+
+// Background
+$primary-bg-dark         : #e0e0ef;
+$primary-bg              : #FAFAFE;
+$secondary-bg            : #FFFFFF;
+
+// dark mode
+$primary-bg-dark-DM         : #151419;
+$primary-bg-light-DM        : #23242a;
+
+// light mode
+$primary-bg-dark-LM         : #f7f6f2;
+$primary-bg-light-LM        : #ffffff;
+
+
+// new colors
+$light-blue              : #bad4e1;
+$blue                    : #11457e;
+$light-blue              : #3da1d2;
+$medium-blue             : #40409f;
+$dark-blue               : #2f3992;
+$light-pink              : #e5b7d3;
+$dark-pink               : #a10c66;
+$pink                    : #a31b8e;
+$violet                  : #675798;
+$golden                  : #efd641;
+$light-grey              : #e9e5e6;
+$dark-grey               : #b7b7ad;
+$brown                   : #a16e44;
+
+$card-violet-bg-color         : #5D53C2;
+$card-blue-bg-color           : #67a0e5;
+$card-deep-blue-bg-color      : #3da1d2;
+$card-bg-gradient             : linear-gradient(180deg, rgba(61,161,210,1) 0%, rgba(103,160,229,1) 100%);
+$card-bg-gradient-transparent : linear-gradient(180deg, rgba(61,161,210,0.5) 0%, rgba(103,160,229,0.5) 100%);
+
+
+// Status Colors
+$sts-green               : #34bd4c;
+$sts-green-light         : #1ECE30;
+$sts-green-lighter       : #7ef58b;
+$sts-red                 : #CE624B;
+$sts-red-light           : #F89A81;
+$sts-red-lighter         : #FFE7E0;
+$sts-grey                : #727272;
+$sts-grey-medium         : #848589;
+$sts-grey-medium-lighter : #a6a8ad;
+$sts-grey-light          : #C4C4C4;
+$sts-grey-lighter        : #E8E8E8;
+$sts-grey-lightest       : #f8f5f5;
+
+// Text colors
+$txt-title               : #737478;
+$txt-dark-grey           : #5F6165;
+$txt-white-transparent   : rgba(255, 255, 255, 0.8);
+$txt-light               : #EFEFEF;
+$txt-primary-violet      : #6F64D0;
+$txt-primary-blue        : #67a0e5;
+$txt-secondary           : #ABA7D9;
+$txt-brown               : #43360E;
+
+// Buttons
+$btn-bg-orange           : #F6876A;
+$btn-bg-hover-orange     : #f36d4a;
+$btn-bg-violet           : #5D53C2;
+$btn-bg-blue             : #3da1d2;
+$btn-bg-hover-violet     : #5144ee;
+
+// Cards
+$card-violet-bg-gradient        : linear-gradient(180deg, #574FA3 0%, #5D53C2 100%);
+$card-blue-bg-gradient          : linear-gradient(90deg, rgba(120,158,220,1) 0%, rgba(100,162,230,1) 86%);;
+
+// Leaderboard items
+$gold-gradient           : linear-gradient(180deg, rgba(220, 195, 21, 0.9) 0%, rgba(255, 223, 0, 0.9) 100%);
+$silver-gradient         : linear-gradient(180deg, #DDDDDD 0%, #C3BABA 100%);
+$bronze-gradient         : linear-gradient(180deg, #F5C1A1 0%, rgba(245, 193, 161, 0.723958) 27.6%, #ECAB84 100%);
+
+
+// Main color
+$default-color           : #ffffff;
+$primary-violet-color    : #5D53C2;
+$primary-blue-color      : #67a0e5;
+$success-color           : #26de81;
+$danger-color            : #F6876A;
+$warning-color           : #fed330;
+$light-color             : #999999;
+//$purple-color            : #8854d0;
+$purple-color            : #67a0e5;
+$purple-color-100        : #aa8ad6;
+
+// Neutral Color
+$neutral-primary         : #5F6165;
+$neutral-regular         : #737478;
+$neutral-secondary       : #909399;
+$neutral-placeholder     : #C0C4CC;
+
+// Border Color
+$border-base             : #DCDFE6;
+$border-light            : #E4E7ED;
+$border-lighter          : #EBEEF5;
+$border-lightest         : #F2F6FC;
+$border-orange           : #F6876A;
+$border-header-light-mode          : rgba(83, 74, 186, 0.2);
+$border-header-dark-mode           : #67a0e5;
+
+// Scrollbar color
+$scrollbar-color         : #e4e1fd;

@@ -3,17 +3,21 @@ const fs = require('fs')
 module.exports = {
   lintOnSave: false,
   runtimeCompiler: true,
+  publicPath: './',
+
 
   configureWebpack: {
     //Necessary to run npm link https://webpack.js.org/configuration/resolve/#resolve-symlinks
     resolve: {
-       symlinks: false
+      symlinks: false,
+      fallback: { "querystring": require.resolve("querystring-es3") }
+    },
+    performance: {
+      hints: false,
+      maxEntrypointSize: 512000,
+      maxAssetSize: 512000
     }
   },
-
-  transpileDependencies: [
-    // '@coreui/utils'
-  ],
 
   // devServer: {
     // proxy: 'https://api.ziqni.com/',

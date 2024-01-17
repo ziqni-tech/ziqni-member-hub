@@ -1,0 +1,82 @@
+.mission-card {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+
+  display: grid;
+  grid-template-columns: 30% 70%;
+  grid-gap: 1rem;
+  background: $card-bg-gradient;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 20px;
+
+  @media screen and (max-width: $desktopWidth) {
+    margin-bottom: 10px;
+  }
+
+  .card-image > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    @media screen and (min-width: 786px){
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+  }
+
+  .mission-data {
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    color: $mainWhiteFontColor;
+    font-weight: 600;
+    font-size: 11px;
+    line-height: 16px;
+    padding: 13px 10px 10px 20px;
+
+    .title {
+      width: 100%;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 27px;
+      text-align: start;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .prize-fund {
+      display: flex;
+      align-items: flex-start;
+
+      .fund {
+        margin-left: 5px;
+      }
+    }
+  }
+
+  .countdown-wrapper {
+    max-width: 185px;
+  }
+
+  .mission-progress {
+    margin-top: 10px;
+  }
+
+  .register-btn {
+    align-self: flex-end;
+  }
+
+  .progress {
+    width: 185px;
+    background: linear-gradient(180deg, #EDDFF3 0%, #E8EAEC 100%);
+    border-radius: 24px;
+
+    .progress-bar {
+      background: linear-gradient(180deg, #1ECE30 0%, #188A2A 100%);
+      box-shadow: inset 0 2.29752px 4.59504px rgba(255, 255, 255, 0.25), inset 0px -2.29752px 4.59504px rgba(0, 0, 0, 0.25);
+      border-radius: 4px;
+    }
+  }
+}

@@ -1,28 +1,23 @@
 <template>
-  <AppLayout>
-    <router-view />
-  </AppLayout>
+  <router-view />
 </template>
 
-<script>
+<script setup>
 
-import AppLayout from './layouts/AppLayout';
-
-export default {
-  name: 'App',
-  components: {
-    AppLayout,
-  }
-}
 </script>
 
-<style>
+<style lang="scss">
+@import '@coreui/coreui/dist/css/coreui.min.css';
+@import './assets/scss/_variables.scss';
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: $mainFont;
+  -webkit-font-smoothing: $mainFont;
+  -moz-osx-font-smoothing: $mainFont;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  color: $sidebar-text-color;
+  width: 100%;
+  height: 100vh;
+  background: $dark-grey;
 }
 </style>

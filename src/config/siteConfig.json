@@ -1,0 +1,167 @@
+{
+  "title": "Member Hub",
+  "favicon": "https://first-space.cdn.ziqni.com/Icons/dollar.png",
+  "mainMenu": {
+    "items": [
+      {
+        "url": "/dashboard",
+        "text": "Dashboard",
+        "key": "dashboard",
+        "images": {
+          "small": "string",
+          "medium": "string",
+          "large": "string",
+          "extraLarge": "string",
+          "icon": "https://first-space.cdn.ziqni.com/Icons/icon%20reward.svg"
+        },
+        "constraints": [
+          "string"
+        ],
+        "order": 0,
+        "enabled": true
+      },
+      {
+        "url": "/tournaments",
+        "text": "Tournaments",
+        "key": "tournaments",
+        "images": {
+          "small": "string",
+          "medium": "string",
+          "large": "string",
+          "extraLarge": "string",
+          "icon": "string"
+        },
+        "constraints": [
+          "string"
+        ],
+        "order": 1,
+        "enabled": true
+      },
+      {
+        "url": "/achievements",
+        "text": "Achievements",
+        "key": "achievements",
+        "images": {
+          "small": "string",
+          "medium": "string",
+          "large": "string",
+          "extraLarge": "string",
+          "icon": "string"
+        },
+        "constraints": [
+          "string"
+        ],
+        "order": 2,
+        "enabled": true
+      },
+      {
+        "url": "/awards",
+        "text": "Awards",
+        "key": "awards",
+        "images": {
+          "small": "string",
+          "medium": "string",
+          "large": "string",
+          "extraLarge": "string",
+          "icon": "string"
+        },
+        "constraints": [
+          "string"
+        ],
+        "order": 3,
+        "enabled": true
+      },
+      {
+        "url": "/messages",
+        "text": "Messages",
+        "key": "messages",
+        "images": {
+          "small": "string",
+          "medium": "string",
+          "large": "string",
+          "extraLarge": "string",
+          "icon": "string"
+        },
+        "constraints": [
+          "string"
+        ],
+        "order": 4,
+        "enabled": true
+      },
+      {
+        "url": "/missions",
+        "text": "Missions",
+        "key": "missions",
+        "images": {
+          "small": "string",
+          "medium": "string",
+          "large": "string",
+          "extraLarge": "string",
+          "icon": "string"
+        },
+        "constraints": [
+          "string"
+        ],
+        "order": 5,
+        "enabled": true
+      }
+    ],
+    "constraints": null
+  },
+  "constraints": null,
+  "logos": {
+    "dark": {
+      "small": "@/assets/icons/logo-small-dark.svg",
+      "medium": "string",
+      "large": "string",
+      "extraLarge": "string",
+      "icon": "@/assets/icons/logo-dark.svg"
+    },
+    "light": {
+      "small": "/src/assets/icons/logo-small-light.svg",
+      "medium": "string",
+      "large": "string",
+      "extraLarge": "string",
+      "icon": "./src/assets/icons/logo-light.svg"
+    }
+    },
+  "translations": {
+    "property1": {
+      "text": {
+        "property1": "string",
+        "property2": "string"
+      }
+    },
+    "property2": {
+      "text": {
+        "property1": "string",
+        "property2": "string"
+      }
+    }
+  },
+  "themes": [
+    {
+      "key": "dark",
+      "icon": {
+        "small": "string",
+        "medium": "string",
+        "large": "string",
+        "extraLarge": "string",
+        "icon": "https://first-space.cdn.ziqni.com/Icons/sun.svg"
+      },
+      "css": null
+    },
+    {
+      "key": "light",
+      "icon": {
+        "small": "string",
+        "medium": "string",
+        "large": "string",
+        "extraLarge": "string",
+        "icon": "https://first-space.cdn.ziqni.com/Icons/moon.svg"
+      },
+      "css": null
+    }
+  ],
+  "key": "string"
+}

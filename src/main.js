@@ -1,20 +1,24 @@
 import { createApp } from 'vue';
+import router from './router';
 import App from './App.vue';
-import store from './store'
+import store from './store';
 
 import CoreuiVue from '@coreui/vue';
 
-import index from './router';
-import AppLayout from './layouts/AppLayout';
+import AppLayout from './layouts/DashboardLayout';
+import './assets/scss/main.scss';
+import VNetworkGraph from 'v-network-graph';
+import 'v-network-graph/lib/style.css';
+
 
 
 createApp({
-    extends: App,
-    // beforeCreate() { this.$store.commit('initialiseStore') }
-})
-    .use(index)
-    .use(CoreuiVue)
-    .component('AppLayout', AppLayout)
-    // .use(store)
-.mount('#app')
+            extends: App,
+          })
+  .use(router)
+  .use(CoreuiVue)
+  .use(VNetworkGraph)
+  .use(store)
+  .component('AppLayout', AppLayout)
+  .mount('#app');
 
