@@ -12,7 +12,7 @@
           "medium": "string",
           "large": "string",
           "extraLarge": "string",
-          "icon": "https://first-space.cdn.ziqni.com/Icons/icon%20reward.svg"
+          "icon": ""
         },
         "constraints": [
           "string"

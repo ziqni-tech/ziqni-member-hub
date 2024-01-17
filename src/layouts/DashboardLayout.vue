@@ -4,57 +4,10 @@
       v-if="!isMobile"
       :class="{'light-mode': !isDarkMode, 'sidebar-narrow': isSidebarNarrow}"
   >
-    <div id="nav-block" :class="{'sidebar-narrow': isSidebarNarrow}">
-      <TheSidebar @logOut="logOut"/>
-    </div>
-    <div class="sidebar-narrow-btn" :class="{'sidebar-narrow': isSidebarNarrow}" @click="toggleSidebar">
-      <div class="arrow-box">
-        <div class="arrow"></div>
-      </div>
-    </div>
     <div id="main-block">
       <Dashboard/>
     </div>
-    <div id="user-profile-block">
-      <UserProfile v-if="isClientConnected && !isNotificationsList" @openNotifications="openNotifications"/>
-      <Notifications
-          class="notificationsList"
-          v-if="isNotificationsList"
-          @closeNotifications="closeNotifications"/>
-    </div>
   </div>
-  <div
-      v-if="isMobile && !isProfileInfo"
-      id="mobile-layout"
-      :class="{'light-mode': !isDarkMode}"
-  >
-    <div class="mobile-header">
-      <div class="icon-btn" @click="openNotifications">
-        <NotificationIcon :width="'40'" :height="'40'" :stroke-color="getIconStrokeColor()"/>
-      </div>
-      <span class="page-name">{{ router.currentRoute.value.name }}</span>
-      <div class="icon-btn person-icon" @click="openProfileInfo">
-        <PersonIcon :width="'20'" :height="'20'" :stroke-color="getIconStrokeColor()"/>
-      </div>
-    </div>
-    <div id="mobile-layout-main-block">
-      <Dashboard/>
-    </div>
-    <MobileNav :isDarkMode="isDarkMode"/>
-  </div>
-  <UserProfileMobile
-      v-if="isClientConnected"
-      @closeProfileInfo="closeProfileInfo"
-      @logOut="logOut"
-      :class="{ open: isProfileInfo }"
-      :isProfileInfo="isProfileInfo"
-  />
-  <Notifications
-      v-if="isMobile"
-      @closeNotifications="closeNotifications"
-      class="notificationsList-mobile"
-      :class="{ open: isNotificationsList }"
-  />
 </template>
 
 <script setup>
@@ -62,15 +15,9 @@ import { ApiClientStomp, FilesApiWs, MemberRequest, MembersApiWs } from '@ziqni-
 import { computed, onBeforeMount, ref, watch, watchEffect } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import TheSidebar from '@/components/sidebar/TheSidebar';
-import UserProfile from '@/components/user-profile/UserProfile';
+
 import Dashboard from '@/views/Dashboard';
 import useMobileDevice from '@/hooks/useMobileDevice';
-import MobileNav from '@/components/sidebar/MobileNav.vue';
-import UserProfileMobile from '@/components/user-profile/UserProfileMobile.vue';
-import NotificationIcon from '@/shared/components/svg-icons/NotificationIcon.vue';
-import PersonIcon from '@/shared/components/svg-icons/PersonIcon.vue';
-import Notifications from '@/components/notifications/Notifications.vue';
 
 
 const router = useRouter();
@@ -105,53 +52,22 @@ const closeNotifications = () => {
 };
 
 onBeforeMount(async () => {
-  const token = localStorage.getItem('token');
-  // try {
-  //   const decodeToken = jwt.decode(token)
-  //   const expirationDate = new Date(decodeToken.exp * 1000)
-  //   console.log('expirationDate', expirationDate);
-  // } catch (e) {
-  //
-  // }
+  const urlParams = new URLSearchParams(window.location.search);
+  const authToken = urlParams.get('auth');
+
   ApiClientStomp.instance.client.debug = () => {
   };
-  await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
+  await ApiClientStomp.instance.connect({ token: authToken });
   await store.dispatch('setIsConnectedClient', true);
-  await getSiteConfigFile();
 });
 
-const getSiteConfigFile = async () => {
-  try {
-    const fileApiWsClient = new FilesApiWs(ApiClientStomp.instance);
-
-    const fileRequest = {
-      ids: ['cnqCN4sBRTh4mVYAXO-d'],
-      // ids: ['ss-L7owB6Jt8yN-t6yQ0'],
-      limit: 20,
-      skip: 0,
-      repositoryId: '2-96p4YBpKc9QvJXz3fr'
-      // repositoryId: 'Ysfv7YwB6Jt8yN-tSmtr'
-    };
-
-
-    await fileApiWsClient.getFiles(fileRequest, async (res) => {
-      const configFile = await res.data.find(item => item.name === 'siteConfig.json');
-
-      await fetch(configFile.uri)
-          .then((data) => {
-            return data.json();
-          })
-          .then((data) => {
-            store.dispatch('setConfigFile', data);
-          })
-          .catch((err) => console.log(err));
-    });
-  } catch (err) {
-    setTimeout(async () => {
-      await getSiteConfigFile();
-    }, 1000);
+window.addEventListener('message', function(event) {
+  const type = event.data.type;
+  const { data } = event.data;
+  if (type === 'navigate') {
+    router.push(data.path);
   }
-};
+});
 
 
 const getMemberRequest = async () => {
@@ -181,10 +97,6 @@ const logOut = async () => {
   await router.push({ path: '/login' });
 };
 
-watchEffect(() => {
-  // if (message.value) console.warn('MESSAGE', message.value);
-});
-
 const isSidebarNarrow = ref(false)
 const isSidebarNarrowValue = computed(() => store.getters.getIsSidebarNarrow)
 
@@ -213,14 +125,14 @@ html, body {
 
 #app-layout {
   display: grid;
-  grid-template-columns: 15% 1fr 20%;
+  grid-template-columns: 100%;
   grid-template-rows: 100%;
-  grid-template-areas: "nav main user-profile";
+  grid-template-areas: "main";
   height: 100%;
   margin: 0;
 
   &.sidebar-narrow {
-    grid-template-columns: 4.5% 1fr 20%;
+    grid-template-columns: 100%;
   }
 
   .sidebar-narrow-btn {
@@ -308,6 +220,7 @@ html, body {
     overflow: auto;
     width: 15%;
     padding: 0 12px;
+
   }
 
   #nav-block.sidebar-narrow {

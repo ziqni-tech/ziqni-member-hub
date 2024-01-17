@@ -4,68 +4,17 @@
       v-if="!isMobile"
       :class="{'light-mode': !isDarkMode, 'sidebar-narrow': isSidebarNarrow}"
   >
-    <div id="nav-block" :class="{'sidebar-narrow': isSidebarNarrow}">
-      <TheSidebar @logOut="logOut"/>
-    </div>
-    <div class="sidebar-narrow-btn" :class="{'sidebar-narrow': isSidebarNarrow}" @click="toggleSidebar">
-      <div class="arrow-box">
-        <div class="arrow"></div>
-      </div>
-    </div>
+
     <div class="content">
-      <TheHeader @openNotifications="openNotifications"/>
       <div id="main-block">
         <div v-if="isClientConnected" class="main-block_content">
           <router-view/>
         </div>
-        <Notifications
-            @closeNotifications="closeNotifications"
-            class="notificationsList"
-            :class="{ open: isNotificationsList }"
-        />
+
       </div>
     </div>
   </div>
-  <div
-      v-if="isMobile"
-      id="mobile-layout"
-      :class="{'light-mode': !isDarkMode}"
-  >
-    <div class="mobile-header">
-      <div
-          class="go-back-btn"
-          @click="$router.go(-1)"
-          v-if="isGoBackBtn"
-      >
-        <ArrowLeft :width="'40'" :height="'40'" :stroke-color="getIconStrokeColor()"/>
-      </div>
-      <div v-if="!isGoBackBtn" class="icon-btn" @click="openNotifications">
-        <NotificationIcon :width="'40'" :height="'40'" :stroke-color="getIconStrokeColor()"/>
-      </div>
-      <span class="page-name">{{ splitCamelCaseToWords(router.currentRoute.value.name) }}</span>
-      <div class="icon-btn person-icon" @click="openProfileInfo">
-        <PersonIcon :width="'20'" :height="'20'" :stroke-color="getIconStrokeColor()"/>
-      </div>
-    </div>
-    <div id="mobile-layout-main-block">
-      <div v-if="isClientConnected" :style="{height: '100%', width: '100%', padding: 0, margin: 0}">
-        <router-view/>
-      </div>
-    </div>
-    <MobileNav :isDarkMode="isDarkMode"/>
-    <UserProfileMobile
-        v-if="isClientConnected"
-        @closeProfileInfo="closeProfileInfo"
-        @logOut="logOut"
-        :class="{ open: isProfileInfo }"
-        :isProfileInfo="isProfileInfo"
-    />
-    <Notifications
-        @closeNotifications="closeNotifications"
-        class="notificationsList-mobile"
-        :class="{ open: isNotificationsList }"
-    />
-  </div>
+
 </template>
 
 <script setup>
@@ -124,11 +73,13 @@ const closeNotifications = () => {
 };
 
 onMounted(async () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const authToken = urlParams.get('auth');
+
   ApiClientStomp.instance.client.debug = () => {
   };
-  await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
+  await ApiClientStomp.instance.connect({ token: authToken });
   await store.dispatch('setIsConnectedClient', true);
-  await getSiteConfigFile()
 });
 
 const getMemberRequest = async () => {
@@ -151,37 +102,6 @@ const getMemberRequest = async () => {
 watch(isClientConnected, (value) => {
   if (value) getMemberRequest();
 });
-
-const getSiteConfigFile = async () => {
-  try {
-    const fileApiWsClient = new FilesApiWs(ApiClientStomp.instance);
-
-    const fileRequest = {
-      ids: ['cnqCN4sBRTh4mVYAXO-d'],
-      // ids: ['ss-L7owB6Jt8yN-t6yQ0'],
-      limit: 20,
-      skip: 0,
-      repositoryId: '2-96p4YBpKc9QvJXz3fr'
-      // repositoryId: 'Ysfv7YwB6Jt8yN-tSmtr'
-    };
-
-    await fileApiWsClient.getFiles(fileRequest, async (res) => {
-      const configFile = res.data.find(item => item.name === 'siteConfig.json')
-      await fetch(configFile.uri)
-          .then((data) => {
-            return data.json();
-          })
-          .then((data) => {
-            store.dispatch('setConfigFile', data)
-          })
-          .catch((err) => console.log(err));
-    });
-  } catch (err) {
-    setTimeout(async () => {
-      await getSiteConfigFile()
-    }, 1000)
-  }
-}
 
 const isSidebarNarrow = ref(false)
 const isSidebarNarrowValue = computed(() => store.getters.getIsSidebarNarrow)
@@ -209,13 +129,13 @@ const logOut = async () => {
 
 .default-layout {
   display: grid;
-  grid-template-columns: 15% 85%;
-  grid-template-areas: "nav main";
+  grid-template-columns: 100%;
+  grid-template-areas: "main";
   height: 100%;
   width: 100%;
 
   &.sidebar-narrow {
-    grid-template-columns: 4.5% 95.5%;
+    grid-template-columns: 100%;
   }
 
   .sidebar-narrow-btn {

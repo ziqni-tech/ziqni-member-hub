@@ -50,6 +50,8 @@ import Messages from './svg-icons/Messages';
 import Achievements from './svg-icons/Achievements';
 import Awards from './svg-icons/Awards';
 
+import jsonData from '@/config/siteConfig.json';
+
 const icons = {
   dashboard: Dashboard,
   tournaments: Tournaments,
@@ -60,7 +62,8 @@ const icons = {
 }
 
 const favicon = document.querySelector('link[rel="icon"]')
-const configFile = computed(() => store.getters.getConfigFile);
+// const configFile = computed(() => store.getters.getConfigFile);
+const configFile = ref(jsonData);
 
 const sidebarNav = ref([])
 

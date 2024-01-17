@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import AuthGuard from './auth-guard';
+import { onMounted } from 'vue';
 
 const routes = [
   {
@@ -133,11 +134,6 @@ const routes = [
     ]
   },
   {
-    path: '/login',
-    name: 'Login',
-    component: () => import('@/views/pages/Login'),
-  },
-  {
     path: '/:pathMatch(.*)*',
     component: () => import('@/views/pages/Page404')
   }
@@ -148,6 +144,8 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach(AuthGuard);
+
+
+// router.beforeEach(AuthGuard);
 
 export default router;
