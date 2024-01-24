@@ -1,7 +1,6 @@
 <template>
   <div
       class="default-layout"
-      v-if="!isMobile"
       :class="{'light-mode': !isDarkMode, 'sidebar-narrow': isSidebarNarrow}"
   >
 
@@ -247,6 +246,7 @@ const logOut = async () => {
         left: 0;
         width: 100%;
         height: calc(100% - 80px);
+        padding: 20px 34px 0 20px;
       }
 
       .notificationsList {

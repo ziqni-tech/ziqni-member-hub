@@ -17,7 +17,7 @@
   text-align: center;
   color: $sidebar-text-color;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   background: $dark-grey;
 }
 </style>

@@ -1,7 +1,6 @@
 <template>
   <div
       id="app-layout"
-      v-if="!isMobile"
       :class="{'light-mode': !isDarkMode, 'sidebar-narrow': isSidebarNarrow}"
   >
     <div id="main-block">
