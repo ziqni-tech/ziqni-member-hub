@@ -125,6 +125,9 @@ const seeOriginalView = () => {
 const getCompetitionsRequest = async () => {
   isLoaded.value = false;
 
+  const urlParams = new URLSearchParams(window.location.search);
+  const languageKey = urlParams.get('languageKey');
+
   const competitionRequest = CompetitionRequest.constructFromObject({
     competitionFilter: {
       statusCode,
@@ -135,7 +138,8 @@ const getCompetitionsRequest = async () => {
       limit: limit.value,
       skip: 0,
       ids: []
-    }
+    },
+    languageKey,
   }, null);
 
   try {
@@ -144,6 +148,7 @@ const getCompetitionsRequest = async () => {
 
     await competitionsApiWsClient.getCompetitions(competitionRequest, async (res) => {
       const competitionsData = res.data;
+
       totalRecords.value = res.meta.totalRecordsFound
 
       const compIds = competitionsData.map(item => item.id);

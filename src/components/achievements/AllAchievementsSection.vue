@@ -39,7 +39,7 @@ import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import {
   AchievementsApiWs,
-  ApiClientStomp,
+  ApiClientStomp, CompetitionRequest,
   EntityRequest,
   ManageOptinRequest,
   OptInApiWs,
@@ -93,8 +93,10 @@ const getAchievementsRequest = async () => {
     isLoading.value = true;
 
     const achievementsApiWsClient = new AchievementsApiWs(ApiClientStomp.instance);
+    const urlParams = new URLSearchParams(window.location.search);
+    const languageKey = urlParams.get('languageKey');
 
-    achievementsApiWsClient.getAchievements({
+    const achievementsRequest = {
       achievementFilter: {
         productTagsFilter: [],
         ids: [],
@@ -114,7 +116,10 @@ const getAchievementsRequest = async () => {
         },
         constraints: []
       },
-    }, (res) => {
+      languageKey: languageKey,
+    };
+
+    achievementsApiWsClient.getAchievements(achievementsRequest, (res) => {
       totalRecords.value = res.meta.totalRecordsFound;
       const ids = res.data.map(item => item.id);
 
