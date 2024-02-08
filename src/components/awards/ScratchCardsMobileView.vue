@@ -39,8 +39,6 @@ import { useMouse } from '@vueuse/core';
 import cellBg from '@/assets/images/instant-wins/scratch-card/open-card-bg.svg';
 import ScratchCardsModal from '@/components/awards/ScratchCardsModal.vue';
 
-const grid = reactive(createGrid());
-
 const canvasRef = ref(null);
 let ctx;
 let isDrawing = false;
@@ -68,6 +66,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['claim', 'closeModal']);
+
+const grid = reactive(createGrid());
 
 const claim = () => {
   emit('claim');
@@ -103,23 +103,23 @@ function getRandomImage() {
 function initCanvas() {
   const canvas = canvasRef.value;
   ctx = canvas.getContext('2d');
-  const cellSize = 60; // Размер ячейки
-  const spacing = 16; // Расстояние между ячейками
-  const borderRadius = 10; // Радиус скругления
+  const cellSize = 60;
+  const spacing = 16;
+  const borderRadius = 10;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   for (let i = 0; i < grid.length; i++) {
     for (let j = 0; j < grid[i].length; j++) {
       const cell = grid[i][j];
-      const x = j * (cellSize + spacing); // Позиция X ячейки
-      const y = i * (cellSize + spacing); // Позиция Y ячейки
+      const x = j * (cellSize + spacing);
+      const y = i * (cellSize + spacing);
 
       if (cell.scratched) {
         const image = new Image();
         image.src = cell.image;
         image.onload = () => {
-          ctx.save(); // Сохраняем контекст
+          ctx.save();
           ctx.beginPath();
           ctx.moveTo(x + borderRadius, y);
           ctx.arcTo(x + cellSize, y, x + cellSize, y + borderRadius, borderRadius);
@@ -131,14 +131,13 @@ function initCanvas() {
 
           ctx.drawImage(image, x, y, cellSize, cellSize);
 
-          ctx.restore(); // Восстанавливаем контекст
+          ctx.restore();
         };
       } else {
         ctx.fillStyle = isDarkMode.value ? '#1A202C' : '#EDF3F7';
         ctx.fillRect(x, y, cellSize, cellSize);
 
-        // Добавляем скругленные радиусы
-        ctx.save(); // Сохраняем контекст
+        ctx.save();
         ctx.beginPath();
         ctx.moveTo(x + borderRadius, y);
         ctx.arcTo(x + cellSize, y, x + cellSize, y + borderRadius, borderRadius);
@@ -153,14 +152,13 @@ function initCanvas() {
         ctx.strokeStyle = isDarkMode.value ? '#406A8C' : '#F7A1E4';
         ctx.stroke();
 
-        // Исправляем координаты текста
         const textWidth = ctx.measureText(scratchText.value).width;
         const textX = x + (cellSize - textWidth) / 2;
-        const textY = y + cellSize / 2 + 15; // Смещение по Y
+        const textY = y + cellSize / 2 + 15;
 
         ctx.fillText(scratchText.value, textX, textY);
 
-        ctx.restore(); // Восстанавливаем контекст
+        ctx.restore();
       }
     }
   }

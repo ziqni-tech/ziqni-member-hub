@@ -1,7 +1,7 @@
 <template>
   <div class="page-content" :class="{'light-mode': !isDarkMode}">
     <h1 class="page-title">Scratchcards</h1>
-    <div class="cards-wrapper">
+    <div class="cards-wrapper" v-if="images">
       <ScratchCardsMobileView
           v-if="isMobile"
           :modalStyles="modalStyles"
@@ -41,18 +41,10 @@ import PrizeOverview from '@/components/awards/PrizeOverview'
 import firstPrizeIcon from '@/assets/images/instant-wins/scratch-card/first-prize-icon.svg'
 import secondPrizeIcon from '@/assets/images/instant-wins/scratch-card/second-prize-icon.svg'
 import thirdPrizeIcon from '@/assets/images/instant-wins/scratch-card/third-prize-icon.svg'
-// import firstPrizeBg from '@/assets/images/instant-wins/scratch-card/open-card-1.svg'
-// import secondPrizeBg from '@/assets/images/instant-wins/scratch-card/open-card-2.svg'
-// import thirdPrizeBg from '@/assets/images/instant-wins/scratch-card/open-card-3.svg'
+
 import ScratchCardsMobileView from '@/components/awards/ScratchCardsMobileView.vue';
 import { useStore } from 'vuex';
 import { computed, ref } from 'vue';
-
-// const prizesBackgrounds = [
-//   { prize: 'first prize', image: firstPrizeBg },
-//   { prize: 'second prize', image: secondPrizeBg },
-//   { prize: 'third prize', image: thirdPrizeBg }
-// ]
 
 const images = [
   { prize: 'first prize', image: firstPrizeIcon },

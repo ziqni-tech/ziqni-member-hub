@@ -99,7 +99,6 @@ const isMobileDevice = ref(false);
 
 const store = useStore();
 const isDarkMode = computed(() => store.getters.getTheme);
-const colorScale = ['#5E084B', '#7ED4E7', '#8D0C71', '#304F69', '#F7A1E4', '#739DBF']
 
 const checkIsMobile = () => {
   isMobileDevice.value = window.innerWidth <= 450;
@@ -187,7 +186,6 @@ const createArc = () => {
       .data(pie.value(props.modelValue))
       .enter()
       .append('path')
-      .attr('id', (d, i) => `path-section-${i}`)
       .attr('class', 'slice')
       .attr('d', arc)
       .attr('stroke', '#8D0C71') // items borders
@@ -198,7 +196,6 @@ const createArc = () => {
         let newArc = firstArcSection
             .exec(d3.select(this).attr('d'))[1]
             .replace(/,/g, ' ');
-
         if (d.endAngle > (90 * Math.PI) / 180) {
           const startLoc = /M(.*?)A/;
           const middleLoc = /A(.*?)0 0 1/;
@@ -220,62 +217,6 @@ const createArc = () => {
             .style('fill', 'none');
       });
 };
-// const addText = () => {
-//   vis.value
-//       .selectAll('.middleArcText')
-//       .data(pie.value(props.modelValue))
-//       .enter()
-//       .append('text')
-//       .attr('class', 'middleArcText')
-//       .attr('dy', (d) => {
-//         return isMobile.value ? 25 : 37;
-//       })
-//       .each(function (d) {
-//         const text = d3.select(this);
-//         const isReversed = d.endAngle > (90 * Math.PI) / 180;
-//
-//         if (isReversed) {
-//           text.attr('transform', (d) => {
-//             let rotate;
-//             switch (d.data.section) {
-//               case 1: // bonus 1
-//                 rotate = 180;
-//                 break;
-//               case 2: // free 1
-//                 rotate = 420;
-//                 break;
-//               case 3: // next time 1
-//                 rotate = 120;
-//                 break;
-//               case 4: // bonus 2
-//                 rotate = 180;
-//                 break;
-//               case 5: // free 2
-//                 rotate = 240;
-//                 break;
-//               case 6: // next 2
-//                 rotate = 300;
-//                 break;
-//             }
-//             return `rotate(${ rotate })`;
-//           });
-//         }
-//
-//         text
-//             .append('textPath')
-//             .attr('startOffset', '50%')
-//             .attr('text-anchor', 'middle')
-//             .attr('fill', (d, i) => {
-//               return d.data.color;
-//             })
-//             .attr('xlink:href', (d, i) => {
-//               return '#middleArc' + i;
-//             })
-//             // .text(d.data.value);
-//         .text(d.data.text);
-//       });
-// };
-
 const addText = () => {
   vis.value
       .selectAll('.middleArcText')
@@ -286,178 +227,54 @@ const addText = () => {
       .attr('dy', (d) => {
         return isMobile.value ? 25 : 37;
       })
-      .each(function (d, i) {
+      .each(function (d) {
         const text = d3.select(this);
         const isReversed = d.endAngle > (90 * Math.PI) / 180;
 
-        let rotate;
         if (isReversed) {
-          rotate = (d.startAngle + d.endAngle) / 2;
-        } else {
-          rotate = (d.startAngle + d.endAngle) / 2 - Math.PI;
+          text.attr('transform', (d) => {
+            let rotate;
+            switch (d.data.section) {
+              case 1: // bonus 1
+                rotate = 180;
+                break;
+              case 2: // free 1
+                rotate = 420;
+                break;
+              case 3: // next time 1
+                rotate = 120;
+                break;
+              case 4: // bonus 2
+                rotate = 180;
+                break;
+              case 5: // free 2
+                rotate = 240;
+                break;
+              case 6: // next 2
+                rotate = 300;
+                break;
+            }
+            return `rotate(${ rotate })`;
+          });
         }
 
-        const midAngle = (d.startAngle + d.endAngle) / 2
-        console.log('midAngle', midAngle);
-        const arc = d3.arc().outerRadius(rayon.value).innerRadius(0);
-        const [x, y] = arc.centroid(d);
-        console.log('arc', arc);
         text
-            .attr('transform', () => {
-              const angle = ((i + 0.5) * 360) / props.modelValue.length;
-              console.log('angle', angle);
-              // return `rotate(${angle}) translate(${x}, ${y})`; // text inside the circle
-              return `rotate(${(midAngle * 180) / Math.PI})`;
-            })
             .append('textPath')
-            // .attr('startOffset', '50%')
+            .attr('startOffset', '50%')
             .attr('text-anchor', 'middle')
             .attr('fill', (d, i) => {
-              return 'yellow';
-              // return d.data.color;
+              return d.data.color;
             })
             .attr('xlink:href', (d, i) => {
               return '#middleArc' + i;
             })
-            .attr('font-size', 24)
-            .text((d) => d.data.text);
+            .text(d.data.value);
       });
 };
 
+
 const imageSize = computed(() => isMobile.value ? 165 : 330);
 
-const getSectionFill = (d, i) => {
-  const defs = svg.value.append('defs');
-
-  if (d.data.icon) {
-    const patternId = `section-pattern-${i}`;
-    let pattern = defs.select(`#${patternId}`);
-
-    if (pattern.empty()) {
-      pattern = defs
-          .append('pattern')
-          .attr('id', patternId)
-          .attr('width', 1)
-          .attr('height', 1)
-          .attr('patternContentUnits', 'objectBoundingBox');
-
-      pattern
-          .append('image')
-          .attr('xlink:href', d.data.iconLink)
-          .attr('width', 1)
-          .attr('height', 1)
-          .attr('preserveAspectRatio', 'xMidYMid meet');
-    } else {
-      pattern
-          .select('image')
-          .attr('xlink:href', d.data.iconLink);
-    }
-
-    return `url(#${patternId})`;
-  } else {
-    return colorScale[i % colorScale.length]
-  }
-}
-
-// const addImage = () => {
-//   const arc = d3.arc().innerRadius(0).outerRadius(rayon.value);
-//
-//   const sections = vis.value
-//       .selectAll('.middleArcText')
-//       .data(pie.value(props.modelValue))
-//       .enter()
-//       .append('g')
-//       .attr('class', 'image-section')
-//       .attr('fill', (d, i) => {
-//         getSectionFill(d, i)
-//       })
-//
-//   sections.attr('transform', (d) => {
-//     const centroid = arc.centroid(d);
-//     const angle = d.startAngle + (d.endAngle - d.startAngle) / 2;
-//     const radius = rayon.value / 2;
-//     const imageRadius = radius - imageSize.value / 2;
-//
-//     const x = (centroid[0] + Math.cos(angle) * imageRadius);
-//     const y = (centroid[1] + Math.sin(angle) * imageRadius);
-//
-//     let rotate;
-//     switch (d.data.section) {
-//       case 1: // bonus 1
-//         rotate = 210.5;
-//         break;
-//       case 2: // free 1
-//         rotate = 210;
-//         break;
-//       case 3: // next time 1
-//         rotate = 210;
-//         break;
-//       case 4: // bonus 2
-//         rotate = 210.5;
-//         break;
-//       case 5: // free 2
-//         rotate = 210;
-//         break;
-//       case 6: // next 2
-//         rotate = 210;
-//         break;
-//       default:
-//         rotate = d.endAngle + 30;
-//         break;
-//     }
-//     return `rotate(${ rotate }, ${ x }, ${ y }) translate(${ x }, ${ y })`;
-//   });
-//
-//
-//   sections
-//       .append('image')
-//   .attr('x', (d) => {
-//     switch (d.data.section) {
-//       case 1: // bonus 1
-//         return isMobile.value ? -122 : -205;
-//       case 2: // free 1
-//         return isMobile.value ? -110 : -153;
-//       case 3: // next time 1
-//         return isMobile.value ? -143 : -102;
-//       case 4: // bonus 2
-//         return isMobile.value ? -187 : -105;
-//       case 5: // free 2
-//         return isMobile.value ? -200 : -160;
-//       case 6: // next 2
-//         return isMobile.value ? -167 : -209;
-//
-//     }
-//   })
-//   .attr('y', (d) => {
-//     switch (d.data.section) {
-//       case 1: // bonus 1
-//         return isMobile.value ? -212 : -210;
-//       case 2: // free 1
-//         return isMobile.value ? -130 : -203;
-//       case 3: // next time 1
-//         return isMobile.value ? -180 : -251;
-//       case 4: // bonus 2
-//         return isMobile.value ? -125 : -126;
-//       case 5: // free 2
-//         return isMobile.value ? -205 : -137;
-//       case 6: // next 2
-//         return isMobile.value ? -185 : -112;
-//
-//     }
-//   })
-//   .attr('width', (d) => {
-//     if (d.data.section === 3) {
-//       return 255;
-//     } else {
-//       return 310;
-//     }
-//   })
-//   .attr('height', (d) => {
-//     return 335;
-//   })
-//   .attr('xlink:href', (d) => `${ d.data.bg }`);
-//
-// };
 const addImage = () => {
   const arc = d3.arc().innerRadius(0).outerRadius(rayon.value);
 
@@ -468,20 +285,91 @@ const addImage = () => {
       .append('g')
       .attr('class', 'image-section');
 
-  // For each section, the getSectionFill function is called to set the fill with the image.
-  sections
-      .append('path')
-      .attr('d', arc)
-      .attr('fill', (d, i) => getSectionFill(d, i));
+  sections.attr('transform', (d) => {
+    const centroid = arc.centroid(d);
+    const angle = d.startAngle + (d.endAngle - d.startAngle) / 2;
+    const radius = rayon.value / 2;
+    const imageRadius = radius - imageSize.value / 2;
+
+    const x = (centroid[0] + Math.cos(angle) * imageRadius);
+
+    const y = (centroid[1] + Math.sin(angle) * imageRadius);
+
+    let rotate;
+    switch (d.data.section) {
+      case 1: // bonus 1
+        rotate = 210.5;
+        break;
+      case 2: // free 1
+        rotate = 210;
+        break;
+      case 3: // next time 1
+        rotate = 210;
+        break;
+      case 4: // bonus 2
+        rotate = 210.5;
+        break;
+      case 5: // free 2
+        rotate = 210;
+        break;
+      case 6: // next 2
+        rotate = 210;
+        break;
+      default:
+        rotate = d.endAngle + 30;
+        break;
+    }
+    return `rotate(${ rotate }, ${ x }, ${ y }) translate(${ x }, ${ y })`;
+  });
 
   sections
       .append('image')
+      .attr('x', (d) => {
+        switch (d.data.section) {
+          case 1: // bonus 1
+            return isMobile.value ? -122 : -205;
+          case 2: // free 1
+            return isMobile.value ? -110 : -153;
+          case 3: // next time 1
+            return isMobile.value ? -143 : -102;
+          case 4: // bonus 2
+            return isMobile.value ? -187 : -105;
+          case 5: // free 2
+            return isMobile.value ? -200 : -160;
+          case 6: // next 2
+            return isMobile.value ? -167 : -209;
+
+        }
+      })
+      .attr('y', (d) => {
+        switch (d.data.section) {
+          case 1: // bonus 1
+            return isMobile.value ? -212 : -210;
+          case 2: // free 1
+            return isMobile.value ? -130 : -203;
+          case 3: // next time 1
+            return isMobile.value ? -180 : -251;
+          case 4: // bonus 2
+            return isMobile.value ? -125 : -126;
+          case 5: // free 2
+            return isMobile.value ? -205 : -137;
+          case 6: // next 2
+            return isMobile.value ? -185 : -112;
+
+        }
+      })
       .attr('width', (d) => {
-        return 1
+        if (d.data.section === 3) {
+          return 255;
+        } else {
+          return 310;
+        }
       })
       .attr('height', (d) => {
-        return 1;
+        return 335;
       })
+      .attr('xlink:href', (d) => `${ d.data.bg }`);
+
 };
 
 const createMiddleCircle = () => {
@@ -511,10 +399,10 @@ const createOuterCircle = () => {
 
 watch(isDarkMode, (value) => {
   if (container.value) {
-    const outerBorder = container.value.selectAll('.outer-border');
-    outerBorder.attr('stroke', value ? '#2F0426' : '#BEE9F3');
+    const outerBorder = container.value.selectAll('.outer-border')
+    outerBorder.attr('stroke', value ? '#2F0426' : '#BEE9F3')
   }
-});
+})
 
 const createArrow = () => {
   if (container.value) {
@@ -553,80 +441,10 @@ const createWheel = () => {
 };
 
 watch(isDarkMode, (value) => {
-  if (value) {
-  }
-});
+  if (value) {}
+})
 
 let isStopped = false;
-
-// const spin = async () => {
-//   if (!clicked.value && !isStopped) {
-//     clicked.value = true;
-//     const dataLength = props.modelValue.length;
-//     const sliceWidth = 360 / dataLength;
-//     const currentAngle = 360 - sliceWidth * (props.gift - 0.5);
-//     const numberOfRotation = 360 * 5;
-//     const targetRotation = currentAngle + numberOfRotation;
-//
-//     rotation.value = 0; // Reset current rotation angle
-//
-//     // Create Interpolation for Smooth Transition
-//     interpolate = d3.interpolate(rotation.value, targetRotation);
-//     const animateVis = () => {
-//       return vis.value
-//           .transition()
-//           .duration(props.animDuration)
-//           .ease(d3.easeBackOut.overshoot(0.3))
-//           .tween('rotation', () => (t) => {
-//             rotation.value = interpolate(t); // Update current rotation angle
-//             vis.value.attr('transform', `rotate(${ rotation.value })`);
-//           })
-//           .end()
-//           .then(() => {
-//             isStopped = true; // mark wheel stopped
-//
-//             const sections = vis.value.selectAll('.slice');
-//             sections
-//                 .attr('stroke-width', (d, i) =>
-//                     isGiftSection(d.data.section) ? '5' : '1'
-//                 )
-//                 .attr('stroke', (d, i) =>
-//                     isGiftSection(d.data.section) ? '#EE3EC8' : '#8D0C71'
-//                 );
-//
-//             const texts = vis.value.selectAll('.middleArcText');
-//             texts
-//                 .attr('filter', (d, i) => {
-//                       return isGiftSection(d.data.section) ? 'none' : 'blur(3px)';
-//                     }
-//                 )
-//                 .attr('stroke-width', (d, i) =>
-//                     isGiftSection(d.data.section) ? '15' : '3'
-//                 );
-//
-//             const images = vis.value.selectAll('.image-section');
-//             images
-//                 .attr('filter', (d, i) => {
-//                       return isGiftSection(d.data.section) ? 'none' : 'blur(3px)';
-//                     }
-//                 );
-//
-//             // remove outer circle
-//             const outerBorder = container.value.selectAll('.outer-border');
-//             outerBorder.remove();
-//
-//             // Move the prize section to the front
-//             const prizeSection = sections.filter((d, i) => isGiftSection(d.data.section));
-//             prizeSection.raise();
-//             prizeSection.attr('fill', 'none');
-//           });
-//     };
-//
-//     await animateVis();
-//     clicked.value = false;
-//     await done(props.modelValue[props.gift - 1]);
-//   }
-// };
 
 const spin = async () => {
   if (!clicked.value && !isStopped) {
@@ -637,9 +455,9 @@ const spin = async () => {
     const numberOfRotation = 360 * 5;
     const targetRotation = currentAngle + numberOfRotation;
 
-    rotation.value = 0; // Reset current rotation angle
+    rotation.value = 0;
 
-    // Create Interpolation for Smooth Transition
+
     interpolate = d3.interpolate(rotation.value, targetRotation);
     const animateVis = () => {
       return vis.value
@@ -647,12 +465,12 @@ const spin = async () => {
           .duration(props.animDuration)
           .ease(d3.easeBackOut.overshoot(0.3))
           .tween('rotation', () => (t) => {
-            rotation.value = interpolate(t); // Update current rotation angle
-            vis.value.attr('transform', `rotate(${rotation.value})`);
+            rotation.value = interpolate(t);
+            vis.value.attr('transform', `rotate(${ rotation.value })`);
           })
           .end()
           .then(() => {
-            isStopped = true; // Mark wheel as stopped
+            isStopped = true; // mark wheel stopped
 
             const sections = vis.value.selectAll('.slice');
             sections
@@ -666,8 +484,9 @@ const spin = async () => {
             const texts = vis.value.selectAll('.middleArcText');
             texts
                 .attr('filter', (d, i) => {
-                  return isGiftSection(d.data.section) ? 'none' : 'blur(3px)';
-                })
+                      return isGiftSection(d.data.section) ? 'none' : 'blur(3px)';
+                    }
+                )
                 .attr('stroke-width', (d, i) =>
                     isGiftSection(d.data.section) ? '15' : '3'
                 );
@@ -675,8 +494,18 @@ const spin = async () => {
             const images = vis.value.selectAll('.image-section');
             images
                 .attr('filter', (d, i) => {
-                  return isGiftSection(d.data.section) ? 'none' : 'blur(3px)';
-                });
+                      return isGiftSection(d.data.section) ? 'none' : 'blur(3px)';
+                    }
+                );
+
+            // remove outer circle
+            const outerBorder = container.value.selectAll('.outer-border');
+            outerBorder.remove();
+
+            // Move the prize section to the front
+            const prizeSection = sections.filter((d, i) => isGiftSection(d.data.section));
+            prizeSection.raise();
+            prizeSection.attr('fill', 'none');
           });
     };
 

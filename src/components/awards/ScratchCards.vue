@@ -31,15 +31,12 @@
       :is-dark-mode="isDarkMode"
   />
 </template>
-
 <script setup>
 import { ref, reactive, watch, onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useMouse } from '@vueuse/core';
 import cellBg from '@/assets/images/instant-wins/scratch-card/open-card-bg.svg'
 import ScratchCardsModal from '@/components/awards/ScratchCardsModal.vue';
-
-const grid = reactive(createGrid());
 
 const canvasRef = ref(null);
 let ctx;
@@ -65,6 +62,8 @@ const props = defineProps({
   prizes: Array,
   modalStyles: Object
 });
+
+const grid = reactive(createGrid());
 
 const isDarkMode = computed(() => store.getters.getTheme);
 
@@ -105,23 +104,23 @@ function getRandomImage() {
 function initCanvas() {
   const canvas = canvasRef.value;
   ctx = canvas.getContext('2d');
-  const cellSize = 80; // Размер ячейки
-  const spacing = 20; // Расстояние между ячейками
-  const borderRadius = 10; // Радиус скругления
+  const cellSize = 80;
+  const spacing = 20;
+  const borderRadius = 10;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   for (let i = 0; i < grid.length; i++) {
     for (let j = 0; j < grid[i].length; j++) {
       const cell = grid[i][j];
-      const x = j * (cellSize + spacing); // Позиция X ячейки
-      const y = i * (cellSize + spacing); // Позиция Y ячейки
+      const x = j * (cellSize + spacing); // Cell X position
+      const y = i * (cellSize + spacing); // Cell Y position
 
       if (cell.scratched) {
         const image = new Image();
         image.src = cell.image;
         image.onload = () => {
-          ctx.save(); // Сохраняем контекст
+          ctx.save(); // Saving context
           ctx.beginPath();
           ctx.moveTo(x + borderRadius, y);
           ctx.arcTo(x + cellSize, y, x + cellSize, y + borderRadius, borderRadius);
@@ -133,14 +132,14 @@ function initCanvas() {
 
           ctx.drawImage(image, x, y, cellSize, cellSize);
 
-          ctx.restore(); // Восстанавливаем контекст
+          ctx.restore(); // Restoring context
         };
       } else {
         ctx.fillStyle = isDarkMode.value ? '#1A202C' : '#EDF3F7';
         ctx.fillRect(x, y, cellSize, cellSize);
 
-        // Добавляем скругленные радиусы
-        ctx.save(); // Сохраняем контекст
+        // Adding rounded radii
+        ctx.save(); // Saving context
         ctx.beginPath();
         ctx.moveTo(x + borderRadius, y);
         ctx.arcTo(x + cellSize, y, x + cellSize, y + borderRadius, borderRadius);
@@ -155,14 +154,14 @@ function initCanvas() {
         ctx.strokeStyle = isDarkMode.value ? '#406A8C' : '#F7A1E4';
         ctx.stroke();
 
-        // Исправляем координаты текста
+        // Correcting text coordinates
         const textWidth = ctx.measureText(scratchText.value).width;
         const textX = x + (cellSize - textWidth) / 2;
-        const textY = y + cellSize / 2 + 15; // Смещение по Y
+        const textY = y + cellSize / 2 + 15; // Y Offset
 
         ctx.fillText(scratchText.value, textX, textY);
 
-        ctx.restore(); // Восстанавливаем контекст
+        ctx.restore(); // Restoring context
       }
     }
   }
