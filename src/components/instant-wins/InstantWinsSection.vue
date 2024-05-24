@@ -3,21 +3,27 @@
     <div class="section-header" >
       <h2 class="section-title" v-if="isDashboard">Instant wins</h2>
     </div>
-    <div class="instant-cards-grid">
-      <InstantWins
-          :img="wheelImg"
-          :title="singleWheelTitle"
-          :description="description"
-          @play="singleWheelPlay"
-          :isDarkMode="isDarkMode"
-      />
-      <InstantWins
-          :img="scratchcardImg"
-          :title="scratchcardsTitle"
-          :description="description"
-          @play="scratchcardsPlay"
-          :isDarkMode="isDarkMode"
-      />
+    <div class="content-wrapper">
+      <div class="instant-cards-grid">
+        <div>
+          <InstantWins
+              :img="wheelImg"
+              :title="singleWheelTitle"
+              :description="description"
+              @play="singleWheelPlay"
+              :isDarkMode="isDarkMode"
+          />
+        </div>
+        <div>
+          <InstantWins
+              :img="scratchcardImg"
+              :title="scratchcardsTitle"
+              :description="description"
+              @play="scratchcardsPlay"
+              :isDarkMode="isDarkMode"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
