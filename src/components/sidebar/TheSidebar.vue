@@ -3,26 +3,26 @@
     <div class="brand">
       <div class="logo-wrapper">
         <img
-            v-if="logoName"
-            class="logo"
-            :class="{'small-logo': isSidebarNarrow}"
-            :src="logoName"
-            alt="logo"
+          v-if="logoName"
+          class="logo"
+          :class="{'small-logo': isSidebarNarrow}"
+          :src="logoName"
+          alt="logo"
         />
       </div>
     </div>
     <SidebarNav
-        v-if="configFile && sidebarNav.length"
-        :nav-items="sidebarNav"
-        :isDarkMode="isDarkMode"
-        :isSidebarNarrow="isSidebarNarrow"
+      v-if="configFile && sidebarNav.length"
+      :nav-items="sidebarNav"
+      :isDarkMode="isDarkMode"
+      :isSidebarNarrow="isSidebarNarrow"
     />
     <LogoutItem
-        class="logout"
-        :class="{'sidebar-narrow': isSidebarNarrow}"
-        :isDarkMode="isDarkMode"
-        :isSidebarNarrow="isSidebarNarrow"
-        @logOut="logOut"
+      class="logout"
+      :class="{'sidebar-narrow': isSidebarNarrow}"
+      :isDarkMode="isDarkMode"
+      :isSidebarNarrow="isSidebarNarrow"
+      @logOut="logOut"
     />
   </div>
 </template>
@@ -41,7 +41,7 @@ const router = useRouter();
 const store = useStore();
 const emit = defineEmits(['logOut']);
 const isDarkMode = computed(() => store.getters.getTheme);
-const isSidebarNarrow = computed(() => store.getters.getIsSidebarNarrow)
+const isSidebarNarrow = computed(() => store.getters.getIsSidebarNarrow);
 
 import Dashboard from './svg-icons/Dashboard';
 import Tournaments from './svg-icons/Tournaments';
@@ -57,24 +57,25 @@ const icons = {
   awards: Awards,
   messages: Messages,
   missions: Missions
-}
+};
 
-const favicon = document.querySelector('link[rel="icon"]')
+const favicon = document.querySelector('link[rel="icon"]');
+
+const sidebarNav = ref([]);
+
+const logoName = ref('');
+
 const configFile = computed(() => store.getters.getConfigFile);
 
-const sidebarNav = ref([])
-
-const logoName = ref('')
-
 watch(configFile, (val) => {
-  favicon.href = store.getters.getConfigFile.favicon
-  sidebarNav.value = getSidebarNav(val)
+  favicon.href = store.getters.getConfigFile.favicon;
+  sidebarNav.value = getSidebarNav(val);
   if (isSidebarNarrow.value) {
     logoName.value = isDarkMode.value ? val.logos.dark.small : val.logos.light.small;
   } else {
     logoName.value = isDarkMode.value ? val.logos.dark.icon : val.logos.light.icon;
   }
-})
+});
 
 watch(isDarkMode, (val) => {
   if (isSidebarNarrow.value) {
@@ -82,7 +83,7 @@ watch(isDarkMode, (val) => {
   } else {
     logoName.value = val ? configFile.value.logos.dark.icon : configFile.value.logos.light.icon;
   }
-})
+});
 
 watch(isSidebarNarrow, (value) => {
   if (value) {
@@ -90,7 +91,7 @@ watch(isSidebarNarrow, (value) => {
   } else {
     logoName.value = isDarkMode.value ? configFile.value.logos.dark.icon : configFile.value.logos.light.icon;
   }
-})
+});
 
 
 onMounted(() => {
@@ -104,7 +105,7 @@ onMounted(() => {
       logoName.value = isDarkMode.value ? configFile.value.logos.dark.icon : configFile.value.logos.light.icon;
     }
   }
-})
+});
 
 const logOut = () => emit('logOut');
 

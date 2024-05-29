@@ -84,22 +84,22 @@ const data = ref([
     // bg: require('@/assets/test/mission 7.svg')
     bg: require('@/assets/images/instant-wins/single-wheel_bgs/next time 2.png')
   },
-  // {
-  //   id: 7,
-  //   section: 7,
-  //   value: 'Next time 2',
-  //   bgColor: '#40409f',
-  //   color: '#FDFDFF',
-  //   bg: require('@/assets/test/mission 8.svg')
-  // },
-  // {
-  //   id: 8,
-  //   section: 8,
-  //   value: 'Next time 2',
-  //   bgColor: '#40409f',
-  //   color: '#FDFDFF',
-  //   bg: require('@/assets/test/mission 7.svg')
-  // },
+  {
+    id: 7,
+    section: 7,
+    value: 'Next time 2',
+    bgColor: '#40409f',
+    color: '#FDFDFF',
+    bg: require('@/assets/test/mission 8.svg')
+  },
+  {
+    id: 8,
+    section: 8,
+    value: 'Next time 2',
+    bgColor: '#40409f',
+    color: '#FDFDFF',
+    bg: require('@/assets/test/mission 7.svg')
+  },
   // {
   //   id: 9,
   //   section: 9,
@@ -163,12 +163,12 @@ const launchWheel = () => {
 
 const claim = () => {
   console.warn('CLAIM');
-  rerenderKey.value += 1;
+  // rerenderKey.value += 1;
   isShowModal.value = false;
 };
 
 const closeModal = () => {
-  rerenderKey.value += 1;
+  // rerenderKey.value += 1;
   isShowModal.value = false;
 };
 

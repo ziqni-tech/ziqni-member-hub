@@ -1,8 +1,8 @@
 <template>
   <div
-      class="default-layout"
-      v-if="!isMobile"
-      :class="{'light-mode': !isDarkMode, 'sidebar-narrow': isSidebarNarrow}"
+    class="default-layout"
+    v-if="!isMobile"
+    :class="{'light-mode': !isDarkMode, 'sidebar-narrow': isSidebarNarrow}"
   >
     <div id="nav-block" :class="{'sidebar-narrow': isSidebarNarrow}">
       <TheSidebar @logOut="logOut"/>
@@ -19,23 +19,23 @@
           <router-view/>
         </div>
         <Notifications
-            @closeNotifications="closeNotifications"
-            class="notificationsList"
-            :class="{ open: isNotificationsList }"
+          @closeNotifications="closeNotifications"
+          class="notificationsList"
+          :class="{ open: isNotificationsList }"
         />
       </div>
     </div>
   </div>
   <div
-      v-if="isMobile"
-      id="mobile-layout"
-      :class="{'light-mode': !isDarkMode}"
+    v-if="isMobile"
+    id="mobile-layout"
+    :class="{'light-mode': !isDarkMode}"
   >
     <div class="mobile-header">
       <div
-          class="go-back-btn"
-          @click="$router.go(-1)"
-          v-if="isGoBackBtn"
+        class="go-back-btn"
+        @click="$router.go(-1)"
+        v-if="isGoBackBtn"
       >
         <ArrowLeft :width="'40'" :height="'40'" :stroke-color="getIconStrokeColor()"/>
       </div>
@@ -54,16 +54,16 @@
     </div>
     <MobileNav :isDarkMode="isDarkMode"/>
     <UserProfileMobile
-        v-if="isClientConnected"
-        @closeProfileInfo="closeProfileInfo"
-        @logOut="logOut"
-        :class="{ open: isProfileInfo }"
-        :isProfileInfo="isProfileInfo"
+      v-if="isClientConnected"
+      @closeProfileInfo="closeProfileInfo"
+      @logOut="logOut"
+      :class="{ open: isProfileInfo }"
+      :isProfileInfo="isProfileInfo"
     />
     <Notifications
-        @closeNotifications="closeNotifications"
-        class="notificationsList-mobile"
-        :class="{ open: isNotificationsList }"
+      @closeNotifications="closeNotifications"
+      class="notificationsList-mobile"
+      :class="{ open: isNotificationsList }"
     />
   </div>
 </template>
@@ -85,6 +85,41 @@ import PersonIcon from '@/shared/components/svg-icons/PersonIcon.vue';
 import ArrowLeft from '@/shared/components/svg-icons/ArrowLeft.vue';
 import splitCamelCaseToWords from '../utils/splitCamelCaseToWords';
 import Notifications from '@/components/notifications/Notifications.vue';
+import defaultSiteConfigFile from '@/config/defaultSiteConfigFile.json';
+
+import smallDarkLogo from '@/assets/icons/logo-small-dark.svg';
+import smallLightLogo from '@/assets/icons/logo-small-light.svg';
+import darkLogo from '@/assets/icons/logo-dark.svg';
+import lightLogo from '@/assets/icons/logo-light.svg';
+import sunIcon from '@/assets/icons/sun.svg';
+import moonIcon from '@/assets/icons/moon.svg';
+
+const localImages = {
+  'assets/icons/logo-small-dark.svg': smallDarkLogo,
+  'assets/icons/logo-small-light.svg': smallLightLogo,
+  'assets/icons/logo-dark.svg': darkLogo,
+  'assets/icons/logo-light.svg': lightLogo,
+  'assets/icons/sun.svg': sunIcon,
+  'assets/icons/moon.svg': moonIcon,
+};
+
+const replacePathsWithImports = (config, imageMap) => {
+  const replacePath = (path) => imageMap[path] || path;
+  const replaceInObject = (obj) => {
+    for (const key in obj) {
+      if (typeof obj[key] === 'string') {
+        obj[key] = replacePath(obj[key]);
+      } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+        replaceInObject(obj[key]);
+      }
+    }
+  };
+  const newConfig = JSON.parse(JSON.stringify(config)); // Create a deep copy of the config
+  replaceInObject(newConfig);
+  return newConfig;
+};
+
+const modifiedDefaultConfig = replacePathsWithImports(defaultSiteConfigFile, localImages);
 
 const router = useRouter();
 const store = useStore();
@@ -128,17 +163,17 @@ onMounted(async () => {
   };
   await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });
   await store.dispatch('setIsConnectedClient', true);
-  await getSiteConfigFile()
+  await getSiteConfigFile();
 });
 
 const getMemberRequest = async () => {
   const memberRequest = MemberRequest.constructFromObject(
-      {
-        'includeFields': [],
-        'includeCustomFields': [],
-        'includeMetaDataFields': []
-      },
-      null);
+    {
+      'includeFields': [],
+      'includeCustomFields': [],
+      'includeMetaDataFields': []
+    },
+    null);
 
   const memberApiWsClient = new MembersApiWs(ApiClientStomp.instance);
 
@@ -153,48 +188,56 @@ watch(isClientConnected, (value) => {
 });
 
 const getSiteConfigFile = async () => {
-  try {
-    const fileApiWsClient = new FilesApiWs(ApiClientStomp.instance);
+  const urlParams = new URLSearchParams(window.location.search);
 
-    const fileRequest = {
-      ids: ['cnqCN4sBRTh4mVYAXO-d'],
-      // ids: ['ss-L7owB6Jt8yN-t6yQ0'],
-      limit: 20,
-      skip: 0,
-      repositoryId: '2-96p4YBpKc9QvJXz3fr'
-      // repositoryId: 'Ysfv7YwB6Jt8yN-tSmtr'
-    };
+  const appConfigFileId = urlParams.get('appConfigFileId');
+  const repositoryId = urlParams.get('repositoryId');
 
-    await fileApiWsClient.getFiles(fileRequest, async (res) => {
-      const configFile = res.data.find(item => item.name === 'siteConfig.json')
-      await fetch(configFile.uri)
+  if (appConfigFileId && repositoryId) {
+    try {
+      const fileApiWsClient = new FilesApiWs(ApiClientStomp.instance);
+
+      const fileRequest = {
+        ids: [appConfigFileId],
+        limit: 20,
+        skip: 0,
+        repositoryId: repositoryId
+      };
+
+      await fileApiWsClient.getFiles(fileRequest, async (res) => {
+        const configFile = res.data.find(item => item.name === 'siteConfig.json');
+        await fetch(configFile.uri)
           .then((data) => {
             return data.json();
           })
           .then((data) => {
-            store.dispatch('setConfigFile', data)
+            store.dispatch('setConfigFile', data);
           })
-          .catch((err) => console.log(err));
-    });
-  } catch (err) {
-    setTimeout(async () => {
-      await getSiteConfigFile()
-    }, 1000)
+          .catch((err) => console.log('file config err', err));
+      });
+    } catch (err) {
+      setTimeout(async () => {
+        await getSiteConfigFile();
+      }, 1000);
+    }
+  } else {
+    await store.dispatch('setConfigFile', modifiedDefaultConfig);
   }
-}
 
-const isSidebarNarrow = ref(false)
-const isSidebarNarrowValue = computed(() => store.getters.getIsSidebarNarrow)
+};
+
+const isSidebarNarrow = ref(false);
+const isSidebarNarrowValue = computed(() => store.getters.getIsSidebarNarrow);
 
 onBeforeMount(() => {
   if (isSidebarNarrowValue.value) {
-    isSidebarNarrow.value = isSidebarNarrowValue.value
+    isSidebarNarrow.value = isSidebarNarrowValue.value;
   }
-})
+});
 const toggleSidebar = () => {
-  isSidebarNarrow.value = !isSidebarNarrow.value
-  store.dispatch('setIsSidebarNarrow', isSidebarNarrow.value)
-}
+  isSidebarNarrow.value = !isSidebarNarrow.value;
+  store.dispatch('setIsSidebarNarrow', isSidebarNarrow.value);
+};
 
 
 const logOut = async () => {

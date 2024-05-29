@@ -1,6 +1,6 @@
 {
   "title": "Member Hub",
-  "favicon": "https://first-space.cdn.ziqni.com/Icons/dollar.png",
+  "favicon": "",
   "mainMenu": {
     "items": [
       {
@@ -12,7 +12,7 @@
           "medium": "string",
           "large": "string",
           "extraLarge": "string",
-          "icon": "https://first-space.cdn.ziqni.com/Icons/icon%20reward.svg"
+          "icon": ""
         },
         "constraints": [
           "string"
@@ -111,20 +111,20 @@
   "constraints": null,
   "logos": {
     "dark": {
-      "small": "@/assets/icons/logo-small-dark.svg",
+      "small": "assets/icons/logo-small-dark.svg",
       "medium": "string",
       "large": "string",
       "extraLarge": "string",
-      "icon": "@/assets/icons/logo-dark.svg"
+      "icon": "assets/icons/logo-dark.svg"
     },
     "light": {
-      "small": "/src/assets/icons/logo-small-light.svg",
+      "small": "assets/icons/logo-small-light.svg",
       "medium": "string",
       "large": "string",
       "extraLarge": "string",
-      "icon": "./src/assets/icons/logo-light.svg"
+      "icon": "assets/icons/logo-light.svg"
     }
-    },
+  },
   "translations": {
     "property1": {
       "text": {
@@ -147,7 +147,7 @@
         "medium": "string",
         "large": "string",
         "extraLarge": "string",
-        "icon": "https://first-space.cdn.ziqni.com/Icons/sun.svg"
+        "icon": "assets/icons/sun.svg"
       },
       "css": null
     },
@@ -158,7 +158,7 @@
         "medium": "string",
         "large": "string",
         "extraLarge": "string",
-        "icon": "https://first-space.cdn.ziqni.com/Icons/moon.svg"
+        "icon": "assets/icons/moon.svg"
       },
       "css": null
     }
