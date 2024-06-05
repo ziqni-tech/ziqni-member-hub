@@ -3,13 +3,13 @@
     <h1 class="page-title">The Single Wheel</h1>
     <span class="page-description">Ready to test your luck? Take a spin and find out!</span>
     <WheelOfFortune
-        class="wheelOfFortune"
-        :gift="gift"
-        ref="wheel"
-        v-model="data"
-        @claim="claim"
-        @closeModal="closeModal"
-        :key="rerenderKey"
+      class="wheelOfFortune"
+      :gift="gift"
+      ref="wheel"
+      v-model="data"
+      @claim="claim"
+      @closeModal="closeModal"
+      :key="rerenderKey"
     />
     <button class="spin-btn" @click="launchWheel">spin</button>
   </div>
@@ -37,7 +37,6 @@ const data = ref([
     bgColor: '#8749DC',
     color: '#FFFFFF',
     bg: require('@/assets/images/instant-wins/single-wheel_bgs/50 bonus 1.png')
-    // bg: require('@/assets/test/mission 1.svg')
   },
   {
     id: 2,
@@ -46,7 +45,6 @@ const data = ref([
     bgColor: '#223241',
     color: '#FDFDFF',
     bg: require('@/assets/images/instant-wins/single-wheel_bgs/free spins 1.png')
-    // bg: require('@/assets/test/mission 2.svg')
   },
   {
     id: 3,
@@ -54,7 +52,6 @@ const data = ref([
     value: 'Next time 1',
     bgColor: '#40409f',
     color: '#FDFDFF',
-    // bg: require('@/assets/test/mission 4.svg')
     bg: require('@/assets/images/instant-wins/single-wheel_bgs/next time 1.png')
   },
   {
@@ -63,7 +60,6 @@ const data = ref([
     value: '50$ bonus 2',
     bgColor: '#8749DC',
     color: '#FDFDFF',
-    // bg: require('@/assets/test/mission 6.svg')
     bg: require('@/assets/images/instant-wins/single-wheel_bgs/50 bonus 2.png')
   },
   {
@@ -72,7 +68,6 @@ const data = ref([
     value: 'Free spins 2',
     bgColor: '#223241',
     color: '#FDFDFF',
-    // bg: require('@/assets/test/mission 8.svg')
     bg: require('@/assets/images/instant-wins/single-wheel_bgs/free spins 2.png')
   },
   {
@@ -81,73 +76,24 @@ const data = ref([
     value: 'Next time 2',
     bgColor: '#40409f',
     color: '#FDFDFF',
-    // bg: require('@/assets/test/mission 7.svg')
     bg: require('@/assets/images/instant-wins/single-wheel_bgs/next time 2.png')
   },
-  // {
-  //   id: 7,
-  //   section: 7,
-  //   value: 'Next time 2',
-  //   bgColor: '#40409f',
-  //   color: '#FDFDFF',
-  //   bg: require('@/assets/test/mission 8.svg')
-  // },
-  // {
-  //   id: 8,
-  //   section: 8,
-  //   value: 'Next time 2',
-  //   bgColor: '#40409f',
-  //   color: '#FDFDFF',
-  //   bg: require('@/assets/test/mission 7.svg')
-  // },
-  // {
-  //   id: 9,
-  //   section: 9,
-  //   value: 'Next time 2',
-  //   bgColor: '#40409f',
-  //   color: '#FDFDFF',
-  //   bg: require('@/assets/test/mission 4.svg')
-  // },
-  // {
-  //   id: 9,
-  //   section: 9,
-  //   value: 'Next time 2',
-  //   bgColor: '#40409f',
-  //   color: '#FDFDFF',
-  //   bg: require('@/assets/images/instant-wins/single-wheel_bgs/next time 2.png')
-  // },
-  // {
-  //   id: 10,
-  //   section: 10,
-  //   value: 'Next time 2',
-  //   bgColor: '#40409f',
-  //   color: '#FDFDFF',
-  //   bg: require('@/assets/images/instant-wins/single-wheel_bgs/next time 2.png')
-  // },
-  // {
-  //   id: 11,
-  //   section: 10,
-  //   value: 'Next time 2',
-  //   bgColor: '#40409f',
-  //   color: '#FDFDFF',
-  //   bg: require('@/assets/images/instant-wins/single-wheel_bgs/next time 2.png')
-  // },
-  // {
-  //   id: 12,
-  //   section: 10,
-  //   value: 'Next time 2',
-  //   bgColor: '#40409f',
-  //   color: '#FDFDFF',
-  //   bg: require('@/assets/images/instant-wins/single-wheel_bgs/next time 2.png')
-  // },
-  // {
-  //   id: 13,
-  //   section: 10,
-  //   value: 'Next time 2',
-  //   bgColor: '#40409f',
-  //   color: '#FDFDFF',
-  //   bg: require('@/assets/images/instant-wins/single-wheel_bgs/next time 2.png')
-  // },
+  {
+    id: 7,
+    section: 7,
+    value: 'Next time 2',
+    bgColor: '#40409f',
+    color: '#FDFDFF',
+    bg: require('@/assets/test/mission 8.svg')
+  },
+  {
+    id: 8,
+    section: 8,
+    value: 'Next time 2',
+    bgColor: '#40409f',
+    color: '#FDFDFF',
+    bg: require('@/assets/test/mission 7.svg')
+  },
 ]);
 
 const isShowModal = ref(false);
@@ -162,13 +108,10 @@ const launchWheel = () => {
 
 
 const claim = () => {
-  console.warn('CLAIM');
-  rerenderKey.value += 1;
   isShowModal.value = false;
 };
 
 const closeModal = () => {
-  rerenderKey.value += 1;
   isShowModal.value = false;
 };
 

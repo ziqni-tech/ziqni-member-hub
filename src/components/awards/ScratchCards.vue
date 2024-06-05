@@ -1,45 +1,42 @@
 <template>
   <div class="scratch-cards" :class="{'light-mode': !isDarkMode}">
     <canvas
-        class="scratch-cards-canvas"
-        ref="canvasRef"
-        @mousedown="canvasMouseDown"
-        @mousemove="canvasMouseMove"
-        @mouseup="canvasMouseUp"
-        @touchstart="canvasTouchStart"
-        @touchmove="canvasTouchMove"
-        @touchend="canvasTouchEnd"
-        width="280"
-        height="280"
+      class="scratch-cards-canvas"
+      ref="canvasRef"
+      @mousedown="canvasMouseDown"
+      @mousemove="canvasMouseMove"
+      @mouseup="canvasMouseUp"
+      @touchstart="canvasTouchStart"
+      @touchmove="canvasTouchMove"
+      @touchend="canvasTouchEnd"
+      width="280"
+      height="280"
     ></canvas>
     <div class="scratch-cards-block">
       <div v-for="(row, rowIndex) in grid" :key="rowIndex" class="scratch-cards-row">
         <div v-for="(cell, colIndex) in row" :key="colIndex" class="cell">
           <div class="bg-img" :style="{ backgroundImage: `url(${cellBg})`}"></div>
-          <img class="cell-img" :src="cell.image" alt="" width="80" height="80" >
+          <img class="cell-img" :src="cell.image" alt="" width="80" height="80">
         </div>
       </div>
     </div>
   </div>
   <ScratchCardsModal
-      v-if="isShowModal"
-      :style="modalStyles"
-      :message="message"
-      :title="titleMessage"
-      :btnLabel="btnTitle"
-      @doFunction="isWinner ? claim() : closeModal()"
-      :is-dark-mode="isDarkMode"
+    v-if="isShowModal"
+    :style="modalStyles"
+    :message="message"
+    :title="titleMessage"
+    :btnLabel="btnTitle"
+    @doFunction="isWinner ? claim() : closeModal()"
+    :is-dark-mode="isDarkMode"
   />
 </template>
-
 <script setup>
 import { ref, reactive, watch, onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useMouse } from '@vueuse/core';
-import cellBg from '@/assets/images/instant-wins/scratch-card/open-card-bg.svg'
+import cellBg from '@/assets/images/instant-wins/scratch-card/open-card-bg.svg';
 import ScratchCardsModal from '@/components/awards/ScratchCardsModal.vue';
-
-const grid = reactive(createGrid());
 
 const canvasRef = ref(null);
 let ctx;
@@ -65,6 +62,8 @@ const props = defineProps({
   prizes: Array,
   modalStyles: Object
 });
+
+const grid = reactive(createGrid());
 
 const isDarkMode = computed(() => store.getters.getTheme);
 
@@ -105,23 +104,23 @@ function getRandomImage() {
 function initCanvas() {
   const canvas = canvasRef.value;
   ctx = canvas.getContext('2d');
-  const cellSize = 80; // Размер ячейки
-  const spacing = 20; // Расстояние между ячейками
-  const borderRadius = 10; // Радиус скругления
+  const cellSize = 80;
+  const spacing = 20;
+  const borderRadius = 10;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   for (let i = 0; i < grid.length; i++) {
     for (let j = 0; j < grid[i].length; j++) {
       const cell = grid[i][j];
-      const x = j * (cellSize + spacing); // Позиция X ячейки
-      const y = i * (cellSize + spacing); // Позиция Y ячейки
+      const x = j * (cellSize + spacing); // Cell X position
+      const y = i * (cellSize + spacing); // Cell Y position
 
       if (cell.scratched) {
         const image = new Image();
         image.src = cell.image;
         image.onload = () => {
-          ctx.save(); // Сохраняем контекст
+          ctx.save(); // Saving context
           ctx.beginPath();
           ctx.moveTo(x + borderRadius, y);
           ctx.arcTo(x + cellSize, y, x + cellSize, y + borderRadius, borderRadius);
@@ -133,14 +132,14 @@ function initCanvas() {
 
           ctx.drawImage(image, x, y, cellSize, cellSize);
 
-          ctx.restore(); // Восстанавливаем контекст
+          ctx.restore(); // Restoring context
         };
       } else {
         ctx.fillStyle = isDarkMode.value ? '#1A202C' : '#EDF3F7';
         ctx.fillRect(x, y, cellSize, cellSize);
 
-        // Добавляем скругленные радиусы
-        ctx.save(); // Сохраняем контекст
+        // Adding rounded radii
+        ctx.save(); // Saving context
         ctx.beginPath();
         ctx.moveTo(x + borderRadius, y);
         ctx.arcTo(x + cellSize, y, x + cellSize, y + borderRadius, borderRadius);
@@ -155,14 +154,14 @@ function initCanvas() {
         ctx.strokeStyle = isDarkMode.value ? '#406A8C' : '#F7A1E4';
         ctx.stroke();
 
-        // Исправляем координаты текста
+        // Correcting text coordinates
         const textWidth = ctx.measureText(scratchText.value).width;
         const textX = x + (cellSize - textWidth) / 2;
-        const textY = y + cellSize / 2 + 15; // Смещение по Y
+        const textY = y + cellSize / 2 + 15; // Y Offset
 
         ctx.fillText(scratchText.value, textX, textY);
 
-        ctx.restore(); // Восстанавливаем контекст
+        ctx.restore(); // Restoring context
       }
     }
   }
@@ -283,30 +282,30 @@ function getOffsetXY(event) {
 }
 
 watch(
-    () => grid,
-    () => {
-      const canvas = canvasRef.value;
-      const context = canvas.getContext('2d');
-      context.clearRect(0, 0, canvas.width, canvas.height);
+  () => grid,
+  () => {
+    const canvas = canvasRef.value;
+    const context = canvas.getContext('2d');
+    context.clearRect(0, 0, canvas.width, canvas.height);
 
-      for (let i = 0; i < grid.length; i++) {
-        for (let j = 0; j < grid[i].length; j++) {
-          if (grid[i][j].scratched) {
-            const image = new Image();
-            image.src = grid[i][j].image;
-            image.onload = () => {
-              context.drawImage(image, j * 80, i * 80, 80, 80);
-            };
-          }
+    for (let i = 0; i < grid.length; i++) {
+      for (let j = 0; j < grid[i].length; j++) {
+        if (grid[i][j].scratched) {
+          const image = new Image();
+          image.src = grid[i][j].image;
+          image.onload = () => {
+            context.drawImage(image, j * 80, i * 80, 80, 80);
+          };
         }
       }
-    },
-    { deep: true }
+    }
+  },
+  { deep: true }
 );
 
 watch(isDarkMode, (newValue) => {
-  initCanvas()
-}, { deep: true })
+  initCanvas();
+}, { deep: true });
 
 const clearCanvas = () => {
   const canvas = canvasRef.value;
@@ -316,7 +315,7 @@ const clearCanvas = () => {
 
 watch(isAutoScratchAll, (value) => {
   if (value) {
-    clearCanvas()
+    clearCanvas();
     const prizes = props.prizes;
     const randomIndex = Math.floor(Math.random() * prizes.length);
     const prize = prizes[randomIndex];
@@ -345,6 +344,7 @@ const done = (prize) => {
 
 <style scoped lang="scss">
 @import '@/assets/scss/_variables';
+
 .scratch-cards {
   position: relative;
   display: flex;
@@ -430,6 +430,7 @@ const done = (prize) => {
 .scratch-cards-row {
   display: flex;
 }
+
 @media screen and (max-width: $tableWidth) {
   .scratch-cards {
     margin-top: 20px;
