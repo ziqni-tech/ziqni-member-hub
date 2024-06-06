@@ -1,7 +1,11 @@
 <template>
   <div class="modal-content" :class="{'light-mode': !isDarkMode}">
-    <h5 class="award-modal-title">{{ title }}</h5>
-    <span class="award-description">{{ message }}</span>
+    <div class="award-modal-title" v-html="title"></div>
+    <div class="award-description" v-html="message"></div>
+    <div class="award-data" v-if="reward && reward.name">
+      <div v-html="reward.name"></div>:
+      <div v-html="reward.value"></div>
+    </div>
       <button
           @click="doFunction"
           class="confirm-btn"
@@ -15,7 +19,10 @@
 
 const props = defineProps({
   title: String,
-
+  reward: {
+    type: Object,
+    default: () => null,
+  },
   message: String,
   modalShow: Boolean,
   btnLabel: {
@@ -40,7 +47,7 @@ const doFunction = () => {
 </script>
 
 <style scoped lang="scss">
-@import 'src/assets/scss/_variables';
+@import '../../../assets/scss/variables';
 
 .modal-content {
   background-color: $modal-bg-DM;
@@ -71,6 +78,22 @@ const doFunction = () => {
     padding-top: 10px;
   }
 
+  .award-data {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 10px;
+
+    & > div {
+      &:first-of-type {
+      }
+
+      &:last-of-type {
+        margin-left: 5px;
+      }
+    }
+  }
+
   .confirm-btn {
     margin: 20px auto;
     background-color: $btn-primary-bg-color-LM;
@@ -99,6 +122,12 @@ const doFunction = () => {
       font-family: $medium;
       color: $card-title-color-LM;
       padding-top: 10px;
+    }
+
+    .award-data {
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 }

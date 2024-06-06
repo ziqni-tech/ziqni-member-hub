@@ -1,3 +1,5 @@
+import { markRaw } from 'vue';
+
 import Dashboard from './svg-icons/Dashboard';
 import Tournaments from './svg-icons/Tournaments';
 import Missions from './svg-icons/Missions';
@@ -6,29 +8,29 @@ import Achievements from './svg-icons/Achievements';
 import Awards from './svg-icons/Awards';
 
 const icons = {
-    dashboard: Dashboard,
-    tournaments: Tournaments,
-    achievements: Achievements,
-    awards: Awards,
-    messages: Messages,
-    missions: Missions
-}
+  dashboard: markRaw(Dashboard),
+  tournaments: markRaw(Tournaments),
+  achievements: markRaw(Achievements),
+  awards: markRaw(Awards),
+  messages: markRaw(Messages),
+  missions: markRaw(Missions)
+};
 
 const getSidebarNav = (config) => {
-    const sidebarNav = []
+  const sidebarNav = [];
 
-    for (const menuItem of config.mainMenu.items) {
-        const menuObject =      {
-            name: menuItem.text,
-            to: menuItem.url,
-            icon: icons[menuItem.key],
-            enabled: menuItem.enabled
-            // icon: menuItem.images.icon,
-        }
-        sidebarNav.push(menuObject)
-    }
+  for (const menuItem of config.mainMenu.items) {
+    const menuObject = {
+      name: menuItem.text,
+      to: menuItem.url,
+      icon: icons[menuItem.key],
+      enabled: menuItem.enabled
+      // icon: menuItem.images.icon,
+    };
+    sidebarNav.push(menuObject);
+  }
 
-    return sidebarNav
-}
+  return sidebarNav;
+};
 
 export default getSidebarNav;

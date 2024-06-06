@@ -3,13 +3,15 @@
     <h1 class="page-title">The Single Wheel</h1>
     <span class="page-description">Ready to test your luck? Take a spin and find out!</span>
     <WheelOfFortune
-        class="wheelOfFortune"
-        :gift="gift"
-        ref="wheel"
-        v-model="data"
-        @claim="claim"
-        @closeModal="closeModal"
-        :key="rerenderKey"
+      class="wheelOfFortune"
+      :gift="gift"
+      ref="wheel"
+      v-model="data"
+      @claim="claim"
+      @closeModal="closeModal"
+      :key="rerenderKey"
+      :wheelSettings="wheelSettings.wheelSettings"
+      :messageSettings="wheelSettings.messageSettings"
     />
     <button class="spin-btn" @click="launchWheel">spin</button>
   </div>
@@ -17,9 +19,10 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
-import WheelOfFortune from '@/components/awards/WheelOfFortune.vue';
+import { computed, onMounted, ref } from 'vue';
+import WheelOfFortune from '@/components/awards/wheel-of-fortune/WheelOfFortune.vue';
 import { useStore } from 'vuex';
+import { ApiClientStomp, FilesApiWs } from '@ziqni-tech/member-api-client';
 
 const wheel = ref(null);
 const gift = ref(0);
@@ -31,124 +34,202 @@ const isDarkMode = computed(() => store.getters.getTheme);
 
 const data = ref([
   {
-    id: 1,
     section: 1,
-    value: '50$ bonus 1',
-    bgColor: '#8749DC',
+    text: '<p class=\\"ql-align-center\\">50$ bonus 1</p>',
+    background: '#8749DC',
     color: '#FFFFFF',
-    bg: require('@/assets/images/instant-wins/single-wheel_bgs/50 bonus 1.png')
+    icon: '',
+    bg: require('@/assets/images/instant-wins/single-wheel_bgs/50 bonus 1.png'),
+    constraints: [],
+    reward: {
+      name: 'BONUS',
+      rewardRank: 1,
+      rewardValue: 50,
+      rewardTypeId: '',
+    }
     // bg: require('@/assets/test/mission 1.svg')
   },
   {
-    id: 2,
     section: 2,
-    value: 'Free spins 1',
-    bgColor: '#223241',
+    text: '<p class=\\"ql-align-center\\">Free spins 2</p>',
+    background: '#223241',
     color: '#FDFDFF',
-    bg: require('@/assets/images/instant-wins/single-wheel_bgs/free spins 1.png')
+    icon: '',
+    bg: require('@/assets/images/instant-wins/single-wheel_bgs/free spins 1.png'),
+    constraints: ['isVerticallyText'],
+    reward: {
+      name: 'FREE SPINS',
+      rewardRank: 1,
+      rewardValue: 100,
+      rewardTypeId: '',
+    }
     // bg: require('@/assets/test/mission 2.svg')
   },
   {
-    id: 3,
     section: 3,
-    value: 'Next time 1',
-    bgColor: '#40409f',
+    text: '<p class=\\"ql-align-center\\">Next time 3</p>',
+    background: '#40409f',
     color: '#FDFDFF',
+    icon: '',
     // bg: require('@/assets/test/mission 4.svg')
-    bg: require('@/assets/images/instant-wins/single-wheel_bgs/next time 1.png')
+    bg: require('@/assets/images/instant-wins/single-wheel_bgs/next time 1.png'),
+    constraints: [],
+    reward: {
+      name: null,
+      rewardRank: null,
+      rewardValue: null,
+      rewardTypeId: null,
+    }
   },
   {
-    id: 4,
     section: 4,
-    value: '50$ bonus 2',
-    bgColor: '#8749DC',
+    text: '<p class=\\"ql-align-center\\">50$ bonus 4</p>',
+    background: '#8749DC',
     color: '#FDFDFF',
+    icon: '',
     // bg: require('@/assets/test/mission 6.svg')
-    bg: require('@/assets/images/instant-wins/single-wheel_bgs/50 bonus 2.png')
+    bg: require('@/assets/images/instant-wins/single-wheel_bgs/50 bonus 2.png'),
+    constraints: [],
+    reward: {
+      name: 'BONUS',
+      rewardRank: 1,
+      rewardValue: 150,
+      rewardTypeId: '',
+    }
   },
   {
-    id: 5,
     section: 5,
-    value: 'Free spins 2',
-    bgColor: '#223241',
+    text: '<p class=\\"ql-align-center\\">Free spins 5</p>',
+    background: '#223241',
     color: '#FDFDFF',
+    icon: '',
     // bg: require('@/assets/test/mission 8.svg')
-    bg: require('@/assets/images/instant-wins/single-wheel_bgs/free spins 2.png')
+    bg: require('@/assets/images/instant-wins/single-wheel_bgs/free spins 2.png'),
+    constraints: [],
+    reward: {
+      name: 'BONUS',
+      rewardRank: 1,
+      rewardValue: 200,
+      rewardTypeId: '',
+    }
   },
   {
-    id: 6,
     section: 6,
-    value: 'Next time 2',
-    bgColor: '#40409f',
+    text: '<p class=\\"ql-align-center\\">50$ bonus 6</p>',
+    background: '#40409f',
     color: '#FDFDFF',
+    icon: '',
     // bg: require('@/assets/test/mission 7.svg')
-    bg: require('@/assets/images/instant-wins/single-wheel_bgs/next time 2.png')
+    bg: require('@/assets/images/instant-wins/single-wheel_bgs/next time 2.png'),
+    constraints: [],
+    reward: {
+      name: null,
+      rewardRank: null,
+      rewardValue: null,
+      rewardTypeId: null,
+    }
   },
   {
-    id: 7,
     section: 7,
-    value: 'Next time 2',
-    bgColor: '#40409f',
+    text: '<p class=\\"ql-align-center\\">Next time 7</p>',
+    background: '#8749DC',
     color: '#FDFDFF',
-    bg: require('@/assets/test/mission 8.svg')
+    icon: '',
+    bg: require('@/assets/test/mission 8.svg'),
+    constraints: ['isVerticallyText'],
+    reward: {
+      name: 'Free spins',
+      rewardRank: 1,
+      rewardValue: 300,
+      rewardTypeId: '',
+    }
   },
   {
-    id: 8,
     section: 8,
-    value: 'Next time 2',
-    bgColor: '#40409f',
+    text: '<p class=\\"ql-align-center\\">50$ bonus 8</p>',
+    background: '#223241',
     color: '#FDFDFF',
-    bg: require('@/assets/test/mission 7.svg')
+    icon: '',
+    bg: require('@/assets/test/mission 7.svg'),
+    constraints: ['isVerticallyText'],
+    reward: {
+      name: null,
+      rewardRank: null,
+      rewardValue: null,
+      rewardTypeId: null,
+    }
   },
-  // {
-  //   id: 9,
-  //   section: 9,
-  //   value: 'Next time 2',
-  //   bgColor: '#40409f',
-  //   color: '#FDFDFF',
-  //   bg: require('@/assets/test/mission 4.svg')
-  // },
-  // {
-  //   id: 9,
-  //   section: 9,
-  //   value: 'Next time 2',
-  //   bgColor: '#40409f',
-  //   color: '#FDFDFF',
-  //   bg: require('@/assets/images/instant-wins/single-wheel_bgs/next time 2.png')
-  // },
-  // {
-  //   id: 10,
-  //   section: 10,
-  //   value: 'Next time 2',
-  //   bgColor: '#40409f',
-  //   color: '#FDFDFF',
-  //   bg: require('@/assets/images/instant-wins/single-wheel_bgs/next time 2.png')
-  // },
-  // {
-  //   id: 11,
-  //   section: 10,
-  //   value: 'Next time 2',
-  //   bgColor: '#40409f',
-  //   color: '#FDFDFF',
-  //   bg: require('@/assets/images/instant-wins/single-wheel_bgs/next time 2.png')
-  // },
-  // {
-  //   id: 12,
-  //   section: 10,
-  //   value: 'Next time 2',
-  //   bgColor: '#40409f',
-  //   color: '#FDFDFF',
-  //   bg: require('@/assets/images/instant-wins/single-wheel_bgs/next time 2.png')
-  // },
-  // {
-  //   id: 13,
-  //   section: 10,
-  //   value: 'Next time 2',
-  //   bgColor: '#40409f',
-  //   color: '#FDFDFF',
-  //   bg: require('@/assets/images/instant-wins/single-wheel_bgs/next time 2.png')
-  // },
 ]);
+
+const wheelSettings = ref({
+  wheelSettings: { buttonText: '<p><strong class="ql-font-arial" style="color: #F4B41C;">SPIN</strong></p>',
+    wheelBackground: '#5E084B',
+    spinButtonBackground: '#5E084B',
+    icon: '',
+    wheelBorderImage: '',
+    wheelImage: '',
+    wheelButtonImage: '',
+    wheelArrowImage: ''
+  },
+  messageSettings: {
+    // celebrationMessage: '<p><em style="background-color: rgb(243, 243, 243); color: rgb(0, 0, 0);">Congratulations!</em></p>',
+    celebrationMessage: '<p><em >Congratulations!</em></p>',
+    // celebrationText: '<p><em style="background-color: rgb(243, 243, 243); color: rgb(0, 0, 0);">You won</em></p>',
+    celebrationText: '<p><em >You won</em></p>',
+    celebrationImage: '',
+    shapeOfCelebrationMessageBox: '',
+    isCelebrationAnimation: true,
+    // sorryMessage: '<p><em style="background-color: rgb(243, 243, 243); color: rgb(0, 0, 0);">Didn\'t win this time!</em></p>',
+    sorryMessage: '<p><em >Didn\'t win this time!</em></p>',
+    // sorryText: '<p><em style="background-color: rgb(243, 243, 243); color: rgb(0, 0, 0);">Wishing you better luck in the future</em></p>',
+    sorryText: '<p><em >Wishing you better luck in the future</em></p>',
+    sorryImage: '',
+    shapeOfSorryMessageBox: '',
+    isSorryAnimation: false
+  }
+});
+
+const getFileUri = async (id) => {
+  const fileApiWsClient = new FilesApiWs(ApiClientStomp.instance);
+
+  const fileRequest = {
+    ids: [id],
+    limit: 1,
+    skip: 0
+  };
+
+  return new Promise((resolve) => {
+    fileApiWsClient.getFiles(fileRequest, (res) => {
+      resolve(res.data[0].uri);
+    });
+  });
+};
+
+const replaceImageIdsWithUris = async (obj) => {
+  const keys = Object.keys(obj);
+
+  for (const key of keys) {
+    const value = obj[key];
+
+    if (typeof value === 'string' && value.match(/^[-\w]+$/)) {
+      // Assume this is an ID and fetch the URI
+      obj[key] = await getFileUri(value);
+    } else if (typeof value === 'object' && value !== null) {
+      // Recursively process nested objects
+      await replaceImageIdsWithUris(value);
+    }
+  }
+};
+
+const updateWheelSettings = async () => {
+  await replaceImageIdsWithUris(wheelSettings.value);
+};
+
+onMounted(async () => {
+  await updateWheelSettings();
+  // Теперь wheelSettings.value содержит URI изображений вместо их ID
+  console.log(wheelSettings.value);
+});
 
 const isShowModal = ref(false);
 
