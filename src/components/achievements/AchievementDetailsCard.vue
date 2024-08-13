@@ -25,9 +25,9 @@
     </div>
     <div class="description" v-if="!isInfo">
       <span class="description-title">Description</span>
-      <span class="description-value">
-        {{ removeHTMLTags(description) }}
-      </span>
+      <div class="description-value">
+        <div v-html="description"></div>
+      </div>
     </div>
     <div class="description" v-if="isInfo">
       <span class="description-title">Terms & Conditions</span>

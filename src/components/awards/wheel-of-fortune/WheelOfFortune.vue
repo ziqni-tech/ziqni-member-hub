@@ -25,7 +25,7 @@ import WheelOfFortuneModal from '@/components/awards/wheel-of-fortune/WheelOfFor
 import { useStore } from 'vuex';
 import { ApiClientStomp, FilesApiWs } from '@ziqni-tech/member-api-client';
 import { createWheelSections } from '@/components/awards/wheel-of-fortune/helpers/wheelSections';
-
+import {createSpinnerWheel, createSpinnerWheelWithAnimation} from 'spinning-wheel'
 const props = defineProps({
   animDuration: {
     type: Number,

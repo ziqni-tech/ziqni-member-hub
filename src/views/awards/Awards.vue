@@ -28,7 +28,7 @@
     </CNav>
     <AvailableAwardsSection v-if="activeTabKey === 'available'" @setIsAvailableAwards="setIsAvailableAwards"/>
     <ClaimedAwardsSection v-if="activeTabKey === 'claimed'"/>
-    <InstantWinsSection v-if="activeTabKey === 'instantWins'"/>
+    <InstantWinsSection v-if="activeTabKey === 'instantWins'" :isDashboard="false"/>
   </div>
 
 </template>
@@ -41,13 +41,21 @@ import ClaimedAwardsSection from '@/components/awards/ClaimedAwardsSection.vue';
 import InstantWinsSection from '@/components/instant-wins/InstantWinsSection.vue';
 import { useStore } from 'vuex';
 import { ApiClientStomp } from '@ziqni-tech/member-api-client';
+import { useRoute } from 'vue-router';
 
 const activeTabKey = computed(() => store.getters.getCurrentTab.length
     ? store.getters.getCurrentTab
     : 'available');
 const store = useStore();
+const route = useRoute();
 
 onBeforeMount(async () => {
+  const tabFromQuery = route.query.tab;
+
+  if (tabFromQuery && ['available', 'claimed', 'instantWins'].includes(tabFromQuery)) {
+    updateActiveTab(tabFromQuery);
+  }
+
   ApiClientStomp.instance.client.debug = () => {
   };
   await ApiClientStomp.instance.connect({ token: localStorage.getItem('token') });

@@ -18,15 +18,17 @@
     </div>
     <div class="description" v-if="isInfo">
       <span class="description-title">Terms and conditions</span>
-      <span class="description-value">
-        {{ removeHTMLTags(termsAndConditions) }}
-      </span>
+      <div class="description-value">
+        <div v-html="description"></div>
+<!--        {{ removeHTMLTags(termsAndConditions) }}-->
+      </div>
     </div>
     <div class="description" v-if="!isInfo">
       <span class="description-title">Description</span>
-      <span class="description-value">
-        {{ removeHTMLTags(description) }}
-      </span>
+      <div class="description-value">
+        <div v-html="description"></div>
+<!--        {{ removeHTMLTags(description) }}-->
+      </div>
     </div>
     <div class="bottom-section">
       <button
