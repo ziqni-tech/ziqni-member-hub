@@ -2,19 +2,19 @@
   <div class="single-wheel-content" :class="{'light-mode': !isDarkMode}">
     <h1 class="page-title">The Single Wheel</h1>
     <span class="page-description">Ready to test your luck? Take a spin and find out!</span>
-<!--    <WheelOfFortune-->
-<!--      class="wheelOfFortune"-->
-<!--      :gift="gift"-->
-<!--      ref="wheel"-->
-<!--      v-model="data"-->
-<!--      @claim="claim"-->
-<!--      @closeModal="closeModal"-->
-<!--      :key="rerenderKey"-->
-<!--      :wheelSettings="wheelSettings.wheelSettings"-->
-<!--      :messageSettings="wheelSettings.messageSettings"-->
-<!--    />-->
     <div class="spinner-wrapper">
-      <div ref="spinnerContainer" id="spinner-container"></div>
+      <div class="loader-wrapper" :class="{'hidden': isWheelCreated}">
+        <img
+          class="loader-wrapper__spinner"
+          src="@/assets/icons/logo.svg"
+          alt=""
+        >
+      </div>
+      <div
+        ref="spinnerContainer"
+        id="spinner-container"
+        :class="{'hidden': !isWheelCreated}"
+      ></div>
     </div>
     <button class="spin-btn" :disabled="isSpinButtonDisabled" @click="launchWheel">spin</button>
     <WheelOfFortuneModal
@@ -41,7 +41,7 @@ import WheelOfFortuneModal from '@/components/awards/wheel-of-fortune/WheelOfFor
 import { useRoute } from 'vue-router';
 
 const wheel = ref(null);
-const gift = ref(5);
+const gift = ref(3);
 const isShowModal = ref(false);
 const titleMessage = ref('');
 const message = ref('');
@@ -76,6 +76,7 @@ const isDarkMode = computed(() => store.getters.getTheme);
 const spinnerContainer = ref(null);
 const spinWheelRef = ref(null);
 const resetWheelRef = ref(null);
+const isWheelCreated = ref(false);
 const route = useRoute();
 
 const data = ref([
@@ -236,7 +237,6 @@ const wheelSettings = ref({
 });
 
 const getInstantWin = () => {
-  console.log('router', route.params.id);
   return new Promise((resolve, reject) => {
     try {
       const instantWinApiWsClient = new InstantWinsApiWs(ApiClientStomp.instance);
@@ -256,13 +256,10 @@ const getInstantWin = () => {
           limit: 72,
           statusCode: []
         },
-        languageKey: 'string',
-        currencyKey: 'string'
+        languageKey: '',
+        currencyKey: ''
       }, async (res) => {
-        console.log('RES', res);
         const instantWinData = res.data[0];
-        // const err = res.errors.map(err => err.message)
-        // console.warn('ERR', err);
 
         const tiles = instantWinData.tiles;
         const settingsData = await getSettingsFile(res.data[0].id);
@@ -270,7 +267,6 @@ const getInstantWin = () => {
 
         if (settingsData && settingsData.wheelSettings) {
           await replaceImageIdsWithUris(settingsData.wheelSettings);
-          console.log('val', wheelSettings.value);
           wheelSettings.value.wheelSettings = settingsData.wheelSettings
         }
 
@@ -374,11 +370,17 @@ const initWheel = async () => {
         console.log('isCompleted => ', isCompleted);
         if (isCompleted) {
           const reward = data.value[gift.value - 1].reward;
+          console.log('reward', reward);
           done(reward);
         }
-        console.log(`Wheel stopped on prize section: ${ giftValue }`);
+        console.log(`Wheel stopped on prize section: ${ gift.value }`);
       },
     );
+    console.log('isCreated', isCreated);
+    setTimeout(() => {
+      isWheelCreated.value = isCreated
+    }, 500)
+
     spinWheelRef.value = spinWheel;
     resetWheelRef.value = resetWheel;
   }
@@ -386,25 +388,31 @@ const initWheel = async () => {
 
 const launchWheel = () => {
   isSpinButtonDisabled.value = true;
-
+  const awardId = route.query.awardId;
+  console.log('launch wheel award', awardId);
   const instantWinApiWsClient = new InstantWinsApiWs(ApiClientStomp.instance);
   // W75dDZEBOI-HgZcYNJ7z
-  instantWinApiWsClient.playInstantWin( {
-      awardId: 'W75dDZEBOI-HgZcYNJ7z',
-      instantWinFilter: {
-        constraints: [],
-        ids: [route.params.id],
-        instantWinTypes: [1],
-        limit: 1,
-        skip: 0,
-        tags: []
-      },
-      languageKey: 'string',
-      currencyKey: 'string'
-  },  async (res) => {
+  const playInstantWinPayload = {
+    awardId: 'W75dDZEBOI-HgZcYNJ7z',
+    // awardId: 'uWY_VZEBqKAQUAl8LTHj',
+    // awardId: `rmUxVZEBqKAQUAl8oQsv`,
+    instantWinFilter: {
+      constraints: [],
+      ids: [route.params.id],
+      instantWinTypes: [1],
+      limit: 1,
+      skip: 0,
+      tags: []
+    },
+    languageKey: '',
+    currencyKey: ''
+  }
+  console.log('playInstantWinPayload => ', playInstantWinPayload);
+  instantWinApiWsClient.playInstantWin( playInstantWinPayload,  async (res) => {
     console.warn('InstantWinPlayOutcome =>', res);
   } )
   if (spinWheelRef.value) {
+    console.log('gift.value', gift.value);
     spinWheelRef.value(gift.value); // Call the spinWheel function
   }
 };
@@ -418,15 +426,16 @@ const launchWheel = () => {
 // };
 
 const done = async (r) => {
+
   console.log('wheelSettings.value', wheelSettings.value.messageSettings);
-  if (r.reward && r.reward.name) {
+  if (r && r.name) {
     titleMessage.value = wheelSettings.value.messageSettings.celebrationMessage
       ? wheelSettings.value.messageSettings.celebrationMessage
       : 'Congratulations!';
     message.value = wheelSettings.value.messageSettings.celebrationText
       ? wheelSettings.value.messageSettings.celebrationText
       : `You won`;
-    reward.value = { name: r.reward.name, value: r.reward.rewardValue };
+    reward.value = { name: r.name, value: r.rewardValue };
     btnTitle.value = 'Claim';
     isWinner.value = true;
   } else {
@@ -464,9 +473,11 @@ const closeModal = () => {
 <style scoped lang="scss">
 @import '@/assets/scss/_variables';
 
+.hidden {
+  visibility: hidden;
+}
 
 .single-wheel-content {
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -492,10 +503,40 @@ const closeModal = () => {
   .spinner-wrapper {
     width: 100%;
     height: 100%;
-    //position: absolute;
-    //top: 50%;
-    //left: 50%;
-    //transform: translate(-50%, -50%);
+    position: relative;
+  }
+  .loader-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+
+    @media screen and (max-width: 450px) {
+      top: 40%;
+    }
+
+    &__spinner {
+      width: 47px;
+      height: 45px;
+      opacity: 0.7;
+      animation: rotation 2.5s linear infinite normal;
+      z-index: 10;
+
+      @keyframes rotation {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(359deg);
+        }
+      }
+    }
+
   }
 
   #spinner-container {

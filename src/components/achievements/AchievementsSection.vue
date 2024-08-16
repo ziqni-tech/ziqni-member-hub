@@ -61,8 +61,6 @@ const limit = ref(computed(() => props.isDashboard ? 2 : 9));
 const isLoading = ref(false);
 const achievements = ref([]);
 
-
-
 const currentPage = computed(() => store.getters.getCurrentPage);
 const totalRecords = ref(0);
 

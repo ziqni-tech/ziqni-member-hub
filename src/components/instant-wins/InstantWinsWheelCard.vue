@@ -1,8 +1,8 @@
 <template>
   <div class="instant-wins-card" :class="{'light-mode': !isDarkMode}">
     <h3 class="mobile-card-title">{{ title }}</h3>
-    <div class="instant-img-wrapper">
-      <img class="instant-img" :src="img" alt="" />
+    <div class="spinner-container-wrapper" >
+      <div ref="spinnerContainer" class="spinner-container"></div>
     </div>
     <div class="instant-info">
       <h3 class="card-title">{{ title }}</h3>
@@ -13,20 +13,46 @@
 </template>
 
 <script setup>
+import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { createSpinnerWheel } from 'spinning-wheel';
+
 const props = defineProps({
   title: String,
   description: String,
   img: String,
-  isDarkMode: Boolean
+  isDarkMode: Boolean,
+  tiles: Array,
+  settingsData: Object,
 });
 
-const emit = defineEmits(['play'])
+const emit = defineEmits(['play']);
+
 const play = () => {
-  emit('play')
-}
+  emit('play');
+};
+
+const spinnerContainer = ref(null);
+
+onMounted(async () => {
+  if (spinnerContainer.value && props.tiles && props.settingsData) {
+    const { isCreated, spinWheel, resetWheel } = await createSpinnerWheel(
+      spinnerContainer.value,
+      props.tiles,
+      props.settingsData,
+      (giftValue) => {
+        // Handle the result of the spin here
+      },
+      true
+    );
+  }
+});
+
+onBeforeUnmount(() => {
+  // Cleanup if needed
+});
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 @import '@/assets/scss/_variables';
 
 .instant-wins-card {
@@ -44,7 +70,7 @@ const play = () => {
     display: none;
   }
 
-  .instant-img-wrapper {
+  .spinner-container-wrapper {
     width: 44%;
     height: 100%;
     background-color: $prize-btn-bg-DM;
@@ -53,7 +79,7 @@ const play = () => {
     align-items: center;
     justify-content: center;
 
-    .instant-img {
+    .spinner-container {
       width: 100%;
       height: 100%;
       object-fit: contain;
@@ -111,7 +137,7 @@ const play = () => {
       display: none;
     }
 
-    .instant-img-wrapper {
+    .spinner-container-wrapper {
       width: 44%;
       height: 100%;
       background-color: $bg-body-LM;
@@ -120,7 +146,7 @@ const play = () => {
       align-items: center;
       justify-content: center;
 
-      .instant-img {
+      .spinner-container {
         width: 100%;
         height: 100%;
         object-fit: contain;
@@ -186,7 +212,7 @@ const play = () => {
       color: $white-color-DM;
     }
 
-    .instant-img-wrapper {
+    .spinner-container-wrapper {
       width: 100%;
       height: 100%;
       background-color: $prize-btn-bg-DM;
@@ -198,7 +224,7 @@ const play = () => {
       justify-content: center;
       align-items: center;
 
-      .instant-img {
+      .spinner-container {
         width: 100%;
         height: 100%;
         object-fit: contain;
@@ -255,7 +281,7 @@ const play = () => {
         color: $section-title-color-LM;
       }
 
-      .instant-img-wrapper {
+      .spinner-container-wrapper {
         width: 100%;
         height: 100%;
         border-radius: $border-radius;
@@ -266,7 +292,7 @@ const play = () => {
         justify-content: center;
         align-items: center;
 
-        .instant-img {
+        .spinner-container {
           width: 100%;
           height: 100%;
           object-fit: contain;

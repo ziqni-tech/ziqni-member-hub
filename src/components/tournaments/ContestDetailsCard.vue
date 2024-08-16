@@ -41,12 +41,12 @@
       </div>
       <div class="tournament-description">
         <h5 class="tournament-description_title">{{ 'Description' }}</h5>
-        <p class="tournament-description_description">{{ removeHTMLTags(description) }}</p>
+        <p class="tournament-description_description" v-html="description"></p>
       </div>
 
       <div class="tournament-description" v-if="isTermsAndConditions">
         <h5 class="tournament-description_title">{{ 'Terms and conditions' }}</h5>
-        <p class="tournament-description_description">{{ removeHTMLTags(termsAndConditions) }}</p>
+        <p class="tournament-description_description" v-html="termsAndConditions"></p>
       </div>
       <button
           v-if="isOptinRequiredForEntrants"
@@ -82,7 +82,6 @@ import defaultBanner from '@/assets/images/tournaments/tournament_details_bg.svg
 import TrophyIcon from "@/shared/components/svg-icons/TrophyIcon.vue";
 import DiamondIcon from "@/shared/components/svg-icons/DiamondIcon.vue";
 import StarIcon from "@/shared/components/svg-icons/StarIcon.vue";
-import { removeHTMLTags } from '@/utils/removeHTMLTags';
 
 const props = defineProps({
   tournament: Object,

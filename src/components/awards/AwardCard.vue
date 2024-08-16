@@ -6,7 +6,7 @@
     <h3 class="award__name">{{ award.name }}</h3>
     <h5 class="award__type">{{ award.rewardType.key }}</h5>
     <div class="award__btn prize">
-      <img :src="rewardIcon" alt="">
+<!--      <img :src="rewardIcon" alt="">-->
       {{ award.rewardValue }}
     </div>
     <button
@@ -152,7 +152,7 @@ watch(countdownResult, (value) => {
   }
 
   &__type {
-    max-width: 170px;
+    max-width: 150px;
     font-family: $mainFont;
     font-size: 14px;
     color: $description-color-DM;
@@ -236,7 +236,7 @@ watch(countdownResult, (value) => {
     }
 
     .award__type {
-      max-width: 170px;
+      //max-width: 170px;
       font-family: $mainFont;
       font-size: 14px;
       color: $card-title-color-LM;
@@ -289,7 +289,6 @@ watch(countdownResult, (value) => {
     }
 
     &__type {
-
       color: $card-title-color-LM;
     }
 
@@ -299,6 +298,27 @@ watch(countdownResult, (value) => {
     }
   }
 
+}
+
+.award__btn.prize {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+  display: inline-block;
+}
+
+@media screen and (max-width: 1025px) {
+  .award__btn.prize {
+    max-width: 150px;
+  }
+  .award {
+    &__type {
+      max-width: 150px;
+    }
+
+  }
 }
 
 @media screen and (max-width: $tableWidth) {
@@ -399,6 +419,7 @@ watch(countdownResult, (value) => {
     }
   }
 }
+
 @media screen and (max-width: 430px) {
   .award {
     max-width: 190px;

@@ -101,11 +101,6 @@ const routes = [
             component: () => import('@/views/awards/AwardDetails'),
           },
           {
-            path: '/awards/single-wheel',
-            name: 'SingleWheelsList',
-            component: () => import('@/components/instant-wins/InstantWinsList')
-          },
-          {
             path: '/awards/single-wheel/:id',
             name: 'SingleWheel',
             component: () => import('@/views/awards/SingleWheel')
