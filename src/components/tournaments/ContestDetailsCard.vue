@@ -41,12 +41,13 @@
       </div>
       <div class="tournament-description">
         <h5 class="tournament-description_title">{{ 'Description' }}</h5>
-        <p class="tournament-description_description">{{ removeHTMLTags(description) }}</p>
+        <p class="tournament-description_description" v-html="description"></p>
       </div>
 
       <div class="tournament-description" v-if="isTermsAndConditions">
         <h5 class="tournament-description_title">{{ 'Terms and conditions' }}</h5>
-        <p class="tournament-description_description">{{ removeHTMLTags(termsAndConditions) }}</p>
+        <p class="tournament-description_description" v-html="termsAndConditions"></p>
+        termsAndConditions
       </div>
       <button
           v-if="isOptinRequiredForEntrants"
