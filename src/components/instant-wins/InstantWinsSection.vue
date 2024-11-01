@@ -15,13 +15,13 @@
           />
         </div>
         <div>
-          <InstantWins
-              :img="scratchcardImg"
-              :title="scratchcardsTitle"
-              :description="description"
-              @play="scratchcardsPlay"
-              :isDarkMode="isDarkMode"
-          />
+<!--          <InstantWins-->
+<!--              :img="scratchcardImg"-->
+<!--              :title="scratchcardsTitle"-->
+<!--              :description="description"-->
+<!--              @play="scratchcardsPlay"-->
+<!--              :isDarkMode="isDarkMode"-->
+<!--          />-->
         </div>
       </div>
     </div>
