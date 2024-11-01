@@ -2,6 +2,7 @@
   <div class="single-wheel-content" :class="{'light-mode': !isDarkMode}">
     <h1 class="page-title">The Single Wheel</h1>
     <span class="page-description">Ready to test your luck? Take a spin and find out!</span>
+    <span class="page-description">Remaining Plays: {{ remainingPlays }}</span>
     <div class="spinner-wrapper">
       <div class="loader-wrapper" :class="{'hidden': isWheelCreated}">
         <img
@@ -16,7 +17,14 @@
         :class="{'hidden': !isWheelCreated}"
       ></div>
     </div>
-    <button class="spin-btn" :disabled="isSpinButtonDisabled" @click="launchWheel">spin</button>
+    <button
+      class="spin-btn"
+      :class="{'hidden': !isWheelCreated, 'disabled': isSpinButtonDisabled}"
+      :disabled="isSpinButtonDisabled"
+      @click="launchWheel"
+    >
+      spin
+    </button>
     <WheelOfFortuneModal
       v-if="isShowModal"
       class="prize-modal"
@@ -33,10 +41,10 @@
 
 <script setup>
 import { computed, onMounted, ref } from 'vue';
-import WheelOfFortune from '@/components/awards/wheel-of-fortune/WheelOfFortune.vue';
 import { useStore } from 'vuex';
-import { ApiClientStomp, AwardRequest, FilesApiWs, InstantWinsApiWs } from '@ziqni-tech/member-api-client';
-import { createSpinnerWheelWithAnimation, createSpinnerWheel } from 'spinning-wheel';
+import { ApiClientStomp, FilesApiWs, InstantWinsApiWs } from '@ziqni-tech/member-api-client';
+// import { createSpinnerWheelWithAnimation } from '@ziqni-tech/spinning-wheel';
+import { createSpinnerWheel, createSpinnerWheelWithAnimation } from 'spinning-wheel';
 import WheelOfFortuneModal from '@/components/awards/wheel-of-fortune/WheelOfFortuneModal.vue';
 import { useRoute } from 'vue-router';
 
@@ -49,28 +57,9 @@ const reward = ref();
 const btnTitle = ref('');
 const isWinner = ref(false);
 const isSpinButtonDisabled = ref(false);
-const selectedAward = ref(null)
+const receivedAward = ref(null);
+const remainingPlays = ref(0);
 
-// const claimedAwardsRequest = AwardRequest.constructFromObject({
-//   awardFilter: {
-//     statusCode: {
-//       moreThan: 34,
-//       lessThan: 36
-//     },
-//     sortBy: [{
-//       queryField: 'created',
-//       order: 'Desc'
-//     }],
-//     skip: skip.value,
-//     limit: limit.value
-//   },
-//   currencyKey: ''
-// });
-
-// InstantWinPlayRequest
-// InstantWinPlayOutcome
-
-const rerenderKey = ref(0);
 const store = useStore();
 const isDarkMode = computed(() => store.getters.getTheme);
 const spinnerContainer = ref(null);
@@ -209,7 +198,8 @@ const data = ref([
 ]);
 
 const wheelSettings = ref({
-  wheelSettings: { buttonText: '<p><strong class="ql-font-arial" style="color: #F4B41C;">SPIN</strong></p>',
+  wheelSettings: {
+    buttonText: '<p><strong class="ql-font-arial" style="color: #F4B41C;">SPIN</strong></p>',
     wheelBackground: '#5E084B',
     spinButtonBackground: '#5E084B',
     icon: '',
@@ -240,6 +230,7 @@ const getInstantWin = () => {
   return new Promise((resolve, reject) => {
     try {
       const instantWinApiWsClient = new InstantWinsApiWs(ApiClientStomp.instance);
+
       instantWinApiWsClient.listInstantWins({
         instantWinFilter: {
           productIds: [],
@@ -247,9 +238,6 @@ const getInstantWin = () => {
           startDate: {},
           endDate: {},
           ids: [route.params.id],
-          // ids: ['bt3AcpABODneUgTgQUSQ'],
-          // ids: ['cWJbwo4BkKreX2mjhNEV'],
-          // ids: ['ctiJ3pABfr1M4XQhSF1d'],
           status: [],
           sortBy: [],
           skip: 0,
@@ -262,12 +250,12 @@ const getInstantWin = () => {
         const instantWinData = res.data[0];
 
         const tiles = instantWinData.tiles;
-        const settingsData = await getSettingsFile(res.data[0].id);
+        const settingsData = await getSettingsFile(res.data[0]);
         data.value = instantWinData.tiles;
 
         if (settingsData && settingsData.wheelSettings) {
           await replaceImageIdsWithUris(settingsData.wheelSettings);
-          wheelSettings.value.wheelSettings = settingsData.wheelSettings
+          wheelSettings.value.wheelSettings = settingsData.wheelSettings;
         }
 
         if (settingsData && settingsData.messageSettings) {
@@ -284,36 +272,37 @@ const getInstantWin = () => {
   });
 };
 
-const getSettingsFile = (fileName) => {
-  return new Promise((resolve, reject) => {
-    const fileApiWsClient = new FilesApiWs(ApiClientStomp.instance);
+const getAvailablePlays = () => {
+  const instantWinApiWsClient = new InstantWinsApiWs(ApiClientStomp.instance);
+  const getAvailablePlaysPayload = {
+    instantWinIds: [route.params.id]
+  };
+  console.log('getAvailablePlaysPayload', getAvailablePlaysPayload);
+  instantWinApiWsClient.getInstantWinAvailablePlays(getAvailablePlaysPayload, async (res) => {
+    console.warn('getInstantWinAvailablePlays', res);
+    if (!res.errors) {
+      remainingPlays.value = res.data[0].remainingPlays;
+      remainingPlays.value > 0 ? isSpinButtonDisabled.value = false : isSpinButtonDisabled.value = true;
+    }
 
-    const fileRequest = {
-      ids: [],
-      limit: 20,
-      skip: 0,
-      parentFolderPath: "/instant-wins",
-      repositoryId: '-7KLxoMBDhZrpIHgC4eP'
-    };
-
-    fileApiWsClient.getFiles(fileRequest, async (res) => {
-      const settingsFile = res.data.find(item => item.name.trim() === fileName);
-
-      if (settingsFile) {
-        fetch(settingsFile.uri)
-          .then((data) => {
-            return data.json();
-          })
-          .then((data) => {
-            resolve(data);
-          })
-          .catch((err) => {
-            console.log('instant win settings file err', err);
-            reject(err);
-          });
-      }
-    });
   });
+};
+
+const getSettingsFile = async (file) => {
+  try {
+    if (!file.instanceResourceLink) {
+      console.log('File or resource link not provided');
+      return null;
+    }
+
+    const data = await fetch(file.instanceResourceLink);
+
+    return await data.json();
+
+  } catch (error) {
+    console.error(`Error fetching settings file for ${ file }:`, error);
+    return null;
+  }
 };
 
 const getFileUri = async (id) => {
@@ -353,89 +342,93 @@ const updateWheelSettings = async () => {
 };
 
 onMounted(async () => {
-  const instantWin = await getInstantWin();
+  await getInstantWin();
+  await getAvailablePlays();
   await updateWheelSettings();
   await initWheel();
 });
 
 const initWheel = async () => {
   if (spinnerContainer.value) {
-    // const { isCreated, spinWheel, resetWheel } = await createSpinnerWheelWithAnimation(
-    const { isCreated, spinWheel, resetWheel } = await createSpinnerWheel(
+    const { isCreated, spinWheel, resetWheel } = await createSpinnerWheelWithAnimation(
+      // const { isCreated, spinWheel, resetWheel } = await createSpinnerWheel(
       spinnerContainer.value,
       data.value,
       wheelSettings.value,
       (giftValue) => {
         const { isCompleted } = giftValue;
-        console.log('isCompleted => ', isCompleted);
+
         if (isCompleted) {
-          const reward = data.value[gift.value - 1].reward;
-          console.log('reward', reward);
-          done(reward);
+          done(receivedAward.value);
+
         }
-        console.log(`Wheel stopped on prize section: ${ gift.value }`);
       },
+      false,
+      false,
+      {
+        showGlow: false,
+        glowColor: '#FF5733'
+      },
+      {width: 30, height: 25, position: 'bottom'}
     );
-    console.log('isCreated', isCreated);
+
     setTimeout(() => {
-      isWheelCreated.value = isCreated
-    }, 500)
+      isWheelCreated.value = isCreated;
+    }, 500);
 
     spinWheelRef.value = spinWheel;
     resetWheelRef.value = resetWheel;
   }
-}
-
-const launchWheel = () => {
-  isSpinButtonDisabled.value = true;
-  const awardId = route.query.awardId;
-  console.log('launch wheel award', awardId);
-  const instantWinApiWsClient = new InstantWinsApiWs(ApiClientStomp.instance);
-  // W75dDZEBOI-HgZcYNJ7z
-  const playInstantWinPayload = {
-    awardId: 'W75dDZEBOI-HgZcYNJ7z',
-    // awardId: 'uWY_VZEBqKAQUAl8LTHj',
-    // awardId: `rmUxVZEBqKAQUAl8oQsv`,
-    instantWinFilter: {
-      constraints: [],
-      ids: [route.params.id],
-      instantWinTypes: [1],
-      limit: 1,
-      skip: 0,
-      tags: []
-    },
-    languageKey: '',
-    currencyKey: ''
-  }
-  console.log('playInstantWinPayload => ', playInstantWinPayload);
-  instantWinApiWsClient.playInstantWin( playInstantWinPayload,  async (res) => {
-    console.warn('InstantWinPlayOutcome =>', res);
-  } )
-  if (spinWheelRef.value) {
-    console.log('gift.value', gift.value);
-    spinWheelRef.value(gift.value); // Call the spinWheel function
-  }
 };
 
-// const launchWheel = () => {
-//   const randomIndex = Math.floor(Math.random() * data.value.length);
-//   gift.value = randomIndex + 1;
-//   setTimeout(() => {
-//     wheel.value.spin();
-//   }, 100);
-// };
+const launchWheel = async () => {
+  isSpinButtonDisabled.value = true;
+  const instantWinApiWsClient = new InstantWinsApiWs(ApiClientStomp.instance);
 
-const done = async (r) => {
+  const playInstantWinPayload = {
+    instantWinId: route.params.id,
+    languageKey: '',
+    currencyKey: ''
+  };
 
-  console.log('wheelSettings.value', wheelSettings.value.messageSettings);
-  if (r && r.name) {
+  const requestStartTime = Date.now();
+  await instantWinApiWsClient.playInstantWin(playInstantWinPayload, (res) => {
+    const responseTime = Date.now();
+
+    if (res.data.length && res.data[0].results && res.data[0].results.tiles.length) {
+      const playData = res.data[0];
+      remainingPlays.value = playData.remainingPlays;
+
+      const playDataResults = playData.results;
+      const winSection = playDataResults.tiles[0].location?.col ?? null;
+
+      receivedAward.value = playDataResults.awards ? playDataResults.tiles[0].reward : null;
+      if (spinWheelRef.value && winSection) {
+        spinWheelRef.value(winSection); // Call the spinWheel function
+      }
+
+    }
+
+    const responseDuration = responseTime - requestStartTime;
+    const responseDurationInSeconds = responseDuration / 1000;
+
+    console.log(`Reply received via: ${ responseDuration } ms`);
+    console.log(`Reply received via: (${ responseDurationInSeconds.toFixed(2) } sec)`);
+
+
+  });
+};
+
+const done = async (award) => {
+
+  if (award && award.name) {
     titleMessage.value = wheelSettings.value.messageSettings.celebrationMessage
       ? wheelSettings.value.messageSettings.celebrationMessage
       : 'Congratulations!';
     message.value = wheelSettings.value.messageSettings.celebrationText
       ? wheelSettings.value.messageSettings.celebrationText
       : `You won`;
-    reward.value = { name: r.name, value: r.rewardValue };
+    reward.value = { name: award.name, value: award.rewardValue };
     btnTitle.value = 'Claim';
     isWinner.value = true;
   } else {
@@ -453,9 +446,7 @@ const done = async (r) => {
 };
 
 
-const claim = () => {
-  console.warn('CLAIM');
-  // rerenderKey.value += 1;
+const claim = async () => {
   isShowModal.value = false;
   resetWheelRef.value();
   isSpinButtonDisabled.value = false;
@@ -504,7 +495,11 @@ const closeModal = () => {
     width: 100%;
     height: 100%;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
+
   .loader-wrapper {
     width: 100%;
     height: 100%;
@@ -540,8 +535,8 @@ const closeModal = () => {
   }
 
   #spinner-container {
-    width: 100%;
-    height: 100%;
+    width: 80%;
+    height: 80%;
   }
 
   .spin-btn {
@@ -560,6 +555,11 @@ const closeModal = () => {
     border-radius: $border-radius;
     cursor: pointer;
     background-color: $btn-primary-bg-color-LM;
+
+    &.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
   }
 
   &.light-mode {
@@ -602,6 +602,11 @@ const closeModal = () => {
       font-weight: 700;
       font-size: 14px;
       line-height: 17px;
+
+      &.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
     }
   }
 }

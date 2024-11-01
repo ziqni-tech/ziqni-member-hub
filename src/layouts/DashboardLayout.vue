@@ -238,12 +238,14 @@ const toggleSidebar = () => {
 @import 'src/assets/scss/_variables';
 
 html, body {
-  height: 100%;
+  height: 100vh;
   margin: 0;
+  overflow: hidden;
 }
 
 #app {
   height: 100%;
+  overflow: hidden;
 }
 
 #app-layout {
@@ -352,7 +354,7 @@ html, body {
 
   #main-block {
     grid-area: main;
-    padding: 20px 34px 0 20px;
+    padding: 0 34px 0 20px;
     background-color: $main-bg-DM;
     height: 100%;
     overflow-y: auto;
@@ -373,7 +375,7 @@ html, body {
   }
 
   &.light-mode {
-
+    overflow: hidden;
     .sidebar-narrow-btn {
       background: #FFFFFF;
       border: 3px solid #FFFFFF;

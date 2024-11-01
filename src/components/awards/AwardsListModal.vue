@@ -8,9 +8,12 @@
     :class="{'light-mode': !isDarkMode}"
     scrollable
   >
-    <CModalHeader :class="{'light-mode': !isDarkMode}">
+    <div class="modal-header" :class="{'light-mode': !isDarkMode}">
       <CModalTitle :class="{'light-mode': !isDarkMode}">{{ title }}</CModalTitle>
-    </CModalHeader>
+      <div class="close-button" @click="close">
+        <CrossIcon :width="'30'" :height="'30'" :stroke-color="getIconStrokeColor()" />
+      </div>
+    </div>
     <CModalBody :class="{'light-mode': !isDarkMode}">
       <div class="awards-cards-grid">
         <div
@@ -65,6 +68,7 @@ import Loader from '@/components/Loader.vue';
 import diamondIcon from '@/assets/icons/achievements/diamond.png';
 import { ApiClientStomp, AwardRequest, AwardsApiWs, EntityRequest, RewardsApiWs } from '@ziqni-tech/member-api-client';
 import defaultAwardIcon from '@/assets/icons/awards/bottle.svg';
+import CrossIcon from '@/shared/components/svg-icons/CrossIcon.vue';
 
 const awardsImages = [
   awardIcon_1,
@@ -83,6 +87,10 @@ const props = defineProps({
   modalShow: Boolean,
   isDarkMode: Boolean,
 });
+
+const getIconStrokeColor = () => {
+  return props.isDarkMode ? '#FFFFFF' : '#080D12';
+};
 
 const title = ref('Select an award');
 
@@ -485,9 +493,27 @@ onMounted(() => {
   border-radius: $border-radius;
 }
 
-.load-more-btn {
-  margin: 0 auto;
+.modal-header {
+  .close-button{
+    cursor: pointer;
+  }
 }
+
+
+.modal-footer {
+  .load-more-btn {
+    margin: 0 auto;
+    color: #FFF;
+  }
+}
+
+.modal-footer.light-mode {
+  .load-more-btn {
+    margin: 0 auto;
+    color: #141E28;
+  }
+}
+
 
 .loading-btn {
   background-color: #ccc;

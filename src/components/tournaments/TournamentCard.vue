@@ -104,6 +104,7 @@ const goToTournamentsDetailsPage = () => {
       overflow: hidden;
       text-overflow: ellipsis;
       max-height: 24px;
+      min-height: 21px;
       max-width: 260px;
     }
 

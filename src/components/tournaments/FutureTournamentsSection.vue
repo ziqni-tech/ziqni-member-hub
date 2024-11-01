@@ -326,7 +326,7 @@ const seeAll = async () => {
 @import "@/assets/scss/_variables";
 
 .section {
-  padding: 20px 16px 0 20px;
+  padding: 0 16px 0 20px;
   min-height: 400px;
 
   .tournaments-section-header-wrapper {

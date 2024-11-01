@@ -7,7 +7,7 @@
       </router-link>
     </div>
     <div class="content-wrapper">
-      <Loader v-if="!isLoaded" />
+      <Loader v-if="!isLoaded"/>
       <div v-if="isLoaded" :class="isDashboard ? 'achievements-dashboard-cards-grid' : 'achievements-cards-grid'">
         <div
           v-for="wheel in wheels"
@@ -16,9 +16,10 @@
         >
           <div>
             <InstantWinsWheelCard
+              :wheelId="wheel.id"
               :img="wheelImg"
-              :title="singleWheelTitle"
-              :description="description"
+              :title="wheel.name"
+              :description="wheel.description"
               :tiles="wheel.tiles"
               :settingsData="wheel.settingsData"
               :isDarkMode="isDarkMode"
@@ -27,13 +28,13 @@
           </div>
         </div>
         <div>
-          <InstantWinsCard
-            :img="scratchcardImg"
-            :title="scratchcardsTitle"
-            :description="description"
-            @play="scratchcardsPlay"
-            :isDarkMode="isDarkMode"
-          />
+<!--          <InstantWinsCard-->
+<!--            :img="scratchcardImg"-->
+<!--            :title="scratchcardsTitle"-->
+<!--            :description="description"-->
+<!--            @play="scratchcardsPlay"-->
+<!--            :isDarkMode="isDarkMode"-->
+<!--          />-->
         </div>
       </div>
     </div>
@@ -53,7 +54,6 @@ import { useRouter } from 'vue-router';
 import InstantWinsCard from './InstantWinsCard';
 import AwardsListModal from '@/components/awards/AwardsListModal.vue';
 import { ApiClientStomp, FilesApiWs, InstantWinsApiWs } from '@ziqni-tech/member-api-client';
-import { createSpinnerWheel } from 'spinning-wheel';
 
 import singleWheelImg from '@/assets/images/instant-wins/single-wheel.png';
 import singleWheelImgLight from '@/assets/images/instant-wins/single-wheel_light.png';
@@ -86,23 +86,22 @@ const props = defineProps({
   },
 });
 
-const setSpinnerContainerRef = (id) => (el) => {
-  if (el) {
-    spinnerContainers.value[id] = el;
-  }
-};
-
 const scratchcardsPlay = () => {
   router.push({ name: 'Scratchcards' });
 };
 
 const goToSingleWheel = (id) => {
   wheelId.value = id;
-  showAwardsModal.value = true;
+
+  router.push({
+    name: 'SingleWheel',
+    params: {
+      id: wheelId.value,
+    },
+  });
 };
 
 const goToPlay = (awardId) => {
-  console.log('go to play', awardId);
   showAwardsModal.value = false;
   router.push({
     name: 'SingleWheel',
@@ -113,7 +112,7 @@ const goToPlay = (awardId) => {
       awardId: awardId,
     },
   });
-}
+};
 
 const closeModal = () => {
   showAwardsModal.value = false;
@@ -122,9 +121,9 @@ const closeModal = () => {
 onMounted(async () => {
   let instantWins = await getInstantWins();
   if (props.isDashboard) {
-    instantWins = instantWins.slice(0, 1);
+    instantWins = instantWins.slice(0, 2);
   }
-  console.warn('instantWins', instantWins);
+
   for (const instantWin of instantWins) {
     const { id, tiles, settingsData } = instantWin;
     wheels.value.push(instantWin);
@@ -132,26 +131,15 @@ onMounted(async () => {
     await nextTick(); // Ensure the DOM is updated before accessing the ref
 
     const spinnerContainer = spinnerContainers.value[id];
-
-    if (spinnerContainer) {
-      const { isCreated, spinWheel, resetWheel } = await createSpinnerWheel(
-        spinnerContainer,
-        tiles,
-        settingsData,
-        (giftValue) => {
-          // Handle the result of the spin
-        },
-        true
-      );
-    }
   }
-  isLoaded.value = true
+  isLoaded.value = true;
 });
 
 const getInstantWins = () => {
   return new Promise(async (resolve, reject) => {
     try {
       const instantWinApiWsClient = new InstantWinsApiWs(ApiClientStomp.instance);
+
       instantWinApiWsClient.listInstantWins(
         {
           instantWinFilter: {
@@ -175,63 +163,68 @@ const getInstantWins = () => {
 
           const instantWinsWithSettings = await Promise.all(
             wheels.map(async (wheel) => {
-              const settingsData = await getSettingsFile(wheel.id);
-              const tiles = wheel.tiles;
+              try {
+                const settingsData = await getSettingsFile(wheel).catch((err) => {
+                  console.log(`Error fetching settings for wheel id: ${wheel.id}`, err);
+                  return null;
+                });
 
-              if (settingsData && settingsData.wheelSettings) {
-                await replaceImageIdsWithUris(settingsData.wheelSettings);
+                if (!settingsData) {
+                  console.log(`No settings found for wheel id: ${wheel.id}`);
+                  return null;
+                }
+
+                const tiles = wheel.tiles;
+
+                if (settingsData.wheelSettings) {
+                  await replaceImageIdsWithUris(settingsData.wheelSettings);
+                }
+
+                if (settingsData.messageSettings) {
+                  await replaceImageIdsWithUris(settingsData.messageSettings);
+                }
+
+                return {
+                  id: wheel.id,
+                  name: wheel.name,
+                  description: wheel.description,
+                  tiles,
+                  settingsData,
+                };
+              } catch (error) {
+                console.log(`Error processing wheel id: ${wheel.id}`, error);
+                return null;
               }
-
-              if (settingsData && settingsData.messageSettings) {
-                await replaceImageIdsWithUris(settingsData.messageSettings);
-              }
-
-              return {
-                id: wheel.id,
-                name: wheel.name,
-                description: wheel.description,
-                tiles,
-                settingsData,
-              };
             })
           );
 
-          resolve(instantWinsWithSettings);
+          const filteredInstantWins = instantWinsWithSettings.filter((win) => win !== null);
+
+          resolve(filteredInstantWins);
         }
       );
     } catch (err) {
+      console.log('Error in getInstantWins:', err);
       reject(err);
     }
   });
 };
 
-const getSettingsFile = (fileName) => {
-  return new Promise((resolve, reject) => {
-    const fileApiWsClient = new FilesApiWs(ApiClientStomp.instance);
+const getSettingsFile = async (file) => {
+  try {
+    if (!file.instanceResourceLink) {
+      console.log('File or resource link not provided');
+      return null;
+    }
 
-    const fileRequest = {
-      ids: [],
-      limit: 20,
-      skip: 0,
-      parentFolderPath: '/instant-wins',
-      repositoryId: '-7KLxoMBDhZrpIHgC4eP',
-    };
+    const data = await fetch(file.instanceResourceLink);
 
-    fileApiWsClient.getFiles(fileRequest, async (res) => {
-      const settingsFile = res.data.find((item) => item.name.trim() === fileName);
+    return await data.json();
 
-      if (settingsFile) {
-        fetch(settingsFile.uri)
-          .then((data) => data.json())
-          .then((data) => {
-            resolve(data);
-          })
-          .catch((err) => {
-            reject(err);
-          });
-      }
-    });
-  });
+  } catch (error) {
+    console.error(`Error fetching settings file for ${file}:`, error);
+    return null;
+  }
 };
 
 const replaceImageIdsWithUris = async (obj) => {
@@ -265,10 +258,16 @@ const getFileUri = async (id) => {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@/assets/scss/_variables';
 
 .section {
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+
   .instant-cards-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -277,6 +276,12 @@ const getFileUri = async (id) => {
   }
 
   &.light-mode {
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      width: 0;
+    }
+
     .section-header {
       .section-title {
         color: $section-title-color-LM;

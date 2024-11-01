@@ -2,21 +2,22 @@
   <div class="instant-wins-card" :class="{'light-mode': !isDarkMode}">
     <h3 class="mobile-card-title">{{ title }}</h3>
     <div class="spinner-container-wrapper" >
-      <div ref="spinnerContainer" class="spinner-container"></div>
+      <div :id="`spinner-container-${props.wheelId}`" ref="spinnerContainer" class="spinner-container"></div>
     </div>
     <div class="instant-info">
       <h3 class="card-title">{{ title }}</h3>
-      <span class="card-description">{{ description }}</span>
+      <span v-html="description" class="card-description"></span>
       <button class="play-btn" @click="play">Play</button>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { createSpinnerWheel } from 'spinning-wheel';
 
 const props = defineProps({
+  wheelId: String,
   title: String,
   description: String,
   img: String,
@@ -32,8 +33,11 @@ const play = () => {
 };
 
 const spinnerContainer = ref(null);
+const spinnerWheel = ref(null);
 
 onMounted(async () => {
+  await nextTick();
+
   if (spinnerContainer.value && props.tiles && props.settingsData) {
     const { isCreated, spinWheel, resetWheel } = await createSpinnerWheel(
       spinnerContainer.value,
@@ -44,6 +48,8 @@ onMounted(async () => {
       },
       true
     );
+
+    spinnerWheel.value = spinWheel
   }
 });
 
@@ -54,7 +60,6 @@ onBeforeUnmount(() => {
 
 <style scoped lang="scss">
 @import '@/assets/scss/_variables';
-
 .instant-wins-card {
   display: flex;
   padding: 10px;
@@ -80,8 +85,8 @@ onBeforeUnmount(() => {
     justify-content: center;
 
     .spinner-container {
-      width: 100%;
-      height: 100%;
+      width: 90%;
+      height: 90%;
       object-fit: contain;
     }
   }
@@ -147,8 +152,8 @@ onBeforeUnmount(() => {
       justify-content: center;
 
       .spinner-container {
-        width: 100%;
-        height: 100%;
+        width: 90%;
+        height: 90%;
         object-fit: contain;
       }
     }
