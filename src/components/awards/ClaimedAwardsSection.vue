@@ -3,7 +3,7 @@
     <Loader v-if="!isLoaded" :title="'Awards are loading'"/>
     <div class="awards-cards-grid" v-if="isLoaded">
       <div v-for="award in awards">
-        <AwardCard :award="award"/>
+        <AwardCard :award="award" :isClaimed="true" />
       </div>
     </div>
     <Pagination

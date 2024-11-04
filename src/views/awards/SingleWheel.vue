@@ -42,7 +42,13 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
-import { ApiClientStomp, FilesApiWs, InstantWinsApiWs } from '@ziqni-tech/member-api-client';
+import {
+  ApiClientStomp,
+  AwardsApiWs,
+  ClaimAwardRequest, EntityRequest,
+  FilesApiWs,
+  InstantWinsApiWs, RewardsApiWs
+} from '@ziqni-tech/member-api-client';
 // import { createSpinnerWheelWithAnimation } from '@ziqni-tech/spinning-wheel';
 import { createSpinnerWheel, createSpinnerWheelWithAnimation } from 'spinning-wheel';
 import WheelOfFortuneModal from '@/components/awards/wheel-of-fortune/WheelOfFortuneModal.vue';
@@ -402,7 +408,10 @@ const launchWheel = async () => {
       const playDataResults = playData.results;
       const winSection = playDataResults.tiles[0].location?.col ?? null;
 
-      receivedAward.value = playDataResults.awards ? playDataResults.tiles[0].reward : null;
+      receivedAward.value = playDataResults.awards && playDataResults.awards[0]
+        ? { ...playDataResults.tiles[0].reward, awardId: playDataResults.awards[0].awardId }
+        : null;
+
       if (spinWheelRef.value && winSection) {
         spinWheelRef.value(winSection); // Call the spinWheel function
       }
@@ -447,9 +456,38 @@ const done = async (award) => {
 
 
 const claim = async () => {
-  isShowModal.value = false;
-  resetWheelRef.value();
-  isSpinButtonDisabled.value = false;
+  const awardsApiWsClient = new AwardsApiWs(ApiClientStomp.instance);
+
+  const claimAwardRequest = ClaimAwardRequest.constructFromObject({
+    awardIds: [receivedAward.value.awardId]
+  });
+
+  await awardsApiWsClient.claimAwards(claimAwardRequest, async (res) => {
+    if (res.data && res.data.length) {
+      isShowModal.value = false;
+      resetWheelRef.value();
+      isSpinButtonDisabled.value = false;
+    }
+  });
+};
+
+const getEntityRewards = async (id) => {
+  const rewardsApiWsClient = await new RewardsApiWs(ApiClientStomp.instance);
+
+  const rewardRequest = EntityRequest.constructFromObject({
+    entityFilter: [
+      {
+        entityType: 'Reward',
+        entityIds: [id]
+      },
+    ],
+    skip: 0,
+    limit: limit.value
+  }, null);
+
+  await rewardsApiWsClient.getRewards(rewardRequest, async (res) => {
+
+  });
 };
 
 const closeModal = () => {

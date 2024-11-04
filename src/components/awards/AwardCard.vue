@@ -11,7 +11,7 @@
     </div>
     <button
         class="award__btn claim-button"
-        v-if="award.status !== 'Claimed'"
+        v-if="!props.isClaimed"
         @click.stop="handleButtonClick"
     >
       Claim
@@ -36,6 +36,10 @@ const props = defineProps({
   award: {
     type: Object,
     required: true
+  },
+  isClaimed: {
+    type: Boolean,
+    default: false
   }
 })
 
