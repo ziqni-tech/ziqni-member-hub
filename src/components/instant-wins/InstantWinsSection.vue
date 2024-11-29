@@ -9,6 +9,15 @@
     <div class="content-wrapper">
       <Loader v-if="!isLoaded"/>
       <div v-if="isLoaded" :class="isDashboard ? 'achievements-dashboard-cards-grid' : 'achievements-cards-grid'">
+        <div v-if="wheels.length === 0">
+          <InstantWinsCard
+            :img="wheelImg"
+            :title="singleWheelTitle"
+            :description="description"
+            @play="goToSingleWheel('1')"
+            :isDarkMode="isDarkMode"
+          />
+        </div>
         <div
           v-for="wheel in wheels"
           :key="wheel.id"

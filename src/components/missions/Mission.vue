@@ -104,7 +104,7 @@ const goToMissionsMapPage = () => {
     border-top-right-radius: 10px;
     overflow: hidden;
     width: 100%;
-    //height: 230px;
+    height: 230px;
     object-fit: contain;
 
     @media screen and (max-width: $tableWidth) {

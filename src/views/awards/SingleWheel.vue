@@ -2,7 +2,7 @@
   <div class="single-wheel-content" :class="{'light-mode': !isDarkMode}">
     <h1 class="page-title">The Single Wheel</h1>
     <span class="page-description">Ready to test your luck? Take a spin and find out!</span>
-    <span class="page-description">Remaining Plays: {{ remainingPlays }}</span>
+    <span  v-if="route.params.id !== '1'" class="page-description">Remaining Plays: {{ remainingPlays }}</span>
     <div class="spinner-wrapper">
       <div class="loader-wrapper" :class="{'hidden': isWheelCreated}">
         <img
@@ -19,7 +19,7 @@
     </div>
     <button
       class="spin-btn"
-      :class="{'hidden': !isWheelCreated, 'disabled': isSpinButtonDisabled}"
+      :class="{'hidden': !isWheelCreated && route.params.id !== '1', 'disabled': isSpinButtonDisabled}"
       :disabled="isSpinButtonDisabled"
       @click="launchWheel"
     >
@@ -49,10 +49,16 @@ import {
   FilesApiWs,
   InstantWinsApiWs, RewardsApiWs
 } from '@ziqni-tech/member-api-client';
-// import { createSpinnerWheelWithAnimation } from '@ziqni-tech/spinning-wheel';
-import { createSpinnerWheel, createSpinnerWheelWithAnimation } from 'spinning-wheel';
+import { createSpinnerWheel, createSpinnerWheelWithAnimation } from '@ziqni-tech/spinning-wheel';
+// import { createSpinnerWheel, createSpinnerWheelWithAnimation } from 'spinning-wheel';
 import WheelOfFortuneModal from '@/components/awards/wheel-of-fortune/WheelOfFortuneModal.vue';
+import WheelOfFortune from '@/components/awards/wheel-of-fortune/WheelOfFortune.vue';
 import { useRoute } from 'vue-router';
+
+const defaultWheelBorderUri = 'https://first-space.cdn.ziqni.com/Spinning%20Wheel/frame%204.png';
+const defaultWheelImgUri = 'https://first-space.cdn.ziqni.com/Spinning%20Wheel/middle%20part%204.png';
+const defaultButtonUri = 'https://first-space.cdn.ziqni.com/Spinning%20Wheel/button%204.png';
+const defaultArrowUri = 'https://first-space.cdn.ziqni.com/Spinning%20Wheel/arrow%206.png';
 
 const wheel = ref(null);
 const gift = ref(3);
@@ -77,7 +83,7 @@ const route = useRoute();
 const data = ref([
   {
     section: 1,
-    text: '<p class=\\"ql-align-center\\">50$ bonus 1</p>',
+    text: '',
     background: '#8749DC',
     color: '#FFFFFF',
     icon: '',
@@ -93,7 +99,7 @@ const data = ref([
   },
   {
     section: 2,
-    text: '<p class=\\"ql-align-center\\">Free spins 2</p>',
+    text: '',
     background: '#223241',
     color: '#FDFDFF',
     icon: '',
@@ -109,7 +115,7 @@ const data = ref([
   },
   {
     section: 3,
-    text: '<p class=\\"ql-align-center\\">Next time 3</p>',
+    text: '',
     background: '#40409f',
     color: '#FDFDFF',
     icon: '',
@@ -125,7 +131,7 @@ const data = ref([
   },
   {
     section: 4,
-    text: '<p class=\\"ql-align-center\\">50$ bonus 4</p>',
+    text: '',
     background: '#8749DC',
     color: '#FDFDFF',
     icon: '',
@@ -141,7 +147,7 @@ const data = ref([
   },
   {
     section: 5,
-    text: '<p class=\\"ql-align-center\\">Free spins 5</p>',
+    text: '',
     background: '#223241',
     color: '#FDFDFF',
     icon: '',
@@ -157,7 +163,7 @@ const data = ref([
   },
   {
     section: 6,
-    text: '<p class=\\"ql-align-center\\">50$ bonus 6</p>',
+    text: '',
     background: '#40409f',
     color: '#FDFDFF',
     icon: '',
@@ -173,7 +179,7 @@ const data = ref([
   },
   {
     section: 7,
-    text: '<p class=\\"ql-align-center\\">Next time 7</p>',
+    text: '',
     background: '#8749DC',
     color: '#FDFDFF',
     icon: '',
@@ -188,7 +194,7 @@ const data = ref([
   },
   {
     section: 8,
-    text: '<p class=\\"ql-align-center\\">50$ bonus 8</p>',
+    text: '',
     background: '#223241',
     color: '#FDFDFF',
     icon: '',
@@ -348,16 +354,31 @@ const updateWheelSettings = async () => {
 };
 
 onMounted(async () => {
-  await getInstantWin();
-  await getAvailablePlays();
-  await updateWheelSettings();
-  await initWheel();
+  if (route.params.id !== '1') {
+    await getInstantWin();
+    await getAvailablePlays();
+    await updateWheelSettings();
+    await initWheel();
+  } else {
+    wheelSettings.value.wheelSettings = {
+      buttonText: "<p><strong class=\"ql-font-arial\" style=\"color: #F4B41C;\">SPIN</strong></p>",
+      wheelBackground: "#5E084B",
+      spinButtonBackground: "#5E084B",
+      icon: "",
+      wheelBorderImage: defaultWheelBorderUri,
+      wheelButtonImage: defaultButtonUri,
+      wheelImage: defaultWheelImgUri,
+      wheelArrowImage: defaultArrowUri
+    }
+    await initWheel();
+  }
+
 });
 
 const initWheel = async () => {
   if (spinnerContainer.value) {
-    const { isCreated, spinWheel, resetWheel } = await createSpinnerWheelWithAnimation(
-      // const { isCreated, spinWheel, resetWheel } = await createSpinnerWheel(
+    // const { isCreated, spinWheel, resetWheel } = await createSpinnerWheelWithAnimation(
+      const { isCreated, spinWheel, resetWheel } = await createSpinnerWheel(
       spinnerContainer.value,
       data.value,
       wheelSettings.value,
@@ -371,11 +392,11 @@ const initWheel = async () => {
       },
       false,
       false,
-      {
-        showGlow: false,
-        glowColor: '#FF5733'
-      },
-      {width: 30, height: 25, position: 'bottom'}
+      // {
+      //   showGlow: false,
+      //   glowColor: '#FF5733'
+      // },
+      // {width: 30, height: 25, position: 'bottom'}
     );
 
     setTimeout(() => {
@@ -388,44 +409,49 @@ const initWheel = async () => {
 };
 
 const launchWheel = async () => {
-  isSpinButtonDisabled.value = true;
-  const instantWinApiWsClient = new InstantWinsApiWs(ApiClientStomp.instance);
+  if (route.params.id !== '1') {
+    isSpinButtonDisabled.value = true;
+    const instantWinApiWsClient = new InstantWinsApiWs(ApiClientStomp.instance);
 
-  const playInstantWinPayload = {
-    instantWinId: route.params.id,
-    languageKey: '',
-    currencyKey: ''
-  };
+    const playInstantWinPayload = {
+      instantWinId: route.params.id,
+      languageKey: '',
+      currencyKey: ''
+    };
 
-  const requestStartTime = Date.now();
-  await instantWinApiWsClient.playInstantWin(playInstantWinPayload, (res) => {
-    const responseTime = Date.now();
+    const requestStartTime = Date.now();
+    await instantWinApiWsClient.playInstantWin(playInstantWinPayload, (res) => {
+      const responseTime = Date.now();
 
-    if (res.data.length && res.data[0].results && res.data[0].results.tiles.length) {
-      const playData = res.data[0];
-      remainingPlays.value = playData.remainingPlays;
+      if (res.data.length && res.data[0].results && res.data[0].results.tiles.length) {
+        const playData = res.data[0];
+        remainingPlays.value = playData.remainingPlays;
 
-      const playDataResults = playData.results;
-      const winSection = playDataResults.tiles[0].location?.col ?? null;
+        const playDataResults = playData.results;
+        const winSection = playDataResults.tiles[0].location?.col ?? null;
 
-      receivedAward.value = playDataResults.awards && playDataResults.awards[0]
-        ? { ...playDataResults.tiles[0].reward, awardId: playDataResults.awards[0].awardId }
-        : null;
+        receivedAward.value = playDataResults.awards && playDataResults.awards[0]
+          ? { ...playDataResults.tiles[0].reward, awardId: playDataResults.awards[0].awardId }
+          : null;
 
-      if (spinWheelRef.value && winSection) {
-        spinWheelRef.value(winSection); // Call the spinWheel function
+        if (spinWheelRef.value && winSection) {
+          spinWheelRef.value(winSection); // Call the spinWheel function
+        }
+
       }
 
-    }
+      const responseDuration = responseTime - requestStartTime;
+      const responseDurationInSeconds = responseDuration / 1000;
 
-    const responseDuration = responseTime - requestStartTime;
-    const responseDurationInSeconds = responseDuration / 1000;
-
-    console.log(`Reply received via: ${ responseDuration } ms`);
-    console.log(`Reply received via: (${ responseDurationInSeconds.toFixed(2) } sec)`);
+      console.log(`Reply received via: ${ responseDuration } ms`);
+      console.log(`Reply received via: (${ responseDurationInSeconds.toFixed(2) } sec)`);
 
 
-  });
+    });
+  } else {
+    spinWheelRef.value(5);
+  }
+
 };
 
 const done = async (award) => {

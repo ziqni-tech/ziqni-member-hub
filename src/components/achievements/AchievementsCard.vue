@@ -25,9 +25,9 @@
       </div>
     </div>
     <div class="bottom-section">
-      <div class="btn prize">
+      <div class="prize">
         <img :src="rewardIcon" alt="">
-        {{ achievement.rewardValue }}
+        <span>{{ achievement.rewardValue }}</span>
       </div>
       <button
         class="btn leave-button"
@@ -114,7 +114,7 @@ const goToAchievementDetails = () => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@/assets/scss/_variables';
 
 .achievements-card {
@@ -243,14 +243,32 @@ const goToAchievementDetails = () => {
     }
 
     .prize {
+      width: 108px;
+      border-radius: $border-radius;
+
+      font-size: 14px;
+      font-family: $bold;
       color: $prize-btn-color-DM;
       background-color: $prize-btn-bg-DM;
       cursor: default;
       border: none;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      white-space: nowrap;
 
       > img {
+        flex-shrink: 0;
+        margin-right: 5px;
         max-width: 36px;
         height: 18px;
+      }
+
+      > span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
       }
     }
   }

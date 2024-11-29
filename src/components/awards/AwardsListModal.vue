@@ -130,7 +130,7 @@ const loadInitialAwards = async () => {
 
     awardsApiWsClient.getAwards(claimedAwardsRequest, async (res) => {
       // awards.value = res.data;
-      console.log('awards', res.data);
+
       awards.value = res.data.map((award, index) => {
         const image = awardsImages[index % awardsImages.length];
 
