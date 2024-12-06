@@ -249,6 +249,9 @@ const logOut = async () => {
 
 <style lang="scss" scoped>
 @import 'src/assets/scss/_variables';
+.overflowAuto {
+  overflow: auto;
+}
 
 .default-layout {
   display: grid;

@@ -1,7 +1,7 @@
 <template>
-  <div class="single-wheel-content" :class="{'light-mode': !isDarkMode}">
-    <h1 class="page-title">The Single Wheel</h1>
-    <span class="page-description">Ready to test your luck? Take a spin and find out!</span>
+  <div v-if="wheel" class="single-wheel-content" :class="{'light-mode': !isDarkMode}">
+    <h1 v-if="!isMobileLandscape" class="page-title">{{ instantWinName  }}</h1>
+    <span v-if="!isMobileLandscape" class="page-description">Ready to test your luck? Take a spin and find out!</span>
     <span  v-if="route.params.id !== '1'" class="page-description">Remaining Plays: {{ remainingPlays }}</span>
     <div class="spinner-wrapper">
       <div class="loader-wrapper" :class="{'hidden': isWheelCreated}">
@@ -18,6 +18,7 @@
       ></div>
     </div>
     <button
+      v-if="!isMobileLandscape && !isMobilePortrait"
       class="spin-btn"
       :class="{'hidden': !isWheelCreated && route.params.id !== '1', 'disabled': isSpinButtonDisabled}"
       :disabled="isSpinButtonDisabled"
@@ -40,7 +41,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, onBeforeUnmount, ref } from 'vue';
 import { useStore } from 'vuex';
 import {
   ApiClientStomp,
@@ -49,8 +50,8 @@ import {
   FilesApiWs,
   InstantWinsApiWs, RewardsApiWs
 } from '@ziqni-tech/member-api-client';
-import { createSpinnerWheel, createSpinnerWheelWithAnimation } from '@ziqni-tech/spinning-wheel';
-// import { createSpinnerWheel, createSpinnerWheelWithAnimation } from 'spinning-wheel';
+// import { createSpinnerWheel, createSpinnerWheelWithAnimation } from '@ziqni-tech/spinning-wheel';
+import { createSpinnerWheel, createSpinnerWheelWithAnimation } from 'spinning-wheel';
 import WheelOfFortuneModal from '@/components/awards/wheel-of-fortune/WheelOfFortuneModal.vue';
 import WheelOfFortune from '@/components/awards/wheel-of-fortune/WheelOfFortune.vue';
 import { useRoute } from 'vue-router';
@@ -74,10 +75,13 @@ const remainingPlays = ref(0);
 
 const store = useStore();
 const isDarkMode = computed(() => store.getters.getTheme);
+const instantWinName = computed(() => wheel.value ? wheel.value.name : 'The Single Wheel');
 const spinnerContainer = ref(null);
 const spinWheelRef = ref(null);
 const resetWheelRef = ref(null);
 const isWheelCreated = ref(false);
+const isMobileLandscape = ref(false);
+const isMobilePortrait = ref(false);
 const route = useRoute();
 
 const data = ref([
@@ -261,8 +265,11 @@ const getInstantWin = () => {
       }, async (res) => {
         const instantWinData = res.data[0];
 
+        wheel.value = instantWinData;
+
         const tiles = instantWinData.tiles;
         const settingsData = await getSettingsFile(res.data[0]);
+
         data.value = instantWinData.tiles;
 
         if (settingsData && settingsData.wheelSettings) {
@@ -289,9 +296,8 @@ const getAvailablePlays = () => {
   const getAvailablePlaysPayload = {
     instantWinIds: [route.params.id]
   };
-  console.log('getAvailablePlaysPayload', getAvailablePlaysPayload);
+
   instantWinApiWsClient.getInstantWinAvailablePlays(getAvailablePlaysPayload, async (res) => {
-    console.warn('getInstantWinAvailablePlays', res);
     if (!res.errors) {
       remainingPlays.value = res.data[0].remainingPlays;
       remainingPlays.value > 0 ? isSpinButtonDisabled.value = false : isSpinButtonDisabled.value = true;
@@ -353,10 +359,31 @@ const updateWheelSettings = async () => {
   await replaceImageIdsWithUris(wheelSettings.value);
 };
 
+const updateOrientation = async () => {
+  const maxMobileHeight = 600;
+  const maxMobileWidth = 500;
+
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  isMobileLandscape.value = width > height && height <= maxMobileHeight;
+  isMobilePortrait.value = height > width && width <= maxMobileWidth;
+
+  const block = document.querySelector('#mobile-layout #mobile-layout-main-block');
+  if (block && isMobilePortrait.value) {
+    block.style.overflow = 'hidden';
+  }
+
+  await initWheel();
+};
+
 onMounted(async () => {
+  await updateOrientation();
+  window.addEventListener('resize', updateOrientation);
+
   if (route.params.id !== '1') {
     await getInstantWin();
-    await getAvailablePlays();
+    getAvailablePlays();
     await updateWheelSettings();
     await initWheel();
   } else {
@@ -372,13 +399,22 @@ onMounted(async () => {
     }
     await initWheel();
   }
+});
 
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', updateOrientation);
+
+  const block = document.querySelector('#mobile-layout #mobile-layout-main-block');
+  if (block) {
+    block.style.overflow = 'auto';
+  }
 });
 
 const initWheel = async () => {
   if (spinnerContainer.value) {
-    // const { isCreated, spinWheel, resetWheel } = await createSpinnerWheelWithAnimation(
-      const { isCreated, spinWheel, resetWheel } = await createSpinnerWheel(
+
+    const { isCreated, spinWheel, resetWheel } = await createSpinnerWheelWithAnimation(
+      // const { isCreated, spinWheel, resetWheel } = await createSpinnerWheel(
       spinnerContainer.value,
       data.value,
       wheelSettings.value,
@@ -398,6 +434,23 @@ const initWheel = async () => {
       // },
       // {width: 30, height: 25, position: 'bottom'}
     );
+
+    if (isMobileLandscape.value || isMobilePortrait.value) {
+      const observer = new MutationObserver(() => {
+        const buttonElement = document.querySelector('.spin-button');
+        if (buttonElement) {
+          buttonElement.addEventListener('click', () => {
+            return isSpinButtonDisabled.value ? null : launchWheel();
+          });
+          observer.disconnect();
+        }
+      });
+
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+      });
+    }
 
     setTimeout(() => {
       isWheelCreated.value = isCreated;
@@ -420,10 +473,11 @@ const launchWheel = async () => {
     };
 
     const requestStartTime = Date.now();
+
     await instantWinApiWsClient.playInstantWin(playInstantWinPayload, (res) => {
       const responseTime = Date.now();
 
-      if (res.data.length && res.data[0].results && res.data[0].results.tiles.length) {
+      if (res.data && res.data.length && res.data[0].results && res.data[0].results.tiles.length) {
         const playData = res.data[0];
         remainingPlays.value = playData.remainingPlays;
 
@@ -517,7 +571,6 @@ const getEntityRewards = async (id) => {
 };
 
 const closeModal = () => {
-  // rerenderKey.value += 1;
   isShowModal.value = false;
   resetWheelRef.value();
   isSpinButtonDisabled.value = false;
@@ -641,7 +694,7 @@ const closeModal = () => {
   }
 }
 
-@media screen and (max-width: 420px) {
+@media screen and (max-width: $phoneWidth) {
   .single-wheel-content {
     .page-title {
       font-size: 16px;

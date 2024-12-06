@@ -8,7 +8,11 @@
     </div>
     <div class="content-wrapper">
       <Loader v-if="!isLoaded"/>
-      <div v-if="isLoaded" :class="isDashboard ? 'achievements-dashboard-cards-grid' : 'achievements-cards-grid'">
+      <div
+        v-if="isLoaded"
+        :class="isDashboard ? 'instant-cards-dashboard-grid' : 'instant-cards-grid'"
+        :key="rerenderKey"
+      >
         <div v-if="wheels.length === 0">
           <InstantWinsCard
             :img="wheelImg"
@@ -57,7 +61,7 @@
 </template>
 
 <script setup>
-import { computed, nextTick, onMounted, ref } from 'vue';
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import InstantWinsCard from './InstantWinsCard';
@@ -87,6 +91,7 @@ const spinnerContainers = ref({});
 const showAwardsModal = ref(false);
 const wheelId = ref('');
 const isLoaded = ref(false);
+const rerenderKey = ref(0);
 
 const props = defineProps({
   isDashboard: {
@@ -142,7 +147,19 @@ onMounted(async () => {
     const spinnerContainer = spinnerContainers.value[id];
   }
   isLoaded.value = true;
+  window.addEventListener('resize', handleResize);
 });
+
+onBeforeUnmount(() => {
+  // Cleanup if needed
+  window.removeEventListener('resize', handleResize);
+});
+
+const handleResize = async () => {
+  rerenderKey.value++
+  // wheels.value = [];
+  // await getInstantWins()
+};
 
 const getInstantWins = () => {
   return new Promise(async (resolve, reject) => {
@@ -277,11 +294,23 @@ const getFileUri = async (id) => {
     width: 0;
   }
 
-  .instant-cards-grid {
+  .instant-cards-dashboard-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     width: 100%;
     grid-gap: 15px;
+  }
+
+  .instant-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 100%;
+    grid-gap: 8px;
+
+    @media screen and (max-width: $phoneWidth) {
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 8px;
+    }
   }
 
   &.light-mode {

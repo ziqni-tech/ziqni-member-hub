@@ -359,6 +359,11 @@ onMounted(() => {
   transition: opacity 0.5s ease-in-out;
 
   @media screen and (max-width: $tableWidth) {
+    grid-template-columns: repeat(2, 1fr);
+    height: auto;
+  }
+
+  @media screen and (max-width: $phoneWidth) {
     grid-template-columns: repeat(1, 1fr);
     height: auto;
   }

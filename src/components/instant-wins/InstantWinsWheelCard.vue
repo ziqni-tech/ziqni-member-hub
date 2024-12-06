@@ -35,21 +35,25 @@ const play = () => {
 const spinnerContainer = ref(null);
 const spinnerWheel = ref(null);
 
+const initWheel = async () => {
+  const { isCreated, spinWheel, resetWheel } = await createSpinnerWheel(
+    spinnerContainer.value,
+    props.tiles,
+    props.settingsData,
+    (giftValue) => {
+      // Handle the result of the spin here
+    },
+    true
+  );
+
+  spinnerWheel.value = spinWheel
+}
+
 onMounted(async () => {
   await nextTick();
 
   if (spinnerContainer.value && props.tiles && props.settingsData) {
-    const { isCreated, spinWheel, resetWheel } = await createSpinnerWheel(
-      spinnerContainer.value,
-      props.tiles,
-      props.settingsData,
-      (giftValue) => {
-        // Handle the result of the spin here
-      },
-      true
-    );
-
-    spinnerWheel.value = spinWheel
+    await initWheel();
   }
 });
 
